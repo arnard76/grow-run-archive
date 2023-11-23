@@ -1,10 +1,13 @@
 <script lang="ts">
-	import { resourcesList } from '$lib/data/stores';
+	import { resourcesList, getResource, growRunsStore } from '$lib/data/stores';
 	import type GrowRun from '$lib/model/growRun';
+	import ResourceUsage from './ResourceUsage.svelte';
 
 	export let growRun: GrowRun;
 
 	let expanded = false;
+	let selectedResourceToUse: string;
+	let amountUsedInput: number;
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -21,18 +24,44 @@
 			<h4>Resources Used</h4>
 
 			<ul>
-				{#each growRun.resources.used as { resource, amountUsed }}
-					<li>
-						<a href="/resource/{resource.name}">
-							{resource.name}
-						</a>
-						: {amountUsed}{resource.amountUnit}
-						(costs {resource.cost}*{amountUsed}/{resource.amountTotal} = ${resource
-							.calculateCost(amountUsed)
-							.toFixed(2)})
-					</li>
+				{#each growRun.resources?.used || [] as { name, amountUsed }}
+					{@const resource = getResource(name)}
+					{#if resource}
+						<ResourceUsage {resource} {amountUsed} />
+					{/if}
 				{/each}
 			</ul>
+
+			<label>
+				<input type="number" bind:value={amountUsedInput} />
+				{#if selectedResourceToUse === 'new'}
+					<select>
+						<option value="volume">volume</option>
+						<option value="mass">mass</option>
+						<option value="number">number</option>
+					</select>
+				{:else}
+					<span>{getResource(selectedResourceToUse)?.amountUnit}</span>
+				{/if}
+
+				of
+				<select name="" id="" required bind:value={selectedResourceToUse}>
+					{#each Object.entries($resourcesList) as [id, resource]}
+						<option value={resource.name}>{resource.name}</option>
+					{/each}
+					<option value="new">(new resource)</option>
+				</select>
+
+				{#if selectedResourceToUse === 'new'}
+					<input type="text" name="" id="" placeholder="name of new resource" />
+				{/if}
+			</label>
+			<button
+				on:click={() => {
+					growRun.addResourceUsage({ amountUsed: amountUsedInput, name: selectedResourceToUse });
+					growRunsStore.updateGrowRun(growRun);
+				}}>Used</button
+			>
 
 			<h4>Output</h4>
 			more data...

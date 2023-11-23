@@ -28,6 +28,6 @@ export default class Resource {
 }
 
 export type ResourceUsage = {
-	resource: Resource;
+	name: string;
 	amountUsed: number;
 };

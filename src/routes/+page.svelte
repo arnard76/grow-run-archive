@@ -4,6 +4,7 @@
 	import GrowRun from '$lib/components/GrowRun.svelte';
 </script>
 
+<a href="./resource">Resource List</a>
 <h1>Grow Run Archive</h1>
 
 <table class="grow-runs">
