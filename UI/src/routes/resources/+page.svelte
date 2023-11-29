@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resourcesList } from '$lib/data/stores';
-	import Resource from './Resource.svelte';
+	import Resource from '$lib/components/Resource.svelte';
 	import ResourceClass from '$lib/model/resource';
 	import units from '$lib/data/units';
 
@@ -11,7 +11,7 @@
 		nameInput: string;
 </script>
 
-{#each resourcesList.convertToArray($resourcesList) as resource (resource.name)}
+{#each $resourcesList as resource (resource.name)}
 	<Resource {resource} />
 {/each}
 
@@ -33,8 +33,9 @@ of <input type="text" bind:value={nameInput} placeholder="resource name here..."
 
 <button
 	on:click={() => {
+		let randomColour = '#' + Math.floor(Math.random() * 16777215).toString(16);
 		resourcesList.addNewResource(
-			new ResourceClass(nameInput, costInput, typeInput, unitInput, totalInput, '')
+			new ResourceClass(nameInput, costInput, typeInput, unitInput, totalInput, randomColour, '')
 		);
 	}}>Add to list</button
 >

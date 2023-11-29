@@ -42,10 +42,15 @@
 	p {
 		cursor: pointer;
 		display: inline;
+		position: relative;
 	}
 
 	p span.calculation {
 		cursor: initial;
 		background-color: powderblue;
+		position: absolute;
+		text-wrap: nowrap;
+		padding: 0 5px;
+		margin: 0 5px;
 	}
 </style>

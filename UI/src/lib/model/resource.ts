@@ -4,6 +4,7 @@ export default class Resource {
 	amountType: string;
 	amountUnit: string;
 	amountTotal: number;
+	colour: string;
 	notes: string;
 
 	constructor(
@@ -12,6 +13,7 @@ export default class Resource {
 		amountType: string,
 		amountUnit: string,
 		amountTotal: number,
+		colour: string,
 		notes: string
 	) {
 		this.name = name;
@@ -19,6 +21,7 @@ export default class Resource {
 		this.amountType = amountType;
 		this.amountUnit = amountUnit;
 		this.amountTotal = amountTotal;
+		this.colour = colour || 'black';
 		this.notes = notes;
 	}
 
