@@ -30,7 +30,7 @@
 	<td>{growRun.name}</td>
 	<td><a href="/experiment/{growRun.fromExperiment}">{growRun.fromExperiment}</a></td>
 	<td>{growRun.totalMassLeavesHarvested()}</td>
-	<td>duration</td>
+	<td>{growRun.calculateDurationInDays() || '-'}</td>
 	<td>${cost.toFixed(2)}</td>
 	<td>${costPer100g}</td>
 </tr>

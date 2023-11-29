@@ -1,6 +1,7 @@
 import { resourcesList } from '$lib/data/stores';
 import type Experiment from '$lib/model/experiment';
 import type { ResourceUsage } from '$lib/model/resource';
+import type Conditions from '$lib/model/conditions';
 
 export type GrowRunConstructorType = {
 	id: string;
@@ -8,6 +9,7 @@ export type GrowRunConstructorType = {
 	fromExperiment: Experiment | null;
 	resources: { used?: ResourceUsage[]; required?: ResourceUsage[] };
 	harvests?: Harvest[];
+	conditions?: Conditions;
 };
 
 export type Harvest = {
@@ -23,13 +25,22 @@ export default class GrowRun {
 
 	resources: { used?: ResourceUsage[] | undefined; required?: ResourceUsage[] | undefined };
 	harvests: Harvest[];
+	conditions: Conditions;
 
-	constructor({ id, name, fromExperiment = null, resources, harvests }: GrowRunConstructorType) {
+	constructor({
+		id,
+		name,
+		fromExperiment,
+		resources,
+		harvests,
+		conditions
+	}: GrowRunConstructorType) {
 		this.id = id;
 		this.name = name;
-		this.fromExperiment = fromExperiment;
+		this.fromExperiment = fromExperiment || null;
 		this.resources = resources || { used: [], required: [] };
 		this.harvests = harvests || [];
+		this.conditions = conditions || {};
 	}
 
 	addResourceUsage(resourceUsage: ResourceUsage) {
@@ -68,5 +79,24 @@ export default class GrowRun {
 				return { size: resourceCost, label: name, colour: resource.colour };
 			}) || []
 		);
+	}
+
+	calculateDurationInMS(): number {
+		const start = this.conditions?.duration?.start;
+		const end = this.conditions?.duration?.end;
+		if (!start || !end) return NaN;
+
+		const startDate = new Date(start);
+		const endDate = new Date(end);
+		return endDate.getTime() - startDate.getTime();
+	}
+
+	calculateDurationInHours(): number {
+		const ms = this.calculateDurationInMS();
+		return ms / (1000 * 60 * 60);
+	}
+
+	calculateDurationInDays(): number {
+		return this.calculateDurationInHours() / 24;
 	}
 }

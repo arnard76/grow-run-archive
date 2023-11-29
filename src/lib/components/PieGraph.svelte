@@ -12,8 +12,6 @@
 			? pie.sort((slice1, slice2) => (slice1.label < slice2.label ? -1 : 1))
 			: pie;
 
-	$: console.log(pie.map((slice) => slice.colour));
-
 	$: data = {
 		labels: pie.map((slice) => slice.label),
 

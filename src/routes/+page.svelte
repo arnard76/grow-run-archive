@@ -12,6 +12,7 @@
 		<th>Name</th>
 		<th>Experiment</th>
 		<th>Output (g)</th>
+		<th>Duration (days)</th>
 		<th>Cost (NZD)</th>
 		<th>Cost per 100g (NZD)</th>
 	</tr>
