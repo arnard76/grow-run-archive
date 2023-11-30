@@ -3,6 +3,7 @@
 
 	import GrowRun from '$lib/grow-run/ListItem.svelte';
 	import AddGrowRun from '$lib/grow-run/Add.svelte';
+	import AddTemplate from '$lib/components/AddTemplate.svelte';
 </script>
 
 <h1>Grow Run Archive</h1>

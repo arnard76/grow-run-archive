@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { growRunsStore } from '$lib/grow-run/stores';
 	import type GrowRun from '$lib/grow-run/growRun';
+	import Add from './Add.svelte';
 
 	export let growRun: GrowRun;
 
@@ -9,7 +10,7 @@
 </script>
 
 <h4>Harvests</h4>
-<div>
+{#if growRun.harvests.length}
 	<ul>
 		{#each growRun.harvests as harvest}
 			<li>{harvest.massOfLeaves}g ({harvest.numberOfLeaves} leaves)</li>
@@ -19,26 +20,10 @@
 			{growRun.totalMassLeavesHarvested()}g ({growRun.totalNumLeavesHarvested()} leaves)
 		</li>
 	</ul>
-
-	<div>
-		<label>
-			I harvested <input type="number" bind:value={numLeavesHarvestedInput} /> leaves that weighed
-			in at
-
-			<input type="number" bind:value={massLeavesHarvestedInput} />g
-		</label>
-		<button
-			on:click={() => {
-				growRun.recordHarvest({
-					massOfLeaves: massLeavesHarvestedInput,
-					numberOfLeaves: numLeavesHarvestedInput
-				});
-				growRunsStore.updateGrowRun(growRun);
-			}}
-			>Record
-		</button>
-	</div>
-</div>
+{:else}
+	<p>Currently, no harvests have been performed AND recorded. Feel free to add below:</p>
+{/if}
+<Add {growRun} />
 
 <style>
 	.summary {

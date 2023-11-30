@@ -1,14 +1,11 @@
 <script lang="ts">
-	import { resourcesList, growRunsStore } from '$lib/grow-run/stores';
+	import { resourcesList } from '$lib/grow-run/stores';
 	import type GrowRun from '$lib/grow-run/growRun';
 	import ResourceUsage from './ListItem.svelte';
 	import PieGraph from './PieGraph.svelte';
+	import Add from './Add.svelte';
 
 	export let growRun: GrowRun;
-
-	let selectedResourceToUse: string;
-
-	let amountUsedInput: number;
 
 	$: pieChartData = $resourcesList && growRun.formatDataForPieChart();
 </script>
@@ -27,45 +24,9 @@
 				{/each}
 			</ul>
 		{:else}
-			<p>
-				Currently no resources have been used OR they usage has not been recorded. Try adding them
-				below:
-			</p>
+			<p>Currently, no resources have been used AND the usage recorded. Feel free to add below:</p>
 		{/if}
-
-		<label>
-			<input type="number" bind:value={amountUsedInput} />
-			{#if selectedResourceToUse === 'new'}
-				<select>
-					<option value="volume">volume</option>
-					<option value="mass">mass</option>
-					<option value="number">number</option>
-				</select>
-			{:else}
-				<span>{resourcesList.getResource(selectedResourceToUse)?.amountUnit}</span>
-			{/if}
-
-			of
-			<select name="" id="" required bind:value={selectedResourceToUse}>
-				{#each Object.entries($resourcesList) as [id, resource]}
-					<option value={resource.name}>{resource.name}</option>
-				{/each}
-				<option value="new">(new resource)</option>
-			</select>
-
-			{#if selectedResourceToUse === 'new'}
-				<input type="text" name="" id="" placeholder="name of new resource" />
-			{/if}
-		</label>
-		<button
-			on:click={() => {
-				growRun.addResourceUsage({
-					amountUsed: amountUsedInput,
-					name: selectedResourceToUse
-				});
-				growRunsStore.updateGrowRun(growRun);
-			}}>Used</button
-		>
+		<Add {growRun} />
 	</section>
 	<section>
 		{#if growRun.resources?.used?.length}
