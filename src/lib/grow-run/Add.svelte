@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { growRunsStore } from '$lib/data/stores';
-	import GrowRun from '$lib/model/growRun';
+	import { growRunsStore } from '$lib/grow-run/stores';
 
 	let showingInputs = false;
 	let nameInput = '',

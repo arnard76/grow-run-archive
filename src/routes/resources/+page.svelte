@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { resourcesList } from '$lib/data/stores';
-	import Resource from '$lib/components/Resource.svelte';
-	import ResourceClass from '$lib/model/resource';
-	import units from '$lib/data/units';
+	import { resourcesList } from '$lib/grow-run/stores';
+	import Resource from '$lib/resource/Resource.svelte';
+	import ResourceClass from '$lib/resource/resource';
+	import units from '$lib/grow-run/units';
 
 	let costInput: number,
 		totalInput: number,

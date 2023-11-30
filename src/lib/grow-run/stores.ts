@@ -1,8 +1,8 @@
 import { get, writable, readable } from 'svelte/store';
-import Resource from '$lib/model/resource';
-import GrowRun, { type GrowRunConstructorType } from '$lib/model/growRun';
+import Resource from '$lib/resource/resource';
+import GrowRun, { type GrowRunConstructorType } from '$lib/grow-run/growRun';
 import { getDatabase, push, ref, set, onValue } from 'firebase/database';
-import { app } from '$lib/data/firebase';
+import { app } from '$lib/database/firebase';
 
 const db = getDatabase(app);
 

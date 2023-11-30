@@ -1,7 +1,7 @@
-import { resourcesList } from '$lib/data/stores';
-import type Experiment from '$lib/model/experiment';
-import type { ResourceUsage } from '$lib/model/resource';
-import type Conditions from '$lib/model/conditions';
+import { resourcesList } from '$lib/grow-run/stores';
+import type Experiment from '$lib/experiment/experiment';
+import type { ResourceUsage } from './resource-usage/resourceUsage';
+import type Conditions from '$lib/grow-run/conditions';
 
 export type GrowRunConstructorType = {
 	id: string;

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { growRunsStore } from '$lib/data/stores';
+	import { growRunsStore } from '$lib/grow-run/stores';
 
-	import GrowRun from '$lib/components/GrowRun.svelte';
-	import AddGrowRun from '$lib/components/AddGrowRun.svelte';
+	import GrowRun from '$lib/grow-run/ListItem.svelte';
+	import AddGrowRun from '$lib/grow-run/Add.svelte';
 </script>
 
 <h1>Grow Run Archive</h1>

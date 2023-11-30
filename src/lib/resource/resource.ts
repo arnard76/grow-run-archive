@@ -29,8 +29,3 @@ export default class Resource {
 		return (this.cost * amountUsed) / this.amountTotal;
 	}
 }
-
-export type ResourceUsage = {
-	name: string;
-	amountUsed: number;
-};

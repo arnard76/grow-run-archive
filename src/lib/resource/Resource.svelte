@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type Resource from '$lib/model/resource';
+	import type Resource from '$lib/resource/resource';
 	export let resource: Resource;
 </script>
 
