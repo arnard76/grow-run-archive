@@ -1,6 +1,6 @@
 import { get, writable, readable } from 'svelte/store';
 import Resource from '$lib/resource/resource';
-import GrowRun, { type GrowRunConstructorType } from '$lib/grow-run/growRun';
+import GrowRun from '$lib/grow-run/growRun';
 import { getDatabase, push, ref, set, onValue } from 'firebase/database';
 import { app } from '$lib/database/firebase';
 
@@ -45,10 +45,10 @@ export const resourcesList = {
 		set(newResourceRef, resource);
 	},
 
-	getResource(resourceName: string): Resource {
-		const resource = resourcesList
-			.convertToArray()
-			.find((resource: any) => resource.name === resourceName);
+	getResource(resourceName: string, resources: Resource[] | undefined = undefined): Resource {
+		const resource = (resources || resourcesList.convertToArray()).find(
+			(resource: any) => resource.name === resourceName
+		);
 
 		let { name, cost, notes, amountType, amountUnit, amountTotal, colour } =
 			resource || noResourceFound;

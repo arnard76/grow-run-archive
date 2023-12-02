@@ -3,6 +3,7 @@ import type { ResourceUsage } from './resource-usage/resourceUsage';
 import type Conditions from '$lib/grow-run/conditions/conditions';
 import type { Duration } from './details/duration/types';
 import type { Harvest } from './harvest/types';
+import type Resource from '$lib/resource/resource';
 
 export type GrowRunConstructorType = {
 	id: string;
@@ -63,10 +64,10 @@ export default class GrowRun {
 		return this.harvests.reduce((previous, curr) => previous + curr.massOfLeaves, 0);
 	}
 
-	calculateCost(): number {
+	calculateCost(resources: Resource[]): number {
 		let totalCost = 0;
 		for (let { name, amountUsed } of this.resources?.used || []) {
-			const resource = resourcesList.getResource(name);
+			const resource = resourcesList.getResource(name, resources);
 			if (!resource) continue;
 			let oneCost = resource.calculateCost(amountUsed) || 0;
 			totalCost += oneCost;
@@ -75,10 +76,16 @@ export default class GrowRun {
 		return totalCost;
 	}
 
-	formatDataForPieChart(): { label: string; size: number; colour: string }[] {
+	calculateCostPer100g(resources: Resource[]): number {
+		return (this.calculateCost(resources) * 100) / this.totalMassLeavesHarvested();
+	}
+
+	formatDataForPieChart(
+		resources: Resource[] | undefined = undefined
+	): { label: string; size: number; colour: string }[] {
 		return (
 			this.resources?.used?.map(({ name, amountUsed }) => {
-				const resource = resourcesList.getResource(name);
+				const resource = resourcesList.getResource(name, resources);
 				const resourceCost = resource.calculateCost(amountUsed);
 				return { size: resourceCost, label: name, colour: resource.colour };
 			}) || []
