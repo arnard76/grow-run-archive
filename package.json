@@ -26,6 +26,8 @@
 	"type": "module",
 	"dependencies": {
 		"chart.js": "^4.4.0",
+		"chartjs-adapter-dayjs-4": "^1.0.4",
+		"dayjs": "^1.11.10",
 		"firebase": "^10.6.0"
 	}
 }
