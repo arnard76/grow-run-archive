@@ -3,16 +3,14 @@
 
 	import GrowRun from '$lib/grow-run/ListItem.svelte';
 	import AddGrowRun from '$lib/grow-run/Add.svelte';
-	import AddTemplate from '$lib/components/AddTemplate.svelte';
 </script>
 
-<h1>Grow Run Archive</h1>
+<h1>Grow Run Cost Archive</h1>
 <AddGrowRun />
 <table class="grow-runs">
 	<tr>
 		<th>Name</th>
 		<th>Output (g)</th>
-		<th>Duration (days)</th>
 		<th>Cost (NZD)</th>
 		<th>Cost per 100g (NZD)</th>
 	</tr>
@@ -23,7 +21,14 @@
 </table>
 
 <style>
+	table {
+		width: 95vw;
+	}
+
 	tr {
 		text-align: left;
+	}
+	th {
+		padding: 15px;
 	}
 </style>

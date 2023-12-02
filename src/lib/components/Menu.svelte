@@ -1,5 +1,13 @@
+<script>
+	import MenuDropDown from './MenuDropDown.svelte';
+</script>
+
 <nav>
-	<a href="/">🪴🏃‍♂️🗃️</a>
+	<MenuDropDown>
+		<p slot="text">Cost</p>
+		<a href="/cost/archive">Archive</a>
+		<a href="/cost/graph">Graph</a>
+	</MenuDropDown>
 	<a href="/resources">Resources list</a>
 	<a href="/pie-charts">Pies 🥧📊</a>
 </nav>
@@ -8,9 +16,11 @@
 	nav {
 		display: flex;
 		gap: 15px;
+		align-items: flex-start;
 	}
 
-	a {
+	a,
+	p {
 		text-decoration: none;
 		padding: 5px;
 		background: rgb(0, 115, 255);
