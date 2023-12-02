@@ -29,7 +29,7 @@ export default class GrowRun {
 		this.resources = resources || { used: [], required: [] };
 		this.harvests = harvests || [];
 		this.conditions = conditions || {};
-		this.duration = duration || { start: '-', end: '-' };
+		this.duration = duration || {};
 	}
 
 	addResourceUsage(resourceUsage: ResourceUsage) {

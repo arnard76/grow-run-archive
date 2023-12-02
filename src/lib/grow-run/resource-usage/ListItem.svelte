@@ -39,7 +39,7 @@
 			{amountUsed}{resource.amountUnit}
 
 			<p on:mouseenter={toggleExpansion} on:mouseleave={toggleExpansion} role="contentinfo">
-				(<span style="color: green;">$</span>{costOfUsage})
+				(<span style="color: green;margin: auto 0; ">$</span>{costOfUsage})
 
 				{#if showExpandedCalculation}
 					<span class="calculation">
@@ -56,11 +56,6 @@
 </li>
 
 <style>
-	li {
-		display: flex;
-		align-items: center;
-	}
-
 	li > * {
 		flex: 1;
 		max-width: 250px;
@@ -79,5 +74,8 @@
 		text-wrap: nowrap;
 		padding: 0 5px;
 		margin: 0 5px;
+		top: calc(100% + 5px);
+		left: 0;
+		z-index: 1;
 	}
 </style>

@@ -7,8 +7,8 @@
 	export let growRun: GrowRun;
 	let expanded = false;
 
-	function formatDate(date: string) {
-		if (date === '-') return;
+	function formatDate(date: string | undefined) {
+		if (date === '-' || !date) return undefined;
 
 		return new Date(date).toLocaleString();
 	}
@@ -26,8 +26,8 @@
 
 <EditTemplate bind:expanded onClick={() => growRunsStore.updateGrowRun(growRun)}>
 	<p slot="display" style="display: inline-block;">
-		Start:{formatDate(growRun.duration.start)}<br />
-		End : {formatDate(growRun.duration.end)}
+		Start:{formatDate(growRun.duration.start) || '-'}<br />
+		End : {formatDate(growRun.duration.end) || '-'}
 	</p>
 
 	<Inputs
