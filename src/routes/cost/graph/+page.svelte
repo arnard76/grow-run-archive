@@ -44,6 +44,7 @@
 	}
 </script>
 
+<p>Doesn't include grow runs that didn't produce any output</p>
 <div>
 	<canvas bind:this={canvas} style="max-width: 90vw;max-height:90vh;"></canvas>
 </div>
