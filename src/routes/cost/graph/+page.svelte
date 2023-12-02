@@ -3,7 +3,7 @@
 	import { growRunsStore, resourcesList } from '$lib/grow-run/stores';
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
-	const randomMinDate = new Date('2020-01-01T00:00:00.000Z').valueOf();
+	const randomMinDate = new Date('2022-01-01T00:00:00.000Z').valueOf();
 
 	$: data = {
 		labels: $growRunsStore.map((growRun) => growRun.name),
@@ -29,13 +29,16 @@
 		scatterChart = new Chart(canvas, {
 			type: 'scatter',
 			data,
+
 			options: {
 				scales: {
 					x: {
+						title: { display: true, text: 'Grow run start date' },
 						type: 'time',
 						min: randomMinDate
 					},
 					y: {
+						title: { display: true, text: 'Cost per 100g / NZD' },
 						min: 0
 					}
 				}
@@ -44,7 +47,10 @@
 	}
 </script>
 
-<p>Doesn't include grow runs that didn't produce any output</p>
+<h2>Grow Run Cost Archive</h2>
+<p style="font-size: 12px;">
+	*NOTE*: Can't include grow runs that didn't produce any output. (Where would they go? 😁)
+</p>
 <div>
 	<canvas bind:this={canvas} style="max-width: 90vw;max-height:90vh;"></canvas>
 </div>
