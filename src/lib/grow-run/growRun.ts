@@ -1,50 +1,54 @@
 import { resourcesList } from '$lib/grow-run/stores';
-import type Experiment from '$lib/experiment/experiment';
 import type { ResourceUsage } from './resource-usage/resourceUsage';
-import type Conditions from '$lib/grow-run/conditions';
+import type Conditions from '$lib/grow-run/conditions/conditions';
+import type { Duration } from './details/duration/types';
+import type { Harvest } from './harvest/types';
 
 export type GrowRunConstructorType = {
 	id: string;
 	name: string;
-	fromExperiment: Experiment | null;
+	duration?: Duration;
+
 	resources: { used?: ResourceUsage[]; required?: ResourceUsage[] };
 	harvests?: Harvest[];
 	conditions?: Conditions;
 };
 
-export type Harvest = {
-	numberOfLeaves: number;
-	massOfLeaves: number;
-	qualityNotes?: string;
-};
-
 export default class GrowRun {
 	id: string;
 	name: string;
-	fromExperiment: Experiment | null;
+	duration: Duration;
 
 	resources: { used?: ResourceUsage[] | undefined; required?: ResourceUsage[] | undefined };
 	harvests: Harvest[];
 	conditions: Conditions;
 
-	constructor({
-		id,
-		name,
-		fromExperiment,
-		resources,
-		harvests,
-		conditions
-	}: GrowRunConstructorType) {
+	constructor({ id, name, resources, harvests, conditions, duration }: GrowRunConstructorType) {
 		this.id = id;
 		this.name = name;
-		this.fromExperiment = fromExperiment || null;
 		this.resources = resources || { used: [], required: [] };
 		this.harvests = harvests || [];
 		this.conditions = conditions || {};
+		this.duration = duration || { start: '-', end: '-' };
 	}
 
 	addResourceUsage(resourceUsage: ResourceUsage) {
 		this.resources.used?.push(resourceUsage);
+	}
+
+	editResourceUsage(previousResourceName: ResourceUsage['name'], resourceUsage: ResourceUsage) {
+		let index = this.resources.used?.findIndex((resource) => resource.name == previousResourceName);
+
+		if (index == undefined || index === -1) return;
+
+		(this.resources.used as ResourceUsage[])[index] = resourceUsage;
+	}
+
+	deleteResourceUsage(resourceName: ResourceUsage['name']) {
+		let index = this.resources.used?.findIndex((resource) => resource.name == resourceName);
+		if (index == undefined || index === -1) return;
+
+		this.resources.used?.splice(index, 1);
 	}
 
 	recordHarvest(harvest: Harvest) {
@@ -82,8 +86,8 @@ export default class GrowRun {
 	}
 
 	calculateDurationInMS(): number {
-		const start = this.conditions?.duration?.start;
-		const end = this.conditions?.duration?.end;
+		const start = this.duration?.start;
+		const end = this.duration?.end;
 		if (!start || !end) return NaN;
 
 		const startDate = new Date(start);

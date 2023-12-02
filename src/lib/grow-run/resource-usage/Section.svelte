@@ -19,7 +19,7 @@
 				{#each growRun.resources.used as { name, amountUsed }}
 					{@const resource = resourcesList.getResource(name)}
 					{#if resource}
-						<ResourceUsage {resource} {amountUsed} />
+						<ResourceUsage {growRun} resourceName={name} {amountUsed} />
 					{/if}
 				{/each}
 			</ul>

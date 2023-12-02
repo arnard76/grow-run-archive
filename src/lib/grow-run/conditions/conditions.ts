@@ -1,14 +1,5 @@
 // different type of conditions
 
-type Duration = {
-    start: string;
-    end: string;
-}
+type Conditions = {};
 
-export type {Duration}
-
-type Conditions = {
-    duration?:Duration
-}
-
-export default Conditions
+export default Conditions;

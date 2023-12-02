@@ -1,31 +1,58 @@
 <script lang="ts">
-	import type Resource from '$lib/resource/resource';
+	import EditTemplate from '$lib/components/EditTemplate.svelte';
+	import type GrowRun from '../growRun';
+	import { growRunsStore, resourcesList } from '../stores';
+	import Inputs from './Inputs.svelte';
 
-	export let resource: Resource;
+	export let growRun: GrowRun;
+	export let resourceName: string;
+	const initialResourceName = resourceName;
 	export let amountUsed: number;
 
 	let showExpandedCalculation = false;
 	function toggleExpansion() {
 		showExpandedCalculation = !showExpandedCalculation;
 	}
-	let costOfUsage = resource.calculateCost(amountUsed).toFixed(2);
+
+	$: resource = resourcesList.getResource(resourceName);
+	$: costOfUsage = resource.calculateCost(amountUsed).toFixed(2);
 </script>
 
 <li>
-	<a href="/resource/{resource.name}">
-		{resource.name}
-	</a>
-	{amountUsed}{resource.amountUnit}
+	<EditTemplate
+		onClick={() => {
+			growRun.editResourceUsage(initialResourceName, {
+				name: resourceName,
+				amountUsed: amountUsed
+			});
+			growRunsStore.updateGrowRun(growRun);
+		}}
+		onDeleteClick={() => {
+			growRun.deleteResourceUsage(initialResourceName);
+			growRunsStore.updateGrowRun(growRun);
+		}}
+	>
+		<svelte:fragment slot="display">
+			<a href="/resource/{resourceName}">
+				{resourceName}
+			</a>
+			{amountUsed}{resource.amountUnit}
 
-	<p on:mouseenter={toggleExpansion} on:mouseleave={toggleExpansion} role="contentinfo">
-		(<span style="color: green;">$</span>{costOfUsage})
+			<p on:mouseenter={toggleExpansion} on:mouseleave={toggleExpansion} role="contentinfo">
+				(<span style="color: green;">$</span>{costOfUsage})
 
-		{#if showExpandedCalculation}
-			<span class="calculation">
-				{resource.cost}*{amountUsed}/{resource.amountTotal} = ${costOfUsage}
-			</span>
-		{/if}
-	</p>
+				{#if showExpandedCalculation}
+					<span class="calculation">
+						{resource.cost}*{amountUsed}/{resource.amountTotal} = ${costOfUsage}
+					</span>
+				{/if}
+			</p>
+		</svelte:fragment>
+
+		<svelte:fragment slot="editing">
+			<Inputs bind:amountUsedInput={amountUsed} bind:selectedResourceToUse={resourceName} />
+		</svelte:fragment>
+	</EditTemplate>
 </li>
 
 <style>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Button from './Button.svelte';
+
 	export let addText = '➕';
 	export let onClick: (e: MouseEvent) => any;
 
@@ -9,11 +11,11 @@
 	<slot />
 {/if}
 
-<button
+<Button
 	on:click={(e) => {
 		expanded && onClick(e);
 		expanded = !expanded;
 	}}
 >
 	{addText}
-</button>
+</Button>

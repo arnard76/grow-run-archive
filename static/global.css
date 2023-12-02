@@ -3,3 +3,8 @@ p,
 a {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+p {
+	margin: 0;
+	padding: 0;
+}

@@ -77,14 +77,8 @@ export const growRunsStore = {
 		set(growRunRef, growRun);
 	},
 
-	addGrowRun({
-		name,
-		fromExperiment
-	}: {
-		name: GrowRun['name'];
-		fromExperiment: GrowRun['fromExperiment'];
-	}) {
+	addGrowRun({ name }: { name: GrowRun['name'] }) {
 		const newGrowRunRef = push(growRunsRef);
-		set(newGrowRunRef, { name, fromExperiment });
+		set(newGrowRunRef, { name });
 	}
 };

@@ -1,19 +1,20 @@
 <script lang="ts">
-	import { growRunsStore } from '$lib/grow-run/stores';
 	import type GrowRun from '$lib/grow-run/growRun';
+	import { growRunsStore } from '../stores';
 	import Add from './Add.svelte';
+	import Harvest from './ListItem.svelte';
 
 	export let growRun: GrowRun;
-
-	let massLeavesHarvestedInput: number;
-	let numLeavesHarvestedInput: number;
 </script>
 
 <h4>Harvests</h4>
 {#if growRun.harvests.length}
 	<ul>
-		{#each growRun.harvests as harvest}
-			<li>{harvest.massOfLeaves}g ({harvest.numberOfLeaves} leaves)</li>
+		{#each growRun.harvests as harvest, index (harvest.id || index)}
+			<Harvest
+				bind:harvest={growRun.harvests[index]}
+				onUpdateHarvest={() => growRunsStore.updateGrowRun(growRun)}
+			/>
 		{/each}
 		<hr />
 		<li class="summary">

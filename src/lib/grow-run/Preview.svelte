@@ -10,7 +10,6 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <tr on:click on:keypress>
 	<td>{growRun.name}</td>
-	<td><a href="/experiment/{growRun.fromExperiment}">{growRun.fromExperiment}</a></td>
 	<td>{growRun.totalMassLeavesHarvested()}</td>
 	<td>{growRun.calculateDurationInDays() || '-'}</td>
 	<td>${cost.toFixed(2)}</td>
