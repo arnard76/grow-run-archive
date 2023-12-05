@@ -4,6 +4,7 @@ import type Conditions from '$lib/grow-run/conditions/conditions';
 import type { Duration } from './details/duration/types';
 import type { Harvest } from './harvest/types';
 import type Resource from '$lib/resource/resource';
+import type { Temperature } from './conditions/temperature/types';
 
 export type GrowRunConstructorType = {
 	id: string;
@@ -109,5 +110,28 @@ export default class GrowRun {
 
 	calculateDurationInDays(): number {
 		return this.calculateDurationInHours() / 24;
+	}
+
+	recordTemperature(
+		medium: 'air-temperature' | 'water-temperature',
+		{ dateTime, temperature }: Temperature
+	) {
+		this.conditions[medium] = this.conditions[medium] || [];
+
+		if (this.conditions[medium]?.map((temp) => temp.dateTime).includes(dateTime))
+			throw Error('This date time already has a temperature recorded. Try editing instead?');
+
+		this.conditions[medium]?.push({ dateTime, temperature });
+	}
+
+	// updateTemperatureRecord(medium){}
+
+	calculateAverageTemperature(medium: 'air-temperature' | 'water-temperature') {
+		const temps = this.conditions[medium];
+		if (!temps) return;
+
+		return (
+			temps.reduce((prevTotal, currTemp) => prevTotal + currTemp.temperature, 0) / temps.length
+		);
 	}
 }

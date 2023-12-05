@@ -3,15 +3,10 @@
 	import type GrowRun from '$lib/grow-run/growRun';
 	import { growRunsStore } from '$lib/grow-run/stores';
 	import Inputs from './Inputs.svelte';
+	import { prettyFormatDate } from './util';
 
 	export let growRun: GrowRun;
 	let expanded = false;
-
-	function formatDate(date: string | undefined) {
-		if (date === '-' || !date) return undefined;
-
-		return new Date(date).toLocaleString();
-	}
 </script>
 
 <p style="font-style: italic;">
@@ -26,8 +21,8 @@
 
 <EditTemplate bind:expanded onClick={() => growRunsStore.updateGrowRun(growRun)}>
 	<p slot="display" style="display: inline-block;">
-		Start:{formatDate(growRun.duration.start) || '-'}<br />
-		End : {formatDate(growRun.duration.end) || '-'}
+		Start:{prettyFormatDate(growRun.duration.start) || '-'}<br />
+		End : {prettyFormatDate(growRun.duration.end) || '-'}
 	</p>
 
 	<Inputs
