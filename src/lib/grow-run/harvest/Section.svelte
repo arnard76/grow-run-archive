@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type GrowRun from '$lib/grow-run/growRun';
-	import { growRunsStore } from '../stores';
+	import type GrowRun from '$lib/grow-run';
+	import { growRunsStore } from '../store';
 	import Add from './Add.svelte';
 	import Harvest from './ListItem.svelte';
 

@@ -1,25 +1,43 @@
 <script lang="ts">
 	import units from '$lib/grow-run/units';
+	import type Resource from './index';
 
-	export let cost: number,
-		amountTotal: number,
-		amountType: string,
-		amountUnit: string,
-		name: string;
+	export let resourceToCreateOrUpdate: Resource;
 </script>
 
-It costs $<input type="number" bind:value={cost} /> NZD<br />
-for <input type="number" bind:value={amountTotal} />
-<select bind:value={amountType}>
+It costs $<input
+	type="number"
+	bind:value={resourceToCreateOrUpdate.cost}
+	placeholder="cost goes here..."
+/>
+NZD<br />
+for
+<input
+	type="number"
+	bind:value={resourceToCreateOrUpdate.amountTotal}
+	placeholder="amount of product..."
+/>
+<select bind:value={resourceToCreateOrUpdate.amountType}>
 	{#each Object.keys(units) as type (type)}
 		<option value={type}>{type}</option>
 	{/each}
 </select>
-{#if amountType && Object.keys(units).includes(amountType)}
-	<select bind:value={amountUnit}>
-		{#each units[amountType] as unit}
+{#if resourceToCreateOrUpdate.amountType && Object.keys(units).includes(resourceToCreateOrUpdate.amountType)}
+	<select bind:value={resourceToCreateOrUpdate.amountUnit}>
+		{#each units[resourceToCreateOrUpdate.amountType] as unit}
 			<option value={unit}>{unit}</option>
 		{/each}
 	</select>
 {/if}<br />
-of <input type="text" bind:value={name} placeholder="resource name here..." /><br />
+of
+<input
+	type="text"
+	bind:value={resourceToCreateOrUpdate.name}
+	placeholder="resource name here..."
+/><br />
+<br />
+<input
+	type="text"
+	placeholder="link for product page..."
+	bind:value={resourceToCreateOrUpdate.productLink}
+/>

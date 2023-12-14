@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type GrowRun from '$lib/grow-run/growRun';
+	import type GrowRun from '$lib/grow-run';
 
 	import DetailsSection from './details/Section.svelte';
 	import HarvestsSection from './harvest/Section.svelte';

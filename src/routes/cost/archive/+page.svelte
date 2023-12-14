@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { growRunsStore } from '$lib/grow-run/stores';
+	import { growRunsStore } from '$lib/grow-run/store';
 
 	import GrowRun from '$lib/grow-run/ListItem.svelte';
 	import AddGrowRun from '$lib/grow-run/Add.svelte';

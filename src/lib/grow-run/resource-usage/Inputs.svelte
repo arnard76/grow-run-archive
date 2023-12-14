@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { resourcesList } from '$lib/grow-run/stores';
+	import { resourcesList } from '$lib/resource/store';
 
 	export let selectedResourceToUse: string | undefined = undefined;
 	export let amountUsedInput: number | undefined = undefined;

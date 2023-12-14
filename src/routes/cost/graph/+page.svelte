@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Chart from 'chart.js/auto';
-	import { growRunsStore, resourcesList } from '$lib/grow-run/stores';
+	import { resourcesList } from '$lib/resource/store';
+	import { growRunsStore } from '$lib/grow-run/store';
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
 	const randomMinDate = new Date('2022-01-01T00:00:00.000Z').valueOf();

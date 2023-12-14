@@ -1,7 +1,7 @@
 <script lang="ts">
 	import EditTemplate from '$lib/components/EditTemplate.svelte';
-	import type GrowRun from '$lib/grow-run/growRun';
-	import { growRunsStore } from '../stores';
+	import type GrowRun from '$lib/grow-run';
+	import { growRunsStore } from '../store';
 	export let growRun: GrowRun;
 
 	let updatedGrowName = growRun.name;

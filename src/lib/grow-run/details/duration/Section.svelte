@@ -1,7 +1,7 @@
 <script lang="ts">
 	import EditTemplate from '$lib/components/EditTemplate.svelte';
-	import type GrowRun from '$lib/grow-run/growRun';
-	import { growRunsStore } from '$lib/grow-run/stores';
+	import type GrowRun from '$lib/grow-run';
+	import { growRunsStore } from '$lib/grow-run/store';
 	import Inputs from './Inputs.svelte';
 	import { prettyFormatDate } from './util';
 

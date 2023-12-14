@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type GrowRun from '$lib/grow-run/growRun';
+	import type GrowRun from '$lib/grow-run';
 	import { uploadGrowSetupPhotos, downloadGrowSetupPhotos } from '$lib/grow-run/photoStorage';
 	import NameDetails from './NameDetails.svelte';
 	import DurationDetails from './duration/Section.svelte';

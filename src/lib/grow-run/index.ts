@@ -1,9 +1,9 @@
-import { resourcesList } from '$lib/grow-run/stores';
+import { resourcesList } from '$lib/resource/store';
 import type { ResourceUsage } from './resource-usage/resourceUsage';
 import type Conditions from '$lib/grow-run/conditions/conditions';
 import type { Duration } from './details/duration/types';
 import type { Harvest } from './harvest/types';
-import type Resource from '$lib/resource/resource';
+import type Resource from '$lib/resource';
 import type { Temperature } from './conditions/temperature/types';
 
 export type GrowRunConstructorType = {

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { resourcesList } from '$lib/grow-run/stores';
-	import type GrowRun from '$lib/grow-run/growRun';
+	import { resourcesList } from '$lib/resource/store';
+	import type GrowRun from '$lib/grow-run';
 	export let growRun: GrowRun;
 
 	$: cost = growRun.calculateCost($resourcesList);

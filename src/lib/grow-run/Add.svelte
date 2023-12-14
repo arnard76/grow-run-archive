@@ -1,6 +1,6 @@
 <script lang="ts">
 	import AddTemplate from '$lib/components/AddTemplate.svelte';
-	import { growRunsStore } from '$lib/grow-run/stores';
+	import { growRunsStore } from '$lib/grow-run/store';
 
 	let nameInput = '';
 </script>

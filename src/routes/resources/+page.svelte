@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { resourcesList } from '$lib/grow-run/stores';
-	import Resource from '$lib/resource/Resource.svelte';
-	import ResourceClass from '$lib/resource/resource';
+	import { resourcesList } from '$lib/resource/store';
+	import Resource from '$lib/resource/ListItem.svelte';
+	import type ResourceClass from '$lib/resource/';
 	import Inputs from '$lib/resource/Inputs.svelte';
 	import AddTemplate from '$lib/components/AddTemplate.svelte';
 
-	let cost: number, amountTotal: number, amountType: string, amountUnit: string, name: string;
+	let newResource = {} as ResourceClass;
 </script>
 
 {#each $resourcesList as resource (resource.name)}
@@ -16,10 +16,9 @@
 	addText="Add to list"
 	onClick={() => {
 		let randomColour = '#' + Math.floor(Math.random() * 16777215).toString(16);
-		resourcesList.addNewResource(
-			new ResourceClass(name, cost, amountType, amountUnit, amountTotal, randomColour, '')
-		);
+		newResource.colour = randomColour;
+		resourcesList.addNewResource(newResource);
 	}}
 >
-	<Inputs bind:cost bind:name bind:amountType bind:amountTotal bind:amountUnit />
+	<Inputs bind:resourceToCreateOrUpdate={newResource} />
 </AddTemplate>

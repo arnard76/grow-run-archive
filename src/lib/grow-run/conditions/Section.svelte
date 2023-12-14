@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type GrowRun from '$lib/grow-run/growRun';
+	import type GrowRun from '$lib/grow-run';
 	import TemperatureSection from './temperature/Section.svelte';
 
 	export let growRun: GrowRun;

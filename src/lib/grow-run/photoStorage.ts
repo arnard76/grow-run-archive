@@ -1,5 +1,5 @@
 import { uploadBytes, ref, getStorage, list, getBlob } from 'firebase/storage';
-import type GrowRun from '$lib/grow-run/growRun';
+import type GrowRun from '$lib/grow-run';
 
 const storage = getStorage();
 
