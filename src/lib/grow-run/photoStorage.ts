@@ -6,7 +6,7 @@ const storage = getStorage();
 export async function uploadGrowSetupPhotos(growRun: GrowRun, files: File[]) {
 	return await Promise.all(
 		files.map((file) =>
-			uploadBytes(ref(storage, `grow-setup-photos/${growRun.name}/${file.name}`), file)
+			uploadBytes(ref(storage, `grow-setup-photos/${growRun.id}/${file.name}`), file)
 		)
 	);
 }
