@@ -12,7 +12,7 @@ export async function uploadGrowSetupPhotos(growRun: GrowRun, files: File[]) {
 }
 
 export async function downloadGrowSetupPhotos(growRun: GrowRun) {
-	const allPhotos = await list(ref(storage, `grow-setup-photos/${growRun.name}/`));
+	const allPhotos = await list(ref(storage, `grow-setup-photos/${growRun.id}/`));
 
 	if (!allPhotos.items.length) return [];
 	return await Promise.all(allPhotos.items.map((photo) => getBlob(photo)));
