@@ -1,4 +1,4 @@
-export type Temperature = {
+export type TemperatureRecord = {
 	dateTime: string;
 	temperature: number;
 };

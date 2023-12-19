@@ -1,7 +1,10 @@
 // different type of conditions
 
-import type { Temperature } from './temperature/types';
+import type { TemperatureRecord } from './temperature/types';
 
-type Conditions = { 'air-temperature'?: Temperature[]; 'water-temperature'?: Temperature[] };
+type Conditions = {
+	'air-temperature'?: TemperatureRecord[];
+	'water-temperature'?: TemperatureRecord[];
+};
 
 export default Conditions;

@@ -5,7 +5,7 @@
 	import Temperature from './ListItem.svelte';
 
 	export let growRun: GrowRun;
-
+	export let timezone: string;
 	export let medium: 'air-temperature' | 'water-temperature';
 	$: mediumShortened = medium.split('-')[0];
 </script>
@@ -15,6 +15,7 @@
 		{#each growRun.conditions[medium] || [] as temperature, index (temperature.dateTime)}
 			<Temperature
 				temperatureObj={temperature}
+				{timezone}
 				onUpdateTemperature={(temperatureObj) => {
 					// growRun.update(medium, temperatureObj);
 					growRunsStore.updateGrowRun(growRun);

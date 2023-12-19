@@ -4,7 +4,7 @@ import type Conditions from '$lib/grow-run/conditions/conditions';
 import type { Duration } from './details/duration/types';
 import type { Harvest } from './harvest/types';
 import type Resource from '$lib/resource';
-import type { Temperature } from './conditions/temperature/types';
+import type { TemperatureRecord } from './conditions/temperature/types';
 
 export type GrowRunConstructorType = {
 	id: string;
@@ -114,7 +114,7 @@ export default class GrowRun {
 
 	recordTemperature(
 		medium: 'air-temperature' | 'water-temperature',
-		{ dateTime, temperature }: Temperature
+		{ dateTime, temperature }: TemperatureRecord
 	) {
 		this.conditions[medium] = this.conditions[medium] || [];
 

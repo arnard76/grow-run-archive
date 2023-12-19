@@ -27,10 +27,15 @@ export function formatToLocalDate(UTCISOformat: string | undefined) {
 	);
 }
 
-export function prettyFormatDate(date: string | undefined) {
+export function prettyFormatDate(date: string | undefined, timeZone?: string) {
 	if (date === '-' || !date) return undefined;
+	timeZone = timeZone || 'UTC';
 
-	return new Date(date).toLocaleString();
+	return new Intl.DateTimeFormat('en-GB', {
+		dateStyle: 'short',
+		timeStyle: 'long',
+		timeZone
+	}).format(new Date(date));
 }
 
 export function getTimeValue(dateString: string | undefined): number | undefined {

@@ -1,17 +1,18 @@
 <script lang="ts">
 	import EditTemplate from '$lib/components/EditTemplate.svelte';
-	import type { Temperature } from './types';
+	import type { TemperatureRecord } from './types';
 	import Inputs from './Inputs.svelte';
 	import { prettyFormatDate } from '$lib/grow-run/details/duration/util';
 
-	export let temperatureObj: Temperature;
-	export let onUpdateTemperature = (newTemp: Temperature) => {};
+	export let temperatureObj: TemperatureRecord;
+	export let timezone: string;
+	export let onUpdateTemperature = (newTemp: TemperatureRecord) => {};
 </script>
 
 <li>
 	<EditTemplate onClick={() => onUpdateTemperature(temperatureObj)}>
 		<p slot="display" style="display: inline-block;">
-			{prettyFormatDate(temperatureObj.dateTime)}: {temperatureObj.temperature}°C
+			{prettyFormatDate(temperatureObj.dateTime, timezone)}: {temperatureObj.temperature}°C
 		</p>
 
 		<Inputs
