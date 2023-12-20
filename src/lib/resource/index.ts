@@ -7,7 +7,7 @@ export default class Resource {
 	amountUnit: string;
 	amountTotal: number;
 	colour: string;
-	notes?: string;
+	notes: string;
 
 	constructor({
 		id,
@@ -38,7 +38,7 @@ export default class Resource {
 		this.amountUnit = amountUnit;
 		this.amountTotal = amountTotal;
 		this.colour = colour || 'black';
-		this.notes = notes;
+		this.notes = notes || '';
 	}
 
 	calculateCost(amountUsed: number): number {
