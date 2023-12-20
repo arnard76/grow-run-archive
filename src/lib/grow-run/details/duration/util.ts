@@ -38,10 +38,28 @@ export function prettyFormatDate(date: string | undefined, timeZone?: string) {
 	}).format(new Date(date));
 }
 
-export function getTimeValue(dateString: string | undefined): number | undefined {
+export function getTimeValue(
+	dateString: string | undefined,
+	timeZone?: string
+): number | undefined {
 	if (dateString === '-' || !dateString) return undefined;
 
+	timeZone = timeZone || 'UTC';
+
 	const date: Date = new Date(dateString);
-	const timeValue = ((date.getHours() * 60 + date.getMinutes()) * 60 + date.getSeconds()) * 1000;
-	return timeValue;
+	let formatted1 = Intl.DateTimeFormat('en-GB', {
+		timeZone,
+		timeStyle: 'full'
+	}).formatToParts(date);
+
+	const formatted = formatted1.map((part) => part.value);
+	const timeValueInTimezone =
+		((parseInt(formatted[0]) * 60 + parseInt(formatted[2])) * 60 + parseInt(formatted[4])) * 1000;
+	return timeValueInTimezone;
+}
+
+// "hh:mm"
+export function timeValueToString(timeValueInMS: number) {
+	const minutes = Math.round(((timeValueInMS / 3600000) % 1) * 60);
+	return `${Math.round(timeValueInMS / 3600000)}:${minutes < 10 ? minutes + '0' : minutes}`;
 }

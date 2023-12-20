@@ -2,7 +2,7 @@
 	import type GrowRun from '$lib/grow-run';
 	import TemperatureSection from './temperature/Section.svelte';
 	import FullPeriodLineGraph from './temperature/FullPeriodLineGraph.svelte';
-	// import SummaryLineGraph from './temperature/SummaryLineGraph.svelte';
+	import SummaryLineGraph from './temperature/SummaryLineGraph.svelte';
 	import TimezoneInput from './TimezoneInput.svelte';
 
 	export let growRun: GrowRun;
@@ -29,7 +29,7 @@
 	<div style="flex: 1;">
 		{#if anyTempsRecorded}
 			<FullPeriodLineGraph {growRun} {timezone} />
-			<!-- <SummaryLineGraph {growRun} /> -->
+			<SummaryLineGraph {growRun} {timezone} />
 		{/if}
 	</div>
 </div>
