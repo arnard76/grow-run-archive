@@ -12,10 +12,12 @@
 	$: waterTemps = growRun.conditions['water-temperature'] || [];
 
 	function formatData(temps: TemperatureRecord[]) {
-		return temps.map((record) => ({
-			x: new Date(record.dateTime).valueOf(),
-			y: record.temperature
-		}));
+		return temps
+			.map((record) => ({
+				x: new Date(record.dateTime).valueOf(),
+				y: record.temperature
+			}))
+			.sort(({ x: t1 }, { x: t2 }) => t1 - t2);
 	}
 
 	$: data = {
