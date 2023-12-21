@@ -2,6 +2,7 @@
 	import EditTemplate from '$lib/components/EditTemplate.svelte';
 	import type { Harvest } from './types';
 	import Inputs from './Inputs.svelte';
+	import { prettyFormatDate } from '../details/duration/util';
 
 	export let harvest: Harvest;
 	export let onUpdateHarvest = () => {};
@@ -10,13 +11,12 @@
 <li>
 	<EditTemplate onClick={() => onUpdateHarvest()}>
 		<p slot="display" style="display: inline-block;">
-			{harvest.massOfLeaves}g ({harvest.numberOfLeaves} leaves)
+			<span style="font-style:italic; width: 300px; display:inline-block;"
+				>{prettyFormatDate(harvest.datetime) || 'Undated'}</span
+			>{harvest.massOfLeaves}g ({harvest.numberOfLeaves}
+			leaves)
 		</p>
 
-		<Inputs
-			slot="editing"
-			bind:numberOfLeaves={harvest.numberOfLeaves}
-			bind:massOfLeaves={harvest.massOfLeaves}
-		/>
+		<Inputs slot="editing" bind:harvest />
 	</EditTemplate>
 </li>

@@ -10,7 +10,7 @@
 <h4>Harvests</h4>
 {#if growRun.harvests.length}
 	<ul>
-		{#each growRun.harvests as harvest, index (harvest.id || index)}
+		{#each growRun.harvests as harvest, index (harvest.datetime || index)}
 			<Harvest
 				bind:harvest={growRun.harvests[index]}
 				onUpdateHarvest={() => growRunsStore.updateGrowRun(growRun)}
@@ -18,6 +18,7 @@
 		{/each}
 		<hr />
 		<li class="summary">
+			<span style="display:inline-block;width: 300px;"></span>
 			{growRun.totalMassLeavesHarvested()}g ({growRun.totalNumLeavesHarvested()} leaves)
 		</li>
 	</ul>

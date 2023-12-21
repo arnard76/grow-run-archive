@@ -3,23 +3,20 @@
 	import { growRunsStore } from '$lib/grow-run/store';
 	import type GrowRun from '$lib/grow-run';
 	import Inputs from './Inputs.svelte';
+	import type { Harvest } from './types';
 
 	export let growRun: GrowRun;
 
-	let massOfLeaves: number;
-	let numberOfLeaves: number;
+	let harvest: Harvest = {} as Harvest;
 </script>
 
 <AddTemplate
 	onClick={() => {
-		growRun.recordHarvest({
-			id: Math.random().toString(16).slice(2),
-			massOfLeaves,
-			numberOfLeaves
-		});
+		if (!harvest) return;
+		growRun.recordHarvest(harvest);
 		growRunsStore.updateGrowRun(growRun);
 	}}
 	addText="Record"
 >
-	<Inputs bind:massOfLeaves bind:numberOfLeaves />
+	<Inputs bind:harvest />
 </AddTemplate>

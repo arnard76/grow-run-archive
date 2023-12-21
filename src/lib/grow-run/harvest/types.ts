@@ -1,5 +1,5 @@
 export type Harvest = {
-	id: string;
+	datetime: string;
 	numberOfLeaves: number;
 	massOfLeaves: number;
 	qualityNotes?: string;
