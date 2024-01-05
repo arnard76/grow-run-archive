@@ -10,10 +10,13 @@
 <h4>Harvests</h4>
 {#if growRun.harvests.length}
 	<ul>
-		{#each growRun.harvests as harvest, index (harvest.datetime || index)}
+		{#each growRun.harvests as harvest, index (harvest.datetime)}
 			<Harvest
-				bind:harvest={growRun.harvests[index]}
-				onUpdateHarvest={() => growRunsStore.updateGrowRun(growRun)}
+				{harvest}
+				onUpdateHarvest={(updatedHarvest) => {
+					growRun.harvests[index] = updatedHarvest;
+					growRunsStore.updateGrowRun(growRun);
+				}}
 			/>
 		{/each}
 		<hr />

@@ -5,11 +5,11 @@
 	import { prettyFormatDate } from '../details/duration/util';
 
 	export let harvest: Harvest;
-	export let onUpdateHarvest = () => {};
+	export let onUpdateHarvest = (harvest: Harvest) => {};
 </script>
 
 <li>
-	<EditTemplate onClick={() => onUpdateHarvest()}>
+	<EditTemplate onClick={() => onUpdateHarvest(harvest)}>
 		<p slot="display" style="display: inline-block;">
 			<span style="font-style:italic; width: 300px; display:inline-block;"
 				>{prettyFormatDate(harvest.datetime) || 'Undated'}</span

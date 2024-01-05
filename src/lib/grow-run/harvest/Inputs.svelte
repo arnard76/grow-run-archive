@@ -8,7 +8,7 @@
 	let harvestingRightNow = harvest.datetime == undefined;
 	let localDateTime = formatToLocalDate(harvest.datetime);
 	$: if (harvestingRightNow) localDateTime = formatToLocalDate(new Date(Date.now()).toISOString());
-	$: harvest.datetime = formatToUTCISO(localDateTime) as string;
+	$: if (localDateTime) harvest.datetime = formatToUTCISO(localDateTime) as string;
 </script>
 
 <label>
