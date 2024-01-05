@@ -10,7 +10,11 @@
 
 	let localDateTimeInput = formatToLocalDate(dateTime);
 
+	$: if (monitoringRightNow)
+		localDateTimeInput = formatToLocalDate(new Date(Date.now()).toISOString());
 	$: dateTime = formatToUTCISO(localDateTimeInput);
+
+	let monitoringRightNow = true;
 </script>
 
 <label>
@@ -19,9 +23,13 @@
 </label>
 
 <label>
+	right now <input type="checkbox" bind:checked={monitoringRightNow} />?
+</label>
+
+{#if !monitoringRightNow}
 	Time:
 	<input type="datetime-local" bind:value={localDateTimeInput} />
-</label>
+{/if}
 
 <style>
 	input {
