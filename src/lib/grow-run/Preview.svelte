@@ -10,7 +10,7 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <tr on:click on:keypress>
 	<td>{growRun.name}</td>
-	<td>{growRun.totalMassLeavesHarvested()}</td>
+	<td>{growRun.totalMassLeavesHarvested().toFixed(2)}</td>
 	<td>${cost.toFixed(2)}</td>
 	<td>{growRun.totalMassLeavesHarvested() != 0 ? '$' + costPer100g.toFixed(2) : 'No output 🥲'}</td>
 </tr>
