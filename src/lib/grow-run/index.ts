@@ -5,6 +5,7 @@ import type { Duration } from './details/duration/types';
 import type { Harvest } from './harvest/types';
 import type Resource from '$lib/resource';
 import type { TemperatureRecord } from './conditions/temperature/types';
+import type { WaterLevelRecord } from './conditions/water-level/types';
 
 export type GrowRunConstructorType = {
 	id: string;
@@ -122,6 +123,19 @@ export default class GrowRun {
 			throw Error('This date time already has a temperature recorded. Try editing instead?');
 
 		this.conditions[medium]?.push({ dateTime, temperature });
+	}
+
+	recordWaterLevel({ dateTime, waterLevel }: WaterLevelRecord) {
+		this.conditions['water-level'] = this.conditions['water-level'] || [];
+
+		if (
+			this.conditions['water-level']
+				?.map((waterLevelRecord) => waterLevelRecord.dateTime)
+				.includes(dateTime)
+		)
+			throw Error('This date time already has a temperature recorded. Try editing instead?');
+
+		this.conditions['water-level']?.push({ dateTime, waterLevel });
 	}
 
 	// updateTemperatureRecord(medium){}

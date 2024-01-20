@@ -4,6 +4,7 @@
 	import FullPeriodLineGraph from './temperature/FullPeriodLineGraph.svelte';
 	import SummaryLineGraph from './temperature/SummaryLineGraph.svelte';
 	import TimezoneInput from './TimezoneInput.svelte';
+	import WaterLevelSection from './water-level/Section.svelte';
 
 	export let growRun: GrowRun;
 
@@ -33,3 +34,4 @@
 		{/if}
 	</div>
 </div>
+<WaterLevelSection {growRun} {timezone} />

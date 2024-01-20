@@ -17,7 +17,6 @@
 				temperatureObj={temperature}
 				{timezone}
 				onUpdateTemperature={(temperatureObj) => {
-					// growRun.update(medium, temperatureObj);
 					growRunsStore.updateGrowRun(growRun);
 				}}
 			/>
