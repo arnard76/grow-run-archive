@@ -22,7 +22,7 @@
 		<hr />
 		<li class="total-summary">
 			<span style="display:inline-block;width: 300px;">Total</span>
-			{growRun.totalMassLeavesHarvested()}g ({growRun.totalNumLeavesHarvested()} leaves)
+			{growRun.totalMassLeavesHarvested().toFixed(2)}g ({growRun.totalNumLeavesHarvested()} leaves)
 		</li>
 
 		<li class="average-summary">
