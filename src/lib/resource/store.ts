@@ -1,7 +1,8 @@
-import { get, readable } from 'svelte/store';
+import { derived, get } from 'svelte/store';
 import Resource from '$lib/resource';
 import { getDatabase, push, ref, set, onValue } from 'firebase/database';
 import { app } from '$lib/database/firebase';
+import { session } from '$lib/firebase/user';
 
 const db = getDatabase(app);
 
@@ -21,16 +22,27 @@ type databaseResourceListObject = {
 	[key: string]: any;
 };
 
-const resourcesListRef = ref(db, 'resource-list/');
 export const resourcesList = {
-	...readable([] as Resource[], (storeSet) => {
-		return onValue(resourcesListRef, (snapshot) => {
-			const data = snapshot.val();
-			storeSet(resourcesList.convertDbObjToArray(data));
-		});
-	}),
+	...derived(
+		session,
+		({ user }, storeSet) => {
+			if (!user?.uid) return;
+			const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
+
+			return onValue(resourcesListRef, (snapshot) => {
+				const data = snapshot.val();
+				storeSet(resourcesList.convertDbObjToArray(data));
+			});
+		},
+		[] as Resource[]
+	),
 
 	updateResourcesListOnDb(resources?: Resource[]) {
+		const { user } = get(session);
+		if (!user?.uid) return;
+
+		const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
+
 		set(resourcesListRef, this.convertArrayToDbObj(resources));
 	},
 
@@ -50,6 +62,11 @@ export const resourcesList = {
 	},
 
 	addNewResource(resource: Resource) {
+		const { user } = get(session);
+		if (!user?.uid) return;
+
+		const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
+
 		const newResourceRef = push(resourcesListRef);
 		set(newResourceRef, resource);
 	},
