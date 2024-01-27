@@ -10,6 +10,7 @@
 	</MenuDropDown>
 	<a href="/resources">Resources list</a>
 	<a href="/pie-charts">Pies 🥧📊</a>
+	<a href="/logout">Logout</a>
 </nav>
 
 <style>
