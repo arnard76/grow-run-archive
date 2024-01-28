@@ -9,7 +9,7 @@ export const growRunsStore = {
 	...derived(
 		session,
 		({ user }, storeSet) => {
-			if (!user?.uid) return;
+			if (!user?.uid) return storeSet([]);
 
 			const growRunsRef = ref(db, `${user.uid}/grow-runs/`);
 

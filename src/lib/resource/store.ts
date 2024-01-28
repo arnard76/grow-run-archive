@@ -26,7 +26,7 @@ export const resourcesList = {
 	...derived(
 		session,
 		({ user }, storeSet) => {
-			if (!user?.uid) return;
+			if (!user?.uid) return storeSet([]);
 			const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
 
 			return onValue(resourcesListRef, (snapshot) => {
