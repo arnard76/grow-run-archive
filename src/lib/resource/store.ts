@@ -26,11 +26,15 @@ export const resourcesList = {
 	...derived(
 		session,
 		({ user }, storeSet) => {
-			if (!user?.uid) return storeSet([]);
+			storeSet([]);
+
+			if (!user?.uid) return;
+
 			const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
 
 			return onValue(resourcesListRef, (snapshot) => {
 				const data = snapshot.val();
+
 				storeSet(resourcesList.convertDbObjToArray(data));
 			});
 		},
@@ -47,7 +51,7 @@ export const resourcesList = {
 	},
 
 	convertDbObjToArray(data: databaseResourceListObject): Resource[] {
-		return Object.entries(data).map(
+		return Object.entries(data || {}).map(
 			([id, resource]: [string, any]) => new Resource({ id, ...resource })
 		);
 	},

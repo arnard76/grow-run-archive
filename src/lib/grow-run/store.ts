@@ -9,7 +9,9 @@ export const growRunsStore = {
 	...derived(
 		session,
 		({ user }, storeSet) => {
-			if (!user?.uid) return storeSet([]);
+			storeSet([]);
+
+			if (!user?.uid) return;
 
 			const growRunsRef = ref(db, `${user.uid}/grow-runs/`);
 
@@ -23,7 +25,7 @@ export const growRunsStore = {
 	),
 
 	convertToArray(growRunData: any[]): GrowRun[] {
-		return Object.entries(growRunData).map(
+		return Object.entries(growRunData || {}).map(
 			([key, growRun]: [string, GrowRun]) => new GrowRun({ ...growRun, id: key })
 		);
 	},
