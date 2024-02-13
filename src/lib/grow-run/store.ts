@@ -1,6 +1,6 @@
 import { derived, get } from 'svelte/store';
 import GrowRun from '$lib/grow-run';
-import { getDatabase, push, ref, set, onValue } from 'firebase/database';
+import { getDatabase, push, ref, set, onValue, remove } from 'firebase/database';
 import { app } from '$lib/database/firebase';
 import { session } from '$lib/firebase/user';
 
@@ -46,5 +46,14 @@ export const growRunsStore = {
 
 		const newGrowRunRef = push(growRunsRef);
 		set(newGrowRunRef, { name });
+	},
+
+	deleteGrowRun({ id }: GrowRun) {
+		const userId = get(session)?.user?.uid;
+		if (!userId) return;
+
+		const growRunToDeleteRef = ref(db, `${userId}/grow-runs/${id}`);
+
+		remove(growRunToDeleteRef);
 	}
 };
