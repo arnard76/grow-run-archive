@@ -8,6 +8,8 @@
 	import { page } from '$app/stores';
 	import { initializeFirebase } from '$lib/firebase';
 	import { onDestroy } from 'svelte';
+	import { resourcesList } from '$lib/resource/store';
+	import { growRunsStore } from '$lib/grow-run/store';
 
 	let authUnsubscribe = () => {};
 	$: if (browser) {
@@ -32,6 +34,9 @@
 			goto(redirectTo);
 		}
 	}
+
+	$resourcesList;
+	$growRunsStore;
 </script>
 
 {#if $session.loading}
