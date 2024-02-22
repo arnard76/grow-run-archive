@@ -8,7 +8,7 @@
 	let newResource = {} as ResourceClass;
 </script>
 
-{#each $resourcesList as resource (resource.name)}
+{#each structuredClone($resourcesList) as resource (resource.name)}
 	<Resource {resource} />
 {/each}
 
