@@ -6,16 +6,12 @@
 
 	let error: string;
 
-	console.log('here in logout');
 	if (browser && $session.user) {
-		console.log('setting loading true');
 		$session.loading = true;
 		signOut(auth).catch((reason) => {
 			$session.loading = false;
 			error = reason;
 		});
-		// $session.user = null;
-		// $session.loading = false;
 	}
 </script>
 

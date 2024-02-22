@@ -11,8 +11,6 @@
 	let error: any,
 		loading = false;
 
-	console.log({ resetCode });
-
 	const submitHandler = async (e: Event) => {
 		e.preventDefault();
 		loading = true;

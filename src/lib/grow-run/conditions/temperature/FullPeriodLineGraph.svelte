@@ -78,8 +78,6 @@
 					tooltip: {
 						callbacks: {
 							title: (tooltips) => {
-								console.log(tooltips);
-								// return tooltips[0].raw;
 								return prettyFormatDate(
 									new Date((tooltips[0].raw as any).x as number).toUTCString(),
 									timezone

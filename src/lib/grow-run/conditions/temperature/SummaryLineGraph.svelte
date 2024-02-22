@@ -66,11 +66,7 @@
 				plugins: {
 					tooltip: {
 						callbacks: {
-							title: (tooltips) => {
-								console.log(tooltips);
-								// return tooltips[0].raw;
-								return timeValueToString((tooltips[0].raw as any).x as number);
-							}
+							title: (tooltips) => timeValueToString((tooltips[0].raw as any).x as number)
 						}
 					}
 				}
