@@ -40,13 +40,13 @@ export const resourcesList = {
 		[] as Resource[]
 	),
 
-	updateResourcesListOnDb(resources?: Resource[]) {
+	async updateResourcesListOnDb(resources?: Resource[]) {
 		const { user } = get(session);
 		if (!user?.uid) return;
 
 		const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
 
-		set(resourcesListRef, this.convertArrayToDbObj(resources));
+		await set(resourcesListRef, this.convertArrayToDbObj(resources));
 	},
 
 	convertDbObjToArray(data: databaseResourceListObject): Resource[] {
@@ -64,14 +64,14 @@ export const resourcesList = {
 		return dbObject;
 	},
 
-	addResource(resource: Resource) {
+	async addResource(resource: Resource) {
 		const { user } = get(session);
 		if (!user?.uid) return;
 
 		const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
 
 		const newResourceRef = push(resourcesListRef);
-		set(newResourceRef, resource);
+		await set(newResourceRef, resource);
 	},
 
 	// local array is always up to date with db so can get directly from here
@@ -83,17 +83,17 @@ export const resourcesList = {
 		return new Resource(resource || noResourceFound);
 	},
 
-	editResource(resourceToEdit: Resource) {
+	async editResource(resourceToEdit: Resource) {
 		const resources = get(this);
 		const index = resources.findIndex((resource) => resource.id === resourceToEdit.id);
 		resources[index] = resourceToEdit;
-		this.updateResourcesListOnDb(resources);
+		await this.updateResourcesListOnDb(resources);
 	},
 
-	removeResource(resourceToDelete: Resource) {
+	async removeResource(resourceToDelete: Resource) {
 		const resources = get(this);
 		const index = resources.findIndex((resource) => resource.id === resourceToDelete.id);
 		resources.splice(index, 1);
-		this.updateResourcesListOnDb(resources);
+		await this.updateResourcesListOnDb(resources);
 	}
 };
