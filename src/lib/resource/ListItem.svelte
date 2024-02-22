@@ -14,7 +14,7 @@
 		onDelete={() => resourcesList.removeResource(resource)}
 	>
 		<p slot="display">
-			<a href={productLink} target="_blank">{name}</a>
+			<a href={`/resource/${name}`}>{name}</a>
 			- ${cost} for
 			{amountTotal}{amountUnit}
 			({amountType})
