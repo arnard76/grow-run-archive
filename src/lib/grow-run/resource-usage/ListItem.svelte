@@ -21,14 +21,14 @@
 
 <li>
 	<EditTemplate
-		onClick={() => {
+		onUpdate={() => {
 			growRun.editResourceUsage(initialResourceName, {
 				name: resourceName,
 				amountUsed: amountUsed
 			});
 			growRunsStore.updateGrowRun(growRun);
 		}}
-		onDeleteClick={() => {
+		onDelete={() => {
 			growRun.deleteResourceUsage(initialResourceName);
 			growRunsStore.updateGrowRun(growRun);
 		}}

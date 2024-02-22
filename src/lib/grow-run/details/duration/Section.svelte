@@ -19,7 +19,7 @@
 	{/if}
 </p>
 
-<EditTemplate bind:expanded onClick={() => growRunsStore.updateGrowRun(growRun)}>
+<EditTemplate bind:expanded onUpdate={() => growRunsStore.updateGrowRun(growRun)}>
 	<p slot="display" style="display: inline-block;">
 		Start:{prettyFormatDate(growRun.duration.start) || '-'}<br />
 		End : {prettyFormatDate(growRun.duration.end) || '-'}

@@ -10,8 +10,8 @@
 
 <li>
 	<EditTemplate
-		onClick={() => resourcesList.editResource(resource)}
-		onDeleteClick={() => resourcesList.removeResource(resource)}
+		onUpdate={() => resourcesList.editResource(resource)}
+		onDelete={() => resourcesList.removeResource(resource)}
 	>
 		<p slot="display">
 			<a href={productLink} target="_blank">{name}</a>

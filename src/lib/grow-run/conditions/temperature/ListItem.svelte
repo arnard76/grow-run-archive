@@ -10,7 +10,7 @@
 </script>
 
 <li>
-	<EditTemplate onClick={() => onUpdateTemperature(temperatureObj)}>
+	<EditTemplate onUpdate={() => onUpdateTemperature(temperatureObj)}>
 		<p slot="display" style="display: inline-block;">
 			{prettyFormatDate(temperatureObj.dateTime, timezone)}: {temperatureObj.temperature}°C
 		</p>

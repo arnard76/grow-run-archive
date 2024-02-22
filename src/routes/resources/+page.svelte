@@ -17,7 +17,7 @@
 	onClick={() => {
 		let randomColour = '#' + Math.floor(Math.random() * 16777215).toString(16);
 		newResource.colour = randomColour;
-		resourcesList.addNewResource(newResource);
+		resourcesList.addResource(newResource);
 	}}
 >
 	<Inputs bind:resourceToCreateOrUpdate={newResource} />

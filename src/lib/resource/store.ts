@@ -33,9 +33,8 @@ export const resourcesList = {
 			const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
 
 			return onValue(resourcesListRef, (snapshot) => {
-				const data = snapshot.val();
-
-				storeSet(resourcesList.convertDbObjToArray(data));
+				const data = resourcesList.convertDbObjToArray(snapshot.val());
+				storeSet(data);
 			});
 		},
 		[] as Resource[]
@@ -65,7 +64,7 @@ export const resourcesList = {
 		return dbObject;
 	},
 
-	addNewResource(resource: Resource) {
+	addResource(resource: Resource) {
 		const { user } = get(session);
 		if (!user?.uid) return;
 

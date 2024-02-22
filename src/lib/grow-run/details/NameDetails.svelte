@@ -8,7 +8,7 @@
 </script>
 
 <EditTemplate
-	onClick={() => {
+	onUpdate={() => {
 		growRun.name = updatedGrowName;
 		growRunsStore.updateGrowRun(growRun);
 	}}

@@ -2,8 +2,9 @@
 	import Button from './Button.svelte';
 
 	export let editText = '✔️';
-	export let onClick: (e: MouseEvent) => any;
-	export let onDeleteClick: ((e: MouseEvent) => any) | null = null;
+
+	export let onUpdate: (e: MouseEvent) => any;
+	export let onDelete: (e: MouseEvent) => any = () => {};
 
 	export let expanded = false;
 </script>
@@ -13,20 +14,23 @@
 	<Button
 		title="Update"
 		on:click={(e) => {
-			onClick(e);
+			onUpdate(e);
 			expanded = !expanded;
 		}}
 	>
 		{editText}
 	</Button>
-	{#if onDeleteClick}
+
+	{#if onDelete}
 		<Button
 			title="Delete"
 			on:click={(e) => {
-				onDeleteClick && onDeleteClick(e);
+				onDelete && onDelete(e);
 				expanded = !expanded;
-			}}>💩</Button
-		>{/if}
+			}}
+			>💩
+		</Button>
+	{/if}
 {:else}
 	<slot name="display" />
 	<Button on:click={(e) => (expanded = !expanded)}>✏️</Button>

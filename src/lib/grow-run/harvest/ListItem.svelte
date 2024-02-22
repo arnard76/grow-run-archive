@@ -9,7 +9,7 @@
 </script>
 
 <li>
-	<EditTemplate onClick={() => onUpdateHarvest(harvest)}>
+	<EditTemplate onUpdate={() => onUpdateHarvest(harvest)}>
 		<p slot="display" style="display: inline-block;">
 			<span style="font-style:italic; width: 300px; display:inline-block;"
 				>{prettyFormatDate(harvest.datetime) || 'Undated'}</span

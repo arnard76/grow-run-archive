@@ -10,7 +10,7 @@
 </script>
 
 <li>
-	<EditTemplate onClick={() => onUpdateWaterLevel(waterLevelRecord)}>
+	<EditTemplate onUpdate={() => onUpdateWaterLevel(waterLevelRecord)}>
 		<p slot="display" style="display: inline-block;">
 			{prettyFormatDate(waterLevelRecord.dateTime, timezone)}: {waterLevelRecord.waterLevel}mm
 		</p>
