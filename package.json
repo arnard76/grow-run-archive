@@ -25,9 +25,11 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@types/file-type": "^10.9.1",
 		"chart.js": "^4.4.0",
 		"chartjs-adapter-dayjs-4": "^1.0.4",
 		"dayjs": "^1.11.10",
+		"file-type": "^19.0.0",
 		"firebase": "^10.6.0"
 	}
 }
