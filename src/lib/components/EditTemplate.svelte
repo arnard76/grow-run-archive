@@ -4,7 +4,7 @@
 	export let editText = '✔️';
 
 	export let onUpdate: (e: MouseEvent) => any;
-	export let onDelete: (e: MouseEvent) => any = () => {};
+	export let onDelete: ((e: MouseEvent) => any) | null = null;
 
 	export let expanded = false;
 </script>
