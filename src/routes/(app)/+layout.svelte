@@ -18,7 +18,13 @@
 
 	onDestroy(authUnsubscribe);
 
-	const openRoutes = ['/login', '/sign-up', '/forgot-password', '/confirm-password-reset', '/'];
+	const openRoutes = [
+		'/login',
+		'/sign-up',
+		'/forgot-password',
+		'/confirm-password-reset',
+		'/welcome'
+	];
 
 	$: if (browser && $session) {
 		let currentPath = $page.url.pathname;
@@ -27,7 +33,7 @@
 				? '/'
 				: null
 			: !openRoutes.includes(currentPath)
-			  ? '/login'
+			  ? '/welcome'
 			  : null;
 
 		if (redirectTo) {
