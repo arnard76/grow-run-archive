@@ -6,7 +6,7 @@
 	async function requestASignUp(event: SubmitEvent) {
 		event.preventDefault();
 
-		const res = await fetch('/sign-up-request', {
+		const res = await fetch('/welcome/sign-up-request', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ 'user-email': emailAddressInput?.value })
