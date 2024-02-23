@@ -18,7 +18,7 @@
 
 	onDestroy(authUnsubscribe);
 
-	const openRoutes = ['/login', '/sign-up', '/forgot-password', '/confirm-password-reset'];
+	const openRoutes = ['/login', '/sign-up', '/forgot-password', '/confirm-password-reset', '/'];
 
 	$: if (browser && $session) {
 		let currentPath = $page.url.pathname;
