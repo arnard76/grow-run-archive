@@ -118,6 +118,15 @@ export const resourcesList = {
 		}
 	},
 
+	async unarchiveProductPageForResource({ name }: Resource) {
+		const screenshotPathRef = storageRef(
+			getStorage(),
+			`${get(session)?.user?.uid}/product-page-archive/${name}.jpg`
+		);
+
+		await deleteObject(screenshotPathRef);
+	},
+
 	async addResource(resource: Resource) {
 		const { user } = get(session);
 		if (!user?.uid) return;
@@ -154,5 +163,7 @@ export const resourcesList = {
 		const index = resources.findIndex((resource) => resource.id === resourceToDelete.id);
 		resources.splice(index, 1);
 		await this.updateResourcesListOnDb(resources);
+
+		await this.unarchiveProductPageForResource(resourceToDelete);
 	}
 };
