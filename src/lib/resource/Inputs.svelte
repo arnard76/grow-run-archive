@@ -38,3 +38,15 @@
 		bind:value={resourceToCreateOrUpdate.productLink}
 	/>
 </label>
+
+<label
+	>Notes
+	<textarea bind:value={resourceToCreateOrUpdate.notes} cols="30" rows="5"></textarea>
+</label>
+
+<style>
+	label {
+		display: flex;
+		align-items: center;
+	}
+</style>
