@@ -5,13 +5,17 @@
 	import Inputs from './Inputs.svelte';
 	export let resource: Resource;
 
+	let editedResource: Resource = resource;
+
 	$: ({ cost, name, amountType, amountTotal, amountUnit, productLink } = resource);
 </script>
 
 <li>
 	<EditTemplate
-		onUpdate={() => resourcesList.editResource(resource)}
+		onUpdate={() => resourcesList.editResource(editedResource)}
 		onDelete={() => resourcesList.removeResource(resource)}
+		bind:currentValue={resource}
+		bind:editingValue={editedResource}
 	>
 		<p slot="display">
 			<a href={`/resource/${name}`}>{name}</a>
@@ -20,7 +24,7 @@
 			({amountType})
 		</p>
 
-		<Inputs slot="editing" bind:resourceToCreateOrUpdate={resource} />
+		<Inputs slot="editing" bind:resourceToCreateOrUpdate={editedResource} />
 	</EditTemplate>
 </li>
 

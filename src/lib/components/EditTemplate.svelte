@@ -6,15 +6,20 @@
 	export let onUpdate: (e: MouseEvent) => any;
 	export let onDelete: ((e: MouseEvent) => any) | null = null;
 
+	export let currentValue: any;
+	export let editingValue: any;
+
 	export let expanded = false;
 </script>
 
 {#if expanded}
-	<slot name="editing" />
+	<slot name="editing" {editingValue} />
+
 	<Button
 		title="Update"
 		on:click={(e) => {
 			onUpdate(e);
+			currentValue = editingValue;
 			expanded = !expanded;
 		}}
 	>
@@ -31,6 +36,14 @@
 			>💩
 		</Button>
 	{/if}
+
+	<Button
+		title="Cancel editing"
+		on:click={() => {
+			editingValue = currentValue;
+			expanded = !expanded;
+		}}>🔙</Button
+	>
 {:else}
 	<slot name="display" />
 	<Button on:click={(e) => (expanded = !expanded)}>✏️</Button>
