@@ -3,32 +3,33 @@
 	import { resourcesList } from '$lib/resource/store';
 	import type Resource from '$lib/resource';
 	import Inputs from './Inputs.svelte';
+	import Preview from './Preview.svelte';
 	export let resource: Resource;
 
-	$: ({ cost, name, amountType, amountTotal, amountUnit, productLink } = resource);
+	let expanded = false;
 </script>
 
-<li>
-	<EditTemplate
-		onUpdate={() => resourcesList.editResource(resource)}
-		onDelete={() => resourcesList.removeResource(resource)}
-	>
-		<p slot="display">
-			<a href={`/resource/${name}`}>{name}</a>
-			- ${cost} for
-			{amountTotal}{amountUnit}
-			({amountType})
-		</p>
+<tr>
+	<Preview {resource} on:click={() => (expanded = !expanded)} />
+</tr>
 
-		<Inputs slot="editing" bind:resourceToCreateOrUpdate={resource} />
-	</EditTemplate>
-</li>
+{#if expanded}
+	<tr>
+		<td colspan="10">
+			<EditTemplate
+				onUpdate={() => resourcesList.editResource(resource)}
+				onDelete={() => resourcesList.removeResource(resource)}
+			>
+				<p slot="display">{resource.notes}</p>
+				<Inputs slot="editing" bind:resourceToCreateOrUpdate={resource} />
+			</EditTemplate>
+		</td>
+	</tr>
+{/if}
 
 <style>
-	li {
-		display: flex;
-		gap: 10px;
-		align-items: center;
-		text-wrap: nowrap;
+	tr {
+		cursor: pointer;
+		background-color: lightblue;
 	}
 </style>

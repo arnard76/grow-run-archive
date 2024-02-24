@@ -8,9 +8,16 @@
 	let newResource = {} as ResourceClass;
 </script>
 
-{#each structuredClone($resourcesList) as resource (resource.name)}
-	<Resource {resource} />
-{/each}
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Cost</th>
+		<th>Amount</th>
+	</tr>
+	{#each structuredClone($resourcesList) as resource (resource.name)}
+		<Resource {resource} />
+	{/each}
+</table>
 
 <AddTemplate
 	addText="Add to list"
@@ -22,3 +29,16 @@
 >
 	<Inputs bind:resourceToCreateOrUpdate={newResource} />
 </AddTemplate>
+
+<style>
+	table {
+		width: 95vw;
+	}
+
+	tr {
+		text-align: left;
+	}
+	th {
+		padding: 15px;
+	}
+</style>
