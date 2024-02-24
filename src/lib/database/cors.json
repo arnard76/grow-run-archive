@@ -3,7 +3,8 @@
         "origin": [
             "http://localhost:5173/",
             "http://127.0.0.1:5173/",
-            "https://grow-run-archive.vercel.app/"
+            "https://grow-run-archive.vercel.app/",
+            "https://growrunarchive.com"
         ],
         "method": [
             "GET"
