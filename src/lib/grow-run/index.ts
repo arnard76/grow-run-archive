@@ -6,11 +6,13 @@ import type { Harvest } from './harvest/types';
 import type Resource from '$lib/resource';
 import type { TemperatureRecord } from './conditions/temperature/types';
 import type { WaterLevelRecord } from './conditions/water-level/types';
+import { getLongLatAndTimeZone } from './details/location/geocodingAPI';
 
 export type GrowRunConstructorType = {
 	id: string;
 	name: string;
 	duration?: Duration;
+	location?: string;
 
 	resources: { used?: ResourceUsage[]; required?: ResourceUsage[] };
 	harvests?: Harvest[];
@@ -21,18 +23,36 @@ export default class GrowRun {
 	id: string;
 	name: string;
 	duration: Duration;
+	location?: string;
+	timeZone?: string;
 
 	resources: { used?: ResourceUsage[] | undefined; required?: ResourceUsage[] | undefined };
 	harvests: Harvest[];
 	conditions: Conditions;
 
-	constructor({ id, name, resources, harvests, conditions, duration }: GrowRunConstructorType) {
+	constructor({
+		id,
+		name,
+		location,
+		resources,
+		harvests,
+		conditions,
+		duration
+	}: GrowRunConstructorType) {
 		this.id = id;
 		this.name = name;
+		this.duration = duration || {};
+		this.location = location || 'Grafton, Auckland, New Zealand';
+
 		this.resources = resources || { used: [], required: [] };
 		this.harvests = harvests || [];
 		this.conditions = conditions || {};
-		this.duration = duration || {};
+	}
+
+	async setLocation(locationText: string) {
+		this.location = locationText;
+		let { timeZone, coords } = await getLongLatAndTimeZone(locationText);
+		this.timeZone = timeZone;
 	}
 
 	addResourceUsage(resourceUsage: ResourceUsage) {

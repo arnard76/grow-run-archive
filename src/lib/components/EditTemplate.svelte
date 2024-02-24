@@ -7,6 +7,7 @@
 	export let onDelete: ((e: MouseEvent) => any) | null = null;
 
 	export let expanded = false;
+	$: console.log(expanded);
 </script>
 
 {#if expanded}
@@ -33,5 +34,10 @@
 	{/if}
 {:else}
 	<slot name="display" />
-	<Button on:click={(e) => (expanded = !expanded)}>✏️</Button>
+	<Button
+		on:click={(e) => {
+			console.log('here1');
+			expanded = !expanded;
+		}}>✏️</Button
+	>
 {/if}

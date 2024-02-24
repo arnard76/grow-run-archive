@@ -7,6 +7,7 @@
 
 	export let growRun: GrowRun;
 	let expanded = false;
+	$: console.log({ growRun });
 </script>
 
 <p style="font-style: italic;">

@@ -4,12 +4,32 @@
 	import type GrowRun from '$lib/grow-run';
 	import type { TemperatureRecord } from './types';
 	import { prettyFormatDate } from '$lib/grow-run/details/duration/util';
+	import { getData } from './openWeatherApiData';
 
 	export let growRun: GrowRun;
 	export let timezone: string;
 
 	$: airTemps = growRun.conditions['air-temperature'] || [];
 	$: waterTemps = growRun.conditions['water-temperature'] || [];
+	$: min = growRun.duration.start
+		? new Date(growRun.duration.start).valueOf()
+		: Math.min(
+				...[...airTemps, ...waterTemps].map((airTemp) => new Date(airTemp.dateTime).valueOf())
+		  );
+	$: max = growRun.duration.end
+		? new Date(growRun.duration.end).valueOf()
+		: Math.max(
+				...[...airTemps, ...waterTemps].map((airTemp) => new Date(airTemp.dateTime).valueOf())
+		  ) + 10000000; // for padding at the end of the graph
+
+	let externalPublicTempData: {
+		x: number;
+		y: number;
+	}[] = [];
+
+	$: if (min && max) {
+		getData(new Date(min), new Date(max)).then((res) => (externalPublicTempData = res));
+	}
 
 	function formatData(temps: TemperatureRecord[]) {
 		return temps
@@ -29,7 +49,8 @@
 			{
 				label: 'water temperature',
 				data: formatData(waterTemps)
-			}
+			},
+			{ label: 'public archive temperature data', data: externalPublicTempData }
 		]
 	};
 
@@ -53,20 +74,9 @@
 							}
 						},
 
-						min:
-							growRun.duration.start ||
-							Math.min(
-								...[...airTemps, ...waterTemps].map((airTemp) =>
-									new Date(airTemp.dateTime).valueOf()
-								)
-							),
-						max:
-							growRun.duration.end ||
-							Math.max(
-								...[...airTemps, ...waterTemps].map((airTemp) =>
-									new Date(airTemp.dateTime).valueOf()
-								)
-							) + 10000000 // for padding at the end of the graph
+						min,
+
+						max
 					},
 					y: {
 						title: { display: true, text: 'Temperature / °C' },
