@@ -35,7 +35,7 @@
 	<img
 		loading="lazy"
 		src="logos/png/logo-no-background.png"
-		height="150px"
+		width="500px"
 		alt="grow run archive logo"
 	/>
 </div>
@@ -50,7 +50,7 @@
 	</ul>
 
 	<form bind:this={signUpRequestForm} on:submit={requestASignUp}>
-		<h2 style="margin: 0;">Sign up</h2>
+		<h2 class="m-0">Sign up</h2>
 		<div class="input-container">
 			<label
 				>Email <input

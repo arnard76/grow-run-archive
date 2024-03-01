@@ -1,157 +1,159 @@
 * {
-  padding: 0;
-  margin: 0;
+	padding: 0;
+	margin: 0;
 
-  --primary-green: rgb(76, 125, 61);
-  --accent-green: rgb(49, 196, 142);
-  font-family: "Alegreya Sans", sans-serif;
-  font-style: italic;
-  word-spacing: 3px;
-  --unit-padding: 15px;
+	--primary-green: rgb(76, 125, 61);
+	--accent-green: rgb(49, 196, 142);
+	font-family: 'Alegreya Sans', sans-serif;
+	font-style: italic;
+	word-spacing: 3px;
+	--unit-padding: 15px;
 
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 h1,
 h2,
 h3,
 h4 {
-  font-family: "Raleway", sans-serif;
-  font-style: normal;
-  margin: 15px 0;
+	font-family: 'Raleway', sans-serif;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 2rem;
+	margin: 15px 0;
 }
 
 p,
 strong,
 span,
 li {
-  font-size: 20px;
+	font-size: 20px;
 }
 
 body {
-  background-color: var(--accent-green);
-  border-radius: 10px;
-  height: 100vh;
-  overflow-y: hidden;
-  display: flex;
+	background-color: var(--accent-green);
+	border-radius: 10px;
+	height: 100vh;
+	overflow-y: hidden;
+	display: flex;
 }
 
 ul {
-  margin-left: 15px;
+	margin-left: 15px;
 }
 
 main {
-  overflow-y: auto;
-  width: 100vw;
-  padding-left: 30px;
+	overflow-y: auto;
+	width: 100vw;
+	padding-left: 30px;
 }
 
 main h1 {
-  text-wrap: nowrap;
+	text-wrap: nowrap;
 }
 
 main p {
-  margin: 0 auto;
-  max-width: 50vw;
-  width: 330px;
+	margin: 0 auto;
+	max-width: 50vw;
+	width: 330px;
 }
 
 main span {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 form {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
+	display: flex;
+	align-items: flex-start;
+	flex-direction: column;
 
-  gap: 15px;
-  margin: var(--unit-padding) 0;
+	gap: 15px;
+	margin: var(--unit-padding) 0;
 }
 
 form input,
 form textarea,
 button {
-  border: none;
-  padding: 5px;
+	border: none;
+	padding: 5px;
 
-  font-size: 1.4rem;
+	font-size: 1.4rem;
 }
 
-button[type="submit"] {
-  --transition-time: 0.1s;
-  background-color: var(--accent-green);
-  display: flex;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: background-color var(--transition-time) ease-in-out;
+button[type='submit'] {
+	--transition-time: 0.1s;
+	background-color: var(--accent-green);
+	display: flex;
+	cursor: pointer;
+	border-radius: 10px;
+	transition: background-color var(--transition-time) ease-in-out;
 }
 
-button[type="submit"] img {
-  transition: filter var(--transition-time) ease-in-out;
-  filter: invert(0);
+button[type='submit'] img {
+	transition: filter var(--transition-time) ease-in-out;
+	filter: invert(0);
 }
-button[type="submit"]:hover {
-  background-color: black;
-  transition: background-color var(--transition-time) ease-in-out;
+button[type='submit']:hover {
+	background-color: black;
+	transition: background-color var(--transition-time) ease-in-out;
 }
 
-button[type="submit"]:hover img {
-  transition: filter var(--transition-time) ease-in-out;
-  filter: invert(1);
+button[type='submit']:hover img {
+	transition: filter var(--transition-time) ease-in-out;
+	filter: invert(1);
 }
 
 .logo {
-  height: 100vh;
-  background-color: black;
+	height: 100vh;
+	background-color: black;
 }
 
 .logo > img {
-  padding: var(--unit-padding);
+	padding: var(--unit-padding);
 }
 
 .input-container {
-  padding: 10px;
-  max-width: 100%;
-  width: 40vw;
-  border-radius: 10px;
-  background: white;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+	padding: 10px;
+	max-width: 100%;
+	width: 40vw;
+	border-radius: 10px;
+	background: white;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
 
 .input-container label {
-  max-width: calc(100% - 30px - 5px - 10px);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+	max-width: calc(100% - 30px - 5px - 10px);
+	flex: 1;
+	display: flex;
+	flex-direction: column;
 }
 
 .input-container button {
-  text-wrap: nowrap;
-  display: flex;
-  align-items: center;
+	text-wrap: nowrap;
+	display: flex;
+	align-items: center;
 }
 
 /* responsive design */
 @media only screen and (max-width: 600px) {
-  body {
-    flex-direction: column;
-  }
+	body {
+		flex-direction: column;
+	}
 
-  .logo {
-    height: initial;
-    max-height: 100px;
-    display: flex;
-    justify-content: center;
-  }
+	.logo {
+		height: initial;
+		max-height: 100px;
+		display: flex;
+		justify-content: center;
+	}
 
-  .logo img {
-    max-height: 100%;
-  }
+	.logo img {
+		max-height: 100%;
+	}
 
-  .input-container {
-    width: initial;
-  }
+	.input-container {
+		width: initial;
+	}
 }
