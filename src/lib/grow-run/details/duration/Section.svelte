@@ -4,10 +4,13 @@
 	import { growRunsStore } from '$lib/grow-run/store';
 	import Inputs from './Inputs.svelte';
 	import { prettyFormatDate } from './util';
+	import { Progress } from '$lib/components/ui/progress';
 
 	export let growRun: GrowRun;
 	let expanded = false;
 </script>
+
+<Progress value={growRun.calculateDurationPassedInMS()} max={growRun.calculateDurationInMS()} />
 
 <p style="font-style: italic;">
 	Duration: {#if !expanded}
@@ -31,3 +34,5 @@
 		bind:endDateInput={growRun.duration.end}
 	/>
 </EditTemplate>
+
+<link rel="stylesheet" href="../src/app.css" />

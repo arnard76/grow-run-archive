@@ -6,6 +6,7 @@ import type { Harvest } from './harvest/types';
 import type Resource from '$lib/resource';
 import type { TemperatureRecord } from './conditions/temperature/types';
 import type { WaterLevelRecord } from './conditions/water-level/types';
+import moment from 'moment';
 
 export type GrowRunConstructorType = {
 	id: string;
@@ -33,6 +34,31 @@ export default class GrowRun {
 		this.harvests = harvests || [];
 		this.conditions = conditions || {};
 		this.duration = duration || {};
+	}
+	calculateDurationInMS(): number {
+		const start = this.duration?.start;
+		const end = this.duration?.end;
+		if (!start || !end) return NaN;
+
+		const startDate = new Date(start);
+		const endDate = new Date(end);
+		return endDate.getTime() - startDate.getTime();
+	}
+
+	calculateDurationInHours(): number {
+		const ms = this.calculateDurationInMS();
+		return ms / (1000 * 60 * 60);
+	}
+
+	calculateDurationInDays(): number {
+		return this.calculateDurationInHours() / 24;
+	}
+
+	calculateDurationPassedInMS(): number {
+		const start = this.duration?.start;
+		if (!start) return NaN;
+
+		return moment.now() - moment(start).valueOf();
 	}
 
 	addResourceUsage(resourceUsage: ResourceUsage) {
@@ -92,25 +118,6 @@ export default class GrowRun {
 				return { size: resourceCost, label: name, colour: resource.colour };
 			}) || []
 		);
-	}
-
-	calculateDurationInMS(): number {
-		const start = this.duration?.start;
-		const end = this.duration?.end;
-		if (!start || !end) return NaN;
-
-		const startDate = new Date(start);
-		const endDate = new Date(end);
-		return endDate.getTime() - startDate.getTime();
-	}
-
-	calculateDurationInHours(): number {
-		const ms = this.calculateDurationInMS();
-		return ms / (1000 * 60 * 60);
-	}
-
-	calculateDurationInDays(): number {
-		return this.calculateDurationInHours() / 24;
 	}
 
 	recordTemperature(

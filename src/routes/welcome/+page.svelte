@@ -35,7 +35,7 @@
 	<img
 		loading="lazy"
 		src="logos/png/logo-no-background.png"
-		width="500px"
+		height="150px"
 		alt="grow run archive logo"
 	/>
 </div>
