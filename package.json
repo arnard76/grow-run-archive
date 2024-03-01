@@ -13,7 +13,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/kit": "^1.27.4",
+		"@sveltejs/kit": "^1.30.4",
 		"@types/chart.js": "^2.9.41",
 		"@types/nodemailer": "^6.4.14",
 		"prettier": "^3.0.0",
