@@ -11,6 +11,8 @@
 	import { resourcesList } from '$lib/resource/store';
 	import { growRunsStore } from '$lib/grow-run/store';
 
+	import '$lib/styles/tailwind.css';
+
 	let authUnsubscribe = () => {};
 	$: if (browser) {
 		authUnsubscribe = initializeFirebase() || (() => {});
