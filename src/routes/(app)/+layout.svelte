@@ -26,7 +26,7 @@
 		'/welcome'
 	];
 
-	$: if (browser && $session) {
+	$: if (browser && $session && !$session.loading) {
 		let currentPath = $page.url.pathname;
 		let redirectTo = $session.user
 			? openRoutes.includes(currentPath)
@@ -43,6 +43,7 @@
 
 	$resourcesList;
 	$growRunsStore;
+	session.set({ user: null, loading: true });
 </script>
 
 {#if $session.loading}
