@@ -45,6 +45,7 @@
 			data,
 
 			options: {
+				maintainAspectRatio: false,
 				scales: {
 					x: {
 						title: { display: true, text: 'Time during day' },
@@ -77,6 +78,6 @@
 
 <h6>Temperature at time of day</h6>
 
-<div>
+<div class="h-96 w-[40rem]">
 	<canvas bind:this={canvas} style="max-width: 90vw;max-height:90vh;"></canvas>
 </div>

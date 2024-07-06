@@ -5,6 +5,7 @@
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
 	const randomMinDate = new Date('2022-01-01T00:00:00.000Z').valueOf();
+	const presentDate = Date.now().valueOf();
 
 	$: data = {
 		labels: $growRunsStore.map((growRun) => growRun.name),
@@ -32,11 +33,18 @@
 			data,
 
 			options: {
+				maintainAspectRatio: false,
+				plugins: {
+					legend: {
+						display: false
+					}
+				},
 				scales: {
 					x: {
 						title: { display: true, text: 'Grow run start date' },
 						type: 'time',
-						min: randomMinDate
+						min: randomMinDate,
+						max: presentDate
 					},
 					y: {
 						title: { display: true, text: 'Cost per 100g / NZD' },
@@ -53,5 +61,5 @@
 	*NOTE*: Can't include grow runs that didn't produce any output. (Where would they go? 😁)
 </p>
 <div>
-	<canvas bind:this={canvas} style="max-width: 90vw;max-height:90vh;"></canvas>
+	<canvas bind:this={canvas} class="h-[90vh]"></canvas>
 </div>

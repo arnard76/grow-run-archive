@@ -43,6 +43,7 @@
 			data,
 
 			options: {
+				maintainAspectRatio: false,
 				scales: {
 					x: {
 						title: { display: true, text: 'Datetime' },
@@ -93,6 +94,6 @@
 
 <h6>Temperature readings throughout grow run</h6>
 
-<div>
+<div class="h-96 w-[40rem]">
 	<canvas bind:this={canvas} style="max-width: 90vw;max-height:90vh;"></canvas>
 </div>

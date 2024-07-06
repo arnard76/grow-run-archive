@@ -30,11 +30,14 @@
 		if (pieChart) pieChart.destroy();
 		pieChart = new Chart(canvas, {
 			type: 'pie',
-			data
+			data,
+			options: {
+				maintainAspectRatio: false
+			}
 		});
 	}
 </script>
 
-<div>
-	<canvas bind:this={canvas}></canvas>
+<div class="h-fit">
+	<canvas bind:this={canvas} width="350" height="350"></canvas>
 </div>
