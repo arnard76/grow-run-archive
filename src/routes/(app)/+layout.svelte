@@ -11,7 +11,7 @@
 	import { resourcesList } from '$lib/resource/store';
 	import { growRunsStore } from '$lib/grow-run/store';
 
-	import '$lib/styles/tailwind.css';
+	import '$lib/styles/global.css';
 
 	let authUnsubscribe = () => {};
 	$: if (browser) {
@@ -46,17 +46,25 @@
 	$resourcesList;
 	$growRunsStore;
 	session.set({ user: null, loading: true });
+
+	// a fixed loading time so animation can be enjoyed :)
+	let minLoadingDone = false;
+	setTimeout(() => {
+		minLoadingDone = true;
+	}, 1500);
 </script>
 
-{#if $session.loading}
-	<div style="position:absolute; top:0;">
-		<div>Loading...</div>
+{#if $session.loading || !minLoadingDone}
+	<div class="flex flex-col items-center">
+		<h1>Loading... 🙂</h1>
 		<img src={loadingAnimation} alt="plant growing animation" />
 	</div>
-{:else if $session.user}
-	<p>
-		Logged in: {$session.user.email}
-	</p>
-	<Menu />
+{:else}
+	{#if $session.user}
+		<p>
+			Logged in: {$session.user.email}
+		</p>
+		<Menu />
+	{/if}
+	<slot />
 {/if}
-<slot />
