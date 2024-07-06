@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 *,
+body {
+	box-sizing: border-box;
+}
+
+*,
 p,
 a {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
