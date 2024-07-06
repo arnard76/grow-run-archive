@@ -31,9 +31,9 @@ export function prettyFormatDate(date: string | undefined, timeZone?: string) {
 	if (date === '-' || !date) return undefined;
 	timeZone = timeZone || 'UTC';
 
-	return new Intl.DateTimeFormat('en-GB', {
-		dateStyle: 'short',
-		timeStyle: 'long',
+	return new Intl.DateTimeFormat('en-NZ', {
+		dateStyle: 'medium',
+		timeStyle: 'short',
 		timeZone
 	}).format(new Date(date));
 }
