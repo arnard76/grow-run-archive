@@ -61,9 +61,7 @@
 	</div>
 {:else}
 	{#if $session.user}
-		<p>
-			Logged in: {$session.user.email}
-		</p>
+		<p>Logged in: {$session.user.email}</p>
 		<Menu />
 	{/if}
 	<slot />

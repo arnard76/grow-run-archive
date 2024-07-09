@@ -7,18 +7,19 @@
 	let updatedGrowName = growRun.name;
 </script>
 
-<EditTemplate
-	onUpdate={() => {
-		growRun.name = updatedGrowName;
-		growRunsStore.updateGrowRun(growRun);
-	}}
->
-	<p slot="display" style="display: inline-block;">
-		<span style="font-style: italic;"> Name: </span>
-		{growRun.name}
-	</p>
+<section>
+	<EditTemplate
+		onUpdate={() => {
+			growRun.name = updatedGrowName;
+			growRunsStore.updateGrowRun(growRun);
+		}}
+	>
+		<h2 slot="display" class="inline-block m-0">
+			{growRun.name}
+		</h2>
 
-	<label slot="editing" style="display: inline-block;">
-		Name: <input type="text" bind:value={updatedGrowName} />
-	</label>
-</EditTemplate>
+		<label slot="editing" style="display: inline-block;">
+			<input placeholder="Enter grow run name" type="text" bind:value={updatedGrowName} />
+		</label>
+	</EditTemplate>
+</section>

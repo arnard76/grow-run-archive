@@ -11,54 +11,57 @@
 	downloadGrowSetupPhotos(growRun).then((res) => (growSetupPhotos = res));
 </script>
 
-<!-- Photos -->
-{#if growSetupPhotos.length}
-	<div class="grow-setup-photos">
-		{#each growSetupPhotos as photo}
-			<img src={URL.createObjectURL(photo)} alt="bleh" />
-		{/each}
+<section>
+	<!-- Photos -->
+	{#if growSetupPhotos.length}
+		<div class="grow-setup-photos">
+			{#each growSetupPhotos as photo, i}
+				<img
+					src={URL.createObjectURL(photo)}
+					alt={`photo #${i} for grow run with label: '${growRun.name}'`}
+				/>
+			{/each}
+		</div>
+	{/if}
+
+	<div>
+		<input
+			type="file"
+			multiple
+			max=""
+			on:change={async (e) => {
+				const files = e.currentTarget.files;
+
+				if (!files) return;
+
+				console.log({ files });
+				const filesList = [];
+				let file;
+				for (let fileIndexCounter = 0; fileIndexCounter < files.length; fileIndexCounter++) {
+					file = files.item(fileIndexCounter);
+					file && filesList.push(file);
+				}
+
+				const uploadResult = await uploadGrowSetupPhotos(growRun, filesList);
+				console.log(uploadResult);
+
+				growSetupPhotos = await downloadGrowSetupPhotos(growRun);
+			}}
+		/>
 	</div>
-{/if}
-
-<div>
-	<input
-		type="file"
-		name=""
-		id=""
-		multiple
-		max=""
-		on:change={async (e) => {
-			const files = e.currentTarget.files;
-
-			if (!files) return;
-
-			console.log({ files });
-			const filesList = [];
-			let file;
-			for (let fileIndexCounter = 0; fileIndexCounter < files.length; fileIndexCounter++) {
-				file = files.item(fileIndexCounter);
-				file && filesList.push(file);
-			}
-
-			const uploadResult = await uploadGrowSetupPhotos(growRun, filesList);
-			console.log(uploadResult);
-
-			growSetupPhotos = await downloadGrowSetupPhotos(growRun);
-		}}
-	/>
-</div>
+</section>
 
 <style>
 	.grow-setup-photos {
-		border: 3px solid green;
 		display: flex;
-		width: fit-content;
+		width: 100%;
+		overflow-x: auto;
 		align-items: center;
 		gap: 5px;
 		padding: 5px;
 	}
 
 	.grow-setup-photos img {
-		width: 100px;
+		max-height: 200px;
 	}
 </style>

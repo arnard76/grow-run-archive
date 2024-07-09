@@ -32,6 +32,8 @@
 		</Button>
 	{/if}
 {:else}
-	<slot name="display" />
-	<Button on:click={(e) => (expanded = !expanded)}>✏️</Button>
+	<div class="flex items-top gap-4">
+		<slot name="display" />
+		<Button on:click={(e) => (expanded = !expanded)}>✏️</Button>
+	</div>
 {/if}

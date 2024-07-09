@@ -6,10 +6,8 @@
 	export let growRun: GrowRun;
 </script>
 
-<h4>Details</h4>
-
-<GrowRunPhotos {growRun} />
-
 <NameDetails {growRun} />
 
 <DurationDetails {growRun} />
+
+<GrowRunPhotos {growRun} />
