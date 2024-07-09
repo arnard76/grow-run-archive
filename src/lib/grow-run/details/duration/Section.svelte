@@ -7,27 +7,27 @@
 
 	export let growRun: GrowRun;
 	let expanded = false;
+	$: growRunDuration = growRun.calculateDurationInDays();
 </script>
 
-<p style="font-style: italic;">
-	Duration: {#if !expanded}
-		<span style="font-weight: bold; font-style: initial;">
-			{growRun.calculateDurationInDays()
-				? growRun.calculateDurationInDays().toFixed(2) + ' days'
-				: '-'}
-		</span>
-	{/if}
-</p>
+<section>
+	<EditTemplate bind:expanded onUpdate={() => growRunsStore.updateGrowRun(growRun)}>
+		<p slot="display">
+			Ran from <span class="italic">{prettyFormatDate(growRun.duration.start) || '-'}</span>
+			<br />to <span class="italic">{prettyFormatDate(growRun.duration.end) || '-'}</span>
+		</p>
+		<Inputs
+			slot="editing"
+			bind:startDateInput={growRun.duration.start}
+			bind:endDateInput={growRun.duration.end}
+		/>
+	</EditTemplate>
 
-<EditTemplate bind:expanded onUpdate={() => growRunsStore.updateGrowRun(growRun)}>
-	<p slot="display" style="display: inline-block;">
-		Start:{prettyFormatDate(growRun.duration.start) || '-'}<br />
-		End : {prettyFormatDate(growRun.duration.end) || '-'}
+	<p class="mt-4">
+		Total duration {#if !expanded && growRunDuration}
+			<i>
+				{growRunDuration.toFixed(2)} days
+			</i>
+		{/if}
 	</p>
-
-	<Inputs
-		slot="editing"
-		bind:startDateInput={growRun.duration.start}
-		bind:endDateInput={growRun.duration.end}
-	/>
-</EditTemplate>
+</section>

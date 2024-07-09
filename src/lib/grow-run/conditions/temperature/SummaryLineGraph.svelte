@@ -59,9 +59,7 @@
 						}
 					},
 					y: {
-						title: { display: true, text: 'Temperature / °C' },
-						min: 10,
-						max: 25
+						title: { display: true, text: 'Temperature / °C' }
 					}
 				},
 				plugins: {
@@ -78,6 +76,6 @@
 
 <h6>Temperature at time of day</h6>
 
-<div class="h-96 w-[40rem]">
-	<canvas bind:this={canvas} style="max-width: 90vw;max-height:90vh;"></canvas>
+<div class="h-96 max-w-[40rem]">
+	<canvas bind:this={canvas}></canvas>
 </div>

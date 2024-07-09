@@ -14,5 +14,7 @@
 		cursor: pointer;
 		padding: 5px;
 		border-radius: 8px;
+
+		@apply hover:bg-green-400 transition-all hover:scale-110;
 	}
 </style>

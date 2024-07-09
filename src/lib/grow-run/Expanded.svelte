@@ -10,17 +10,58 @@
 	import { growRunsStore } from './store';
 
 	export let growRun: GrowRun;
+	export let onClose: any;
+
+	let expandedGrowRunModal: undefined | HTMLDialogElement;
+
+	$: if (expandedGrowRunModal) expandedGrowRunModal.showModal();
 </script>
 
-<tr>
-	<td colspan="10">
-		<DetailsSection {growRun} />
-		<ResourceUsageSection {growRun} />
-		<HarvestsSection {growRun} />
-		<ConditionsSection {growRun} />
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<dialog
+	bind:this={expandedGrowRunModal}
+	aria-modal
+	class="grow-run-archive-expanded-modal"
+	on:click={(e) => {
+		if (!expandedGrowRunModal) return;
+		const { left, right, top, bottom } = expandedGrowRunModal.getBoundingClientRect();
 
+		if (e.clientX < left || e.clientX > right || e.clientY < top || e.clientY > bottom) {
+			expandedGrowRunModal.close();
+			onClose();
+		}
+	}}
+	on:keypress
+>
+	<section class="flex items-start drop-shadow-md rounded-b-xl w-full bg-blue-400 text-white">
+		<div class="flex-1 w-[90%]">
+			<DetailsSection {growRun} />
+		</div>
+		<Button title="Close grow run" on:click={onClose}>❌</Button>
+	</section>
+	<ResourceUsageSection {growRun} />
+
+	<hr />
+
+	<HarvestsSection {growRun} />
+	<hr />
+
+	<ConditionsSection {growRun} />
+	<hr />
+
+	<div class="my-4 text-center">
 		<Button title="Delete" on:click={() => growRunsStore.deleteGrowRun(growRun)}
 			>Delete Grow Run</Button
 		>
-	</td>
-</tr>
+	</div>
+</dialog>
+
+<style lang="postcss">
+	dialog {
+		@apply p-0 border-none rounded-xl drop-shadow-md max-h-[90vh] max-w-[60%];
+	}
+
+	hr {
+		@apply border-dashed border-8 border-blue-400;
+	}
+</style>

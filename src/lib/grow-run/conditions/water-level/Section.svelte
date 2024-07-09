@@ -13,7 +13,7 @@
 
 <section style="display: flex;">
 	<div style={anyRecords ? 'max-width: 50%;' : ''}>
-		<p>Water level:</p>
+		<h3>Water level</h3>
 
 		{#if anyRecords}
 			<ul>

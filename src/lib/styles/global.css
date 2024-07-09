@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+body {
+	box-sizing: border-box;
+}
+
+*,
+p,
+a {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p {
+	@apply m-0 p-0;
+}
+
+.grow-run-archive-expanded-modal section {
+	@apply mb-4;
+}
+
+.grow-run-archive-expanded-modal > section {
+	@apply p-8 w-full;
+}

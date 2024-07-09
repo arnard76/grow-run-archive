@@ -70,6 +70,7 @@
 					}
 				},
 				plugins: {
+					legend: { display: false },
 					tooltip: {
 						callbacks: {
 							title: (tooltips) => {
@@ -88,6 +89,6 @@
 
 <h6>Water level readings throughout grow run</h6>
 
-<div class="h-96 w-[40rem]">
+<div class="h-96 max-w-[40rem]">
 	<canvas bind:this={canvas}></canvas>
 </div>
