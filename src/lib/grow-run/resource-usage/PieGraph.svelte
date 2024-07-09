@@ -39,5 +39,5 @@
 </script>
 
 <div class="h-96 max-w-[40rem]">
-	<canvas bind:this={canvas} width="350" height="350"></canvas>
+	<canvas bind:this={canvas}></canvas>
 </div>

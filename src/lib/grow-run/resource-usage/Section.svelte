@@ -13,8 +13,8 @@
 <section>
 	<h2>Resources Used</h2>
 
-	<div class="resources-container">
-		<div>
+	<div class="flex">
+		<div class="max-w-[50%]">
 			{#if growRun.resources?.used?.length}
 				<ul>
 					{#each growRun.resources.used as { name, amountUsed }}
@@ -36,16 +36,12 @@
 			{/if}
 			<Add {growRun} />
 		</div>
-		<div>
-			{#if growRun.resources?.used?.length}
-				<PieGraph pie={pieChartData} sort="alphabet" />
-			{/if}
-		</div>
+		{#if growRun.resources?.used?.length}
+			<div class="flex-1">
+				{#if growRun.resources?.used?.length}
+					<PieGraph pie={pieChartData} sort="alphabet" />
+				{/if}
+			</div>
+		{/if}
 	</div>
 </section>
-
-<style>
-	.resources-container {
-		display: flex;
-	}
-</style>
