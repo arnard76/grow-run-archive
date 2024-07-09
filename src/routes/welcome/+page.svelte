@@ -49,6 +49,13 @@
 		<li>Stores conditions related to the grow e.g. temperature, pH</li>
 	</ul>
 
+	<figure style="margin: 40px 0;">
+		<video muted autoplay style="max-width: 70%;">
+			<source src="videos/Grow Run Archive - Demo 2024.webm" />
+		</video>
+		<figcaption>Demo 2024</figcaption>
+	</figure>
+
 	<form bind:this={signUpRequestForm} on:submit={requestASignUp}>
 		<h2 style="margin: 0;">Sign up</h2>
 		<div class="input-container">
