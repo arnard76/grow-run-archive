@@ -34,8 +34,8 @@
 
 		<Button on:click={submitHandler}>Submit</Button>
 
-		Sign in with:
-		<Button on:click={() => {}}>Google</Button>
+		<!-- Sign in with:
+		<Button on:click={() => {}}>Google</Button> -->
 	</div>
 
 	<a href="/forgot-password">Forgot password</a>
