@@ -23,6 +23,11 @@
 							<ResourceUsage {growRun} resourceName={name} {amountUsed} />
 						{/if}
 					{/each}
+					<hr />
+					<li class="font-bold">
+						<span class="inline-block w-[300px]">Total cost</span>
+						${growRun.calculateCost($resourcesList).toFixed(2)} NZD
+					</li>
 				</ul>
 			{:else}
 				<p>
