@@ -50,7 +50,7 @@
 	</ul>
 
 	<figure style="margin: 40px 0;">
-		<video muted autoplay style="max-width: 70%;">
+		<video muted autoplay loop style="max-width: 70%;">
 			<source src="videos/Grow Run Archive - Demo 2024.webm" />
 		</video>
 		<figcaption>Demo 2024</figcaption>
