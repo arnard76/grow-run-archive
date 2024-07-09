@@ -11,5 +11,5 @@
 <Preview {growRun} on:click={() => (expanded = !expanded)} />
 
 {#if expanded}
-	<Expanded {growRun} />
+	<Expanded {growRun} onClose={() => (expanded = !expanded)} />
 {/if}

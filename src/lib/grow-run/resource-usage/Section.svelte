@@ -10,30 +10,34 @@
 	$: pieChartData = $resourcesList && growRun.formatDataForPieChart();
 </script>
 
-<h4>Resources Used</h4>
+<section>
+	<h2>Resources Used</h2>
 
-<div class="resources-container">
-	<section>
-		{#if growRun.resources?.used?.length}
-			<ul>
-				{#each growRun.resources.used as { name, amountUsed }}
-					{@const resource = resourcesList.getResource(name)}
-					{#if resource}
-						<ResourceUsage {growRun} resourceName={name} {amountUsed} />
-					{/if}
-				{/each}
-			</ul>
-		{:else}
-			<p>Currently, no resources have been used AND the usage recorded. Feel free to add below:</p>
-		{/if}
-		<Add {growRun} />
-	</section>
-	<section>
-		{#if growRun.resources?.used?.length}
-			<PieGraph pie={pieChartData} sort="alphabet" />
-		{/if}
-	</section>
-</div>
+	<div class="resources-container">
+		<div>
+			{#if growRun.resources?.used?.length}
+				<ul>
+					{#each growRun.resources.used as { name, amountUsed }}
+						{@const resource = resourcesList.getResource(name)}
+						{#if resource}
+							<ResourceUsage {growRun} resourceName={name} {amountUsed} />
+						{/if}
+					{/each}
+				</ul>
+			{:else}
+				<p>
+					Currently, no resources have been used AND the usage recorded. Feel free to add below:
+				</p>
+			{/if}
+			<Add {growRun} />
+		</div>
+		<div>
+			{#if growRun.resources?.used?.length}
+				<PieGraph pie={pieChartData} sort="alphabet" />
+			{/if}
+		</div>
+	</div>
+</section>
 
 <style>
 	.resources-container {
