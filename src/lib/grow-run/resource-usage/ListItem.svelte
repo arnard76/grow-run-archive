@@ -34,17 +34,20 @@
 		}}
 	>
 		<svelte:fragment slot="display">
-			<a href="/resource/{resourceName}">
-				{resourceName}
-			</a>
-			{amountUsed}{resource.amountUnit}
+			<span class="w-[300px]">
+				{amountUsed}{resource.amountUnit}
+				<a href="/resource/{resourceName}">
+					{resourceName}
+				</a>
+			</span>
 
 			<p on:mouseenter={toggleExpansion} on:mouseleave={toggleExpansion} role="contentinfo">
-				(<span style="color: green;margin: auto 0; ">$</span>{costOfUsage})
+				<span style="color: green;margin: auto 0; ">$</span>{costOfUsage}
 
 				{#if showExpandedCalculation}
 					<span class="calculation">
-						{resource.cost}*{amountUsed}/{resource.amountTotal} = ${costOfUsage}
+						{resource.cost} * {amountUsed}{resource.amountUnit} / {resource.amountTotal}{resource.amountUnit}
+						= ${costOfUsage}
 					</span>
 				{/if}
 			</p>
@@ -56,7 +59,7 @@
 	</EditTemplate>
 </li>
 
-<style>
+<style lang="postcss">
 	li > * {
 		flex: 1;
 		max-width: 250px;
@@ -78,5 +81,7 @@
 		top: calc(100% + 5px);
 		left: 0;
 		z-index: 1;
+
+		@apply p-4 rounded-xl;
 	}
 </style>

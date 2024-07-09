@@ -21,13 +21,13 @@
 				/>
 			{/each}
 			<hr />
-			<li class="total-summary">
-				<span style="display:inline-block;width: 300px;">Total</span>
+			<li class="font-bold">
+				<span class="inline-block w-[300px]">Total</span>
 				{growRun.totalMassLeavesHarvested().toFixed(2)}g ({growRun.totalNumLeavesHarvested()} leaves)
 			</li>
 
-			<li class="average-summary">
-				<span style="display:inline-block;width: 300px;">Average</span>
+			<li>
+				<span class="inline-block w-[300px]">Average</span>
 				{(growRun.totalMassLeavesHarvested() / growRun.totalNumLeavesHarvested()).toFixed(2)}g per
 				leaf
 			</li>
@@ -37,9 +37,3 @@
 	{/if}
 	<Add {growRun} />
 </section>
-
-<style>
-	.total-summary {
-		font-weight: bold;
-	}
-</style>
