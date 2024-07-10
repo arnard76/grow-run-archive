@@ -41,36 +41,50 @@
 </div>
 
 <main>
-	<h2>Features</h2>
-	<ul>
-		<li>Stores all of your grow runs</li>
-		<li>Displays the cost of each grow run and cost per unit</li>
-		<li>Shows how the cost is split among the resources that were used</li>
-		<li>Stores conditions related to the grow e.g. temperature, pH</li>
-	</ul>
-
-	<figure style="margin: 40px 0;">
-		<video muted autoplay loop style="max-width: 70%;">
-			<source src="videos/Grow Run Archive - Demo 2024.webm" />
-		</video>
-		<figcaption>Demo 2024</figcaption>
-	</figure>
-
-	<form bind:this={signUpRequestForm} on:submit={requestASignUp}>
-		<h2 style="margin: 0;">Sign up</h2>
-		<div class="input-container">
-			<label
-				>Email <input
-					type="email"
-					bind:this={emailAddressInput}
-					placeholder="name@gmail.com"
-				/></label
-			>
-			<button type="submit">
-				<img width="30px" src="/tick-icon.png" alt="tick icon submit button" />
-			</button>
+	<section>
+		<h2>Features</h2>
+		<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+			<div style="flex:1;width: 40rem;max-width:100%;">
+				<p style="margin-bottom: 10px;">Displays the following information for each grow run:</p>
+				<ul>
+					<li>total cost and cost per unit</li>
+					<li>used resources (+ cost spent on these resources)</li>
+					<li>data on environmental conditions such as temperature, soil pH and humidity</li>
+				</ul>
+			</div>
+			<figure style="flex: 1;justify-content:start;min-width: 40%; max-height: 30rem;">
+				<div style="width: 100%; height: 90%; object-fit: contain;">
+					<video
+						muted
+						autoplay
+						loop
+						style="max-width: 100%; border: 4px solid var(--accent-green); border-radius: 5px;max-height: 100%;"
+					>
+						<source src="videos/Grow Run Archive - Demo 2024.webm" />
+					</video>
+				</div>
+				<figcaption>July 2024 Demo</figcaption>
+			</figure>
 		</div>
-	</form>
+	</section>
+
+	<section style="background-color: var(--accent-green)">
+		<form bind:this={signUpRequestForm} on:submit={requestASignUp}>
+			<h2 style="margin: 0;">Sign up</h2>
+			<div class="input-container">
+				<label
+					>Email <input
+						type="email"
+						bind:this={emailAddressInput}
+						placeholder="name@gmail.com"
+					/></label
+				>
+				<button type="submit">
+					<img width="30px" src="/tick-icon.png" alt="tick icon submit button" />
+				</button>
+			</div>
+		</form>
+	</section>
 
 	<!-- svelte-ignore a11y-missing-content -->
 	<h3 bind:this={signUpRequestResult}></h3>
@@ -78,8 +92,12 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-<link
+<!-- <link
 	href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+	rel="stylesheet"
+/> -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
 	rel="stylesheet"
 />
 <link rel="stylesheet" href="/style.css" />
