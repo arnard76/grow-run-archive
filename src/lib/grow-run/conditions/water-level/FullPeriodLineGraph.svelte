@@ -87,8 +87,6 @@
 	}
 </script>
 
-<h6>Water level readings throughout grow run</h6>
-
 <div class="h-96 max-w-[40rem]">
 	<canvas bind:this={canvas}></canvas>
 </div>

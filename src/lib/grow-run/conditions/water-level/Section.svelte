@@ -36,6 +36,9 @@
 		<Add {growRun} />
 	</div>
 	{#if anyRecords}
-		<Graph {growRun} {timezone} />
+		<div>
+			<h6>Water level readings throughout grow run</h6>
+			<Graph {growRun} {timezone} />
+		</div>
 	{/if}
 </section>
