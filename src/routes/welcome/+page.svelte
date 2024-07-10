@@ -84,10 +84,9 @@
 				</button>
 			</div>
 		</form>
+		<!-- svelte-ignore a11y-missing-content -->
+		<h3 bind:this={signUpRequestResult}></h3>
 	</section>
-
-	<!-- svelte-ignore a11y-missing-content -->
-	<h3 bind:this={signUpRequestResult}></h3>
 </main>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
