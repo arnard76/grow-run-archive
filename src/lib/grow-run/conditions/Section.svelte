@@ -20,15 +20,15 @@
 <section>
 	<h2>Conditions</h2>
 	<TimezoneInput bind:timezone />
-	<div style="display: flex;">
-		<div style={anyTempsRecorded ? 'max-width: 50%;' : ''}>
+	<div class="flex flex-wrap">
+		<div>
 			<h3>Air temperature</h3>
 			<TemperatureSection {growRun} medium="air-temperature" {timezone} />
 
 			<h3 class="mt-8">Water temperature</h3>
 			<TemperatureSection {growRun} medium="water-temperature" {timezone} />
 		</div>
-		<div style="flex: 1;">
+		<div>
 			{#if anyTempsRecorded}
 				<FullPeriodLineGraph {growRun} {timezone} />
 				<SummaryLineGraph {growRun} {timezone} />

@@ -10,11 +10,12 @@
 
 <li>
 	<EditTemplate onUpdate={() => onUpdateHarvest(harvest)}>
-		<p slot="display" style="display: inline-block;">
-			<span style="font-style:italic; width: 300px; display:inline-block;"
-				>{prettyFormatDate(harvest.datetime) || 'Undated'}</span
-			>{harvest.massOfLeaves}g ({harvest.numberOfLeaves}
-			leaves)
+		<p slot="display" class="flex flex-wrap w-full">
+			<span class="italic flex-1">{prettyFormatDate(harvest.datetime) || 'Undated'}</span>
+
+			<span class="flex-grow-0">
+				{harvest.massOfLeaves}g ({harvest.numberOfLeaves} leaves)
+			</span>
 		</p>
 
 		<Inputs slot="editing" bind:harvest />

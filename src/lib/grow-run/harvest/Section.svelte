@@ -21,15 +21,19 @@
 				/>
 			{/each}
 			<hr />
-			<li class="font-bold">
-				<span class="inline-block w-[300px]">Total</span>
-				{growRun.totalMassLeavesHarvested().toFixed(2)}g ({growRun.totalNumLeavesHarvested()} leaves)
+			<li class="summary">
+				<span>Total</span>
+				<span>
+					{growRun.totalMassLeavesHarvested().toFixed(2)}g ({growRun.totalNumLeavesHarvested()} leaves)
+				</span>
 			</li>
 
-			<li>
-				<span class="inline-block w-[300px]">Average</span>
-				{(growRun.totalMassLeavesHarvested() / growRun.totalNumLeavesHarvested()).toFixed(2)}g per
-				leaf
+			<li class="summary">
+				<span>Average</span>
+				<span>
+					{(growRun.totalMassLeavesHarvested() / growRun.totalNumLeavesHarvested()).toFixed(2)}g per
+					leaf
+				</span>
 			</li>
 		</ul>
 	{:else}
@@ -37,3 +41,17 @@
 	{/if}
 	<Add {growRun} />
 </section>
+
+<style lang="postcss">
+	.summary {
+		@apply font-bold flex w-full;
+	}
+
+	.summary span:first-of-type {
+		@apply flex-1;
+	}
+
+	.summary span:nth-of-type(2) {
+		@apply flex-grow-0;
+	}
+</style>

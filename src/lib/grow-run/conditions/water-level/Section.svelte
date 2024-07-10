@@ -11,8 +11,8 @@
 	$: anyRecords = growRun.conditions['water-level']?.length;
 </script>
 
-<section style="display: flex;">
-	<div style={anyRecords ? 'max-width: 50%;' : ''}>
+<section class="flex flex-wrap">
+	<div>
 		<h3>Water level</h3>
 
 		{#if anyRecords}
@@ -39,9 +39,7 @@
 		<Add {growRun} />
 	</div>
 	{#if anyRecords}
-		<div style="flex: 1;">
 			<Graph {growRun} {timezone} />
-		</div>
 	{/if}
 </section>
 

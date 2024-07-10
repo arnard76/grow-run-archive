@@ -5,8 +5,8 @@
 	export let timezone: string;
 </script>
 
-<label style="display:flex;">
-	Timezone for dates:
+<label class="flex flex-wrap gap-2">
+	Timezone
 	<select bind:value={timezone}>
 		{#each timezonesSorted as timezone (timezone.text)}
 			{#each timezone.utc as value}

@@ -58,7 +58,7 @@
 
 <style lang="postcss">
 	dialog {
-		@apply p-0 border-none rounded-xl drop-shadow-md max-h-[90vh] max-w-[60%];
+		@apply p-0 border-none rounded-xl drop-shadow-md max-h-[90vh] md:max-w-[75%] w-full;
 	}
 
 	hr {

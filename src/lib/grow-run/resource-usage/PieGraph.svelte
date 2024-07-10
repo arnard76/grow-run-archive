@@ -38,6 +38,6 @@
 	}
 </script>
 
-<div class="h-96 max-w-[40rem]">
+<div class="h-full w-full">
 	<canvas bind:this={canvas}></canvas>
 </div>
