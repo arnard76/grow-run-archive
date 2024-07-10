@@ -37,7 +37,7 @@
 			<Add {growRun} />
 		</div>
 		{#if growRun.resources?.used?.length}
-			<div class="flex-1">
+			<div class="flex-1; w-[50%]">
 				{#if growRun.resources?.used?.length}
 					<PieGraph pie={pieChartData} sort="alphabet" />
 				{/if}
