@@ -140,12 +140,15 @@ export default class GrowRun {
 
 	// updateTemperatureRecord(medium){}
 
-	calculateAverageTemperature(medium: 'air-temperature' | 'water-temperature') {
-		const temps = this.conditions[medium];
-		if (!temps) return;
+	// NOPPPPEEEEE: if the temperatures are measured after various time intervals,
+	// then the average is skewed towards certain times of the day
+	// e.g. when I am awake lol
+	// calculateAverageTemperature(medium: 'air-temperature' | 'water-temperature') {
+	// 	const temps = this.conditions[medium];
+	// 	if (!temps) return;
 
-		return (
-			temps.reduce((prevTotal, currTemp) => prevTotal + currTemp.temperature, 0) / temps.length
-		);
-	}
+	// 	return (
+	// 		temps.reduce((prevTotal, currTemp) => prevTotal + currTemp.temperature, 0) / temps.length
+	// 	);
+	// }
 }

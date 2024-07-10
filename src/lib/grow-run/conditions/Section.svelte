@@ -25,7 +25,7 @@
 			<h3>Air temperature</h3>
 			<TemperatureSection {growRun} medium="air-temperature" {timezone} />
 
-			<h3 class="mt-8">Water temperature</h3>
+			<h3>Water temperature</h3>
 			<TemperatureSection {growRun} medium="water-temperature" {timezone} />
 		</div>
 		<div>

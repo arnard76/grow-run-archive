@@ -11,7 +11,7 @@
 
 <li>
 	<EditTemplate onUpdate={() => onUpdateTemperature(temperatureObj)}>
-		<p slot="display" style="display: inline-block;">
+		<p slot="display">
 			{prettyFormatDate(temperatureObj.dateTime, timezone)}: {temperatureObj.temperature}°C
 		</p>
 

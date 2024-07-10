@@ -21,10 +21,6 @@
 				}}
 			/>
 		{/each}
-		<hr />
-		<li class="summary">
-			Average: {growRun.calculateAverageTemperature(medium)?.toFixed(2)}°C
-		</li>
 	</ul>
 {:else}
 	<p>

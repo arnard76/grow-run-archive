@@ -20,7 +20,7 @@
 		});
 		growRunsStore.updateGrowRun(growRun);
 	}}
-	addText="Use"
+	addText="➕"
 >
 	<Inputs bind:selectedResourceToUse bind:amountUsedInput />
 </AddTemplate>

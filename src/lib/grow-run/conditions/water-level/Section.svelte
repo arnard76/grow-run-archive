@@ -26,9 +26,6 @@
 						}}
 					/>
 				{/each}
-				<hr />
-				<!-- <li class="summary">
-		</li> -->
 			</ul>
 		{:else}
 			<p>
@@ -39,12 +36,6 @@
 		<Add {growRun} />
 	</div>
 	{#if anyRecords}
-			<Graph {growRun} {timezone} />
+		<Graph {growRun} {timezone} />
 	{/if}
 </section>
-
-<style>
-	/* .summary {
-		font-weight: bold;
-	} */
-</style>
