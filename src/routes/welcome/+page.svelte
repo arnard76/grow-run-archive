@@ -44,7 +44,7 @@
 	<section>
 		<h2>Features</h2>
 		<div style="display: flex; flex-wrap: wrap; gap: 20px;">
-			<div style="flex:1;width: 40rem;max-width:100%;">
+			<div style="flex:1;min-width: 50%;max-width:100%;">
 				<p style="margin-bottom: 10px;">Displays the following information for each grow run:</p>
 				<ul>
 					<li>total cost and cost per unit</li>
@@ -52,7 +52,7 @@
 					<li>data on environmental conditions such as temperature, soil pH and humidity</li>
 				</ul>
 			</div>
-			<figure style="flex: 1;justify-content:start;min-width: 40%; max-height: 30rem;">
+			<figure style="justify-content:start; flex: 1; min-width: 40rem; max-height: 30rem;">
 				<div style="width: 100%; height: 90%; object-fit: contain;">
 					<video
 						muted
