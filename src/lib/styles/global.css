@@ -5,6 +5,7 @@
 *,
 body {
 	box-sizing: border-box;
+	@apply m-0 p-0;
 }
 
 *,
@@ -21,6 +22,16 @@ h3 {
 	@apply mt-8;
 }
 
+/* general components */
+@layer components {
+	.nav-item {
+		text-decoration: none;
+		padding: 5px;
+		background: rgb(0, 115, 255);
+		color: white;
+		border-radius: 5px;
+	}
+}
 
 /* grow run modal */
 

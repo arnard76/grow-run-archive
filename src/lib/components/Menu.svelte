@@ -10,22 +10,17 @@
 		<a href="/cost/pie-charts">Pies 🥧📊</a>
 	</MenuDropDown>
 	<a href="/resources">Resources list</a>
-	<a href="/logout">Logout</a>
 </nav>
 
-<style>
+<style lang="postcss">
 	nav {
 		display: flex;
 		gap: 15px;
 		align-items: flex-start;
 	}
 
-	a,
-	p {
-		text-decoration: none;
-		padding: 5px;
-		background: rgb(0, 115, 255);
-		color: white;
-		border-radius: 5px;
+	p,
+	a {
+		@apply nav-item;
 	}
 </style>

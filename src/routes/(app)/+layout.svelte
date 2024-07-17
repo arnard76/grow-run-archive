@@ -61,8 +61,17 @@
 	</div>
 {:else}
 	{#if $session.user}
-		<p>Logged in: {$session.user.email}</p>
+		<div class="flex justify-between flex-wrap bg-lime-200 items-center p-4">
 		<Menu />
+			<div class="flex gap-[15px] items-center">
+				<p class="hidden md:block">
+					Logged in: <span class="font-bold">{$session.user.email}</span>
+				</p>
+				<a href="/logout" class="nav-item">Logout</a>
+			</div>
+		</div>
 	{/if}
+	<div class="p-2">
 	<slot />
+	</div>
 {/if}
