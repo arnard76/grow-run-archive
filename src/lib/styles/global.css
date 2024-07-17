@@ -22,15 +22,19 @@ h3 {
 	@apply mt-8;
 }
 
-/* general components */
-@layer components {
-	.nav-item {
-		text-decoration: none;
-		padding: 5px;
-		background: rgb(0, 115, 255);
-		color: white;
-		border-radius: 5px;
-	}
+button,
+nav a,
+nav p,
+.nav-item {
+	outline: none;
+	border: none;
+	background-color: rgb(199, 230, 173);
+	cursor: pointer;
+	padding: 5px;
+	border-radius: 8px;
+	text-decoration: none;
+
+	@apply hover:bg-green-400 transition-all hover:scale-110 text-black;
 }
 
 /* grow run modal */

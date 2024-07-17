@@ -61,7 +61,7 @@
 	</div>
 {:else}
 	{#if $session.user}
-		<div class="flex justify-between flex-wrap bg-lime-200 items-center p-4">
+		<div class="flex justify-between flex-wrap bg-gray-800 items-center p-4 text-white">
 		<Menu />
 			<div class="flex gap-[15px] items-center">
 				<p class="hidden md:block">

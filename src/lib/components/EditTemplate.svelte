@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Button from './Button.svelte';
-
 	export let editText = '✔️';
 
 	export let onUpdate: (e: MouseEvent) => any;
@@ -11,7 +9,7 @@
 
 {#if expanded}
 	<slot name="editing" />
-	<Button
+	<button
 		title="Update"
 		on:click={(e) => {
 			onUpdate(e);
@@ -19,21 +17,21 @@
 		}}
 	>
 		{editText}
-	</Button>
+	</button>
 
 	{#if onDelete}
-		<Button
+		<button
 			title="Delete"
 			on:click={(e) => {
 				onDelete && onDelete(e);
 				expanded = !expanded;
 			}}
 			>💩
-		</Button>
+		</button>
 	{/if}
 {:else}
 	<div class="flex items-top gap-4">
 		<slot name="display" />
-		<Button on:click={(e) => (expanded = !expanded)}>✏️</Button>
+		<button on:click={(e) => (expanded = !expanded)}>✏️</button>
 	</div>
 {/if}

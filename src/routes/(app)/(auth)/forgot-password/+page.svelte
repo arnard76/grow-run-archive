@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Button from '$lib/components/Button.svelte';
 	import { sendPasswordResetEmail } from 'firebase/auth';
 	import { auth } from '$lib/firebase';
 	import type { FirebaseError } from 'firebase/app';
@@ -43,7 +42,7 @@
 		{#if loading}
 			<p>Loading...</p>
 		{:else}
-			<Button on:click={submitHandler}>Submit</Button>
+			<button on:click={submitHandler}>Submit</button>
 		{/if}
 	</div>
 </form>

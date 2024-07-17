@@ -6,7 +6,6 @@
 	import ResourceUsageSection from './resource-usage/Section.svelte';
 	import ConditionsSection from './conditions/Section.svelte';
 
-	import Button from '$lib/components/Button.svelte';
 	import { growRunsStore } from './store';
 
 	export let growRun: GrowRun;
@@ -37,7 +36,7 @@
 		<div class="flex-1 w-[90%]">
 			<DetailsSection {growRun} />
 		</div>
-		<Button title="Close grow run" on:click={onClose}>❌</Button>
+		<button title="Close grow run" on:click={onClose}>❌</button>
 	</section>
 	<ResourceUsageSection {growRun} />
 
@@ -50,15 +49,15 @@
 	<hr />
 
 	<div class="my-4 text-center">
-		<Button title="Delete" on:click={() => growRunsStore.deleteGrowRun(growRun)}
-			>Delete Grow Run</Button
+		<button title="Delete" on:click={() => growRunsStore.deleteGrowRun(growRun)}
+			>Delete Grow Run</button
 		>
 	</div>
 </dialog>
 
 <style lang="postcss">
 	dialog {
-		@apply p-0 border-none rounded-xl drop-shadow-md max-h-[90vh] md:max-w-[75%] w-full;
+		@apply p-0 m-auto border-none rounded-xl drop-shadow-md max-h-[90vh] md:max-w-[75%] w-full;
 	}
 
 	hr {

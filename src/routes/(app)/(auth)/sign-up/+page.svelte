@@ -1,6 +1,4 @@
 <script lang="ts">
-	// import { goto } from '$app/navigation';
-	import Button from '$lib/components/Button.svelte';
 	import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 	import { auth } from '$lib/firebase';
 	import { session } from '$lib/firebase/user';
@@ -41,10 +39,10 @@
 
 		<label for="psw"><b>Confirm Password</b></label>
 		<input type="password" placeholder="Confirm Password" bind:value={confirmPassword} required />
-		<Button on:click={submitHandler}>Submit</Button>
+		<button on:click={submitHandler}>Submit</button>
 
 		<!-- Sign up with:
-		<Button on:click={() => {}}>Google</Button> -->
+		<button on:click={() => {}}>Google</button> -->
 	</div>
 
 	<p>Already have an account? <a href="/login">Login</a></p>

@@ -3,7 +3,6 @@
 	import { page } from '$app/stores';
 	import { auth } from '$lib/firebase';
 	import { isValidPassword } from '$lib/firebase/auth';
-	import Button from '$lib/components/Button.svelte';
 
 	const successMessage = 'Your password has been reset! <a href="/login">Try logging in</a>';
 	const resetCode = $page.url.searchParams.get('oobCode');
@@ -58,7 +57,7 @@
 		{#if loading}
 			<p>Loading...</p>
 		{:else}
-			<Button on:click={submitHandler}>Submit</Button>
+			<button on:click={submitHandler}>Submit</button>
 		{/if}
 	</div>
 </form>
