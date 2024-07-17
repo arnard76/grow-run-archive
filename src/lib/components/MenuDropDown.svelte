@@ -1,13 +1,9 @@
-<script>
-	let expand = false;
-</script>
-
-<div role="group" on:mouseenter={() => (expand = true)} on:mouseleave={() => (expand = false)}>
+<div class="group">
 	<slot name="text" />
 
-	{#if expand}
-		<div style="display: flex;flex-direction:column;margin-left: 10px;margin-top: 5px;">
-			<slot />
-		</div>
-	{/if}
+	<div
+		class="hidden flex-col p-4 rounded-md absolute gap-1 group-hover:flex h-0 group-hover:h-fit overflow-hidden transition-[height] duration-1000 ease-out bg-gray-300 bg-opacity-65"
+	>
+		<slot />
+	</div>
 </div>
