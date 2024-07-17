@@ -18,9 +18,4 @@
 		gap: 15px;
 		align-items: flex-start;
 	}
-
-	p,
-	a {
-		@apply nav-item;
-	}
 </style>
