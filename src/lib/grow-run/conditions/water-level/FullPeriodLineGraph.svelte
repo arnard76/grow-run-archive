@@ -2,22 +2,13 @@
 	import Chart from 'chart.js/auto';
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 	import type GrowRun from '$lib/grow-run';
-	import type { WaterLevelRecord } from './types';
 	import { prettyFormatDate } from '$lib/grow-run/details/duration/util';
+	import { formatData } from '../conditions';
 
 	export let growRun: GrowRun;
 	export let timezone: string;
 
-	$: waterLevels = growRun.conditions['water-level'] || [];
-
-	function formatData(waterLevels: WaterLevelRecord[]) {
-		return waterLevels
-			.map((record) => ({
-				x: new Date(record.dateTime).valueOf(),
-				y: record.waterLevel
-			}))
-			.sort(({ x: t1 }, { x: t2 }) => t1 - t2);
-	}
+	$: waterLevels = growRun.conditions['water-level'] || {};
 
 	$: data = {
 		datasets: [
@@ -49,20 +40,8 @@
 							}
 						},
 
-						min:
-							growRun.duration.start ||
-							Math.min(
-								...[...waterLevels].map((waterLevelRecord) =>
-									new Date(waterLevelRecord.dateTime).valueOf()
-								)
-							),
-						max:
-							growRun.duration.end ||
-							Math.max(
-								...waterLevels.map((waterLevelRecord) =>
-									new Date(waterLevelRecord.dateTime).valueOf()
-								)
-							) + 10000000 // for padding at the end of the graph
+						suggestedMin: growRun.duration.start,
+						suggestedMax: growRun.duration.end ? growRun.duration.end + 10000000 : undefined // for padding at the end of the graph
 					},
 					y: {
 						title: { display: true, text: 'Water Level / mm' },

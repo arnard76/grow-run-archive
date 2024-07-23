@@ -8,15 +8,15 @@
 	export let medium: 'air-temperature' | 'water-temperature';
 
 	let dateTime: string;
-	let temperature: number;
+	let value: number;
 </script>
 
 <AddTemplate
 	onClick={() => {
-		growRun.recordTemperature(medium, { dateTime, temperature });
+		growRun.recordCondition(medium, { dateTime, value });
 		growRunsStore.updateGrowRun(growRun);
 	}}
 	addText="Record"
 >
-	<Inputs bind:temperature bind:dateTime />
+	<Inputs bind:temperature={value} bind:dateTime />
 </AddTemplate>

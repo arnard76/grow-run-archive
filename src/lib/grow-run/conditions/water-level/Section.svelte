@@ -17,7 +17,7 @@
 
 		{#if anyRecords}
 			<ul>
-				{#each growRun.conditions['water-level'] || [] as waterLevelRecord (waterLevelRecord.dateTime)}
+				{#each Object.entries(growRun.conditions['water-level'] || {}) as [_, waterLevelRecord] (waterLevelRecord.dateTime)}
 					<WaterLevel
 						{waterLevelRecord}
 						{timezone}

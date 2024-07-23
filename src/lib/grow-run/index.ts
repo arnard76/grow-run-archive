@@ -4,8 +4,12 @@ import type Conditions from '$lib/grow-run/conditions/conditions';
 import type { Duration } from './details/duration/types';
 import type { Harvest } from './harvest/types';
 import type Resource from '$lib/resource';
-import type { TemperatureRecord } from './conditions/temperature/types';
-import type { WaterLevelRecord } from './conditions/water-level/types';
+import type { ConditionMeasurement } from '$lib/grow-run/conditions/conditions';
+import { getDatabase, push, ref } from '@firebase/database';
+import { set } from 'firebase/database';
+import { session } from '$lib/firebase/user';
+import { get } from 'svelte/store';
+import type ConditionsData from '$lib/grow-run/conditions/conditions';
 
 export type GrowRunConstructorType = {
 	id: string;
@@ -113,29 +117,26 @@ export default class GrowRun {
 		return this.calculateDurationInHours() / 24;
 	}
 
-	recordTemperature(
-		medium: 'air-temperature' | 'water-temperature',
-		{ dateTime, temperature }: TemperatureRecord
-	) {
-		this.conditions[medium] = this.conditions[medium] || [];
-
-		if (this.conditions[medium]?.map((temp) => temp.dateTime).includes(dateTime))
-			throw Error('This date time already has a temperature recorded. Try editing instead?');
-
-		this.conditions[medium]?.push({ dateTime, temperature });
-	}
-
-	recordWaterLevel({ dateTime, waterLevel }: WaterLevelRecord) {
-		this.conditions['water-level'] = this.conditions['water-level'] || [];
+	recordCondition(condition: keyof ConditionsData, { dateTime, value }: ConditionMeasurement) {
+		this.conditions[condition] = this.conditions[condition] || {};
 
 		if (
-			this.conditions['water-level']
-				?.map((waterLevelRecord) => waterLevelRecord.dateTime)
+			Object.values(this.conditions[condition])
+				.map((record) => record.dateTime)
 				.includes(dateTime)
 		)
 			throw Error('This date time already has a temperature recorded. Try editing instead?');
 
-		this.conditions['water-level']?.push({ dateTime, waterLevel });
+		// this.conditions[medium]?.push({ dateTime, value });
+		set(
+			push(
+				ref(getDatabase(), `${get(session).user?.uid}/grow-runs/${this.id}/conditions/${condition}`)
+			),
+			{
+				dateTime,
+				value
+			}
+		);
 	}
 
 	// updateTemperatureRecord(medium){}

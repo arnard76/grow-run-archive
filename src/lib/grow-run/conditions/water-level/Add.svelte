@@ -3,16 +3,16 @@
 	import { growRunsStore } from '$lib/grow-run/store';
 	import type GrowRun from '$lib/grow-run';
 	import Inputs from './Inputs.svelte';
-	import type { WaterLevelRecord } from './types';
+	import { type ConditionMeasurement } from '../conditions';
 
 	export let growRun: GrowRun;
 
-	let waterLevelRecord: WaterLevelRecord = {} as WaterLevelRecord;
+	let waterLevelRecord: ConditionMeasurement = {} as ConditionMeasurement;
 </script>
 
 <AddTemplate
 	onClick={() => {
-		growRun.recordWaterLevel(waterLevelRecord);
+		growRun.recordCondition('water-level', waterLevelRecord);
 		growRunsStore.updateGrowRun(growRun);
 	}}
 	addText="Record"
