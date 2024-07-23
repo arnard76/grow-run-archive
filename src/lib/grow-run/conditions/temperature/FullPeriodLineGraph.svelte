@@ -8,8 +8,8 @@
 	export let growRun: GrowRun;
 	export let timezone: string;
 
-	$: airTemps = growRun.conditions['air-temperature'] || [];
-	$: waterTemps = growRun.conditions['water-temperature'] || [];
+	$: airTemps = Object.values(growRun.conditions['air-temperature'] || {});
+	$: waterTemps = Object.values(growRun.conditions['water-temperature'] || {});
 
 	function formatData(temps: TemperatureRecord[]) {
 		return temps
