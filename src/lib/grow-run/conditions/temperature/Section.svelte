@@ -12,7 +12,7 @@
 
 {#if medium && growRun.conditions[medium]?.length}
 	<ul>
-		{#each growRun.conditions[medium] || [] as temperature, index (temperature.dateTime)}
+		{#each Object.entries(growRun.conditions[medium] || {}) as [_, temperature] (temperature.dateTime)}
 			<Temperature
 				temperatureObj={temperature}
 				{timezone}
@@ -28,9 +28,3 @@
 	</p>
 {/if}
 <Add {growRun} {medium} />
-
-<style>
-	.summary {
-		font-weight: bold;
-	}
-</style>
