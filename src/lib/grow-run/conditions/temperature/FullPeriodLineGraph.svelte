@@ -2,23 +2,14 @@
 	import Chart from 'chart.js/auto';
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 	import type GrowRun from '$lib/grow-run';
-	import type { TemperatureRecord } from './types';
 	import { prettyFormatDate } from '$lib/grow-run/details/duration/util';
+	import { formatData } from '../conditions';
 
 	export let growRun: GrowRun;
 	export let timezone: string;
 
-	$: airTemps = Object.values(growRun.conditions['air-temperature'] || {});
-	$: waterTemps = Object.values(growRun.conditions['water-temperature'] || {});
-
-	function formatData(temps: TemperatureRecord[]) {
-		return temps
-			.map((record) => ({
-				x: new Date(record.dateTime).valueOf(),
-				y: record.temperature
-			}))
-			.sort(({ x: t1 }, { x: t2 }) => t1 - t2);
-	}
+	$: airTemps = growRun.conditions['air-temperature'] || {};
+	$: waterTemps = growRun.conditions['water-temperature'] || {};
 
 	$: data = {
 		datasets: [
@@ -54,20 +45,8 @@
 							}
 						},
 
-						min:
-							growRun.duration.start ||
-							Math.min(
-								...[...airTemps, ...waterTemps].map((airTemp) =>
-									new Date(airTemp.dateTime).valueOf()
-								)
-							),
-						max:
-							growRun.duration.end ||
-							Math.max(
-								...[...airTemps, ...waterTemps].map((airTemp) =>
-									new Date(airTemp.dateTime).valueOf()
-								)
-							) + 10000000 // for padding at the end of the graph
+						suggestedMin: growRun.duration.start,
+						suggestedMax: growRun.duration.end ? growRun.duration.end + 10000000 : undefined // for padding at the end of the graph
 					},
 					y: {
 						title: { display: true, text: 'Temperature / °C' }

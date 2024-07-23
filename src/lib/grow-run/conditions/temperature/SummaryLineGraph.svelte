@@ -3,21 +3,21 @@
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 	import type GrowRun from '$lib/grow-run';
 	import { getTimeValue, timeValueToString } from '$lib/grow-run/details/duration/util';
-	import type { TemperatureRecord } from './types';
+	import { type ConditionMeasurements } from '../conditions';
 
 	export let growRun: GrowRun;
 	export let timezone: string;
 
-	$: airTemps = Object.values(growRun.conditions['air-temperature'] || []);
-	$: waterTemps = Object.values(growRun.conditions['water-temperature'] || []);
+	$: airTemps = growRun.conditions['air-temperature'] || {};
+	$: waterTemps = growRun.conditions['water-temperature'] || {};
 
-	function formatTemps(temps: TemperatureRecord[]) {
-		return temps
+	function formatData(temps: ConditionMeasurements) {
+		return Object.values(temps)
 			.map((temperature) => ({
 				x: getTimeValue(temperature.dateTime, timezone) as number,
-				y: temperature.temperature
+				y: temperature.value
 			}))
-			.sort((a, b) => (a.x > b.x ? -1 : 1));
+			.sort(({ x: t1 }, { x: t2 }) => t1 - t2);
 	}
 
 	$: data = {
@@ -25,11 +25,11 @@
 			? [
 					{
 						label: 'air temperature',
-						data: formatTemps(airTemps)
+						data: formatData(airTemps)
 					},
 					{
 						label: 'water temperature',
-						data: formatTemps(waterTemps)
+						data: formatData(waterTemps)
 					}
 			  ]
 			: []

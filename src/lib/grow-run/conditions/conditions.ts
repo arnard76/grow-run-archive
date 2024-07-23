@@ -1,12 +1,23 @@
-// different type of conditions
+export type ConditionMeasurement = { dateTime: string; value: number };
 
-import type { TemperatureRecord } from './temperature/types';
-import type { WaterLevelRecord } from './water-level/types';
+export type ConditionMeasurements = { [id: string | number]: ConditionMeasurement };
 
-type Conditions = {
-	'air-temperature'?: TemperatureRecord[];
-	'water-temperature'?: TemperatureRecord[];
-	'water-level'?: WaterLevelRecord[];
+type ConditionsMeasurements = {
+	[conditionName in string]: ConditionMeasurements;
 };
 
-export default Conditions;
+export type { ConditionsMeasurements as default };
+
+/**
+ *
+ * @returns data in a format suitable for Charts
+ */
+export function formatData(conditionMeasurements: ConditionMeasurements) {
+	const tempRecords = Object.values(conditionMeasurements);
+	return tempRecords
+		.map(({ dateTime, value }) => ({
+			x: new Date(dateTime).valueOf(),
+			y: value
+		}))
+		.sort(({ x: t1 }, { x: t2 }) => t1 - t2);
+}

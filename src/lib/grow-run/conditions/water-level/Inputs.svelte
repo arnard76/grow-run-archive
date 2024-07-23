@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { formatToLocalDate, formatToUTCISO } from '$lib/grow-run/details/duration/util';
-	import type { WaterLevelRecord } from './types';
+	import type { ConditionMeasurement } from '../conditions';
 
 	/**have to switch between two formats here
 	 * 1. ISO UTC timezone (what times are stored as)
 	 * 2. shortened local timezone (for input element)
 	 */
-	export let waterLevelRecord: WaterLevelRecord;
+	export let waterLevelRecord: ConditionMeasurement;
 
 	let localDateTimeInput = formatToLocalDate(waterLevelRecord.dateTime);
 
@@ -19,7 +19,7 @@
 
 <label>
 	Water Level:
-	<input type="number" bind:value={waterLevelRecord.waterLevel} min="0" inputmode="numeric" />mm
+	<input type="number" bind:value={waterLevelRecord.value} min="0" inputmode="numeric" />mm
 </label>
 
 <label>
