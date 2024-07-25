@@ -7,18 +7,16 @@
 	import type ConditionsMeasurements from '../conditions';
 
 	export let growRun: GrowRun;
-	export let conditionName: keyof ConditionsMeasurements;
+	export let conditionNames: (keyof ConditionsMeasurements)[];
+	export let yAxisTitle: string = conditionNames[0];
 	export let timezone: string;
 
-	$: conditionMeasurements = growRun.conditions[conditionName] || {};
-
 	$: data = {
-		datasets: [
-			{
-				label: toVerbose(conditionName),
-				data: formatMeasurementsData(conditionMeasurements)
-			}
-		]
+		datasets: conditionNames.map((conditionName) => ({
+			label: conditionName,
+			name: toVerbose(conditionName),
+			data: formatMeasurementsData(growRun.conditions[conditionName] || {})
+		}))
 	};
 
 	let canvas: HTMLCanvasElement | undefined;
@@ -42,26 +40,31 @@
 							}
 						},
 
-						suggestedMin: growRun.duration.start
-						// suggestedMax: growRun.duration.end ? growRun.duration.end + 10000000 : undefined // for padding at the end of the graph
+						suggestedMin: growRun.duration.start,
+						suggestedMax: growRun.duration.end ? growRun.duration.end + 10000000 : undefined // for padding at the end of the graph
 					},
 					y: {
 						title: {
 							display: true,
-							text: `${toVerbose(conditionName)} / ${getConditionMetadata(conditionName).units}`
+							text: `${toVerbose(yAxisTitle)} / ${conditionNames.map(
+								(name) => getConditionMetadata(name).units
+							)}`
 						}
 					}
 				},
 				plugins: {
 					legend: { display: data.datasets.length > 1 },
 					tooltip: {
+						displayColors: data.datasets.length > 1,
 						callbacks: {
 							title: (tooltips) => {
 								return prettyFormatDate(
 									new Date((tooltips[0].raw as any).x as number).toUTCString(),
 									timezone
 								);
-							}
+							},
+							label: (tooltipItem) =>
+								tooltipItem.parsed.y + getConditionMetadata(tooltipItem.dataset.label).units
 						}
 					}
 				}

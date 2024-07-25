@@ -3,20 +3,19 @@
 	import { growRunsStore } from '$lib/grow-run/store';
 	import Add from './Add.svelte';
 	import ListItem from './ListItem.svelte';
-	import DefaultFullPeriodGraph from './FullPeriodLineGraph.svelte';
-	import DefaultTimeOfDayGraph from './SummaryLineGraph.svelte';
+	import DefaultFullPeriodGraph from './FullPeriodGraph.svelte';
+	import DefaultTimeOfDayGraph from './TimeOfDayGraph.svelte';
 	import type ConditionsMeasurements from '../conditions';
 	import { toVerbose } from '../conditions';
-	import Toggle from 'svelte-toggle';
+	import ToggleCharts from './ToggleCharts.svelte';
 
-	export let FullPeriodGraph: any = DefaultFullPeriodGraph;
-	export let TimeOfDayGraph: any = DefaultTimeOfDayGraph;
+	export let FullPeriodGraph: null | typeof DefaultFullPeriodGraph = DefaultFullPeriodGraph;
+	export let TimeOfDayGraph: null | typeof DefaultTimeOfDayGraph = DefaultTimeOfDayGraph;
 
 	export let growRun: GrowRun;
 	export let timezone: string;
 	export let conditionName: keyof ConditionsMeasurements;
 
-	let showTimeOfDayGraph = false; // if false then show the time of day graph
 	let expandRecords = false;
 	$: anyRecords = Object.keys(growRun.conditions[conditionName] || {})?.length;
 </script>
@@ -24,26 +23,19 @@
 <section>
 	<h3>{toVerbose(conditionName)}</h3>
 	{#if anyRecords}
-		<div class="text-center">
-			{#if FullPeriodGraph && TimeOfDayGraph}
-				<div class="flex gap-4">
-					<h5>Entire grow run</h5>
-					<Toggle hideLabel bind:toggled={showTimeOfDayGraph} />
-					<h5>Time of day</h5>
-				</div>
-			{/if}
-			{#if FullPeriodGraph && !showTimeOfDayGraph}
-				<FullPeriodGraph {growRun} {timezone} {conditionName} />
-			{:else if TimeOfDayGraph}
-				<TimeOfDayGraph {growRun} {timezone} {conditionName} />
-			{/if}
-		</div>
+		<ToggleCharts
+			{growRun}
+			conditionNames={[conditionName]}
+			{FullPeriodGraph}
+			{TimeOfDayGraph}
+			{timezone}
+		/>
 	{/if}
 
 	<div class="w-full">
 		{#if anyRecords}
 			{#if expandRecords}
-				<button on:click={() => (expandRecords = !expandRecords)}> Hide records 🔼</button>
+				<button on:click={() => (expandRecords = !expandRecords)}>Hide records 🔼</button>
 				<Add {conditionName} {growRun} />
 				<ul class="flex flex-col items-center mt-4">
 					{#each Object.entries(growRun.conditions[conditionName] || {}) as [_, conditionMeasurement] (conditionMeasurement.dateTime)}
@@ -51,14 +43,12 @@
 							{conditionName}
 							{conditionMeasurement}
 							{timezone}
-							onUpdate={(conditionMeasurement) => {
-								growRunsStore.updateGrowRun(growRun);
-							}}
+							onUpdate={(conditionMeasurement) => growRunsStore.updateGrowRun(growRun)}
 						/>
 					{/each}
 				</ul>
 
-				<button on:click={() => (expandRecords = !expandRecords)}> Hide records 🔼</button>
+				<button on:click={() => (expandRecords = !expandRecords)}>Hide records 🔼</button>
 			{:else}
 				<button on:click={() => (expandRecords = !expandRecords)}>Show records 🔽</button>
 			{/if}
