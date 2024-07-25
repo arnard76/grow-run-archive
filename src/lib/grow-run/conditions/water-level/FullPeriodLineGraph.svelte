@@ -3,7 +3,7 @@
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 	import type GrowRun from '$lib/grow-run';
 	import { prettyFormatDate } from '$lib/grow-run/details/duration/util';
-	import { formatData } from '../conditions';
+	import { formatMeasurementsData } from '../conditions';
 
 	export let growRun: GrowRun;
 	export let timezone: string;
@@ -14,7 +14,7 @@
 		datasets: [
 			{
 				label: 'water level',
-				data: formatData(waterLevels)
+				data: formatMeasurementsData(waterLevels)
 			}
 		]
 	};
