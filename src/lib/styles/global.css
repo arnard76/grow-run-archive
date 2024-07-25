@@ -19,7 +19,7 @@ p {
 }
 
 h3 {
-	@apply mt-8;
+	@apply mt-8 mb-4;
 }
 
 button,
