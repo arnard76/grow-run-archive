@@ -61,5 +61,5 @@ export function getTimeValue(
 // "hh:mm"
 export function timeValueToString(timeValueInMS: number) {
 	const minutes = Math.round(((timeValueInMS / 3600000) % 1) * 60);
-	return `${Math.round(timeValueInMS / 3600000)}:${minutes < 10 ? minutes + '0' : minutes}`;
+	return `${Math.floor(timeValueInMS / 3600000)}:${minutes < 10 ? '0' + minutes : minutes}`;
 }
