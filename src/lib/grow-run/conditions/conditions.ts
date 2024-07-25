@@ -22,8 +22,8 @@ export function formatMeasurementsData(conditionMeasurements: ConditionMeasureme
 		.sort(({ x: t1 }, { x: t2 }) => t1 - t2);
 }
 
-export function getConditionMetadata(conditionName: keyof ConditionsMeasurements) {
-	if (conditionsMetadata[conditionName]) return conditionsMetadata[conditionName];
+export function getConditionMetadata(conditionName?: keyof ConditionsMeasurements) {
+	if (conditionName && conditionsMetadata[conditionName]) return conditionsMetadata[conditionName];
 
 	return { units: 'NULLUNITS' };
 }

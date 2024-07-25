@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type GrowRun from '$lib/grow-run';
-	import TemperatureSection from './temperature/Section.svelte';
-	import FullPeriodLineGraph from './temperature/FullPeriodLineGraph.svelte';
-	import SummaryLineGraph from './temperature/SummaryLineGraph.svelte';
+	import FullPeriodLineGraph from './condition/FullPeriodGraph.svelte';
+	import TimeOfDayGraph from './condition/TimeOfDayGraph.svelte';
 	import TimezoneInput from './TimezoneInput.svelte';
-	import WaterLevelSection from './water-level/Section.svelte';
+	import ConditionSection from './condition/StandardSection.svelte';
+	import ToggleCharts from './condition/ToggleCharts.svelte';
 
 	export let growRun: GrowRun;
 
@@ -20,20 +20,37 @@
 <section>
 	<h2>Conditions</h2>
 	<TimezoneInput bind:timezone />
-	<div class="flex flex-wrap">
+	<div>
 		<div>
-			<h3>Air temperature</h3>
-			<TemperatureSection {growRun} medium="air-temperature" {timezone} />
+			<ConditionSection
+				{growRun}
+				{timezone}
+				conditionName="air-temperature"
+				FullPeriodGraph={null}
+				TimeOfDayGraph={null}
+			/>
 
-			<h3>Water temperature</h3>
-			<TemperatureSection {growRun} medium="water-temperature" {timezone} />
+			<ConditionSection
+				{growRun}
+				{timezone}
+				conditionName="water-temperature"
+				FullPeriodGraph={null}
+				TimeOfDayGraph={null}
+			/>
 		</div>
 		<div>
 			{#if anyTempsRecorded}
-				<FullPeriodLineGraph {growRun} {timezone} />
-				<SummaryLineGraph {growRun} {timezone} />
+				<ToggleCharts
+					FullPeriodGraph={FullPeriodLineGraph}
+					{TimeOfDayGraph}
+					conditionNames={['air-temperature', 'water-temperature']}
+					yAxisTitle="temperature"
+					{growRun}
+					{timezone}
+				></ToggleCharts>
 			{/if}
 		</div>
 	</div>
-	<WaterLevelSection {growRun} {timezone} />
+	<ConditionSection {growRun} {timezone} conditionName="humidity" />
+	<ConditionSection {growRun} {timezone} conditionName="water-level" />
 </section>

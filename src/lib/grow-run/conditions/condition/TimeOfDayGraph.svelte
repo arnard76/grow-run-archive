@@ -7,10 +7,10 @@
 	import type ConditionsMeasurements from '../conditions';
 
 	export let growRun: GrowRun;
-	export let conditionName: keyof ConditionsMeasurements;
 	export let timezone: string;
 
-	$: conditionMeasurements = growRun.conditions[conditionName] || {};
+	export let conditionNames: (keyof ConditionsMeasurements)[];
+	export let yAxisTitle: string = conditionNames[0];
 
 	function formatData(temps: ConditionMeasurements) {
 		return Object.values(temps)
@@ -23,12 +23,11 @@
 
 	$: data = {
 		datasets: timezone
-			? [
-					{
-						label: toVerbose(conditionName),
-						data: formatData(conditionMeasurements)
-					}
-			  ]
+			? conditionNames.map((conditionName) => ({
+					label: conditionName,
+					name: toVerbose(conditionName),
+					data: formatData(growRun.conditions[conditionName] || {})
+			  }))
 			: []
 	};
 
@@ -58,15 +57,20 @@
 					y: {
 						title: {
 							display: true,
-							text: `${toVerbose(conditionName)} / ${getConditionMetadata(conditionName).units}`
+							text: `${toVerbose(yAxisTitle)} / ${conditionNames.map(
+								(name) => getConditionMetadata(name).units
+							)}`
 						}
 					}
 				},
 				plugins: {
 					legend: { display: data.datasets.length > 1 },
 					tooltip: {
+						displayColors: data.datasets.length > 1,
 						callbacks: {
-							title: (tooltips) => timeValueToString((tooltips[0].raw as any).x as number)
+							title: (tooltips) => timeValueToString((tooltips[0].raw as any).x as number),
+							label: (tooltipItem) =>
+								tooltipItem.parsed.y + getConditionMetadata(tooltipItem.dataset.label).units
 						}
 					}
 				}
