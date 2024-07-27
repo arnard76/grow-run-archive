@@ -5,7 +5,7 @@
 	import AddGrowRun from '$lib/grow-run/Add.svelte';
 </script>
 
-<h1>Grow Run Cost Archive</h1>
+<h1>Grow Run Archive</h1>
 <AddGrowRun />
 <table class="grow-runs">
 	<tr>
