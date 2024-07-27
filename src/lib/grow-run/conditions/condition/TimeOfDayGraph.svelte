@@ -21,6 +21,7 @@
 	export let conditionNames: (keyof ConditionsMeasurements)[];
 	export let yAxisTitle: string = conditionNames[0];
 	const showsMultipleDatasets = conditionNames.length > 1;
+	const multipleAxes = getUnitsForConditions(conditionNames).length > 1;
 
 	function formatData(temps: ConditionMeasurements) {
 		return Object.values(temps)
@@ -90,6 +91,13 @@
 	}
 </script>
 
-<div class="h-96 w-full">
-	<canvas bind:this={canvas}></canvas>
-</div>
+{#if multipleAxes}
+	<p class="text-red-400">
+		Time of day graph can't show multiple axes yet. <br />The conditions ({conditionNames.toString()})
+		have multiple units ({getUnitsForConditions(conditionNames)}) so have to be on multiple axes.
+	</p>
+{:else}
+	<div class="h-96 w-full">
+		<canvas bind:this={canvas}></canvas>
+	</div>
+{/if}
