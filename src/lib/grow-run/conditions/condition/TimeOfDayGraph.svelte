@@ -7,7 +7,12 @@
 		prettyFormatDate,
 		timeValueToString
 	} from '$lib/grow-run/details/duration/util';
-	import { toVerbose, getConditionMetadata, type ConditionMeasurements } from '../conditions';
+	import {
+		toVerbose,
+		getConditionMetadata,
+		type ConditionMeasurements,
+		getUnitsForConditions
+	} from '../conditions';
 	import type ConditionsMeasurements from '../conditions';
 
 	export let growRun: GrowRun;
@@ -63,9 +68,7 @@
 					y: {
 						title: {
 							display: true,
-							text: `${toVerbose(yAxisTitle)} / ${conditionNames.map(
-								(name) => getConditionMetadata(name).units
-							)}`
+							text: `${toVerbose(yAxisTitle)} / ${getUnitsForConditions(conditionNames)}`
 						}
 					}
 				},

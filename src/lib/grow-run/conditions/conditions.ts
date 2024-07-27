@@ -38,3 +38,9 @@ const conditionsMetadata: { [key in string]: any } = {
 export function toVerbose(conditionName: keyof ConditionsMeasurements) {
 	return (conditionName.charAt(0).toUpperCase() + conditionName.slice(1)).replace('-', ' ');
 }
+
+export function getUnitsForConditions(conditionNames: (keyof ConditionsMeasurements)[]) {
+	return conditionNames
+		.map((name) => getConditionMetadata(name).units)
+		.filter((value, index, array) => array.indexOf(value) === index);
+}

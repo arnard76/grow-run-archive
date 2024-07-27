@@ -3,7 +3,12 @@
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 	import type GrowRun from '$lib/grow-run';
 	import { prettyFormatDate } from '$lib/grow-run/details/duration/util';
-	import { toVerbose, getConditionMetadata, formatMeasurementsData } from '../conditions';
+	import {
+		toVerbose,
+		getConditionMetadata,
+		formatMeasurementsData,
+		getUnitsForConditions
+	} from '../conditions';
 	import type ConditionsMeasurements from '../conditions';
 
 	export let growRun: GrowRun;
@@ -48,9 +53,7 @@
 					y: {
 						title: {
 							display: true,
-							text: `${toVerbose(yAxisTitle)} / ${conditionNames.map(
-								(name) => getConditionMetadata(name).units
-							)}`
+							text: `${toVerbose(yAxisTitle)} / ${getUnitsForConditions(conditionNames)}`
 						}
 					}
 				},
