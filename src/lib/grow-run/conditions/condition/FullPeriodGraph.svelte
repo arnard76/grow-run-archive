@@ -11,6 +11,8 @@
 	export let yAxisTitle: string = conditionNames[0];
 	export let timezone: string;
 
+	const showsMultipleDatasets = conditionNames.length > 1;
+
 	$: data = {
 		datasets: conditionNames.map((conditionName) => ({
 			label: conditionName,
@@ -64,7 +66,9 @@
 								);
 							},
 							label: (tooltipItem) =>
-								tooltipItem.parsed.y + getConditionMetadata(tooltipItem.dataset.label).units
+								`${showsMultipleDatasets ? tooltipItem.dataset.label + ': ' : ''}${
+									tooltipItem.parsed.y
+								} ${getConditionMetadata(tooltipItem.dataset.label).units}`
 						}
 					}
 				}

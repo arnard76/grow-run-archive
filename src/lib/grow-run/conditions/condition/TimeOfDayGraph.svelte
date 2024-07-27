@@ -2,7 +2,11 @@
 	import Chart from 'chart.js/auto';
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 	import type GrowRun from '$lib/grow-run';
-	import { getTimeValue, timeValueToString } from '$lib/grow-run/details/duration/util';
+	import {
+		getTimeValue,
+		prettyFormatDate,
+		timeValueToString
+	} from '$lib/grow-run/details/duration/util';
 	import { toVerbose, getConditionMetadata, type ConditionMeasurements } from '../conditions';
 	import type ConditionsMeasurements from '../conditions';
 
@@ -11,12 +15,14 @@
 
 	export let conditionNames: (keyof ConditionsMeasurements)[];
 	export let yAxisTitle: string = conditionNames[0];
+	const showsMultipleDatasets = conditionNames.length > 1;
 
 	function formatData(temps: ConditionMeasurements) {
 		return Object.values(temps)
 			.map((temperature) => ({
 				x: getTimeValue(temperature.dateTime, timezone) as number,
-				y: temperature.value
+				y: temperature.value,
+				label: prettyFormatDate(temperature.dateTime, timezone)
 			}))
 			.sort(({ x: t1 }, { x: t2 }) => t1 - t2);
 	}
@@ -64,13 +70,15 @@
 					}
 				},
 				plugins: {
-					legend: { display: data.datasets.length > 1 },
+					legend: { display: showsMultipleDatasets },
 					tooltip: {
-						displayColors: data.datasets.length > 1,
+						displayColors: showsMultipleDatasets,
 						callbacks: {
-							title: (tooltips) => timeValueToString((tooltips[0].raw as any).x as number),
+							title: (tooltips) => (tooltips[0].raw as { label: string }).label,
 							label: (tooltipItem) =>
-								tooltipItem.parsed.y + getConditionMetadata(tooltipItem.dataset.label).units
+								`${showsMultipleDatasets ? tooltipItem.dataset.label + ': ' : ''}${
+									tooltipItem.parsed.y
+								} ${getConditionMetadata(tooltipItem.dataset.label).units}`
 						}
 					}
 				}
