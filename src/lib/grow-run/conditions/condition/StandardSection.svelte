@@ -54,8 +54,8 @@
 			{/if}
 		{:else}
 			<p>
-				Currently, no {toVerbose(conditionName).toLowerCase()} measurements have been measured AND recorded.
-				Feel free to add below:
+				Currently, no {toVerbose(conditionName).toLowerCase()} measurements have been recorded. Feel
+				free to add below:
 			</p>
 		{/if}
 		<Add {conditionName} {growRun} />
