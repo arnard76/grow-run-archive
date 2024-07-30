@@ -28,15 +28,19 @@ export function getConditionMetadata(conditionName?: keyof ConditionsMeasurement
 	return { units: 'NULLUNITS' };
 }
 
-const conditionsMetadata: { [key in string]: any } = {
+type ConditionMetadata = { [key in string]: { units: string; verbose?: string } };
+
+const conditionsMetadata: ConditionMetadata = {
 	humidity: { units: '%' },
 	'air-temperature': { units: '°C' },
 	'water-temperature': { units: '°C' },
-	'water-level': { units: 'mm' }
+	'water-level': { units: 'mm' },
+	pH: { units: '', verbose: 'pH' },
+	illuminance: { units: 'lux' }
 };
 
 export function toVerbose(conditionName: keyof ConditionsMeasurements) {
-	return (conditionName.charAt(0).toUpperCase() + conditionName.slice(1)).replace('-', ' ');
+	return getConditionMetadata(conditionName).verbose || conditionName.replace('-', ' ');
 }
 
 export function getUnitsForConditions(conditionNames: (keyof ConditionsMeasurements)[]) {

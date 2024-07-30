@@ -53,4 +53,6 @@
 	</div>
 	<ConditionSection {growRun} {timezone} conditionName="humidity" />
 	<ConditionSection {growRun} {timezone} conditionName="water-level" />
+	<ConditionSection {growRun} {timezone} conditionName="pH" />
+	<ConditionSection {growRun} {timezone} conditionName="illuminance" />
 </section>
