@@ -36,11 +36,11 @@ const conditionsMetadata: ConditionMetadata = {
 	'water-temperature': { units: '°C' },
 	'water-level': { units: 'mm' },
 	pH: { units: '', verbose: 'pH' },
-	illuminance: { units: 'lux' }
+	'average-illuminance-at-netcup': { units: 'lux' }
 };
 
 export function toVerbose(conditionName: keyof ConditionsMeasurements) {
-	return getConditionMetadata(conditionName).verbose || conditionName.replace('-', ' ');
+	return getConditionMetadata(conditionName).verbose || conditionName.replaceAll('-', ' ');
 }
 
 export function getUnitsForConditions(conditionNames: (keyof ConditionsMeasurements)[]) {
