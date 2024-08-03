@@ -24,13 +24,12 @@
 	const multipleAxes = getUnitsForConditions(conditionNames).length > 1;
 
 	function formatData(temps: ConditionMeasurements) {
-		return Object.values(temps)
-			.map((temperature) => ({
-				x: getTimeValue(temperature.dateTime, timezone) as number,
-				y: temperature.value,
-				label: prettyFormatDate(temperature.dateTime, timezone)
-			}))
-			.sort(({ x: t1 }, { x: t2 }) => t1 - t2);
+		return Object.values(temps).map((temperature) => ({
+			x: getTimeValue(temperature.dateTime, timezone) as number,
+			y: temperature.value,
+			label: prettyFormatDate(temperature.dateTime, timezone)
+		}));
+		// .sort(({ x: t1 }, { x: t2 }) => t1 - t2);
 	}
 
 	$: data = {
