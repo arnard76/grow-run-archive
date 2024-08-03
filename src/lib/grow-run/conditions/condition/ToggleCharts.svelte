@@ -18,7 +18,7 @@
 
 <div class="text-center">
 	{#if FullPeriodGraph && TimeOfDayGraph}
-		<div class="flex gap-4">
+		<div class="flex gap-4 mb-4">
 			<h5>Entire grow run</h5>
 			<Toggle hideLabel bind:toggled={showTimeOfDayGraph} />
 			<h5>Time of day</h5>
