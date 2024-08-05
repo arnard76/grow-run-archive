@@ -23,12 +23,14 @@
 		<button
 			title="Delete"
 			on:click={(e) => {
-				onDelete && onDelete(e);
+				onDelete(e);
 				expanded = !expanded;
 			}}
 			>💩
 		</button>
 	{/if}
+
+	<button title="Cancel" on:click={() => (expanded = !expanded)}>Cancel</button>
 {:else}
 	<div class="flex items-top gap-4">
 		<slot name="display" />
