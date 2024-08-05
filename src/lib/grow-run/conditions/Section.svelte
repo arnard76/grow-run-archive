@@ -20,37 +20,9 @@
 <section>
 	<h2>Conditions</h2>
 	<TimezoneInput bind:timezone />
-	<div>
-		<div>
-			<ConditionSection
-				{growRun}
-				{timezone}
-				conditionName="air-temperature"
-				FullPeriodGraph={null}
-				TimeOfDayGraph={null}
-			/>
 
-			<ConditionSection
-				{growRun}
-				{timezone}
-				conditionName="water-temperature"
-				FullPeriodGraph={null}
-				TimeOfDayGraph={null}
-			/>
-		</div>
-		<div>
-			{#if anyTempsRecorded}
-				<ToggleCharts
-					FullPeriodGraph={FullPeriodLineGraph}
-					{TimeOfDayGraph}
-					conditionNames={['air-temperature', 'water-temperature']}
-					yAxisTitle="temperature"
-					{growRun}
-					{timezone}
-				></ToggleCharts>
-			{/if}
-		</div>
-	</div>
+	<ConditionSection {growRun} {timezone} conditionName="air-temperature" />
+	<ConditionSection {growRun} {timezone} conditionName="water-temperature" />
 	<ConditionSection {growRun} {timezone} conditionName="humidity" />
 	<ConditionSection {growRun} {timezone} conditionName="water-level" />
 	<ConditionSection {growRun} {timezone} conditionName="pH" />

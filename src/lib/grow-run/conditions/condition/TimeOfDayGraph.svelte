@@ -11,7 +11,8 @@
 		toVerbose,
 		getConditionMetadata,
 		type ConditionMeasurements,
-		getUnitsForConditions
+		getUnitsForConditions,
+		type ConditionMeasurement
 	} from '../conditions';
 	import type ConditionsMeasurements from '../conditions';
 
@@ -23,23 +24,63 @@
 	const showsMultipleDatasets = conditionNames.length > 1;
 	const multipleAxes = getUnitsForConditions(conditionNames).length > 1;
 
-	function formatData(measurements: ConditionMeasurements) {
-		return Object.values(measurements).map((measurement) => ({
+	function formatMeasurementToDatapoint(measurement: ConditionMeasurement) {
+		return {
 			x: getTimeValue(measurement.dateTime, timezone) as number,
 			y: measurement.value,
 			label: prettyFormatDate(measurement.dateTime, timezone)
-		}));
-		// .sort(({ x: t1 }, { x: t2 }) => t1 - t2);
+		};
+	}
+
+	function formatDatasets() {
+		function getDateOnly(dateString: string) {
+			const d = new Date(new Date(dateString).toLocaleString('en-US', { timeZone: timezone }));
+			return new Date(d.getFullYear(), d.getMonth(), d.getDate()).toString();
+		}
+
+		function differentDays(dateString: string, dateString2: string) {
+			return getDateOnly(dateString) != getDateOnly(dateString2);
+		}
+
+		let datasets = [];
+
+		for (let conditionName of conditionNames) {
+			const sortedMeasurements = Object.values(growRun.conditions[conditionName]).sort(
+				(a, b) => new Date(a.dateTime).valueOf() - new Date(b.dateTime).valueOf()
+			);
+
+			let dataset: any;
+			for (let index = 0; index < sortedMeasurements.length; index++) {
+				let measurement = sortedMeasurements[index];
+				if (
+					index === 0 ||
+					differentDays(measurement.dateTime, sortedMeasurements[index - 1].dateTime)
+				) {
+					// make a new dataset pls
+					dataset && datasets.push(dataset);
+					dataset = {
+						data: [formatMeasurementToDatapoint(measurement)],
+						label: conditionName,
+						name:
+							toVerbose(conditionName) +
+							' ' +
+							new Date(getDateOnly(measurement.dateTime)).toLocaleDateString('en-NZ', {
+								timeZone: timezone
+							})
+					};
+				} else {
+					dataset.data.push(formatMeasurementToDatapoint(measurement));
+				}
+
+				if (index === sortedMeasurements.length - 1) datasets.push(dataset);
+			}
+		}
+
+		return datasets;
 	}
 
 	$: data = {
-		datasets: timezone
-			? conditionNames.map((conditionName) => ({
-					label: conditionName,
-					name: toVerbose(conditionName),
-					data: formatData(growRun.conditions[conditionName] || {})
-			  }))
-			: []
+		datasets: formatDatasets()
 	};
 
 	let canvas: HTMLCanvasElement | undefined;
