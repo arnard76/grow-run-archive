@@ -1,6 +1,6 @@
 import { uploadBytes, ref, list, getBlob } from 'firebase/storage';
 import type GrowRun from '$lib/grow-run';
-import { storage } from '$lib/database';
+import { storage } from '$lib/images/storage';
 import { get } from 'svelte/store';
 
 export async function uploadGrowSetupPhotos(growRun: GrowRun, files: File[]) {

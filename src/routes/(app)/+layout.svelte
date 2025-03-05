@@ -6,7 +6,7 @@
 	import loadingAnimation from '$lib/images/plant-growing-loading.webp';
 	import Menu from '$lib/components/Menu.svelte';
 	import { page } from '$app/stores';
-	import { initializeFirebase } from '$lib/database';
+	import { initializeFirebase } from '$lib/firebase';
 	import { onDestroy } from 'svelte';
 	import { resourcesList } from '$lib/resource/store';
 	import { growRunsStore } from '$lib/grow-run/store';
