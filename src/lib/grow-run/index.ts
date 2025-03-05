@@ -7,7 +7,7 @@ import type Resource from '$lib/resource';
 import type { ConditionMeasurement } from '$lib/grow-run/conditions/conditions';
 import { getDatabase, push, ref } from '@firebase/database';
 import { set } from 'firebase/database';
-import { session } from '$lib/firebase/user';
+import { session } from '$lib/user/user';
 import { get } from 'svelte/store';
 import type ConditionsData from '$lib/grow-run/conditions/conditions';
 

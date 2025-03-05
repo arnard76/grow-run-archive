@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { signInWithEmailAndPassword } from 'firebase/auth';
-	import { auth } from '$lib/firebase';
-	import { session } from '$lib/firebase/user';
+	import { auth } from '$lib/database';
+	import { session } from '$lib/user/user';
 	import type { FirebaseError } from 'firebase/app';
 
 	let email: string, password: string;

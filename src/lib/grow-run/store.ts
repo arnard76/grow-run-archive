@@ -1,20 +1,19 @@
 import { derived, get } from 'svelte/store';
 import GrowRun from '$lib/grow-run';
 import { getDatabase, push, ref, set, onValue, remove } from 'firebase/database';
-import { app } from '$lib/database/firebase';
-import { session } from '$lib/firebase/user';
+import { db } from '$lib/database';
+import { session } from '$lib/user/user';
 
 const db = getDatabase(app);
 export const growRunsStore = {
 	...derived(
-		session,
-		({ user }, storeSet) => {
+		[session, db],
+		([{ user }, $db], storeSet) => {
 			storeSet([]);
 
 			if (!user?.uid) return;
 
-			const growRunsRef = ref(db, `${user.uid}/grow-runs/`);
-
+			const growRunsRef = firebase.ref($db, `${user.uid}/grow-runs/`);
 			return onValue(growRunsRef, (snapshot) => {
 				const data = snapshot.val();
 				const converted = growRunsStore.convertToArray(data);

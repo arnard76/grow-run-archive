@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { auth } from '$lib/firebase';
-	import { session } from '$lib/firebase/user';
+	import { auth } from '$lib/database';
+	import { session } from '$lib/user/user';
 	import { signOut } from 'firebase/auth';
 
 	let error: string;

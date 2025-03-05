@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-	import { auth } from '$lib/firebase';
-	import { session } from '$lib/firebase/user';
-	import { isValidPassword } from '$lib/firebase/auth';
+	import { auth } from '$lib/database';
+	import { session } from '$lib/user/user';
+	import { isValidPassword } from '$lib/user/auth';
 
 	let email: string, password: string, confirmPassword: string;
 	let error: string;

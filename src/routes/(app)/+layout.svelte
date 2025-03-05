@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import { session } from '$lib/firebase/user';
+	import { session } from '$lib/user/user';
 
 	import loadingAnimation from '$lib/images/plant-growing-loading.webp';
 	import Menu from '$lib/components/Menu.svelte';
 	import { page } from '$app/stores';
-	import { initializeFirebase } from '$lib/firebase';
+	import { initializeFirebase } from '$lib/database';
 	import { onDestroy } from 'svelte';
 	import { resourcesList } from '$lib/resource/store';
 	import { growRunsStore } from '$lib/grow-run/store';

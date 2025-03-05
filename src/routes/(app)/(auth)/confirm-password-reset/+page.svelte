@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { confirmPasswordReset } from 'firebase/auth';
 	import { page } from '$app/stores';
-	import { auth } from '$lib/firebase';
-	import { isValidPassword } from '$lib/firebase/auth';
+	import { auth } from '$lib/database';
+	import { isValidPassword } from '$lib/user/auth';
 
 	const successMessage = 'Your password has been reset! <a href="/login">Try logging in</a>';
 	const resetCode = $page.url.searchParams.get('oobCode');

@@ -1,8 +1,7 @@
 import { derived, get } from 'svelte/store';
 import Resource from '$lib/resource';
-import { getDatabase, push, ref, set, onValue } from 'firebase/database';
-import { app } from '$lib/database/firebase';
-import { session } from '$lib/firebase/user';
+import { push, ref, set, onValue } from 'firebase/database';
+import { session } from '$lib/user/user';
 import {
 	getStorage,
 	uploadBytes,
@@ -10,8 +9,7 @@ import {
 	getDownloadURL,
 	deleteObject
 } from 'firebase/storage';
-
-const db = getDatabase(app);
+import { db } from '$lib/database';
 
 const noResourceFound = {
 	id: 'noid',
@@ -31,13 +29,13 @@ type databaseResourceListObject = {
 
 export const resourcesList = {
 	...derived(
-		session,
-		({ user }, storeSet) => {
+		[session, db],
+		([{ user }, $db], storeSet) => {
 			storeSet([]);
 
 			if (!user?.uid) return;
 
-			const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
+			const resourcesListRef = ref($db, `${user.uid}/resource-list/`);
 
 			return onValue(resourcesListRef, (snapshot) => {
 				const data = resourcesList.convertDbObjToArray(snapshot.val());

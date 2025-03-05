@@ -18,20 +18,29 @@ const firebaseConfig = {
 import { initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth } from 'firebase/auth';
 import { browser } from '$app/environment';
-import type { Firestore } from 'firebase/firestore';
-import { session } from './user';
+import { session } from '../user/user';
+import { writable, derived, get } from 'svelte/store';
+import { Database, getDatabase } from 'firebase/database';
+import { getStorage, type FirebaseStorage } from 'firebase/storage';
 
-export let db: Firestore;
-export let app: FirebaseApp;
-export let auth: Auth;
+let app = writable<FirebaseApp | undefined>(undefined);
+export const db = derived(
+	app,
+	(app, setDb: (d: Database) => void) => app && setDb(getDatabase(app))
+);
+export const auth = derived(app, (app, setAuth: (d: Auth) => void) => app && setAuth(getAuth(app)));
+export const storage = derived(
+	app,
+	(app, setStorage: (d: FirebaseStorage) => void) => app && setStorage(getStorage(app))
+);
 
 export const initializeFirebase = () => {
 	if (!browser) {
 		throw new Error("Can't use the Firebase client on the server.");
 	}
-	if (!app) {
-		app = initializeApp(firebaseConfig);
-		auth = getAuth(app);
-		return auth.onAuthStateChanged((user) => session.set({ user, loading: false }));
+	if (!get(app)) {
+		app.set(initializeApp(firebaseConfig));
+
+		return getAuth(get(app)).onAuthStateChanged((user) => session.set({ user, loading: false }));
 	}
 };

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { sendPasswordResetEmail } from 'firebase/auth';
-	import { auth } from '$lib/firebase';
+	import { auth } from '$lib/database';
 	import type { FirebaseError } from 'firebase/app';
 
 	const successMessage =
