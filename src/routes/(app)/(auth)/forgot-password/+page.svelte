@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { sendPasswordResetEmail } from 'firebase/auth';
-	import { auth } from '$lib/database';
+	import { auth } from '$lib/user/auth';
 	import type { FirebaseError } from 'firebase/app';
 
 	const successMessage =
@@ -14,7 +14,7 @@
 		e.preventDefault();
 		loading = true;
 		try {
-			await sendPasswordResetEmail(auth, email, {
+			await sendPasswordResetEmail($auth, email, {
 				url: `http://localhost:5173/confirm-password-reset`
 			});
 			error = false;

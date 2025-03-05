@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { auth } from '$lib/database';
+	import { auth } from '$lib/user/auth';
 	import { session } from '$lib/user/user';
 	import { signOut } from 'firebase/auth';
 
@@ -8,7 +8,7 @@
 
 	if (browser && $session.user) {
 		$session.loading = true;
-		signOut(auth).catch((reason) => {
+		signOut($auth).catch((reason) => {
 			$session.loading = false;
 			error = reason;
 		});

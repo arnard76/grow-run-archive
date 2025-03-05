@@ -19,7 +19,7 @@ import { initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { browser } from '$app/environment';
 import { session } from '../user/user';
-import { writable, derived, get } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 
 export const app = writable<FirebaseApp | undefined>(undefined);
 
