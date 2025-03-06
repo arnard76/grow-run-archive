@@ -15,3 +15,6 @@ jobs:
           start: npm run preview
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:4173'
+        env: # Or as an environment variable
+          SECRET_BREVO_CLIENT_EMAIL: ${{ secrets.SECRET_BREVO_CLIENT_EMAIL }}
+          SECRET_BREVO_CLIENT_PASS: ${{ secrets.SECRET_BREVO_CLIENT_PASS }}
