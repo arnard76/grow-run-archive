@@ -10,3 +10,8 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm run preview
+          # quote the url to be safe against YML parsing surprises
+          wait-on: 'http://localhost:4173'
