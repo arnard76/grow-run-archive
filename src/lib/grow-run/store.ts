@@ -1,58 +1,32 @@
-import { derived, get } from 'svelte/store';
-import GrowRun from '$lib/grow-run';
-import { getDatabase, push, ref, set, onValue, remove } from 'firebase/database';
+import { EntityAPI } from '$lib/api';
 import { db } from '$lib/database';
+import GrowRun from '$lib/grow-run';
 import { session } from '$lib/user/user';
+import * as firebase from 'firebase/database';
+import { derived } from 'svelte/store';
 
-const db = getDatabase(app);
-export const growRunsStore = {
-	...derived(
-		[session, db],
-		([{ user }, $db], storeSet) => {
-			storeSet([]);
+function convertToArray(growRunData: any[]): GrowRun[] {
+	return Object.entries(growRunData || {}).map(
+		([key, growRun]: [string, GrowRun]) => new GrowRun({ ...growRun, id: key })
+	);
+}
 
-			if (!user?.uid) return;
+export const growRuns = derived(
+	[session, db],
+	([{ user }, $db], setGrowRuns) => {
+		setGrowRuns([]);
 
-			const growRunsRef = firebase.ref($db, `${user.uid}/grow-runs/`);
-			return onValue(growRunsRef, (snapshot) => {
-				const data = snapshot.val();
-				const converted = growRunsStore.convertToArray(data);
-				storeSet(converted);
-			});
-		},
-		[] as GrowRun[]
-	),
+		const growRunsRef = growRunsAPI.entityRef('', user?.uid, $db);
+		if (!growRunsRef) throw Error("Can't get grow runs");
 
-	convertToArray(growRunData: any[]): GrowRun[] {
-		return Object.entries(growRunData || {}).map(
-			([key, growRun]: [string, GrowRun]) => new GrowRun({ ...growRun, id: key })
-		);
+		return firebase.onValue(growRunsRef, (snapshot) => setGrowRuns(convertToArray(snapshot.val())));
 	},
+	[] as GrowRun[]
+);
 
-	updateGrowRun(growRun: GrowRun) {
-		const userId = get(session)?.user?.uid;
-		if (!userId) return;
+class GrowRunsAPI extends EntityAPI<GrowRun> {
+	entityName = 'grow-runs';
+	entityIdProperty: 'id' = 'id';
+}
 
-		const growRunRef = ref(db, `${userId}/grow-runs/${growRun.id}`);
-		set(growRunRef, growRun);
-	},
-
-	addGrowRun({ name }: { name: GrowRun['name'] }) {
-		const userId = get(session)?.user?.uid;
-		if (!userId) return;
-
-		const growRunsRef = ref(db, `${userId}/grow-runs/`);
-
-		const newGrowRunRef = push(growRunsRef);
-		set(newGrowRunRef, { name });
-	},
-
-	deleteGrowRun({ id }: GrowRun) {
-		const userId = get(session)?.user?.uid;
-		if (!userId) return;
-
-		const growRunToDeleteRef = ref(db, `${userId}/grow-runs/${id}`);
-
-		remove(growRunToDeleteRef);
-	}
-};
+export const growRunsAPI = new GrowRunsAPI();

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type GrowRun from '$lib/grow-run';
-	import { growRunsStore } from '../store';
+	import { growRunsAPI } from '../store';
 	import Add from './Add.svelte';
 	import Harvest from './ListItem.svelte';
 
@@ -16,7 +16,7 @@
 					{harvest}
 					onUpdateHarvest={(updatedHarvest) => {
 						growRun.harvests[index] = updatedHarvest;
-						growRunsStore.updateGrowRun(growRun);
+						growRunsAPI.updatePartial(growRun.id, { harvests: growRun.harvests });
 					}}
 				/>
 			{/each}

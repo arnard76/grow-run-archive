@@ -1,8 +1,8 @@
 <script lang="ts">
 	import EditTemplate from '$lib/components/EditTemplate.svelte';
-	import type GrowRun from '..';
+	import { growRunsAPI } from '$lib/grow-run/store';
 	import { resourcesList } from '$lib/resource/store';
-	import { growRunsStore } from '$lib/grow-run/store';
+	import type GrowRun from '..';
 	import Inputs from './Inputs.svelte';
 
 	export let growRun: GrowRun;
@@ -26,11 +26,11 @@
 				name: resourceName,
 				amountUsed: amountUsed
 			});
-			growRunsStore.updateGrowRun(growRun);
+			growRunsAPI.updatePartial(growRun.id, { resources: growRun.resources });
 		}}
 		onDelete={() => {
 			growRun.deleteResourceUsage(initialResourceName);
-			growRunsStore.updateGrowRun(growRun);
+			growRunsAPI.updatePartial(growRun.id, { resources: growRun.resources });
 		}}
 	>
 		<svelte:fragment slot="display">
