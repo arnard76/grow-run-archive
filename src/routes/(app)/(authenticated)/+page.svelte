@@ -2,6 +2,6 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	if (browser) {
-		goto('/archive');
+		goto('/grow-runs');
 	}
 </script>

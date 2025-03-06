@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let addText = '➕';
+	import Icon from '@iconify/svelte';
+
+	export let addText = 'Add';
 	export let onClick: (e: MouseEvent) => any;
 
 	let expanded = false;
@@ -14,6 +16,11 @@
 		expanded && onClick(e);
 		expanded = !expanded;
 	}}
+	title={addText}
 >
-	{addText}
+	{#if expanded}
+		<Icon icon="tabler:check" />
+	{:else}
+		<Icon icon="tabler:plus" />
+	{/if}
 </button>

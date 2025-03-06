@@ -1,5 +1,8 @@
 <script lang="ts">
-	export let editText = '✔️';
+	import Icon from '@iconify/svelte';
+
+	export let editText = 'Update';
+	export let deleteText = 'Delete';
 
 	export let onUpdate: (e: MouseEvent) => any;
 	export let onDelete: ((e: MouseEvent) => any) | null = null;
@@ -10,23 +13,25 @@
 {#if expanded}
 	<slot name="editing" />
 	<button
-		title="Update"
+		title={editText}
 		on:click={(e) => {
 			onUpdate(e);
 			expanded = !expanded;
 		}}
 	>
-		{editText}
+		<Icon icon="tabler:pencil-check" />
 	</button>
 
 	{#if onDelete}
 		<button
-			title="Delete"
+			title={deleteText}
+			class="danger"
 			on:click={(e) => {
 				onDelete(e);
 				expanded = !expanded;
 			}}
-			>💩
+		>
+			<Icon icon="tabler:trash" />
 		</button>
 	{/if}
 
@@ -34,6 +39,8 @@
 {:else}
 	<div class="flex items-top gap-4">
 		<slot name="display" />
-		<button on:click={(e) => (expanded = !expanded)}>✏️</button>
+		<button on:click={(e) => (expanded = !expanded)}>
+			<Icon icon="tabler:pencil" />
+		</button>
 	</div>
 {/if}

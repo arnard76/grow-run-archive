@@ -45,6 +45,25 @@ nav p,
 	@apply hover:bg-green-400 transition-all hover:scale-110 text-black;
 }
 
+button * {
+	@apply text-black;
+}
+
+button .iconify {
+	@apply transition-all;
+}
+
+button:hover .iconify {
+	@apply rotate-[8deg] transition-all;
+}
+
+button.danger {
+	@apply bg-orange-600 hover:bg-orange-400;
+}
+
+button.danger * {
+	@apply text-white;
+}
 /* grow run modal */
 
 .grow-run-archive-expanded-modal section {
@@ -53,4 +72,8 @@ nav p,
 
 .grow-run-archive-expanded-modal > section {
 	@apply p-8 w-full;
+}
+
+.iconify {
+	@apply text-xl;
 }
