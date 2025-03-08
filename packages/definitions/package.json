@@ -1,0 +1,14 @@
+{
+    "name": "@grow-run-archive/definitions",
+    "type": "module",
+    "scripts": {
+        "dev": "tsc --watch",
+        "build": "tsc"
+    },
+    "exports": {
+        ".": "./src/index.ts"
+    },
+    "devDependencies": {
+        "typescript": "latest"
+    }
+}
