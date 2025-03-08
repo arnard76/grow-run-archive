@@ -1,0 +1,22 @@
+{
+	"name": "grow-run-archive-e2e-tests",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"e2e-test": "npx cypress open --config baseUrl=http://localhost:5173"
+	},
+	"devDependencies": {
+		"@testing-library/cypress": "^10.0.3",
+		"autoprefixer": "^10.4.19",
+		"cypress": "^14.1.0",
+		"cypress-real-events": "^1.14.0",
+		"prettier": "^3.0.0",
+		"tslib": "^2.4.1",
+		"typescript": "^5.8.2",
+		"vite": "^5.0.0"
+	},
+	"type": "module",
+	"dependencies": {
+		"dayjs": "^1.11.10"
+	}
+}
