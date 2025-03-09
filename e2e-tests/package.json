@@ -5,18 +5,18 @@
 	"scripts": {
 		"dev": "npx cypress open --config baseUrl=http://localhost:5173"
 	},
+	"type": "module",
 	"devDependencies": {
+		"@grow-run-archive/definitions": "*",
 		"@testing-library/cypress": "^10.0.3",
 		"autoprefixer": "^10.4.19",
 		"cypress": "^14.1.0",
 		"cypress-real-events": "^1.14.0",
+		"dayjs": "^1.11.10",
+		"dotenv": "^16.4.7",
 		"prettier": "^3.0.0",
 		"tslib": "^2.4.1",
 		"typescript": "^5.8.2",
 		"vite": "^5.0.0"
-	},
-	"dependencies": {
-		"dayjs": "^1.11.10",
-		"@grow-run-archive/definitions": "*"
 	}
 }
