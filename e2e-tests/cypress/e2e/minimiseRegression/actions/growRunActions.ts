@@ -1,12 +1,27 @@
-import { GrowRun } from '@grow-run-archive/definitions';
+import { GrowRun, ResourceUsage } from '@grow-run-archive/definitions';
 import dayjs from 'dayjs';
 import Timezone from 'dayjs/plugin/Timezone';
 import DayJSUtc from 'dayjs/plugin/utc';
+import { closeModalButton } from './common';
+import { formatUsageOfResourcesAsObjects } from '../util/convertStringRequirementsToObjects';
 
 dayjs.extend(Timezone);
 dayjs.extend(DayJSUtc);
 
 export class GrowRunManager {
+	static entityName = 'Grow Run';
+	static clearAll() {
+		cy.visit('/');
+		cy.wait(4000);
+		const growRuns = cy.get('table tr');
+
+		growRuns.each(($growRun, index) => {
+			if (index === 0) return;
+			cy.wrap($growRun).click();
+			cy.findByRole('button', { name: /Delete Grow Run/i }).click();
+		});
+	}
+
 	growRunName: GrowRun['name'];
 
 	constructor(growRunName: GrowRun['name']) {
@@ -18,11 +33,11 @@ export class GrowRunManager {
 		addGrowRunButton.click();
 	}
 
-	private openGrowRunModal() {
+	expandAllDetails() {
 		cy.get('td').contains(this.growRunName).click();
 	}
+
 	start() {
-		this.openGrowRunModal();
 		cy.findAllByRole('button', { name: '✏️' }).eq(1).click();
 		const startTime = dayjs();
 		// const startTimeInput = startTime.tz('Pacific/Auckland').format('DD/MM/YYYY hh:mm a');
@@ -32,20 +47,35 @@ export class GrowRunManager {
 
 		// Check that GR has started
 		cy.reload();
-		this.openGrowRunModal();
+		this.expandAllDetails();
 		const displayedStartTime = startTime.tz('UTC').format('D MMM YYYY, h:mm a');
 		cy.findByText(displayedStartTime).should('be.visible');
 	}
 
-	static clearAll() {
-		cy.visit('/');
-		cy.wait(4000);
-		const growRuns = cy.get('table tr');
+	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {
+		if (!usageOfResourcesInput.length) return;
 
-		growRuns.each(($growRun, index) => {
-			if (index === 0) return;
-			cy.wrap($growRun).click();
-			cy.findByRole('button', { name: /Delete Grow Run/i }).click();
+		let usageOfResources: ResourceUsage[];
+		if (typeof usageOfResourcesInput[0] === 'string') {
+			usageOfResources = formatUsageOfResourcesAsObjects(usageOfResourcesInput as string[]);
+		} else {
+			usageOfResources = usageOfResourcesInput as ResourceUsage[];
+		}
+
+		const resourceUsageSection = () => cy.get('dialog > section').eq(1);
+
+		usageOfResources.forEach((usageOfResource) => {
+			const addResourceButton = resourceUsageSection().findByRole('button', { name: '➕' });
+			addResourceButton.click();
+			resourceUsageSection()
+				.find('input[type="number"]')
+				.type(usageOfResource.amountUsed.toString());
+			resourceUsageSection().find('select').select(usageOfResource.resourceName);
+			addResourceButton.click();
 		});
+	}
+
+	hideAllDetails() {
+		closeModalButton(GrowRunManager.entityName).click();
 	}
 }
