@@ -35,7 +35,7 @@ describe('Grow Run Archive', () => {
 		growRun.manuallyRecordUsageOfResources(resourceUsage2);
 		// growRun.manuallyRecordHarvest(23g, 15leaves)
 		// growRun.manuallyRecordHarvest(20g, 13leaves)
-		// growRun.end()
+		growRun.end();
 		//
 		// CHECK results - grow results and cost
 		// growRun.totalHarvestInLeaves().should('be.visible).should('be.equal', 53leaves)

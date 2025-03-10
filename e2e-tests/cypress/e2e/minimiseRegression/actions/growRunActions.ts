@@ -75,6 +75,21 @@ export class GrowRunManager {
 		});
 	}
 
+	end() {
+		cy.findAllByRole('button', { name: '✏️' }).eq(1).click();
+		const endTime = dayjs().add(90, 'days');
+		// const startTimeInput = startTime.tz('Pacific/Auckland').format('DD/MM/YYYY hh:mm a');
+		const endTimeInput = endTime.tz('Pacific/Auckland').format('YYYY-MM-DDTHH:mm');
+		cy.findByLabelText(/End Date:/i).type(endTimeInput);
+		cy.findByRole('button', { name: '✔️' }).click();
+
+		// Check that GR has started
+		cy.reload();
+		this.expandAllDetails();
+		const displayedStartTime = endTime.tz('UTC').format('D MMM YYYY, h:mm a');
+		cy.findByText(displayedStartTime).should('be.visible');
+	}
+
 	hideAllDetails() {
 		closeModalButton(GrowRunManager.entityName).click();
 	}

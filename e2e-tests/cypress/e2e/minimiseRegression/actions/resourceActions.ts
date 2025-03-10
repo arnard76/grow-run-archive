@@ -1,7 +1,6 @@
-type Resource = any;
+export type Resource = any;
 
 export function addResource(resource: Resource) {
-	cy.visit('/resources');
 	const addResourceButton = cy.findByRole('button', { name: /Add to list/i });
 	addResourceButton.click();
 
@@ -17,6 +16,7 @@ export function addResource(resource: Resource) {
 }
 
 export function addResources(resources: Resource[]) {
+	cy.visit('/resources');
 	resources.forEach((resource) => addResource(resource));
 }
 
