@@ -25,7 +25,9 @@
 			<hr />
 			<li class="font-bold list-none flex">
 				<span class="inline-block w-[300px]">Total cost</span>
-				${growRun.calculateCost($resourcesList).toFixed(2)}
+				<span>
+					${growRun.calculateCost($resourcesList).toFixed(2)}
+				</span>
 			</li>
 		</ul>
 	{:else}

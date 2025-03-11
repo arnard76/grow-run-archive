@@ -30,10 +30,9 @@
 
 			<li class="summary">
 				<span>Average</span>
-				<span>
-					{(growRun.totalMassLeavesHarvested() / growRun.totalNumLeavesHarvested()).toFixed(2)}g per
-					leaf
-				</span>
+				<pre>
+					{(growRun.totalMassLeavesHarvested() / growRun.totalNumLeavesHarvested()).toFixed(2)}g per leaf
+				</pre>
 			</li>
 		</ul>
 	{:else}

@@ -36,7 +36,7 @@
 		<div class="flex-1 w-[90%]">
 			<DetailsSection {growRun} />
 		</div>
-		<button title="Close grow run" on:click={onClose}>❌</button>
+		<button title="Close Grow Run" on:click={onClose}>❌</button>
 	</section>
 	<ResourceUsageSection {growRun} />
 

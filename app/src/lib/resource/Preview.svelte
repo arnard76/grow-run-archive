@@ -3,11 +3,11 @@
 
 	export let resource: Resource;
 
-	$: ({ cost, name, amountType, amountTotal, amountUnit, productLink } = resource);
+	$: ({ cost, name, amountTotal, amountUnit } = resource);
 </script>
 
 <td on:click><a href={`/resource/${name}`}>{name}</a></td>
-<td on:click>${cost} for</td>
+<td on:click>${cost}</td>
 <td on:click>{amountTotal}{amountUnit}</td>
 
 <style>
