@@ -11,7 +11,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          install: npm i
           build: npm run build
           start: npm start
           command: npm run e2e-pipeline
