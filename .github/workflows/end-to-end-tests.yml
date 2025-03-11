@@ -7,19 +7,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       # Install npm dependencies, cache them correctly
-      - name: Start application
-        run: npm i
-          npm run build
-          npm start
-        env: # Or as an environment variable
-          SECRET_BREVO_CLIENT_EMAIL: ${{ secrets.SECRET_BREVO_CLIENT_EMAIL }}
-          SECRET_BREVO_CLIENT_PASS: ${{ secrets.SECRET_BREVO_CLIENT_PASS }}
 
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          install: false
+          build: npm run build
+          start: npm start
           command: npm run e2e-pipeline
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:4173'
+        env: # Or as an environment variable
+          SECRET_BREVO_CLIENT_EMAIL: ${{ secrets.SECRET_BREVO_CLIENT_EMAIL }}
+          SECRET_BREVO_CLIENT_PASS: ${{ secrets.SECRET_BREVO_CLIENT_PASS }}
