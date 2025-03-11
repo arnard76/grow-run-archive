@@ -14,7 +14,7 @@ dayjs.extend(DayJSUtc);
 export class GrowRunManager {
 	static entityName = 'Grow Run';
 	static clearAll() {
-		cy.visit('/');
+		GrowRunManager.goToAllGrowRuns();
 		cy.wait(4000);
 		const growRuns = cy.get('table tr');
 
@@ -27,23 +27,34 @@ export class GrowRunManager {
 
 	growRunName: GrowRun['name'];
 
-	constructor(growRunName: GrowRun['name']) {
-		cy.visit('/');
+	constructor(growRunName: GrowRun['name'], existingGrowRun = false) {
+		this.growRunName = growRunName;
+		if (existingGrowRun) return;
+
+		GrowRunManager.goToAllGrowRuns();
 		const addGrowRunButton = cy.findByRole('button', { name: /add grow run/i });
 		addGrowRunButton.click();
 		cy.findByPlaceholderText(/grow run name/i).type(growRunName);
-		this.growRunName = growRunName;
 		addGrowRunButton.click();
 	}
 
-	expandAllDetails() {
-		cy.get('td').contains(this.growRunName).click();
+	static goToAllGrowRuns() {
+		cy.visit('/');
 	}
+
+	private get growRunPreview() {
+		return cy.contains('tr', this.growRunName);
+	}
+
+	goToGrowRun() {
+		this.growRunPreview.click();
+	}
+
+	expandAllDetails = this.goToGrowRun;
 
 	start() {
 		cy.findAllByRole('button', { name: '✏️' }).eq(1).click();
 		const startTime = dayjs();
-		// const startTimeInput = startTime.tz('Pacific/Auckland').format('DD/MM/YYYY hh:mm a');
 		const startTimeInput = startTime.tz('Pacific/Auckland').format('YYYY-MM-DDTHH:mm');
 		cy.findByLabelText(/Start Date:/i).type(startTimeInput);
 		cy.findByRole('button', { name: '✔️' }).click();
@@ -53,6 +64,10 @@ export class GrowRunManager {
 		this.expandAllDetails();
 		const displayedStartTime = startTime.tz('UTC').format('D MMM YYYY, h:mm a');
 		cy.findByText(displayedStartTime).should('be.visible');
+	}
+
+	private get resourceUsageSection() {
+		return cy.get('dialog > section').eq(1);
 	}
 
 	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {
@@ -65,17 +80,19 @@ export class GrowRunManager {
 			usageOfResources = usageOfResourcesInput as ResourceUsage[];
 		}
 
-		const resourceUsageSection = () => cy.get('dialog > section').eq(1);
-
 		usageOfResources.forEach((usageOfResource) => {
-			const addResourceButton = resourceUsageSection().findByRole('button', { name: '➕' });
+			const addResourceButton = this.resourceUsageSection.findByRole('button', { name: '➕' });
 			addResourceButton.click();
-			resourceUsageSection()
+			this.resourceUsageSection
 				.find('input[type="number"]')
 				.type(usageOfResource.amountUsed.toString());
-			resourceUsageSection().find('select').select(usageOfResource.resourceName);
+			this.resourceUsageSection.find('select').select(usageOfResource.resourceName);
 			addResourceButton.click();
 		});
+	}
+
+	private get harvestsSection() {
+		return cy.get('dialog > section').eq(2);
 	}
 
 	manuallyRecordHarvest(harvestsInput: (Harvest | string)[]) {
@@ -88,16 +105,61 @@ export class GrowRunManager {
 			harvests = harvestsInput as Harvest[];
 		}
 
-		const harvestsSection = () => cy.get('dialog > section').eq(2);
-
 		harvests.forEach((harvest) => {
-			const addHarvestButton = harvestsSection().findByRole('button', { name: 'Record' });
+			const addHarvestButton = this.harvestsSection.findByRole('button', { name: 'Record' });
 			addHarvestButton.click();
-			harvestsSection().find('input[type="number"]').eq(0).type(harvest.numberOfLeaves.toString());
-			harvestsSection().find('input[type="number"]').eq(1).type(harvest.massOfLeaves.toString());
-			if (harvest.datetime === 'now') harvestsSection().find('input[type="checkbox"]').check();
+			this.harvestsSection
+				.find('input[type="number"]')
+				.eq(0)
+				.type(harvest.numberOfLeaves.toString());
+			this.harvestsSection.find('input[type="number"]').eq(1).type(harvest.massOfLeaves.toString());
+			if (harvest.datetime === 'now') this.harvestsSection.find('input[type="checkbox"]').check();
 			addHarvestButton.click();
 		});
+	}
+
+	get totalHarvest() {
+		return this.harvestsSection
+			.find('.summary')
+			.contains('Total')
+			.parent()
+			.find('span')
+			.eq(1)
+			.scrollIntoView();
+	}
+
+	get averageLeafWeight() {
+		return this.harvestsSection
+			.find('.summary')
+			.contains('Average')
+			.parent()
+			.find('span')
+			.eq(1)
+			.scrollIntoView();
+	}
+
+	get totalCost() {
+		return this.resourceUsageSection
+			.find('li')
+			.contains('Total cost')
+			.parent()
+			.find('span')
+			.eq(1)
+			.scrollIntoView();
+	}
+
+	get totalCostPerUnit() {
+		GrowRunManager.goToAllGrowRuns();
+		return this.growRunPreview.find('td').eq(3);
+
+		// Another 👇👇 : user opens grow run to see this stat?
+		// return this.resourceUsageSection
+		// 	.find('.summary')
+		// 	.contains('Total cost')
+		// 	.parent()
+		// 	.find('span')
+		// 	.eq(1)
+		// 	.scrollIntoView();
 	}
 
 	end() {
