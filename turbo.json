@@ -4,7 +4,7 @@
         "build": {
             "inputs": [
                 "$TURBO_DEFAULT$",
-                ".env"
+                "app/.env"
             ],
             "outputs": [
                 "dist/**",
