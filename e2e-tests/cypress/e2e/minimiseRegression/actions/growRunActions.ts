@@ -1,9 +1,12 @@
-import { GrowRun, ResourceUsage } from '@grow-run-archive/definitions';
+import { GrowRun, Harvest, ResourceUsage } from '@grow-run-archive/definitions';
 import dayjs from 'dayjs';
 import Timezone from 'dayjs/plugin/Timezone';
 import DayJSUtc from 'dayjs/plugin/utc';
 import { closeModalButton } from './common';
-import { formatUsageOfResourcesAsObjects } from '../util/convertStringRequirementsToObjects';
+import {
+	formatHarvestsAsObjects,
+	formatUsageOfResourcesAsObjects
+} from '../util/convertStringRequirementsToObjects';
 
 dayjs.extend(Timezone);
 dayjs.extend(DayJSUtc);
@@ -75,19 +78,43 @@ export class GrowRunManager {
 		});
 	}
 
-	end() {
-		cy.findAllByRole('button', { name: '✏️' }).eq(1).click();
-		const endTime = dayjs().add(90, 'days');
-		// const startTimeInput = startTime.tz('Pacific/Auckland').format('DD/MM/YYYY hh:mm a');
-		const endTimeInput = endTime.tz('Pacific/Auckland').format('YYYY-MM-DDTHH:mm');
-		cy.findByLabelText(/End Date:/i).type(endTimeInput);
-		cy.findByRole('button', { name: '✔️' }).click();
+	manuallyRecordHarvest(harvestsInput: (Harvest | string)[]) {
+		if (!harvestsInput.length) return;
 
-		// Check that GR has started
-		cy.reload();
-		this.expandAllDetails();
-		const displayedStartTime = endTime.tz('UTC').format('D MMM YYYY, h:mm a');
-		cy.findByText(displayedStartTime).should('be.visible');
+		let harvests: Harvest[];
+		if (typeof harvestsInput[0] === 'string') {
+			harvests = formatHarvestsAsObjects(harvestsInput as string[]);
+		} else {
+			harvests = harvestsInput as Harvest[];
+		}
+
+		const harvestsSection = () => cy.get('dialog > section').eq(2);
+
+		harvests.forEach((harvest) => {
+			const addHarvestButton = harvestsSection().findByRole('button', { name: 'Record' });
+			addHarvestButton.click();
+			harvestsSection().find('input[type="number"]').eq(0).type(harvest.numberOfLeaves.toString());
+			harvestsSection().find('input[type="number"]').eq(1).type(harvest.massOfLeaves.toString());
+			if (harvest.datetime === 'now') harvestsSection().find('input[type="checkbox"]').check();
+			addHarvestButton.click();
+		});
+	}
+
+	end() {
+		const heroSection = () => cy.get('dialog > section').eq(0);
+
+		cy.window().then((win) => {
+			cy.findAllByRole('button', { name: '✏️' }).eq(1).click();
+			let endTime = dayjs(win.Date());
+			const endTimeInput = endTime.tz('Pacific/Auckland').format('YYYY-MM-DDTHH:mm');
+			cy.findByLabelText(/End Date:/i).type(endTimeInput);
+			cy.findByRole('button', { name: '✔️' }).click();
+
+			cy.reload();
+			this.expandAllDetails();
+			const displayedStartTime = endTime.tz('UTC').format('D MMM YYYY, h:mm a');
+			heroSection().findByText(displayedStartTime).should('be.visible');
+		});
 	}
 
 	hideAllDetails() {
