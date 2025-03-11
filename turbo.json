@@ -4,7 +4,11 @@
         "build": {
             "inputs": [
                 "$TURBO_DEFAULT$",
-                "app/.env"
+                ".env*"
+            ],
+            "env": [
+                "SECRET_BREVO_CLIENT_EMAIL",
+                "SECRET_BREVO_CLIENT_PASS"
             ],
             "outputs": [
                 "dist/**",
