@@ -15,8 +15,8 @@
 		if (!amountUsedInput || !selectedResourceToUse) return;
 
 		growRun.addResourceUsage({
-			amountUsed: amountUsedInput,
-			name: selectedResourceToUse
+			resourceName: selectedResourceToUse,
+			amountUsed: amountUsedInput
 		});
 		growRunsStore.updateGrowRun(growRun);
 	}}
