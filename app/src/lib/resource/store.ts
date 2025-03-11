@@ -25,9 +25,7 @@ const noResourceFound = {
 	notes: ''
 };
 
-type databaseResourceListObject = {
-	[key: string]: any;
-};
+type databaseResourceListObject = { [key: string]: any };
 
 export const resourcesList = {
 	...derived(
@@ -72,7 +70,8 @@ export const resourcesList = {
 	},
 
 	async archiveProductPageForResource({ productLink, name }: Resource) {
-		if (!productLink) throw Error('The url for the product page to be archived is missing.');
+		if (!productLink) return;
+		// if (!productLink) throw Error('The url for the product page to be archived is missing.');
 
 		const queryParams = new URLSearchParams({
 			access_key: 'EPiZSx745qtheA',
@@ -135,7 +134,11 @@ export const resourcesList = {
 
 		const newResourceRef = push(resourcesListRef);
 		await set(newResourceRef, resource);
-		this.archiveProductPageForResource(resource);
+		try {
+			this.archiveProductPageForResource(resource);
+		} catch (e) {
+			console.error(e);
+		}
 	},
 
 	// local array is always up to date with db so can get directly from here
@@ -151,8 +154,13 @@ export const resourcesList = {
 		const resources = get(this);
 		const index = resources.findIndex((resource) => resource.id === resourceToEdit.id);
 
-		if (resources[index].productLink != resourceToEdit.productLink)
-			this.archiveProductPageForResource(resourceToEdit);
+		if (resources[index].productLink != resourceToEdit.productLink) {
+			try {
+				this.archiveProductPageForResource(resourceToEdit);
+			} catch (e) {
+				console.error(e);
+			}
+		}
 
 		resources[index] = resourceToEdit;
 		await this.updateResourcesListOnDb(resources);
@@ -164,6 +172,10 @@ export const resourcesList = {
 		resources.splice(index, 1);
 		await this.updateResourcesListOnDb(resources);
 
-		await this.unarchiveProductPageForResource(resourceToDelete);
+		try {
+			await this.unarchiveProductPageForResource(resourceToDelete);
+		} catch (e) {
+			console.error(e);
+		}
 	}
 };
