@@ -27,7 +27,7 @@ describe('Grow Run Archive', () => {
 		fastForwardedDays += numDays;
 		const fastForwardedDate = new Date(dayjs().add(fastForwardedDays, 'days').valueOf());
 		cy.clock(fastForwardedDate, ['Date']);
-		cy.visit('/');
+		GrowRunManager.goToAllGrowRuns();
 	}
 
 	before(() => {
@@ -35,10 +35,11 @@ describe('Grow Run Archive', () => {
 		clearAllResources();
 		GrowRunManager.clearAll();
 	});
+
 	it('Common Grow Run Scenario', () => {
 		addResources(exampleResources);
 
-		const growRun = new GrowRunManager('Back in auckland motherfuckers');
+		const growRun = new GrowRunManager('BCKIN AKL - Grow Run #17');
 		growRun.expandAllDetails();
 		growRun.start();
 		growRun.manuallyRecordUsageOfResources(resourceUsage1);
@@ -59,16 +60,12 @@ describe('Grow Run Archive', () => {
 		fastForwardDays(1);
 		growRun.expandAllDetails();
 		growRun.end();
-		//
+
 		// CHECK results - grow results and cost
-		// growRun.totalHarvestInLeaves().should('be.visible).should('be.equal', 53leaves)
-		// growRun.totalHarvestInGrams().should('be.visible).should('be.equal', 73g)
-		// growRun.averageLeafWeight().should('be.visible).should('be.equal', 1.4g)
-		//
-		// growRun.totalCost().should('be.visible').should('be.equal', $1.49)
+		growRun.totalHarvest.should('be.visible').should('contain.text', '73.00g (53 leaves)');
+		growRun.averageLeafWeight.should('be.visible').should('contain.text', '1.38g per leaf');
+		growRun.totalCost.should('be.visible').should('contain.text', '$1.49');
 		/** Default unit is {unitBasedOn: 'mass', amount: 100, unit: 'g'} */
-		// growRun.totalCostPerUnit().should('be.visible').should('be.equal', $2.04)
-		// ...
-		growRun.hideAllDetails();
+		growRun.totalCostPerUnit.should('be.visible').should('contain.text', '$2.04');
 	});
 });
