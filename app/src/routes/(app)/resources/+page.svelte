@@ -6,6 +6,13 @@
 	import AddTemplate from '$lib/components/AddTemplate.svelte';
 
 	let newResource = {} as ResourceClass;
+
+	function addResource() {
+		let randomColour = '#' + Math.floor(Math.random() * 16777215).toString(16);
+		newResource.colour = randomColour;
+		resourcesList.addResource(newResource);
+		newResource = {} as ResourceClass;
+	}
 </script>
 
 <table>
@@ -14,19 +21,14 @@
 		<th>Cost</th>
 		<th>Amount</th>
 	</tr>
-	{#each structuredClone($resourcesList) as resource (resource.name)}
+	{#each structuredClone($resourcesList) as resource (resource.id)}
 		<Resource {resource} />
 	{/each}
 </table>
 
-<AddTemplate
-	addText="Add to list"
-	onClick={() => {
-		let randomColour = '#' + Math.floor(Math.random() * 16777215).toString(16);
-		newResource.colour = randomColour;
-		resourcesList.addResource(newResource);
-	}}
->
+<AddTemplate addText="Add to list" onClick={addResource}>
+	<p>Here is an example:</p>
+	<q>10mL Volume of nutrients for $10NZD</q>
 	<Inputs bind:resourceToCreateOrUpdate={newResource} />
 </AddTemplate>
 

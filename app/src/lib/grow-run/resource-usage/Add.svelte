@@ -19,6 +19,8 @@
 			amountUsed: amountUsedInput
 		});
 		growRunsStore.updateGrowRun(growRun);
+		amountUsedInput = undefined;
+		selectedResourceToUse = undefined;
 	}}
 	addText="➕"
 >

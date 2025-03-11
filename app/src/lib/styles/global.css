@@ -45,6 +45,21 @@ nav p,
 	@apply hover:bg-green-400 transition-all hover:scale-110 text-black;
 }
 
+/* forms */
+
+input,
+textarea,
+select {
+	@apply border-b-2 border-0 border-solid border-black px-3 py-1 rounded-sm
+	focus:bg-slate-300 bg-white hover:bg-slate-200 transition-all duration-300 outline-none;
+}
+
+label input,
+label textarea,
+label select {
+	@apply block mt-2;
+}
+
 /* grow run modal */
 
 .grow-run-archive-expanded-modal section {

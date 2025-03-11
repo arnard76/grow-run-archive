@@ -25,11 +25,23 @@
 		<p>{error}</p>
 	{/if}
 	<div class="container">
-		<label for="uname"><b>Username</b></label>
-		<input type="text" placeholder="Enter Username" bind:value={email} required />
+		<label for="login-username"><b>Username</b></label>
+		<input
+			type="text"
+			id="login-username"
+			placeholder="Enter Username"
+			bind:value={email}
+			required
+		/>
 
-		<label for="psw"><b>Password</b></label>
-		<input type="password" placeholder="Enter Password" bind:value={password} required />
+		<label for="login-password"><b>Password</b></label>
+		<input
+			type="password"
+			id="login-password"
+			placeholder="Enter Password"
+			bind:value={password}
+			required
+		/>
 
 		<button on:click={submitHandler}>Submit</button>
 

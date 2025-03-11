@@ -123,7 +123,7 @@ export class GrowRunManager {
 			.find('.summary')
 			.contains('Total')
 			.parent()
-			.find('span')
+			.children()
 			.eq(1)
 			.scrollIntoView();
 	}
@@ -133,7 +133,7 @@ export class GrowRunManager {
 			.find('.summary')
 			.contains('Average')
 			.parent()
-			.find('span')
+			.children()
 			.eq(1)
 			.scrollIntoView();
 	}
@@ -143,7 +143,7 @@ export class GrowRunManager {
 			.find('li')
 			.contains('Total cost')
 			.parent()
-			.find('span')
+			.children()
 			.eq(1)
 			.scrollIntoView();
 	}

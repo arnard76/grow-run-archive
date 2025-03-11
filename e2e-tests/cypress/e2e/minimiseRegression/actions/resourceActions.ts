@@ -5,7 +5,7 @@ export function addResource(resource: Resource) {
 	addResourceButton.click();
 
 	cy.findByPlaceholderText(/resource name/i).type(resource.name);
-	cy.findByPlaceholderText(/cost for amount/i).type(resource.cost);
+	cy.findByPlaceholderText(/product price/i).type(resource.cost);
 	cy.findByPlaceholderText('amount', { exact: true }).type(resource.amount);
 	cy.findByTitle('Select how the amount of this resource is specified').select(resource.quantity);
 	cy.findByTitle('Select the unit of measuring an amount of this resource').select(resource.unit);
@@ -27,7 +27,7 @@ export function clearAllResources() {
 
 	resourcesList.each(($resourceItem, index) => {
 		if (index === 0) return;
-		cy.wrap($resourceItem).click();
+		cy.wrap($resourceItem).find('td').eq(0).click();
 		cy.findByRole('button', { name: '✏️' }).click();
 		cy.findByTitle(/Delete/i).click();
 	});
