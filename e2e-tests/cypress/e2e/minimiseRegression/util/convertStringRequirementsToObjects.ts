@@ -1,4 +1,4 @@
-import { ResourceUsage } from '@grow-run-archive/definitions';
+import { Harvest, ResourceUsage } from '@grow-run-archive/definitions';
 import { Resource } from '../actions/resourceActions';
 const numberMatchRegex = /[+-]?\d+(\.\d+)?/g;
 
@@ -25,5 +25,15 @@ export function formatUsageOfResourcesAsObjects(usageOfResources: string[]): Res
 		const resourceName = resource.split(`${amountUsed}${unit} `)[1];
 
 		return { resourceName, amountUsed };
+	});
+}
+
+export function formatHarvestsAsObjects(harvests: string[]): Harvest[] {
+	return harvests.map((harvest) => {
+		const [massOfLeaves, leaves, ...rest] = harvest.split(' ');
+		const massOfLeavesInGrams = parseFloat(massOfLeaves.split('g')[0]);
+		const numberOfLeaves = parseFloat(leaves.split('leaves')[0]);
+
+		return { massOfLeaves: massOfLeavesInGrams, numberOfLeaves, datetime: 'now' };
 	});
 }

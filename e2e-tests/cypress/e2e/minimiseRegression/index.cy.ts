@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { login } from './actions/authActions';
 import { GrowRunManager } from './actions/growRunActions';
 import { addResources, clearAllResources } from './actions/resourceActions';
@@ -19,6 +20,16 @@ const resourceUsage1 = [
 const resourceUsage2 = ['5mL nutrients'];
 
 describe('Grow Run Archive', () => {
+	let fastForwardedDays = 0;
+
+	function fastForwardDays(numDays: number) {
+		cy.clock().invoke('restore');
+		fastForwardedDays += numDays;
+		const fastForwardedDate = new Date(dayjs().add(fastForwardedDays, 'days').valueOf());
+		cy.clock(fastForwardedDate, ['Date']);
+		cy.visit('/');
+	}
+
 	before(() => {
 		login(Cypress.env('CYPRESS_TEST_USER_EMAIL'), Cypress.env('CYPRESS_TEST_USER_PASSWORD'));
 		clearAllResources();
@@ -31,10 +42,22 @@ describe('Grow Run Archive', () => {
 		growRun.expandAllDetails();
 		growRun.start();
 		growRun.manuallyRecordUsageOfResources(resourceUsage1);
-		// growRun.manuallyRecordHarvest(30g, 25leaves)
+
+		fastForwardDays(30);
+		growRun.expandAllDetails();
+		growRun.manuallyRecordHarvest(['30g 25leaves']);
 		growRun.manuallyRecordUsageOfResources(resourceUsage2);
-		// growRun.manuallyRecordHarvest(23g, 15leaves)
-		// growRun.manuallyRecordHarvest(20g, 13leaves)
+
+		fastForwardDays(20);
+		growRun.expandAllDetails();
+		growRun.manuallyRecordHarvest(['23g 15leaves']);
+
+		fastForwardDays(13);
+		growRun.expandAllDetails();
+		growRun.manuallyRecordHarvest(['20g 13leaves']);
+
+		fastForwardDays(1);
+		growRun.expandAllDetails();
 		growRun.end();
 		//
 		// CHECK results - grow results and cost
