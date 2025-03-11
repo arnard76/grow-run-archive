@@ -3,8 +3,8 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "npx cypress open --config baseUrl=http://localhost:5173",
-		"e2e-pipeline": "npx cypress run --config baseUrl=http://localhost:4173"
+		"dev": "cypress open --config baseUrl=http://localhost:5173",
+		"e2e-pipeline": "cypress run --config baseUrl=http://localhost:4173"
 	},
 	"type": "module",
 	"dependencies": {
