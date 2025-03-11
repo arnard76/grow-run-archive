@@ -31,6 +31,7 @@ describe('Grow Run Archive', () => {
 	}
 
 	before(() => {
+		console.log(Cypress.env());
 		login(Cypress.env('CYPRESS_TEST_USER_EMAIL'), Cypress.env('CYPRESS_TEST_USER_PASSWORD'));
 		clearAllResources();
 		GrowRunManager.clearAll();
