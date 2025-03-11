@@ -1,6 +1,6 @@
 import { GrowRun, Harvest, ResourceUsage } from '@grow-run-archive/definitions';
 import dayjs from 'dayjs';
-import Timezone from 'dayjs/plugin/Timezone';
+import Timezone from 'dayjs/plugin/timezone';
 import DayJSUtc from 'dayjs/plugin/utc';
 import { closeModalButton } from './common';
 import {
