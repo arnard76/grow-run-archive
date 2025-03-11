@@ -23,8 +23,8 @@
 	<EditTemplate
 		onUpdate={() => {
 			growRun.editResourceUsage(initialResourceName, {
-				name: resourceName,
-				amountUsed: amountUsed
+				resourceName,
+				amountUsed
 			});
 			growRunsStore.updateGrowRun(growRun);
 		}}

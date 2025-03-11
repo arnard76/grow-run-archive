@@ -1,12 +1,4 @@
-export type ConditionMeasurement = { dateTime: string; value: number };
-
-export type ConditionMeasurements = { [id: string | number]: ConditionMeasurement };
-
-type ConditionsMeasurements = {
-	[conditionName in string]: ConditionMeasurements;
-};
-
-export type { ConditionsMeasurements as default };
+import type { ConditionMeasurements, ConditionsMeasurements } from '@grow-run-archive/definitions';
 
 /**
  *

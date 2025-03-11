@@ -15,10 +15,10 @@
 
 	{#if growRun.resources?.used?.length}
 		<ul class="mb-16">
-			{#each growRun.resources.used as { name, amountUsed }}
-				{@const resource = resourcesList.getResource(name)}
+			{#each growRun.resources.used as { resourceName, amountUsed }}
+				{@const resource = resourcesList.getResource(resourceName)}
 				{#if resource}
-					<ResourceUsage {growRun} resourceName={name} {amountUsed} />
+					<ResourceUsage {growRun} {resourceName} {amountUsed} />
 				{/if}
 			{/each}
 			<Add {growRun} />

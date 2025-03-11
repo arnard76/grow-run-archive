@@ -1,36 +1,27 @@
-import { resourcesList } from '$lib/resource/store';
-import type { ResourceUsage } from './resource-usage/resourceUsage';
-import type Conditions from '$lib/grow-run/conditions/conditions';
-import type { Duration } from './details/duration/types';
-import type { Harvest } from './harvest/types';
-import type Resource from '$lib/resource';
-import type { ConditionMeasurement } from '$lib/grow-run/conditions/conditions';
-import { getDatabase, push, ref } from '@firebase/database';
-import { set } from 'firebase/database';
 import { session } from '$lib/firebase/user';
+import type Resource from '$lib/resource';
+import { resourcesList } from '$lib/resource/store';
+import { getDatabase, push, ref } from '@firebase/database';
+import type {
+	ConditionMeasurement,
+	ConditionsMeasurements as ConditionsData,
+	GrowRun as GrowRunType,
+	Harvest,
+	ResourceUsage
+} from '@grow-run-archive/definitions';
+import { set } from 'firebase/database';
 import { get } from 'svelte/store';
-import type ConditionsData from '$lib/grow-run/conditions/conditions';
-
-export type GrowRunConstructorType = {
-	id: string;
-	name: string;
-	duration?: Duration;
-
-	resources: { used?: ResourceUsage[]; required?: ResourceUsage[] };
-	harvests?: Harvest[];
-	conditions?: Conditions;
-};
 
 export default class GrowRun {
-	id: string;
-	name: string;
-	duration: Duration;
+	id: GrowRunType['id'];
+	name: GrowRunType['name'];
+	duration: GrowRunType['duration'];
 
-	resources: { used?: ResourceUsage[] | undefined; required?: ResourceUsage[] | undefined };
-	harvests: Harvest[];
-	conditions: Conditions;
+	resources: Required<GrowRunType>['resources'];
+	harvests: Required<GrowRunType>['harvests'];
+	conditions: Required<GrowRunType>['conditions'];
 
-	constructor({ id, name, resources, harvests, conditions, duration }: GrowRunConstructorType) {
+	constructor({ id, name, resources, harvests, conditions, duration }: GrowRunType) {
 		this.id = id;
 		this.name = name;
 		this.resources = resources || { used: [], required: [] };
@@ -43,16 +34,21 @@ export default class GrowRun {
 		this.resources.used?.push(resourceUsage);
 	}
 
-	editResourceUsage(previousResourceName: ResourceUsage['name'], resourceUsage: ResourceUsage) {
-		let index = this.resources.used?.findIndex((resource) => resource.name == previousResourceName);
+	editResourceUsage(
+		previousResourceName: ResourceUsage['resourceName'],
+		resourceUsage: ResourceUsage
+	) {
+		let index = this.resources.used?.findIndex(
+			(resource) => resource.resourceName == previousResourceName
+		);
 
 		if (index == undefined || index === -1) return;
 
 		(this.resources.used as ResourceUsage[])[index] = resourceUsage;
 	}
 
-	deleteResourceUsage(resourceName: ResourceUsage['name']) {
-		let index = this.resources.used?.findIndex((resource) => resource.name == resourceName);
+	deleteResourceUsage(resourceName: ResourceUsage['resourceName']) {
+		let index = this.resources.used?.findIndex((resource) => resource.resourceName == resourceName);
 		if (index == undefined || index === -1) return;
 
 		this.resources.used?.splice(index, 1);
@@ -72,7 +68,7 @@ export default class GrowRun {
 
 	calculateCost(resources: Resource[]): number {
 		let totalCost = 0;
-		for (let { name, amountUsed } of this.resources?.used || []) {
+		for (let { resourceName: name, amountUsed } of this.resources?.used || []) {
 			const resource = resourcesList.getResource(name, resources);
 			if (!resource) continue;
 			let oneCost = resource.calculateCost(amountUsed) || 0;
@@ -90,7 +86,7 @@ export default class GrowRun {
 		resources: Resource[] | undefined = undefined
 	): { label: string; size: number; colour: string }[] {
 		return (
-			this.resources?.used?.map(({ name, amountUsed }) => {
+			this.resources?.used?.map(({ resourceName: name, amountUsed }) => {
 				const resource = resourcesList.getResource(name, resources);
 				const resourceCost = resource.calculateCost(amountUsed);
 				return { size: resourceCost, label: name, colour: resource.colour };
@@ -132,10 +128,7 @@ export default class GrowRun {
 			push(
 				ref(getDatabase(), `${get(session).user?.uid}/grow-runs/${this.id}/conditions/${condition}`)
 			),
-			{
-				dateTime,
-				value
-			}
+			{ dateTime, value }
 		);
 	}
 
