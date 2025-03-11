@@ -7,7 +7,8 @@
         "build": "turbo run build",
         "dev": "turbo run dev",
         "start": "turbo run start",
-        "lint": "turbo run lint"
+        "lint": "turbo run lint",
+        "e2e-pipeline": "cd e2e-tests && npm run e2e-pipeline"
     },
     "devDependencies": {
         "tslib": "^2.4.1",
