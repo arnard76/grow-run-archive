@@ -15,6 +15,7 @@
                 ".svelte-kit/**"
             ]
         },
+        "start": {},
         "dev": {
             "persistent": true,
             "cache": false
