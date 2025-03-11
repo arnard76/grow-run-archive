@@ -8,7 +8,8 @@ jobs:
         uses: actions/checkout@v4
       # Install npm dependencies, cache them correctly
       - name: Start application
-        run: npm run build
+        run: npm i
+          npm run build
           npm start
         env: # Or as an environment variable
           SECRET_BREVO_CLIENT_EMAIL: ${{ secrets.SECRET_BREVO_CLIENT_EMAIL }}
