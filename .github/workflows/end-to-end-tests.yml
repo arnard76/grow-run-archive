@@ -23,3 +23,8 @@ jobs:
           command: npm run e2e-pipeline
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:4173'
+        env:
+          CYPRESS_TEST_USER_EMAIL: ${{ env.CYPRESS_TEST_USER_EMAIL }}
+          CYPRESS_TEST_USER_PASSWORD: ${{ env.CYPRESS_TEST_USER_PASSWORD }}
+          SECRET_BREVO_CLIENT_EMAIL: ${{ env.SECRET_BREVO_CLIENT_EMAIL }}
+          SECRET_BREVO_CLIENT_PASS: ${{ env.SECRET_BREVO_CLIENT_PASS }}
