@@ -13,6 +13,7 @@ jobs:
         with:
           build: npm run build
           start: npm start
+          command: npm run e2e-pipeline
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:4173'
         env:
