@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "cypress open --config baseUrl=http://localhost:5173",
-		"local": "set CYPRESS_baseUrl=http://localhost:4173&& cypress run --browser chrome",
+		"local": "set CYPRESS_baseUrl=http://localhost:4173&&; cypress run",
 		"pipeline": "cypress run"
 	},
 	"type": "module",
