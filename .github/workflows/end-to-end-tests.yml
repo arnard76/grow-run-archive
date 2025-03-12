@@ -4,7 +4,6 @@ jobs:
   cypress-run:
     runs-on: ubuntu-24.04
     steps:
-      - run: echo ${{secrets.CYPRESS_TEST_USER_EMAIL}} | sed 's/./& /g'
       - name: Checkout
         uses: actions/checkout@v4
       # Install npm dependencies, cache them correctly
