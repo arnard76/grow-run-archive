@@ -4,7 +4,8 @@
 	"private": true,
 	"scripts": {
 		"dev": "cypress open --config baseUrl=http://localhost:5173",
-		"e2e-pipeline": "set CYPRESS_baseUrl=http://localhost:4173&& cypress run --browser chrome"
+		"e2e-pipeline-windows": "set CYPRESS_baseUrl=http://localhost:4173&& cypress run --browser chrome",
+		"e2e-pipeline": "CYPRESS_baseUrl=http://localhost:4173 && cypress run --browser chrome"
 	},
 	"type": "module",
 	"devDependencies": {
