@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+body {
+	box-sizing: border-box;
+	@apply m-0 p-0;
+}
+
+*,
+p,
+a {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p {
+	@apply m-0 p-0;
+}
+
+h1 {
+	@apply mt-8 mb-4;
+}
+
+h2 {
+	@apply mb-4;
+}
+
+h3 {
+	@apply mt-8 mb-4;
+}
+
+button,
+nav a,
+nav p,
+.nav-item {
+	outline: none;
+	border: none;
+	background-color: rgb(199, 230, 173);
+	cursor: pointer;
+	padding: 5px;
+	border-radius: 8px;
+	text-decoration: none;
+
+	@apply hover:bg-green-400 transition-all hover:scale-110 text-black;
+}
+
+button * {
+	@apply text-black;
+}
+
+button .iconify {
+	@apply transition-all;
+}
+
+button:hover .iconify {
+	@apply rotate-[8deg] transition-all;
+}
+
+button.danger {
+	@apply bg-orange-600 hover:bg-orange-400;
+}
+
+button.danger * {
+	@apply text-white;
+}
+
+/* forms */
+
+input,
+textarea,
+select {
+	@apply border-b-2 border-0 border-solid border-black px-3 py-1 rounded-sm
+	focus:bg-slate-300 bg-white hover:bg-slate-200 transition-all duration-300 outline-none;
+}
+
+label input,
+label textarea,
+label select {
+	@apply block mt-2;
+}
+
+/* grow run modal */
+
+.grow-run-archive-expanded-modal section {
+	@apply mb-4;
+}
+
+.grow-run-archive-expanded-modal > section {
+	@apply p-8 w-full;
+}
+
+.iconify {
+	@apply text-xl;
+}
