@@ -55,7 +55,7 @@ export class GrowRunManager {
 	start() {
 		cy.findAllByRole('button', { name: '✏️' }).eq(1).click();
 		const startTime = dayjs();
-		const startTimeInput = startTime.tz('Pacific/Auckland').format('YYYY-MM-DDTHH:mm');
+		const startTimeInput = startTime.format('YYYY-MM-DDTHH:mm');
 		cy.findByLabelText(/Start Date:/i).type(startTimeInput);
 		cy.findByRole('button', { name: '✔️' }).click();
 
@@ -168,7 +168,7 @@ export class GrowRunManager {
 		cy.window().then((win) => {
 			cy.findAllByRole('button', { name: '✏️' }).eq(1).click();
 			let endTime = dayjs(win.Date());
-			const endTimeInput = endTime.tz('Pacific/Auckland').format('YYYY-MM-DDTHH:mm');
+			const endTimeInput = endTime.format('YYYY-MM-DDTHH:mm');
 			cy.findByLabelText(/End Date:/i).type(endTimeInput);
 			cy.findByRole('button', { name: '✔️' }).click();
 
