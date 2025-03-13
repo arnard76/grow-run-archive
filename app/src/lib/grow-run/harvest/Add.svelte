@@ -1,6 +1,6 @@
 <script lang="ts">
 	import AddTemplate from '$lib/components/AddTemplate.svelte';
-	import { growRunsStore } from '$lib/grow-run/store';
+	import { growRunsAPI } from '$lib/grow-run/store';
 	import type GrowRun from '$lib/grow-run';
 	import Inputs from './Inputs.svelte';
 	import type { Harvest } from './types';
@@ -14,7 +14,7 @@
 	onClick={() => {
 		if (!harvest) return;
 		growRun.recordHarvest(harvest);
-		growRunsStore.updateGrowRun(growRun);
+		growRunsAPI.updatePartial(growRun.id, { harvests: growRun.harvests });
 	}}
 	addText="Record"
 >

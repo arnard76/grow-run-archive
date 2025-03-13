@@ -1,8 +1,7 @@
 import { derived, get } from 'svelte/store';
 import Resource from '$lib/resource';
-import { getDatabase, push, ref, set, onValue } from 'firebase/database';
-import { app } from '$lib/database/firebase';
-import { session } from '$lib/firebase/user';
+import { push, ref, set, onValue } from 'firebase/database';
+import { session } from '$lib/user/user';
 import {
 	getStorage,
 	uploadBytes,
@@ -10,8 +9,8 @@ import {
 	getDownloadURL,
 	deleteObject
 } from 'firebase/storage';
-
-const db = getDatabase(app);
+import { db } from '$lib/database';
+import { EntityAPI } from '$lib/api';
 
 const noResourceFound = {
 	id: 'noid',
@@ -25,49 +24,25 @@ const noResourceFound = {
 	notes: ''
 };
 
-type databaseResourceListObject = { [key: string]: any };
+function convertToArray(resourcesListData: { [key: string]: any }): Resource[] {
+	return Object.entries(resourcesListData || {}).map(
+		([key, resource]: [string, Resource]) => new Resource({ ...resource, id: key })
+	);
+}
 
 export const resourcesList = {
 	...derived(
-		session,
-		({ user }, storeSet) => {
-			storeSet([]);
+		[session, db],
+		([{ user }, $db], setResourceList) => {
+			setResourceList([]);
 
-			if (!user?.uid) return;
+			const resourcesList = resourcesAPI.entityRef('', user?.uid, $db);
+			if (!resourcesList) throw Error("Can't get resources");
 
-			const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
-
-			return onValue(resourcesListRef, (snapshot) => {
-				const data = resourcesList.convertDbObjToArray(snapshot.val());
-				storeSet(data);
-			});
+			return onValue(resourcesList, (snapshot) => setResourceList(convertToArray(snapshot.val())));
 		},
 		[] as Resource[]
 	),
-
-	async updateResourcesListOnDb(resources?: Resource[]) {
-		const { user } = get(session);
-		if (!user?.uid) return;
-
-		const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
-
-		await set(resourcesListRef, this.convertArrayToDbObj(resources));
-	},
-
-	convertDbObjToArray(data: databaseResourceListObject): Resource[] {
-		return Object.entries(data || {}).map(
-			([id, resource]: [string, any]) => new Resource({ id, ...resource })
-		);
-	},
-
-	convertArrayToDbObj(resources?: Resource[]): databaseResourceListObject {
-		const dbObject: databaseResourceListObject = {};
-		for (let resource of resources || get(this)) {
-			dbObject[resource.id] = { ...resource, id: undefined };
-			delete dbObject[resource.id].id;
-		}
-		return dbObject;
-	},
 
 	async archiveProductPageForResource({ productLink, name }: Resource) {
 		if (!productLink) return;
@@ -127,13 +102,7 @@ export const resourcesList = {
 	},
 
 	async addResource(resource: Resource) {
-		const { user } = get(session);
-		if (!user?.uid) return;
-
-		const resourcesListRef = ref(db, `${user.uid}/resource-list/`);
-
-		const newResourceRef = push(resourcesListRef);
-		await set(newResourceRef, resource);
+		resourcesAPI.add(resource);
 		try {
 			this.archiveProductPageForResource(resource);
 		} catch (e) {
@@ -141,7 +110,7 @@ export const resourcesList = {
 		}
 	},
 
-	// local array is always up to date with db so can get directly from here
+	// local array is always up to date with db so can get directly from hereo
 	getResource(resourceName: string, resources?: Resource[]): Resource {
 		const resource = (resources || get(this)).find(
 			(resource: any) => resource.name === resourceName
@@ -162,15 +131,11 @@ export const resourcesList = {
 			}
 		}
 
-		resources[index] = resourceToEdit;
-		await this.updateResourcesListOnDb(resources);
+		resourcesAPI.updateFull(resourceToEdit);
 	},
 
 	async removeResource(resourceToDelete: Resource) {
-		const resources = get(this);
-		const index = resources.findIndex((resource) => resource.id === resourceToDelete.id);
-		resources.splice(index, 1);
-		await this.updateResourcesListOnDb(resources);
+		resourcesAPI.delete(resourceToDelete.id);
 
 		try {
 			await this.unarchiveProductPageForResource(resourceToDelete);
@@ -179,3 +144,10 @@ export const resourcesList = {
 		}
 	}
 };
+
+class ResourcesAPI extends EntityAPI<Resource> {
+	entityName = 'resource-list';
+	entityIdProperty: 'id' = 'id';
+}
+
+export const resourcesAPI = new ResourcesAPI();

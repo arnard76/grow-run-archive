@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { growRunsStore } from '$lib/grow-run/store';
-	import type GrowRun from '$lib/grow-run';
 	import AddTemplate from '$lib/components/AddTemplate.svelte';
+	import type GrowRun from '$lib/grow-run';
+	import { growRunsAPI } from '$lib/grow-run/store';
 	import Inputs from './Inputs.svelte';
 
 	export let growRun: GrowRun;
@@ -18,9 +18,9 @@
 			resourceName: selectedResourceToUse,
 			amountUsed: amountUsedInput
 		});
-		growRunsStore.updateGrowRun(growRun);
-		amountUsedInput = undefined;
+		growRunsAPI.updatePartial(growRun.id, { resources: growRun.resources });
 		selectedResourceToUse = undefined;
+		amountUsedInput = undefined;
 	}}
 	addText="➕"
 >

@@ -1,1 +1,1 @@
-ooops, page doesn't exist! Back to home page? <a href="/">Sure</a>
+ooops, page doesn't exist! <a href="/">Back to home page?</a>

@@ -16,22 +16,20 @@ const firebaseConfig = {
 // Initialize Firebase
 
 import { initializeApp, type FirebaseApp } from 'firebase/app';
-import { getAuth, type Auth } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { browser } from '$app/environment';
-import type { Firestore } from 'firebase/firestore';
-import { session } from './user';
+import { session } from '../user/user';
+import { writable, get } from 'svelte/store';
 
-export let db: Firestore;
-export let app: FirebaseApp;
-export let auth: Auth;
+export const app = writable<FirebaseApp | undefined>(undefined);
 
 export const initializeFirebase = () => {
 	if (!browser) {
 		throw new Error("Can't use the Firebase client on the server.");
 	}
-	if (!app) {
-		app = initializeApp(firebaseConfig);
-		auth = getAuth(app);
-		return auth.onAuthStateChanged((user) => session.set({ user, loading: false }));
+	if (!get(app)) {
+		app.set(initializeApp(firebaseConfig));
+
+		return getAuth(get(app)).onAuthStateChanged((user) => session.set({ user, loading: false }));
 	}
 };

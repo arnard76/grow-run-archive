@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-	import { auth } from '$lib/firebase';
-	import { session } from '$lib/firebase/user';
-	import { isValidPassword } from '$lib/firebase/auth';
+	import { auth } from '$lib/user/auth';
+	import { session } from '$lib/user/user';
+	import { isValidPassword } from '$lib/user/auth';
 
 	let email: string, password: string, confirmPassword: string;
 	let error: string;
@@ -17,7 +17,7 @@
 		if (!isValidPassword(password)) return (error = 'password is not valid.');
 
 		try {
-			await createUserWithEmailAndPassword(auth, email, password);
+			await createUserWithEmailAndPassword($auth, email, password);
 		} catch (e) {
 			error = (e as Error).message;
 			$session.loading = false;

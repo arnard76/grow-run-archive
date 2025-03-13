@@ -1,7 +1,7 @@
 <script lang="ts">
 	import EditTemplate from '$lib/components/EditTemplate.svelte';
 	import type GrowRun from '$lib/grow-run';
-	import { growRunsStore } from '../store';
+	import { growRunsAPI } from '../store';
 	export let growRun: GrowRun;
 
 	let updatedGrowName = growRun.name;
@@ -11,7 +11,7 @@
 	<EditTemplate
 		onUpdate={() => {
 			growRun.name = updatedGrowName;
-			growRunsStore.updateGrowRun(growRun);
+			growRunsAPI.updatePartial(growRun.id, { name: growRun.name });
 		}}
 	>
 		<h2 slot="display" class="inline-block m-0">
