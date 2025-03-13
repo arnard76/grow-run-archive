@@ -5,7 +5,7 @@ import { session } from '$lib/user/user';
 import * as firebase from 'firebase/database';
 import { derived } from 'svelte/store';
 
-function convertToArray(growRunData: any[]): GrowRun[] {
+function convertToArray(growRunData: { [key: string]: any }): GrowRun[] {
 	return Object.entries(growRunData || {}).map(
 		([key, growRun]: [string, GrowRun]) => new GrowRun({ ...growRun, id: key })
 	);

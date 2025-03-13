@@ -3,6 +3,9 @@ import { session } from '$lib/user/user';
 import * as firebase from 'firebase/database';
 import { get } from 'svelte/store';
 
+/**
+ * This API can be used to interact with an entity which is stored within an Array on the firebase database
+ */
 export abstract class EntityAPI<Entity> {
 	abstract entityIdProperty: keyof Entity;
 	abstract entityName: string;
