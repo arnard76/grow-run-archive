@@ -1,6 +1,6 @@
-import { session } from '$lib/firebase/user';
 import type Resource from '$lib/resource';
 import { resourcesList } from '$lib/resource/store';
+import { session } from '$lib/user/user';
 import { getDatabase, push, ref } from '@firebase/database';
 import type {
 	ConditionMeasurement,

@@ -6,7 +6,7 @@
 	import ResourceUsageSection from './resource-usage/Section.svelte';
 	import ConditionsSection from './conditions/Section.svelte';
 
-	import { growRunsStore } from './store';
+	import { growRuns, growRunsAPI } from './store';
 
 	export let growRun: GrowRun;
 	export let onClose: any;
@@ -49,9 +49,7 @@
 	<hr />
 
 	<div class="my-4 text-center">
-		<button title="Delete" on:click={() => growRunsStore.deleteGrowRun(growRun)}
-			>Delete Grow Run</button
-		>
+		<button title="Delete" on:click={() => growRunsAPI.delete(growRun.id)}>Delete Grow Run</button>
 	</div>
 </dialog>
 

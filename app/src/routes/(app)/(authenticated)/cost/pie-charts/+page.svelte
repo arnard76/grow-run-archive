@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { resourcesList } from '$lib/resource/store';
-	import { growRunsStore } from '$lib/grow-run/store';
+	import { growRuns } from '$lib/grow-run/store';
 	import PieGraph from '$lib/grow-run/resource-usage/PieGraph.svelte';
 </script>
 
 <div>
-	{#each $growRunsStore as growRun}
+	{#each $growRuns as growRun}
 		{#if growRun.resources?.used?.length && $resourcesList}
 			{@const pieChartData = $resourcesList && growRun.formatDataForPieChart()}
 

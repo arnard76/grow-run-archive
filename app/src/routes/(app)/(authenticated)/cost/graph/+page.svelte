@@ -1,22 +1,22 @@
 <script lang="ts">
 	import Chart from 'chart.js/auto';
 	import { resourcesList } from '$lib/resource/store';
-	import { growRunsStore } from '$lib/grow-run/store';
+	import { growRuns } from '$lib/grow-run/store';
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
 	const randomMinDate = new Date('2022-01-01T00:00:00.000Z').valueOf();
 	const presentDate = Date.now().valueOf();
 
 	$: data = {
-		labels: $growRunsStore.map((growRun) => growRun.name),
+		labels: $growRuns.map((growRun) => growRun.name),
 		datasets: [
 			{
-				data: $growRunsStore.map((growRun) => ({
+				data: $growRuns.map((growRun) => ({
 					x: growRun.duration.start ? new Date(growRun.duration.start).valueOf() : randomMinDate,
 					y: growRun.calculateCostPer100g($resourcesList)
 				})),
 
-				backgroundColor: $growRunsStore.map((growRun) =>
+				backgroundColor: $growRuns.map((growRun) =>
 					growRun.duration.start ? 'powderblue' : '#124356'
 				)
 			}

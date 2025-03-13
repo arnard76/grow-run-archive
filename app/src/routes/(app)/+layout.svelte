@@ -1,15 +1,13 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import { session } from '$lib/firebase/user';
+	import { session } from '$lib/user/user';
 
 	import loadingAnimation from '$lib/images/plant-growing-loading.webp';
 	import Menu from '$lib/components/Menu.svelte';
 	import { page } from '$app/stores';
 	import { initializeFirebase } from '$lib/firebase';
 	import { onDestroy } from 'svelte';
-	import { resourcesList } from '$lib/resource/store';
-	import { growRunsStore } from '$lib/grow-run/store';
 
 	import '$lib/styles/global.css';
 
@@ -43,8 +41,6 @@
 		}
 	}
 
-	$resourcesList;
-	$growRunsStore;
 	session.set({ user: null, loading: true });
 
 	// a fixed loading time so animation can be enjoyed :)
@@ -62,7 +58,7 @@
 {:else}
 	{#if $session.user}
 		<div class="flex justify-between flex-wrap bg-gray-800 items-center p-4 text-white">
-		<Menu />
+			<Menu />
 			<div class="flex gap-[15px] items-center">
 				<p class="hidden md:block">
 					Logged in: <span class="font-bold">{$session.user.email}</span>
@@ -72,6 +68,6 @@
 		</div>
 	{/if}
 	<div class="p-2">
-	<slot />
+		<slot />
 	</div>
 {/if}

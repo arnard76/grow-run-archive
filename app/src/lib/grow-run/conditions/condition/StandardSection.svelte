@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type GrowRun from '$lib/grow-run';
-	import { growRunsStore } from '$lib/grow-run/store';
-	import Add from './Add.svelte';
-	import ListItem from './ListItem.svelte';
-	import DefaultFullPeriodGraph from './FullPeriodGraph.svelte';
-	import DefaultTimeOfDayGraph from './TimeOfDayGraph.svelte';
+	import { growRunsAPI } from '$lib/grow-run/store';
 	import type ConditionsMeasurements from '../conditions';
 	import { toVerbose } from '../conditions';
+	import Add from './Add.svelte';
+	import DefaultFullPeriodGraph from './FullPeriodGraph.svelte';
+	import ListItem from './ListItem.svelte';
+	import DefaultTimeOfDayGraph from './TimeOfDayGraph.svelte';
 	import ToggleCharts from './ToggleCharts.svelte';
 
 	export let FullPeriodGraph: null | typeof DefaultFullPeriodGraph = DefaultFullPeriodGraph;
@@ -43,7 +43,7 @@
 							{conditionName}
 							{conditionMeasurement}
 							{timezone}
-							onUpdate={(conditionMeasurement) => growRunsStore.updateGrowRun(growRun)}
+							onUpdate={(conditionMeasurement) => growRunsAPI.updateFull(growRun)}
 						/>
 					{/each}
 				</ul>

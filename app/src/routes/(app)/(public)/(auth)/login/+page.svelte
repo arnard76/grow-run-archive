@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { signInWithEmailAndPassword } from 'firebase/auth';
-	import { auth } from '$lib/firebase';
-	import { session } from '$lib/firebase/user';
+	import { auth } from '$lib/user/auth';
+	import { session } from '$lib/user/user';
 	import type { FirebaseError } from 'firebase/app';
 
 	let email: string, password: string;
@@ -11,7 +11,7 @@
 		e.preventDefault();
 		$session.loading = true;
 		try {
-			await signInWithEmailAndPassword(auth, email, password);
+			await signInWithEmailAndPassword($auth, email, password);
 		} catch (e) {
 			error = (e as FirebaseError).message;
 			$session.loading = false;

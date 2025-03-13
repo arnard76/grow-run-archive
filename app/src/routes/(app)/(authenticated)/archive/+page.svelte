@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { growRunsStore } from '$lib/grow-run/store';
+	import { growRuns } from '$lib/grow-run/store';
 
 	import GrowRun from '$lib/grow-run/ListItem.svelte';
 	import AddGrowRun from '$lib/grow-run/Add.svelte';
@@ -15,7 +15,7 @@
 		<th>Cost per 100g (NZD)</th>
 	</tr>
 
-	{#each $growRunsStore as growRun}
+	{#each $growRuns as growRun}
 		<GrowRun {growRun} />
 	{/each}
 </table>
