@@ -31,7 +31,7 @@
 			</li>
 		</ul>
 	{:else}
-		<p>Currently, no resources have been used AND the usage recorded. Feel free to add below:</p>
+		<p class="inline">No usage of resources has been recorded:</p>
 		<Add {growRun} />
 	{/if}
 	{#if growRun.resources?.used?.length}
