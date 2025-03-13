@@ -12,7 +12,8 @@
             ],
             "outputs": [
                 "dist/**",
-                ".svelte-kit/**"
+                ".svelte-kit/**",
+                ".vercel/**"
             ]
         },
         "start": {},
