@@ -35,11 +35,7 @@
 		<div class="flex-1 w-[90%]">
 			<DetailsSection {growRun} />
 		</div>
-<<<<<<< HEAD:src/lib/grow-run/Expanded.svelte
 		<button title="Close grow run" on:click={onClose}><Icon icon="tabler:x" /></button>
-=======
-		<button title="Close Grow Run" on:click={onClose}>❌</button>
->>>>>>> master:app/src/lib/grow-run/Expanded.svelte
 	</section>
 	<ResourceUsageSection {growRun} />
 
