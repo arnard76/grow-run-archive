@@ -1,73 +1,58 @@
-import { GrowRun, Harvest, ResourceUsage } from '@grow-run-archive/definitions';
+import { GrowRun, growRunActionNames, Harvest, ResourceUsage } from '@grow-run-archive/definitions';
 import dayjs from 'dayjs';
 import Timezone from 'dayjs/plugin/timezone';
 import DayJSUtc from 'dayjs/plugin/utc';
-import { closeModalButton } from './common';
 import {
 	formatHarvestsAsObjects,
 	formatUsageOfResourcesAsObjects
 } from '../util/convertStringRequirementsToObjects';
+import { EntitiesManager, EntityManager } from '../entity/manager';
 
 dayjs.extend(Timezone);
 dayjs.extend(DayJSUtc);
 
-export class GrowRunManager {
-	static entityName = 'Grow Run';
-	static clearAll() {
-		GrowRunManager.goToAllGrowRuns();
-		cy.wait(4000);
-		const growRuns = cy.get('table tr');
+export const growRunsManager = new EntitiesManager('Grow Run', '/grow-runs');
 
-		growRuns.each(($growRun, index) => {
-			if (index === 0) return;
-			cy.wrap($growRun).click();
-			cy.findByRole('button', { name: /Delete Grow Run/i }).click();
-		});
-	}
-
+export class GrowRunManager implements EntityManager {
 	growRunName: GrowRun['name'];
 
 	constructor(growRunName: GrowRun['name'], existingGrowRun = false) {
 		this.growRunName = growRunName;
-		if (existingGrowRun) return;
+		growRunsManager.goToAll();
+		if (!existingGrowRun) this.add();
+	}
 
-		GrowRunManager.goToAllGrowRuns();
-		const addGrowRunButton = cy.findByRole('button', { name: /add grow run/i });
+	add() {
+		const addGrowRunButton = cy.findByTitle(growRunActionNames.add);
 		addGrowRunButton.click();
-		cy.findByPlaceholderText(/grow run name/i).type(growRunName);
+		cy.findByPlaceholderText(/grow run name/i).type(this.growRunName);
 		addGrowRunButton.click();
 	}
 
-	static goToAllGrowRuns() {
-		cy.visit('/');
-	}
+	delete() {}
 
-	private get growRunPreview() {
+	private get preview() {
 		return cy.contains('tr', this.growRunName);
 	}
 
-	goToGrowRun() {
-		this.growRunPreview.click();
+	goTo() {
+		this.preview.click();
 	}
 
-	expandAllDetails = this.goToGrowRun;
+	showAllDetails = this.goTo;
 
 	start() {
-		cy.findAllByRole('button', { name: '✏️' }).eq(1).click();
+		this.heroSection.find(`button[title='${growRunActionNames.changeStartAndEnd}']`).click();
 		const startTime = dayjs();
 		const startTimeInput = startTime.format('YYYY-MM-DDTHH:mm');
 		cy.findByLabelText(/Start Date:/i).type(startTimeInput);
-		cy.findByRole('button', { name: '✔️' }).click();
+		this.heroSection.find(`button[title='${growRunActionNames.finishEdit}']`).click();
 
 		// Check that GR has started
 		cy.reload();
-		this.expandAllDetails();
+		this.showAllDetails();
 		const displayedStartTime = startTime.tz('UTC').format('D MMM YYYY, h:mm a');
 		cy.findByText(displayedStartTime).should('be.visible');
-	}
-
-	private get resourceUsageSection() {
-		return cy.get('dialog > section').eq(1);
 	}
 
 	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {
@@ -81,7 +66,7 @@ export class GrowRunManager {
 		}
 
 		usageOfResources.forEach((usageOfResource) => {
-			const addResourceButton = this.resourceUsageSection.findByRole('button', { name: '➕' });
+			const addResourceButton = this.resourceUsageSection.findByRole('button', { name: 'Record' });
 			addResourceButton.click();
 			this.resourceUsageSection
 				.find('input[type="number"]')
@@ -91,8 +76,16 @@ export class GrowRunManager {
 		});
 	}
 
+	private get heroSection() {
+		return cy.get('dialog > section').eq(0).scrollIntoView();
+	}
+
+	private get resourceUsageSection() {
+		return cy.get('dialog > section').eq(1).scrollIntoView();
+	}
+
 	private get harvestsSection() {
-		return cy.get('dialog > section').eq(2);
+		return cy.get('dialog > section').eq(2).scrollIntoView();
 	}
 
 	manuallyRecordHarvest(harvestsInput: (Harvest | string)[]) {
@@ -119,38 +112,20 @@ export class GrowRunManager {
 	}
 
 	get totalHarvest() {
-		return this.harvestsSection
-			.find('.summary')
-			.contains('Total')
-			.parent()
-			.children()
-			.eq(1)
-			.scrollIntoView();
+		return this.harvestsSection.find('.summary').contains('Total').parent().children().eq(1);
 	}
 
 	get averageLeafWeight() {
-		return this.harvestsSection
-			.find('.summary')
-			.contains('Average')
-			.parent()
-			.children()
-			.eq(1)
-			.scrollIntoView();
+		return this.harvestsSection.find('.summary').contains('Average').parent().children().eq(1);
 	}
 
 	get totalCost() {
-		return this.resourceUsageSection
-			.find('li')
-			.contains('Total cost')
-			.parent()
-			.children()
-			.eq(1)
-			.scrollIntoView();
+		return this.resourceUsageSection.find('li').contains('Total cost').parent().children().eq(1);
 	}
 
 	get totalCostPerUnit() {
-		GrowRunManager.goToAllGrowRuns();
-		return this.growRunPreview.find('td').eq(3);
+		growRunsManager.goToAll();
+		return this.preview.find('td').eq(3);
 
 		// Another 👇👇 : user opens grow run to see this stat?
 		// return this.resourceUsageSection
@@ -163,23 +138,21 @@ export class GrowRunManager {
 	}
 
 	end() {
-		const heroSection = () => cy.get('dialog > section').eq(0);
-
 		cy.window().then((win) => {
-			cy.findAllByRole('button', { name: '✏️' }).eq(1).click();
+			this.heroSection.find(`button[title='${growRunActionNames.changeStartAndEnd}']`).click();
 			let endTime = dayjs(win.Date());
 			const endTimeInput = endTime.format('YYYY-MM-DDTHH:mm');
 			cy.findByLabelText(/End Date:/i).type(endTimeInput);
-			cy.findByRole('button', { name: '✔️' }).click();
+			this.heroSection.find(`button[title='${growRunActionNames.finishEdit}']`).click();
 
 			cy.reload();
-			this.expandAllDetails();
+			this.showAllDetails();
 			const displayedStartTime = endTime.tz('UTC').format('D MMM YYYY, h:mm a');
-			heroSection().findByText(displayedStartTime).should('be.visible');
+			this.heroSection.findByText(displayedStartTime).should('be.visible');
 		});
 	}
 
 	hideAllDetails() {
-		closeModalButton(GrowRunManager.entityName).click();
+		cy.get(`dialog button[title="${growRunActionNames.close}"]`).click();
 	}
 }

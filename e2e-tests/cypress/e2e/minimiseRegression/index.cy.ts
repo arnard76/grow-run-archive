@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { login } from './actions/authActions';
-import { GrowRunManager } from './actions/growRunActions';
-import { addResources, clearAllResources } from './actions/resourceActions';
+import { GrowRunManager, growRunsManager } from './actions/growRunActions';
+import { resourcesManager } from './actions/resourceActions';
 import { formatResourcesAsObjects } from './util/convertStringRequirementsToObjects';
 
 const exampleResources = formatResourcesAsObjects([
@@ -27,39 +27,33 @@ describe('Grow Run Archive', () => {
 		fastForwardedDays += numDays;
 		const fastForwardedDate = new Date(dayjs().add(fastForwardedDays, 'days').valueOf());
 		cy.clock(fastForwardedDate, ['Date']);
-		GrowRunManager.goToAllGrowRuns();
 	}
 
 	before(() => {
-		console.log(Cypress.env());
 		login(Cypress.env('CYPRESS_TEST_USER_EMAIL'), Cypress.env('CYPRESS_TEST_USER_PASSWORD'));
-		clearAllResources();
-		GrowRunManager.clearAll();
+		resourcesManager.deleteAll();
+		growRunsManager.deleteAll();
 	});
 
 	it('Common Grow Run Scenario', () => {
-		addResources(exampleResources);
+		resourcesManager.addMultiple(exampleResources);
 
 		const growRun = new GrowRunManager('BCKIN AKL - Grow Run #17');
-		growRun.expandAllDetails();
+		growRun.showAllDetails();
 		growRun.start();
 		growRun.manuallyRecordUsageOfResources(resourceUsage1);
 
 		fastForwardDays(30);
-		growRun.expandAllDetails();
 		growRun.manuallyRecordHarvest(['30g 25leaves']);
 		growRun.manuallyRecordUsageOfResources(resourceUsage2);
 
 		fastForwardDays(20);
-		growRun.expandAllDetails();
 		growRun.manuallyRecordHarvest(['23g 15leaves']);
 
 		fastForwardDays(13);
-		growRun.expandAllDetails();
 		growRun.manuallyRecordHarvest(['20g 13leaves']);
 
 		fastForwardDays(1);
-		growRun.expandAllDetails();
 		growRun.end();
 
 		// CHECK results - grow results and cost
