@@ -1,5 +1,5 @@
-import { EntityAPI } from '$lib/api';
-import { createDerivedStoreForEntity } from '$lib/entityStore';
+import { EntityAPI } from '$lib/abstractEntity/api';
+import { createDerivedStoreForEntity } from '$lib/abstractEntity/store';
 import GrowRun from '$lib/grow-run';
 
 class GrowRunsAPI extends EntityAPI<GrowRun> {
