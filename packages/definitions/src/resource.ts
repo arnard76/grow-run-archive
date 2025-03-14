@@ -1,4 +1,4 @@
-import { ActionNames } from './entity/ActionNames';
+import { ActionNames } from './entity/actionNames';
 
 export type Resource = any;
 export const resourceActionNames = new ActionNames('Resource');
