@@ -17,6 +17,6 @@
 	}
 </script>
 
-<AddTemplate onClick={addHarvest} addText="Record">
+<AddTemplate onAdd={addHarvest} addText="Record">
 	<Inputs bind:harvest />
 </AddTemplate>

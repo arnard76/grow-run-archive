@@ -1,10 +1,7 @@
 <script lang="ts">
 	import type GrowRun from '$lib/grow-run';
-	import FullPeriodLineGraph from './condition/FullPeriodGraph.svelte';
-	import TimeOfDayGraph from './condition/TimeOfDayGraph.svelte';
-	import TimezoneInput from './TimezoneInput.svelte';
 	import ConditionSection from './condition/StandardSection.svelte';
-	import ToggleCharts from './condition/ToggleCharts.svelte';
+	import TimezoneInput from './TimezoneInput.svelte';
 
 	export let growRun: GrowRun;
 

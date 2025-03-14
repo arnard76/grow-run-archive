@@ -67,6 +67,10 @@ button.danger * {
 
 /* forms */
 
+form {
+	@apply flex flex-col gap-8 w-max p-4;
+}
+
 input,
 textarea,
 select {
@@ -78,6 +82,10 @@ label input,
 label textarea,
 label select {
 	@apply block mt-2;
+}
+
+.horizontal-input-group {
+	@apply flex flex-wrap items-end gap-[8px];
 }
 
 /* grow run modal */

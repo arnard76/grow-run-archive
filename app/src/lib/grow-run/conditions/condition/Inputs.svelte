@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { formatToLocalDate, formatToUTCISO } from '$lib/grow-run/details/duration/util';
-	import type ConditionsMeasurements from '../conditions';
+	import type { ConditionsMeasurements } from '@grow-run-archive/definitions';
 	import { getConditionMetadata, toVerbose } from '../conditions';
 
 	export let conditionName: keyof ConditionsMeasurements;
@@ -21,21 +21,16 @@
 	let monitoringRightNow = true;
 </script>
 
-<label>
+<div class="horizontal-input-group">
 	{toVerbose(conditionName)}:
 	<input type="number" bind:value min="-273" max="250" inputmode="numeric" />
 	{getConditionMetadata(conditionName).units}
-</label>
 
-<div class="inline-flex flex-col">
-	<label>
-		right now <input type="checkbox" bind:checked={monitoringRightNow} />
-	</label>
+	<pre class={[!monitoringRightNow && 'line-through']}>right now</pre>
+	<input type="checkbox" bind:checked={monitoringRightNow} />
 
 	{#if !monitoringRightNow}
-		<label>
-			or at time:
-			<input type="datetime-local" bind:value={localDateTimeInput} />
-		</label>
+		at time:
+		<input type="datetime-local" bind:value={localDateTimeInput} />
 	{/if}
 </div>

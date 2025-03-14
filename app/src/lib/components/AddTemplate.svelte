@@ -1,26 +1,38 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
+	import CancelButton from '$lib/components/CancelButton.svelte';
 
 	export let addText = 'Add';
-	export let onClick: (e: MouseEvent) => any;
+	export let onAdd = () => {};
+	export let onCancel = () => {};
 
 	let expanded = false;
 </script>
 
 {#if expanded}
-	<slot />
-{/if}
+	<form>
+		<slot />
+		<div>
+			<button
+				on:click={() => {
+					onAdd();
+					expanded = !expanded;
+				}}
+				title={addText}
+			>
+				<Icon icon="tabler:check" />
+			</button>
 
-<button
-	on:click={(e) => {
-		expanded && onClick(e);
-		expanded = !expanded;
-	}}
-	title={addText}
->
-	{#if expanded}
-		<Icon icon="tabler:check" />
-	{:else}
+			<CancelButton
+				on:click={() => {
+					onCancel();
+					expanded = !expanded;
+				}}
+			/>
+		</div>
+	</form>
+{:else}
+	<button on:click={(e) => (expanded = !expanded)} title={addText}>
 		<Icon icon="tabler:plus" />
-	{/if}
-</button>
+	</button>
+{/if}

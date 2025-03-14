@@ -5,7 +5,7 @@
 	export let amountUsedInput: number | undefined = undefined;
 </script>
 
-<label>
+<div class="horizontal-input-group">
 	<input type="number" bind:value={amountUsedInput} />
 	{#if selectedResourceToUse === 'new'}
 		<select>
@@ -28,4 +28,4 @@
 	{#if selectedResourceToUse === 'new'}
 		<input type="text" name="" id="" placeholder="name of new resource" />
 	{/if}
-</label>
+</div>

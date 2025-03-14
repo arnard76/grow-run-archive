@@ -1,8 +1,8 @@
 <script lang="ts">
 	import AddTemplate from '$lib/components/AddTemplate.svelte';
 	import type GrowRun from '$lib/grow-run';
+	import type { ConditionsMeasurements } from '@grow-run-archive/definitions';
 	import Inputs from './Inputs.svelte';
-	import type ConditionsMeasurements from '../conditions';
 
 	export let growRun: GrowRun;
 	export let conditionName: keyof ConditionsMeasurements;
@@ -12,7 +12,7 @@
 </script>
 
 <AddTemplate
-	onClick={() => growRun.recordCondition(conditionName, { dateTime, value })}
+	onAdd={() => growRun.recordCondition(conditionName, { dateTime, value })}
 	addText="Record"
 >
 	<Inputs {conditionName} bind:value bind:dateTime />
