@@ -17,7 +17,7 @@ export const growRuns = derived(
 		setGrowRuns([]);
 
 		const growRunsRef = growRunsAPI.entityRef('', user?.uid, $db);
-		if (!growRunsRef) throw Error("Can't get grow runs");
+		if (!growRunsRef) return;
 
 		return firebase.onValue(growRunsRef, (snapshot) => setGrowRuns(convertToArray(snapshot.val())));
 	},

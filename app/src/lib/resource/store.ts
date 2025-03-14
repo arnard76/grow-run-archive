@@ -37,7 +37,7 @@ export const resourcesList = {
 			setResourceList([]);
 
 			const resourcesList = resourcesAPI.entityRef('', user?.uid, $db);
-			if (!resourcesList) throw Error("Can't get resources");
+			if (!resourcesList) return;
 
 			return onValue(resourcesList, (snapshot) => setResourceList(convertToArray(snapshot.val())));
 		},
