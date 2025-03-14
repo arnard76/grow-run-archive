@@ -1,5 +1,6 @@
 import { ConditionsMeasurements } from './condition';
 import { Duration } from './duration';
+import { ActionNames } from './entity/ActionNames';
 import { Harvest } from './harvest';
 import { ResourceUsage } from './resourceUsage';
 
@@ -12,3 +13,15 @@ export type GrowRun = {
 	harvests?: Harvest[];
 	conditions?: ConditionsMeasurements;
 };
+
+class GrowRunActionNames extends ActionNames {
+	constructor() {
+		super('Grow Run');
+	}
+
+	get changeStartAndEnd() {
+		return `Change Grow Run Start & End Dates`;
+	}
+}
+
+export const growRunActionNames = new GrowRunActionNames();
