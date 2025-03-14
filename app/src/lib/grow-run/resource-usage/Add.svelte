@@ -22,7 +22,7 @@
 		selectedResourceToUse = undefined;
 		amountUsedInput = undefined;
 	}}
-	addText="➕"
+	addText="Record"
 >
 	<Inputs bind:selectedResourceToUse bind:amountUsedInput />
 </AddTemplate>

@@ -6,9 +6,14 @@ import { get } from 'svelte/store';
 /**
  * This API can be used to interact with an entity which is stored within an Array on the firebase database
  */
-export abstract class EntityAPI<Entity> {
-	abstract entityIdProperty: keyof Entity;
-	abstract entityName: string;
+export class EntityAPI<Entity> {
+	entityIdProperty: keyof Entity;
+	entityName: string;
+
+	constructor(entityName: string, entityIdProperty: keyof Entity) {
+		this.entityName = entityName;
+		this.entityIdProperty = entityIdProperty;
+	}
 
 	/**
 	 * @param path - if provided, it should start with a /

@@ -23,12 +23,7 @@ const noResourceFound = {
 	notes: ''
 };
 
-class ResourcesAPI extends EntityAPI<Resource> {
-	entityName = 'resource-list';
-	entityIdProperty: 'id' = 'id';
-}
-
-export const resourcesAPI = new ResourcesAPI();
+export const resourcesAPI = new EntityAPI<Resource>('resource-list', 'id');
 
 export const resourcesList = {
 	...createDerivedStoreForEntity(Resource, resourcesAPI),
