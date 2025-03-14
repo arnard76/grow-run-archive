@@ -1,4 +1,4 @@
-import { EntityAPI } from '$lib/abstractEntity/api';
+import { EntityAPI } from '$lib/abstract-entity/api';
 import { db } from '$lib/database';
 import { session } from '$lib/user/user';
 import * as firebase from 'firebase/database';
