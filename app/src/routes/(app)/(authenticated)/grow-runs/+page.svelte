@@ -7,7 +7,7 @@
 
 <h1>Grow Runs</h1>
 <AddGrowRun />
-<table class="grow-runs">
+<table>
 	<tr>
 		<th>Name</th>
 		<th>Output (g)</th>

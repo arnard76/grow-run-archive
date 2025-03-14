@@ -4,6 +4,7 @@
 	import type ResourceClass from '$lib/resource/';
 	import Inputs from '$lib/resource/Inputs.svelte';
 	import AddTemplate from '$lib/components/AddTemplate.svelte';
+	import { resourceActionNames } from '@grow-run-archive/definitions';
 
 	let newResource = {} as ResourceClass;
 
@@ -26,9 +27,9 @@
 	{/each}
 </table>
 
-<AddTemplate addText="Add to list" onClick={addResource}>
+<AddTemplate addText={resourceActionNames.add} onClick={addResource}>
 	<p>Here is an example:</p>
-	<q>10mL Volume of nutrients for $10NZD</q>
+	<q>Volume: 10mL of nutrients for $10NZD</q>
 	<Inputs bind:resourceToCreateOrUpdate={newResource} />
 </AddTemplate>
 

@@ -2,6 +2,7 @@
 	import Icon from '@iconify/svelte';
 
 	export let editText = 'Update';
+	export let finishEditingText = 'Save Changes';
 	export let deleteText = 'Delete';
 
 	export let onUpdate: (e: MouseEvent) => any;
@@ -13,7 +14,7 @@
 {#if expanded}
 	<slot name="editing" />
 	<button
-		title={editText}
+		title={finishEditingText}
 		on:click={(e) => {
 			onUpdate(e);
 			expanded = !expanded;
@@ -39,7 +40,7 @@
 {:else}
 	<div class="flex items-top gap-4">
 		<slot name="display" />
-		<button on:click={(e) => (expanded = !expanded)}>
+		<button on:click={(e) => (expanded = !expanded)} title={editText}>
 			<Icon icon="tabler:pencil" />
 		</button>
 	</div>

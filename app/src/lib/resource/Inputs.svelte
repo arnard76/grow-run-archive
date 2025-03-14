@@ -7,6 +7,15 @@
 
 <form>
 	<div class="flex flex-wrap items-end gap-[8px]">
+		<select
+			bind:value={resourceToCreateOrUpdate.amountType}
+			title="Select how the amount of this resource is specified"
+		>
+			{#each Object.keys(units) as type (type)}
+				<option value={type}>{type}</option>
+			{/each}
+		</select>
+		<pre>:</pre>
 		<input type="number" bind:value={resourceToCreateOrUpdate.amountTotal} placeholder="amount" />
 		{#if resourceToCreateOrUpdate.amountType && Object.keys(units).includes(resourceToCreateOrUpdate.amountType)}
 			<select
@@ -18,14 +27,7 @@
 				{/each}
 			</select>
 		{/if}
-		<select
-			bind:value={resourceToCreateOrUpdate.amountType}
-			title="Select how the amount of this resource is specified"
-		>
-			{#each Object.keys(units) as type (type)}
-				<option value={type}>{type}</option>
-			{/each}
-		</select>
+
 		<pre> of </pre>
 		<input type="text" bind:value={resourceToCreateOrUpdate.name} placeholder="resource name" />
 		<pre> for $</pre>

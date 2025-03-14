@@ -6,6 +6,7 @@
 	import ResourceUsageSection from './resource-usage/Section.svelte';
 	import Icon from '@iconify/svelte';
 	import { growRunsAPI } from './store';
+	import { growRunActionNames } from '@grow-run-archive/definitions';
 
 	export let growRun: GrowRun;
 	export let onClose: any;
@@ -35,7 +36,7 @@
 		<div class="flex-1 w-[90%]">
 			<DetailsSection {growRun} />
 		</div>
-		<button title="Close grow run" on:click={onClose}><Icon icon="tabler:x" /></button>
+		<button title={growRunActionNames.close} on:click={onClose}><Icon icon="tabler:x" /></button>
 	</section>
 	<ResourceUsageSection {growRun} />
 
@@ -48,7 +49,7 @@
 	<hr />
 
 	<button
-		title="Delete this grow run forever"
+		title={growRunActionNames.delete}
 		class="danger flex m-auto my-4"
 		on:click={() => growRunsAPI.delete(growRun.id)}
 	>
