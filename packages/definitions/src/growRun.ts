@@ -1,6 +1,6 @@
 import { ConditionsMeasurements } from './condition';
 import { Duration } from './duration';
-import { ActionNames } from './entity/ActionNames';
+import { ActionNames } from './entity/actionNames';
 import { Harvest } from './harvest';
 import { ResourceUsage } from './resourceUsage';
 

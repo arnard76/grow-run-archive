@@ -9,7 +9,7 @@
 		formatMeasurementsData,
 		getUnitsForConditions
 	} from '../conditions';
-	import type ConditionsMeasurements from '../conditions';
+	import type { ConditionsMeasurements } from '@grow-run-archive/definitions';
 
 	export let growRun: GrowRun;
 	export let conditionNames: (keyof ConditionsMeasurements)[];

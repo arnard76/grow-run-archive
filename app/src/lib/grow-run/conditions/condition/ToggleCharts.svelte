@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type GrowRun from '$lib/grow-run';
-	import type ConditionsMeasurements from '../conditions';
+	import type { ConditionsMeasurements } from '@grow-run-archive/definitions';
 	import DefaultFullPeriodGraph from './FullPeriodGraph.svelte';
 	import DefaultTimeOfDayGraph from './TimeOfDayGraph.svelte';
 	import Toggle from 'svelte-toggle';

@@ -7,14 +7,8 @@
 		prettyFormatDate,
 		timeValueToString
 	} from '$lib/grow-run/details/duration/util';
-	import {
-		toVerbose,
-		getConditionMetadata,
-		type ConditionMeasurements,
-		getUnitsForConditions,
-		type ConditionMeasurement
-	} from '../conditions';
-	import type ConditionsMeasurements from '../conditions';
+	import { toVerbose, getConditionMetadata, getUnitsForConditions } from '../conditions';
+	import type { ConditionsMeasurements, ConditionMeasurement } from '@grow-run-archive/definitions';
 
 	export let growRun: GrowRun;
 	export let timezone: string;
