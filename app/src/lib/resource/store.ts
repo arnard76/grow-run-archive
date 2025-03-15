@@ -1,16 +1,15 @@
-import { derived, get } from 'svelte/store';
+import { EntityAPI } from '$lib/abstract-entity/api';
+import { createDerivedStoreForEntity } from '$lib/abstract-entity/store';
 import Resource from '$lib/resource';
-import { push, ref, set, onValue } from 'firebase/database';
 import { session } from '$lib/user/user';
 import {
-	getStorage,
-	uploadBytes,
-	ref as storageRef,
+	deleteObject,
 	getDownloadURL,
-	deleteObject
+	getStorage,
+	ref as storageRef,
+	uploadBytes
 } from 'firebase/storage';
-import { db } from '$lib/database';
-import { EntityAPI } from '$lib/api';
+import { get } from 'svelte/store';
 
 const noResourceFound = {
 	id: 'noid',
@@ -24,25 +23,10 @@ const noResourceFound = {
 	notes: ''
 };
 
-function convertToArray(resourcesListData: { [key: string]: any }): Resource[] {
-	return Object.entries(resourcesListData || {}).map(
-		([key, resource]: [string, Resource]) => new Resource({ ...resource, id: key })
-	);
-}
+export const resourcesAPI = new EntityAPI<Resource>('resource-list', 'id');
 
 export const resourcesList = {
-	...derived(
-		[session, db],
-		([{ user }, $db], setResourceList) => {
-			setResourceList([]);
-
-			const resourcesList = resourcesAPI.entityRef('', user?.uid, $db);
-			if (!resourcesList) throw Error("Can't get resources");
-
-			return onValue(resourcesList, (snapshot) => setResourceList(convertToArray(snapshot.val())));
-		},
-		[] as Resource[]
-	),
+	...createDerivedStoreForEntity(Resource, resourcesAPI),
 
 	async archiveProductPageForResource({ productLink, name }: Resource) {
 		if (!productLink) return;
@@ -144,10 +128,3 @@ export const resourcesList = {
 		}
 	}
 };
-
-class ResourcesAPI extends EntityAPI<Resource> {
-	entityName = 'resource-list';
-	entityIdProperty: 'id' = 'id';
-}
-
-export const resourcesAPI = new ResourcesAPI();

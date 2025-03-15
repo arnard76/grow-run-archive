@@ -1,5 +1,9 @@
-export { GrowRun } from './growRun';
-export { ResourceUsage } from './resourceUsage';
-export { Harvest } from './harvest';
+export * from './growRun';
+export * from './resourceUsage';
+export * from './harvest';
 export * from './condition';
-export { Duration } from './duration';
+export * from './duration';
+export * from './resource';
+
+// should I expose general entities from here?
+export * from './entity/actions';

@@ -2,6 +2,7 @@
 	import EditTemplate from '$lib/components/EditTemplate.svelte';
 	import type GrowRun from '$lib/grow-run';
 	import { growRunsAPI } from '$lib/grow-run/store';
+	import { growRunActionNames } from '@grow-run-archive/definitions';
 	import Inputs from './Inputs.svelte';
 	import { prettyFormatDate } from './util';
 
@@ -11,10 +12,14 @@
 </script>
 
 <section>
-	<EditTemplate bind:expanded onUpdate={() => growRunsAPI.updateFull(growRun)}>
+	<EditTemplate
+		bind:expanded
+		onUpdate={() => growRunsAPI.updateFull(growRun)}
+		editText={growRunActionNames.changeStartAndEnd}
+	>
 		<p slot="display">
-			Ran from <span class="italic">{prettyFormatDate(growRun.duration.start) || '-'}</span>
-			<br />to <span class="italic">{prettyFormatDate(growRun.duration.end) || '-'}</span>
+			Ran from <span class="italic">{prettyFormatDate(growRun.duration?.start) || '-'}</span>
+			<br />to <span class="italic">{prettyFormatDate(growRun.duration?.end) || '-'}</span>
 		</p>
 		<Inputs
 			slot="editing"

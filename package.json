@@ -1,24 +1,24 @@
 {
-    "name": "grow-run-archive",
-    "version": "0.0.1",
-    "private": true,
-    "packageManager": "npm@10.7.0",
-    "scripts": {
-        "build": "turbo run build",
-        "dev": "turbo run dev",
-        "start": "turbo run start",
-        "lint": "turbo run lint",
-        "e2e-pipeline": "cd e2e-tests && npm run pipeline"
-    },
-    "devDependencies": {
-        "tslib": "^2.4.1",
-        "turbo": "^2.4.4",
-        "typescript": "^5.8.2"
-    },
-    "type": "module",
-    "workspaces": [
-        "app",
-        "e2e-tests",
-        "packages/*"
-    ]
+	"name": "grow-run-archive",
+	"version": "0.0.1",
+	"private": true,
+	"packageManager": "npm@10.7.0",
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"start": "turbo run start",
+		"lint": "turbo run lint",
+		"e2e-pipeline": "cd e2e-tests && npm run pipeline"
+	},
+	"devDependencies": {
+		"tslib": "^2.4.1",
+		"turbo": "^2.4.4",
+		"typescript": "^5.8.2"
+	},
+	"type": "module",
+	"workspaces": [
+		"app",
+		"e2e-tests",
+		"packages/*"
+	]
 }

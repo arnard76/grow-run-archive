@@ -3,20 +3,20 @@
 	import { growRunsAPI } from '$lib/grow-run/store';
 	import type GrowRun from '$lib/grow-run';
 	import Inputs from './Inputs.svelte';
-	import type { Harvest } from './types';
+	import type { Harvest } from '@grow-run-archive/definitions';
 
 	export let growRun: GrowRun;
 
 	let harvest: Harvest = {} as Harvest;
-</script>
 
-<AddTemplate
-	onClick={() => {
+	function addHarvest() {
 		if (!harvest) return;
 		growRun.recordHarvest(harvest);
 		growRunsAPI.updatePartial(growRun.id, { harvests: growRun.harvests });
-	}}
-	addText="Record"
->
+		harvest = {} as Harvest;
+	}
+</script>
+
+<AddTemplate onAdd={addHarvest} addText="Record">
 	<Inputs bind:harvest />
 </AddTemplate>

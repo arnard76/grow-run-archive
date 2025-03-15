@@ -4,6 +4,8 @@
 	import type Resource from '$lib/resource';
 	import Inputs from './Inputs.svelte';
 	import Preview from './Preview.svelte';
+	import { resourceActionNames } from '@grow-run-archive/definitions';
+
 	export let resource: Resource;
 
 	let expanded = false;
@@ -19,6 +21,8 @@
 			<EditTemplate
 				onUpdate={() => resourcesList.editResource(resource)}
 				onDelete={() => resourcesList.removeResource(resource)}
+				deleteText={resourceActionNames.delete}
+				editText={resourceActionNames.edit}
 			>
 				<p slot="display">{resource.notes}</p>
 				<Inputs slot="editing" bind:resourceToCreateOrUpdate={resource} />

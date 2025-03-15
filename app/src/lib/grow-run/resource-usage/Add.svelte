@@ -8,10 +8,15 @@
 
 	export let selectedResourceToUse: string | undefined = undefined;
 	export let amountUsedInput: number | undefined = undefined;
+
+	function resetInputs() {
+		selectedResourceToUse = undefined;
+		amountUsedInput = undefined;
+	}
 </script>
 
 <AddTemplate
-	onClick={() => {
+	onAdd={() => {
 		if (!amountUsedInput || !selectedResourceToUse) return;
 
 		growRun.addResourceUsage({
@@ -19,10 +24,10 @@
 			amountUsed: amountUsedInput
 		});
 		growRunsAPI.updatePartial(growRun.id, { resources: growRun.resources });
-		selectedResourceToUse = undefined;
-		amountUsedInput = undefined;
+		resetInputs();
 	}}
-	addText="➕"
+	onCancel={resetInputs}
+	addText="Record"
 >
 	<Inputs bind:selectedResourceToUse bind:amountUsedInput />
 </AddTemplate>

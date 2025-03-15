@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type GrowRun from '$lib/grow-run';
 	import { growRunsAPI } from '$lib/grow-run/store';
-	import type ConditionsMeasurements from '../conditions';
+	import type { ConditionsMeasurements } from '@grow-run-archive/definitions';
 	import { toVerbose } from '../conditions';
 	import Add from './Add.svelte';
 	import DefaultFullPeriodGraph from './FullPeriodGraph.svelte';
@@ -53,9 +53,7 @@
 				<button on:click={() => (expandRecords = !expandRecords)}>Show records 🔽</button>
 			{/if}
 		{:else}
-			<p>
-				Currently, no {toVerbose(conditionName)} measurements have been recorded. Feel free to add below:
-			</p>
+			<p class="inline">No {toVerbose(conditionName)} measurements have been recorded:</p>
 		{/if}
 		<Add {conditionName} {growRun} />
 	</div>

@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type GrowRun from '$lib/grow-run';
-
+	import ConditionsSection from './conditions/Section.svelte';
 	import DetailsSection from './details/Section.svelte';
 	import HarvestsSection from './harvest/Section.svelte';
 	import ResourceUsageSection from './resource-usage/Section.svelte';
-	import ConditionsSection from './conditions/Section.svelte';
-
-	import { growRuns, growRunsAPI } from './store';
+	import Icon from '@iconify/svelte';
+	import { growRunsAPI } from './store';
+	import { growRunActionNames } from '@grow-run-archive/definitions';
 
 	export let growRun: GrowRun;
 	export let onClose: any;
@@ -36,7 +36,7 @@
 		<div class="flex-1 w-[90%]">
 			<DetailsSection {growRun} />
 		</div>
-		<button title="Close Grow Run" on:click={onClose}>❌</button>
+		<button title={growRunActionNames.close} on:click={onClose}><Icon icon="tabler:x" /></button>
 	</section>
 	<ResourceUsageSection {growRun} />
 
@@ -48,9 +48,13 @@
 	<ConditionsSection {growRun} />
 	<hr />
 
-	<div class="my-4 text-center">
-		<button title="Delete" on:click={() => growRunsAPI.delete(growRun.id)}>Delete Grow Run</button>
-	</div>
+	<button
+		title={growRunActionNames.delete}
+		class="danger flex m-auto my-4"
+		on:click={() => growRunsAPI.delete(growRun.id)}
+	>
+		<Icon icon="tabler:trash" />
+	</button>
 </dialog>
 
 <style lang="postcss">

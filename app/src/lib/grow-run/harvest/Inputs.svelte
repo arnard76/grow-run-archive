@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { formatToLocalDate, formatToUTCISO } from '$lib/grow-run/details/duration/util';
-	import type { Harvest } from './types';
+	import type { Harvest } from '@grow-run-archive/definitions';
 
 	export let harvest: Harvest;
 
@@ -11,23 +11,20 @@
 	$: if (localDateTime) harvest.datetime = formatToUTCISO(localDateTime) as string;
 </script>
 
-<label>
-	I harvested <input type="number" bind:value={harvest.numberOfLeaves} /> leaves
-</label>
+<div class="horizontal-input-group">
+	<pre>I harvested</pre>
+	<input type="number" bind:value={harvest.numberOfLeaves} /> leaves
 
-<label>
-	that weighed
-
+	<pre>that weighed</pre>
 	<input type="number" bind:value={harvest.massOfLeaves} /> g
-</label>
 
-<label>
-	right now <input type="checkbox" bind:checked={harvestingRightNow} />?
-</label>
+	<pre>right now</pre>
+	<input type="checkbox" bind:checked={harvestingRightNow} />?
 
-{#if !harvestingRightNow}
-	<input type="datetime-local" bind:value={localDateTime} />
-{/if}
+	{#if !harvestingRightNow}
+		<input type="datetime-local" bind:value={localDateTime} />
+	{/if}
+</div>
 
 <style>
 	input {

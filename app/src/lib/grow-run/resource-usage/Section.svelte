@@ -14,14 +14,13 @@
 	<h2>Resources Used</h2>
 
 	{#if growRun.resources?.used?.length}
-		<ul class="mb-16">
+		<ul class="mb-4">
 			{#each growRun.resources.used as { resourceName, amountUsed }}
 				{@const resource = resourcesList.getResource(resourceName)}
 				{#if resource}
 					<ResourceUsage {growRun} {resourceName} {amountUsed} />
 				{/if}
 			{/each}
-			<Add {growRun} />
 			<hr />
 			<li class="font-bold list-none flex">
 				<span class="inline-block w-[300px]">Total cost</span>
@@ -31,10 +30,12 @@
 			</li>
 		</ul>
 	{:else}
-		<p>Currently, no resources have been used AND the usage recorded. Feel free to add below:</p>
-		<Add {growRun} />
+		<p class="inline">No usage of resources has been recorded:</p>
 	{/if}
+	<Add {growRun} />
 	{#if growRun.resources?.used?.length}
-		<PieGraph pie={pieChartData} sort="alphabet" />
+		<div class="mt-16">
+			<PieGraph pie={pieChartData} sort="alphabet" />
+		</div>
 	{/if}
 </section>

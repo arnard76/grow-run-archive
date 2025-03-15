@@ -45,7 +45,31 @@ nav p,
 	@apply hover:bg-green-400 transition-all hover:scale-110 text-black;
 }
 
+button * {
+	@apply text-black;
+}
+
+button .iconify {
+	@apply transition-all;
+}
+
+button:hover .iconify {
+	@apply rotate-[8deg] transition-all;
+}
+
+button.danger {
+	@apply bg-orange-600 hover:bg-orange-400;
+}
+
+button.danger * {
+	@apply text-white;
+}
+
 /* forms */
+
+form {
+	@apply flex flex-col gap-8 w-max p-4;
+}
 
 input,
 textarea,
@@ -60,6 +84,10 @@ label select {
 	@apply block mt-2;
 }
 
+.horizontal-input-group {
+	@apply flex flex-wrap items-end gap-[8px];
+}
+
 /* grow run modal */
 
 .grow-run-archive-expanded-modal section {
@@ -68,4 +96,8 @@ label select {
 
 .grow-run-archive-expanded-modal > section {
 	@apply p-8 w-full;
+}
+
+.iconify {
+	@apply text-xl;
 }

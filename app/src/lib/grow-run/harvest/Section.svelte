@@ -36,7 +36,7 @@
 			</li>
 		</ul>
 	{:else}
-		<p>Currently, no harvests have been performed AND recorded. Feel free to add below:</p>
+		<p class="inline">No harvests has been recorded:</p>
 	{/if}
 	<Add {growRun} />
 </section>
