@@ -29,7 +29,6 @@ export function formatToLocalDate(UTCISOformat: string | undefined) {
 
 export function prettyFormatDate(date: string | undefined, timeZone?: string) {
 	if (date === '-' || !date) return undefined;
-	timeZone = timeZone || 'UTC';
 
 	return new Intl.DateTimeFormat('en-NZ', {
 		dateStyle: 'medium',
@@ -43,8 +42,6 @@ export function getTimeValue(
 	timeZone?: string
 ): number | undefined {
 	if (dateString === '-' || !dateString) return undefined;
-
-	timeZone = timeZone || 'UTC';
 
 	const date: Date = new Date(dateString);
 	let formatted1 = Intl.DateTimeFormat('en-GB', {
