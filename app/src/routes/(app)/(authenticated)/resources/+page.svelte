@@ -27,7 +27,7 @@
 	{/each}
 </table>
 
-<AddTemplate addText={resourceActionNames.add} onClick={addResource}>
+<AddTemplate addText={resourceActionNames.add} onAdd={addResource}>
 	<p>Here is an example:</p>
 	<q>Volume: 10mL of nutrients for $10NZD</q>
 	<Inputs bind:resourceToCreateOrUpdate={newResource} />

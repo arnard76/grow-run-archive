@@ -33,10 +33,10 @@ export class GrowRunManager implements EntityManager {
 	}
 
 	add() {
-		const addGrowRunButton = cy.findByTitle(growRunActionNames.add);
-		addGrowRunButton.click();
+		const addGrowRunButton = () => cy.findByTitle(growRunActionNames.add);
+		addGrowRunButton().click();
 		cy.findByPlaceholderText(/grow run name/i).type(this.growRunName);
-		addGrowRunButton.click();
+		addGrowRunButton().click();
 	}
 
 	delete() {}
@@ -76,13 +76,14 @@ export class GrowRunManager implements EntityManager {
 		}
 
 		usageOfResources.forEach((usageOfResource) => {
-			const addResourceButton = this.resourceUsageSection.findByRole('button', { name: 'Record' });
-			addResourceButton.click();
+			const addResourceButton = () =>
+				this.resourceUsageSection.findByRole('button', { name: 'Record' });
+			addResourceButton().click();
 			this.resourceUsageSection
 				.find('input[type="number"]')
 				.type(usageOfResource.amountUsed.toString());
 			this.resourceUsageSection.find('select').select(usageOfResource.resourceName);
-			addResourceButton.click();
+			addResourceButton().click();
 		});
 	}
 
@@ -109,15 +110,15 @@ export class GrowRunManager implements EntityManager {
 		}
 
 		harvests.forEach((harvest) => {
-			const addHarvestButton = this.harvestsSection.findByRole('button', { name: 'Record' });
-			addHarvestButton.click();
+			const addHarvestButton = () => this.harvestsSection.findByRole('button', { name: 'Record' });
+			addHarvestButton().click();
 			this.harvestsSection
 				.find('input[type="number"]')
 				.eq(0)
 				.type(harvest.numberOfLeaves.toString());
 			this.harvestsSection.find('input[type="number"]').eq(1).type(harvest.massOfLeaves.toString());
 			if (harvest.datetime === 'now') this.harvestsSection.find('input[type="checkbox"]').check();
-			addHarvestButton.click();
+			addHarvestButton().click();
 		});
 	}
 

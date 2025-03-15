@@ -6,6 +6,6 @@
 	let nameInput = '';
 </script>
 
-<AddTemplate addText={growRunActionNames.add} onClick={() => growRunsAPI.add({ name: nameInput })}>
+<AddTemplate addText={growRunActionNames.add} onAdd={() => growRunsAPI.add({ name: nameInput })}>
 	<input type="text" placeholder="grow run name" bind:value={nameInput} />
 </AddTemplate>

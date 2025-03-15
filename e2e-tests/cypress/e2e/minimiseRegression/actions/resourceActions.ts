@@ -24,8 +24,8 @@ export class ResourceManager implements EntityManager {
 	}
 
 	add() {
-		const addResourceButton = cy.findByTitle(resourceActionNames.add);
-		addResourceButton.click();
+		const addResourceButton = () => cy.findByTitle(resourceActionNames.add);
+		addResourceButton().click();
 		cy.findByTitle('Select how the amount of this resource is specified').select(
 			this.resource.quantity
 		);
@@ -39,7 +39,7 @@ export class ResourceManager implements EntityManager {
 		// cy.findByLabelText('product link').type(
 		// 	'https://www.thewarehouse.co.nz/p/kiwi-garden-lettuce-butterhead-seeds/R2598667.html?srsltid=AfmBOoowGtKN5J2-GXV1U_bHxy-Hw_5MeMAgGA98eQTrduCCh3i5cwe1oNI&gStoreCode=188'
 		// );
-		addResourceButton.click();
+		addResourceButton().click();
 	}
 
 	private get preview() {

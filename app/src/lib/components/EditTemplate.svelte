@@ -6,9 +6,9 @@
 	export let finishEditingText = 'Save Changes';
 	export let deleteText = 'Delete';
 
-	export let onUpdate = () => null;
-	export let onCancel = () => null;
-	export let onDelete = () => null;
+	export let onUpdate: () => any = () => null;
+	export let onCancel: () => any = () => null;
+	export let onDelete: () => any = () => null;
 
 	export let expanded = false;
 </script>
