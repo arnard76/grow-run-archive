@@ -1,4 +1,6 @@
+import { DateTime } from './datetime';
+
 export type Duration = {
-	start?: string;
-	end?: string;
+	start?: DateTime;
+	end?: DateTime;
 };
