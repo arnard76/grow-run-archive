@@ -17,7 +17,7 @@ class GrowRunsManager extends EntitiesManager {
 	}
 
 	deleteSingle(): void {
-		cy.findByTitle(growRunActionNames.delete).click();
+		cy.get('dialog').findByTitle(growRunActionNames.delete).click();
 	}
 }
 
