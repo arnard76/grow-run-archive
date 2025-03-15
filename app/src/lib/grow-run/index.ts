@@ -9,6 +9,7 @@ import type {
 	Harvest,
 	ResourceUsage
 } from '@grow-run-archive/definitions';
+import dayjs from 'dayjs';
 import { set } from 'firebase/database';
 import { get } from 'svelte/store';
 
@@ -94,23 +95,12 @@ export default class GrowRun {
 		);
 	}
 
-	calculateDurationInMS(): number {
+	calculateDurationInDays(): number {
 		const start = this.duration?.start;
 		const end = this.duration?.end;
 		if (!start || !end) return NaN;
 
-		const startDate = new Date(start);
-		const endDate = new Date(end);
-		return endDate.getTime() - startDate.getTime();
-	}
-
-	calculateDurationInHours(): number {
-		const ms = this.calculateDurationInMS();
-		return ms / (1000 * 60 * 60);
-	}
-
-	calculateDurationInDays(): number {
-		return this.calculateDurationInHours() / 24;
+		return dayjs(end).diff(start, 'days', true);
 	}
 
 	recordCondition(condition: keyof ConditionsData, { dateTime, value }: ConditionMeasurement) {

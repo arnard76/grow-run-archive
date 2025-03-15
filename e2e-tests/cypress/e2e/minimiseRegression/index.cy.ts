@@ -55,6 +55,7 @@ describe('Grow Run Archive', () => {
 
 		fastForwardDays(1);
 		growRun.end();
+		growRun.duration.should('be.visible').should('contain.text', '64.00 days');
 
 		// CHECK results - grow results and cost
 		growRun.totalHarvest.should('be.visible').should('contain.text', '73.00g (53 leaves)');
