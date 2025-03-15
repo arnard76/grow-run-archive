@@ -61,7 +61,7 @@ export class GrowRunManager implements EntityManager {
 		// Check that GR has started
 		cy.reload();
 		this.showAllDetails();
-		const displayedStartTime = startTime.tz('UTC').format('D MMM YYYY, h:mm a');
+		const displayedStartTime = startTime.format('D MMM YYYY, h:mm a');
 		cy.findByText(displayedStartTime).should('be.visible');
 	}
 
@@ -162,7 +162,7 @@ export class GrowRunManager implements EntityManager {
 
 			cy.reload();
 			this.showAllDetails();
-			const displayedStartTime = endTime.tz('UTC').format('D MMM YYYY, h:mm a');
+			const displayedStartTime = endTime.format('D MMM YYYY, h:mm a');
 			this.heroSection.findByText(displayedStartTime).should('be.visible');
 		});
 	}
