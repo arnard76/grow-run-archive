@@ -1,5 +1,7 @@
+import { DateTime } from './datetime';
+
 export type Harvest = {
-	datetime: string;
+	datetime: DateTime;
 	numberOfLeaves: number;
 	massOfLeaves: number;
 	qualityNotes?: string;
