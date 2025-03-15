@@ -13,8 +13,8 @@
 
 {#if loading || !minLoadingDone}
 	<div class="flex flex-col items-center">
-		<h1>Loading...</h1>
-		<img src={loadingAnimation} alt="plant growing animation" />
+		<h1>loading...</h1>
+		<img src={loadingAnimation} alt="plant growing animation" width="150px" class="rounded-lg" />
 	</div>
 {:else}
 	<slot />

@@ -32,6 +32,7 @@ export class EntitiesManager {
 
 	goToAll() {
 		cy.visit(this.entityURL);
+		cy.findByText('loading', { exact: false }).should('not.exist');
 	}
 
 	deleteSingle() {
@@ -41,7 +42,6 @@ export class EntitiesManager {
 
 	deleteAll() {
 		this.goToAll();
-		cy.wait(4000);
 		const entities = cy.get('table tr');
 
 		entities.each(($entity, index, ...rest) => {

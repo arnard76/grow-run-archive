@@ -10,6 +10,8 @@
 
 	import '$lib/styles/global.css';
 	import Loading from '$lib/components/Loading.svelte';
+	import { growRuns, growRunsLoading } from '$lib/grow-run/store';
+	import { resourcesList, resourcesLoading } from '$lib/resource/store';
 
 	let authUnsubscribe = () => {};
 	$: if (browser) {
@@ -42,9 +44,11 @@
 	}
 
 	session.set({ user: null, loading: true });
+	$resourcesList;
+	$growRuns;
 </script>
 
-<Loading loading={$session.loading}>
+<Loading loading={$session.loading || $growRunsLoading || $resourcesLoading}>
 	{#if $session.user}
 		<div class="flex justify-between flex-wrap bg-gray-800 items-center p-4 text-white">
 			<Menu />
