@@ -26,11 +26,11 @@ export function createEntityStores(EntityClass: any, entityAPI: EntityAPI<any>) 
 		[session, db],
 		([{ user }, $db], setEntities) => {
 			setEntities([]);
-			loadingPrivate.set(true);
 
 			const entitiesRef = entityAPI.entityRef('', user?.uid, $db);
 			if (!entitiesRef) return;
 
+			loadingPrivate.set(true);
 			return onValue(entitiesRef, (snapshot) => {
 				setEntities(convertToArray(snapshot.val()));
 				loadingPrivate.set(false);
