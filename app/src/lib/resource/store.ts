@@ -1,5 +1,5 @@
 import { EntityAPI } from '$lib/abstract-entity/api';
-import { createDerivedStoreForEntity } from '$lib/abstract-entity/store';
+import { createEntityStores as createEntityStore } from '$lib/abstract-entity/store';
 import Resource from '$lib/resource';
 import { session } from '$lib/user/user';
 import {
@@ -25,8 +25,12 @@ const noResourceFound = {
 
 export const resourcesAPI = new EntityAPI<Resource>('resource-list', 'id');
 
+const { loading, records: resourcesStore } = createEntityStore(Resource, resourcesAPI);
+
+export const resourcesLoading = loading;
+
 export const resourcesList = {
-	...createDerivedStoreForEntity(Resource, resourcesAPI),
+	...resourcesStore,
 
 	async archiveProductPageForResource({ productLink, name }: Resource) {
 		if (!productLink) return;
