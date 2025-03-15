@@ -3,13 +3,13 @@
 	import { goto } from '$app/navigation';
 	import { session } from '$lib/user/user';
 
-	import loadingAnimation from '$lib/images/plant-growing-loading.webp';
 	import Menu from '$lib/components/Menu.svelte';
 	import { page } from '$app/stores';
 	import { initializeFirebase } from '$lib/firebase';
 	import { onDestroy } from 'svelte';
 
 	import '$lib/styles/global.css';
+	import Loading from '$lib/components/Loading.svelte';
 
 	let authUnsubscribe = () => {};
 	$: if (browser) {
@@ -33,8 +33,8 @@
 				? '/'
 				: null
 			: !openRoutes.includes(currentPath)
-			  ? '/welcome'
-			  : null;
+				? '/welcome'
+				: null;
 
 		if (redirectTo) {
 			goto(redirectTo);
@@ -42,20 +42,9 @@
 	}
 
 	session.set({ user: null, loading: true });
-
-	// a fixed loading time so animation can be enjoyed :)
-	let minLoadingDone = false;
-	setTimeout(() => {
-		minLoadingDone = true;
-	}, 1500);
 </script>
 
-{#if $session.loading || !minLoadingDone}
-	<div class="flex flex-col items-center">
-		<h1>Loading... 🙂</h1>
-		<img src={loadingAnimation} alt="plant growing animation" />
-	</div>
-{:else}
+<Loading loading={$session.loading}>
 	{#if $session.user}
 		<div class="flex justify-between flex-wrap bg-gray-800 items-center p-4 text-white">
 			<Menu />
@@ -70,4 +59,4 @@
 	<div class="p-2">
 		<slot />
 	</div>
-{/if}
+</Loading>
