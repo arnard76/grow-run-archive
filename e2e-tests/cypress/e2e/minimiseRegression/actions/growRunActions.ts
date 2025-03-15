@@ -65,6 +65,10 @@ export class GrowRunManager implements EntityManager {
 		cy.findByText(displayedStartTime).should('be.visible');
 	}
 
+	get duration() {
+		return this.heroSection.contains(/duration/i).find('i');
+	}
+
 	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {
 		if (!usageOfResourcesInput.length) return;
 
