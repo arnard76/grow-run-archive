@@ -1,4 +1,4 @@
-import { ActionNames } from '../../../../../packages/definitions/src/entity/ActionNames';
+import { ActionNames } from '@grow-run-archive/definitions';
 
 /**
  * This class is to represent any person who interacts with an entity on GRA
