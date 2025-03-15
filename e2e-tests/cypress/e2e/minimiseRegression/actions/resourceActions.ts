@@ -4,11 +4,7 @@ import { EntitiesManager, EntityManager } from '../entity/manager';
 class ResourcesManager extends EntitiesManager {
 	constructor() {
 		super('Resource', '/resources');
-	}
-
-	deleteSingle() {
-		cy.findByTitle(resourceActionNames.edit).click();
-		super.deleteSingle();
+		this.entityActionNames = resourceActionNames;
 	}
 
 	addMultiple(resources: Resource[]) {

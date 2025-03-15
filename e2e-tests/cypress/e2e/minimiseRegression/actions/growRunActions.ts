@@ -11,7 +11,17 @@ import { EntitiesManager, EntityManager } from '../entity/manager';
 dayjs.extend(Timezone);
 dayjs.extend(DayJSUtc);
 
-export const growRunsManager = new EntitiesManager('Grow Run', '/grow-runs');
+class GrowRunsManager extends EntitiesManager {
+	constructor() {
+		super('Grow Run', '/grow-runs');
+	}
+
+	deleteSingle(): void {
+		cy.findByTitle(growRunActionNames.delete).click();
+	}
+}
+
+export const growRunsManager = new GrowRunsManager();
 
 export class GrowRunManager implements EntityManager {
 	growRunName: GrowRun['name'];

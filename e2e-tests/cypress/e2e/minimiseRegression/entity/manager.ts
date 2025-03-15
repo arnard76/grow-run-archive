@@ -18,7 +18,6 @@ export class EntitiesManager {
 	entityPluralName: string;
 	entityURL: string;
 	entityActionNames: ActionNames;
-	entityManager: EntityManager;
 
 	constructor(entityName: string, entityURL?: string) {
 		this.entityName = entityName;
@@ -36,6 +35,7 @@ export class EntitiesManager {
 	}
 
 	deleteSingle() {
+		cy.findByTitle(this.entityActionNames.edit).click();
 		cy.findByTitle(this.entityActionNames.delete).click();
 	}
 
