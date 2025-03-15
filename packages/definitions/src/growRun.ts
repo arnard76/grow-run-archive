@@ -3,10 +3,12 @@ import { Duration } from './duration';
 import { ActionNames } from './entity/actions';
 import { Harvest } from './harvest';
 import { ResourceUsage } from './resourceUsage';
+import { Location } from './location';
 
 export type GrowRun = {
 	id: string;
 	name: string;
+	location?: Location;
 	duration?: Duration;
 
 	resources: { used?: ResourceUsage[]; required?: ResourceUsage[] };
