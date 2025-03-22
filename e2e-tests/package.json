@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "cypress open --config baseUrl=http://localhost:5173",
+		"dev": "cypress open --config baseUrl=https://localhost:5173",
 		"local": "set CYPRESS_baseUrl=http://localhost:4173&&; cypress run",
 		"pipeline": "cypress run"
 	},
