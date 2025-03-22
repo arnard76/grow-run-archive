@@ -12,7 +12,6 @@ jobs:
         uses: actions/checkout@v4
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
-      - run: 'echo "Value of SECRET_FIREBASE_API_KEY: $SECRET_FIREBASE_API_KEY"'
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
