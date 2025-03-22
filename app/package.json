@@ -31,13 +31,14 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@grow-run-archive/definitions": "*",
 		"chart.js": "^4.4.0",
 		"chartjs-adapter-dayjs-4": "^1.0.4",
 		"dayjs": "^1.11.10",
 		"file-type": "^19.0.0",
 		"firebase": "^10.6.0",
+		"firebase-admin": "^13.2.0",
 		"nodemailer": "^6.9.10",
-		"svelte-toggle": "^4.0.1",
-		"@grow-run-archive/definitions": "*"
+		"svelte-toggle": "^4.0.1"
 	}
 }
