@@ -4,7 +4,6 @@ import { FirebaseRealtimeDatabaseService } from '$lib/server/database/firebaseRe
 
 export const POST: RequestHandler = async ({ url, request }) => {
 	const deviceData = await request.json();
-	console.log({ deviceData });
 	const { dateTime, user, growRunId, ...environmentReadings } = deviceData;
 
 	if (!user || !user.username || !user.password) {
