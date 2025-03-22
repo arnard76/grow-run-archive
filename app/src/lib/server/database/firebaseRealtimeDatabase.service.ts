@@ -1,14 +1,14 @@
 import admin from 'firebase-admin';
 import { initializeApp, type App } from 'firebase-admin/app';
-import serviceAccount from './grow-run-archive-firebase-adminsdk-credentials.json';
 import { getDatabase, type Reference } from 'firebase-admin/database';
 import { error } from '@sveltejs/kit';
 import { getUser } from '../auth';
+import { SECRET_FIREBASE_ADMIN_CREDENTIALS } from '$env/static/private';
 
 let app: App | undefined = undefined;
 if (!admin.apps.length) {
 	app = initializeApp({
-		credential: admin.credential.cert(serviceAccount as any),
+		credential: admin.credential.cert(JSON.parse(SECRET_FIREBASE_ADMIN_CREDENTIALS)),
 		databaseURL: 'https://grow-run-archive-default-rtdb.asia-southeast1.firebasedatabase.app'
 	});
 }
