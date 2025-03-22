@@ -1,8 +1,8 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import fs from 'fs';
-console.log(process.env);
 
+// NODE_ENV is 'production' when deploying on vercel
 let configOptions =
 	process.env.NODE_ENV === 'development'
 		? {
