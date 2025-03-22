@@ -24,4 +24,5 @@
 	<ConditionSection {growRun} {timezone} conditionName="water-level" />
 	<ConditionSection {growRun} {timezone} conditionName="pH" />
 	<ConditionSection {growRun} {timezone} conditionName="average-illuminance-at-netcup" />
+	<ConditionSection {growRun} {timezone} conditionName="co2" />
 </section>
