@@ -11,7 +11,8 @@
             ],
             "env": [
                 "SECRET_BREVO_CLIENT_EMAIL",
-                "SECRET_BREVO_CLIENT_PASS"
+                "SECRET_BREVO_CLIENT_PASS",
+                "SECRET_FIREBASE_API_KEY"
             ],
             "outputs": [
                 "dist/**",
