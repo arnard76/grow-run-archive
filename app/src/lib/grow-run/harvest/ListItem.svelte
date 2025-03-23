@@ -1,6 +1,6 @@
 <script lang="ts">
 	import EditTemplate from '$lib/components/EditTemplate.svelte';
-	import type { Harvest } from './types';
+	import type { Harvest } from '@grow-run-archive/definitions';
 	import Inputs from './Inputs.svelte';
 	import { prettyFormatDate } from '../details/duration/util';
 
