@@ -18,7 +18,7 @@
 
 <label>
 	Start Date: <input type="datetime-local" bind:value={startLocalDateInput} />
-</label><br />
+</label>
 <label>
 	End Date: <input type="datetime-local" bind:value={endLocalDateInput} />
-</label><br />
+</label>
