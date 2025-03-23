@@ -10,10 +10,7 @@
 
 <section>
 	<EditTemplate
-		onUpdate={() => {
-			growRun.name = updatedGrowName;
-			growRunsAPI.updatePartial(growRun.id, { name: growRun.name });
-		}}
+		onUpdate={() => growRunsAPI.updatePartial(growRun.id, { name: updatedGrowName })}
 		editText={growRunActionNames.changeName}
 	>
 		<h2 slot="display" class="inline-block m-0">
