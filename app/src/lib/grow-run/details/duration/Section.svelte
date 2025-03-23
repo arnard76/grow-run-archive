@@ -27,12 +27,12 @@
 			bind:endDateInput={growRun.duration.end}
 		/>
 	</EditTemplate>
-
-	<p class="mt-4">
-		Total duration {#if !expanded && growRunDuration}
+	{#if !expanded && growRunDuration}
+		<p class="mt-4">
+			Total duration
 			<i>
 				{growRunDuration.toFixed(2)} days
 			</i>
-		{/if}
-	</p>
+		</p>
+	{/if}
 </section>
