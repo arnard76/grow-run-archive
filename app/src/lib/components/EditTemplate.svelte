@@ -6,9 +6,9 @@
 	export let finishEditingText = 'Save Changes';
 	export let deleteText = 'Delete';
 
-	export let onUpdate: () => any = () => null;
-	export let onCancel: () => any = () => null;
-	export let onDelete: () => any = () => null;
+	export let onUpdate: (() => any) | undefined = undefined;
+	export let onCancel: (() => any) | undefined = undefined;
+	export let onDelete: (() => any) | undefined = undefined;
 
 	export let expanded = false;
 </script>
@@ -17,15 +17,17 @@
 	<form>
 		<slot name="editing" />
 		<div>
-			<button
-				title={finishEditingText}
-				on:click={() => {
-					onUpdate();
-					expanded = !expanded;
-				}}
-			>
-				<Icon icon="tabler:pencil-check" />
-			</button>
+			{#if onUpdate}
+				<button
+					title={finishEditingText}
+					on:click={() => {
+						onUpdate();
+						expanded = !expanded;
+					}}
+				>
+					<Icon icon="tabler:pencil-check" />
+				</button>
+			{/if}
 
 			{#if onDelete}
 				<button
@@ -40,12 +42,14 @@
 				</button>
 			{/if}
 
-			<CancelButton
-				on:click={() => {
-					onCancel();
-					expanded = !expanded;
-				}}
-			/>
+			{#if onCancel}
+				<CancelButton
+					on:click={() => {
+						onCancel();
+						expanded = !expanded;
+					}}
+				/>
+			{/if}
 		</div>
 	</form>
 {:else}
