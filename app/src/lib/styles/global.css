@@ -68,7 +68,7 @@ button.danger * {
 /* forms */
 
 form {
-	@apply flex flex-col gap-8 w-max p-4;
+	@apply flex flex-col gap-8 w-max p-4 items-start;
 }
 
 input,
