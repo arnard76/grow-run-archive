@@ -17,9 +17,9 @@
 	export let onDelete: (() => any) | undefined = undefined;
 
 	export let currentValue: any;
-	export let editedValue: any;
+	export let editedValue = structuredClone(currentValue);
 
-	export let expanded = false;
+	export let editMode = false;
 </script>
 
 <EditTemplate
@@ -32,7 +32,7 @@
 		if (onCancel) onCancel();
 	}}
 	{onDelete}
-	{expanded}
+	{editMode}
 >
 	<svelte:fragment slot="editing">
 		<slot name="editing" />

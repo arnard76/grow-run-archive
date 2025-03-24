@@ -5,7 +5,7 @@
 	import { growRunsAPI } from '../store';
 	export let growRun: GrowRun;
 
-	let updatedGrowName = growRun.name;
+	let updatedGrowName: GrowRun['name'];
 </script>
 
 <section>

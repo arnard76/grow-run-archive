@@ -7,17 +7,17 @@
 	import { prettyFormatDate } from './util';
 
 	export let growRun: GrowRun;
-	let expanded = false;
+	let editMode = false;
 	$: growRunDuration = growRun.calculateDurationInDays();
 
-	let editGrowRunDurationInputs = structuredClone(growRun.duration || {});
+	let editGrowRunDurationInputs: NonNullable<GrowRun['duration']>;
 </script>
 
 <section>
 	<EditTemplate
-		bind:expanded
+		bind:editMode
 		bind:editedValue={editGrowRunDurationInputs}
-		currentValue={growRun.duration}
+		currentValue={growRun.duration || {}}
 		onUpdate={() => growRunsAPI.updateFull(growRun)}
 		editText={growRunActionNames.changeStartAndEnd}
 	>
@@ -31,7 +31,7 @@
 			bind:endDateInput={editGrowRunDurationInputs.end}
 		/>
 	</EditTemplate>
-	{#if !expanded && growRunDuration}
+	{#if !editMode && growRunDuration}
 		<p class="mt-4">
 			Total duration
 			<i>

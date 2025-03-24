@@ -10,7 +10,7 @@
 	export let timezone: string;
 	export let onUpdate = (newMeasurement: ConditionMeasurement) => {};
 
-	let editingConditionInputs = structuredClone(conditionMeasurement);
+	let editingConditionInputs: ConditionMeasurement;
 </script>
 
 <li>

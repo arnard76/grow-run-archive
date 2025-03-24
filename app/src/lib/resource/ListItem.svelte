@@ -9,7 +9,7 @@
 	export let resource: Resource;
 
 	let expanded = false;
-	let editingResource = structuredClone(resource);
+	let editingResource: Resource;
 </script>
 
 <tr>
