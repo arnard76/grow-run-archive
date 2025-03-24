@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EditTemplate from '$lib/components/EditTemplate.svelte';
+	import EditTemplate from '$lib/components/EditTemplateWithInputsReset.svelte';
 	import type GrowRun from '$lib/grow-run';
 	import { growRunActionNames } from '@grow-run-archive/definitions';
 	import { growRunsAPI } from '../store';
@@ -12,6 +12,8 @@
 	<EditTemplate
 		onUpdate={() => growRunsAPI.updatePartial(growRun.id, { name: updatedGrowName })}
 		editText={growRunActionNames.changeName}
+		currentValue={growRun.name}
+		bind:editedValue={updatedGrowName}
 	>
 		<h2 slot="display" class="inline-block m-0">
 			{growRun.name}

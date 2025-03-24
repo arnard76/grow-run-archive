@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EditTemplate from '$lib/components/EditTemplate.svelte';
+	import EditTemplate from '$lib/components/EditTemplateWithInputsReset.svelte';
 	import { getConditionMetadata } from '../conditions';
 	import Inputs from './Inputs.svelte';
 	import { prettyFormatDate } from '$lib/grow-run/details/duration/util';
@@ -9,10 +9,16 @@
 	export let conditionMeasurement: ConditionMeasurement;
 	export let timezone: string;
 	export let onUpdate = (newMeasurement: ConditionMeasurement) => {};
+
+	let editingConditionInputs = structuredClone(conditionMeasurement);
 </script>
 
 <li>
-	<EditTemplate onUpdate={() => onUpdate(conditionMeasurement)}>
+	<EditTemplate
+		onUpdate={() => onUpdate(editingConditionInputs)}
+		currentValue={conditionMeasurement}
+		bind:editedValue={editingConditionInputs}
+	>
 		<p slot="display">
 			{prettyFormatDate(conditionMeasurement.dateTime, timezone)}: {conditionMeasurement.value}{getConditionMetadata(
 				conditionName
@@ -22,8 +28,8 @@
 		<Inputs
 			slot="editing"
 			{conditionName}
-			bind:value={conditionMeasurement.value}
-			bind:dateTime={conditionMeasurement.dateTime}
+			bind:value={editingConditionInputs.value}
+			bind:dateTime={editingConditionInputs.dateTime}
 		/>
 	</EditTemplate>
 </li>

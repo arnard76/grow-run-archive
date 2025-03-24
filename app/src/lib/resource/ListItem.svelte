@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EditTemplate from '$lib/components/EditTemplate.svelte';
+	import EditTemplate from '$lib/components/EditTemplateWithInputsReset.svelte';
 	import { resourcesList } from '$lib/resource/store';
 	import type Resource from '$lib/resource';
 	import Inputs from './Inputs.svelte';
@@ -9,6 +9,7 @@
 	export let resource: Resource;
 
 	let expanded = false;
+	let editingResource = structuredClone(resource);
 </script>
 
 <tr>
@@ -23,9 +24,11 @@
 				onDelete={() => resourcesList.removeResource(resource)}
 				deleteText={resourceActionNames.delete}
 				editText={resourceActionNames.edit}
+				currentValue={resource}
+				bind:editedValue={editingResource}
 			>
 				<p slot="display">{resource.notes}</p>
-				<Inputs slot="editing" bind:resourceToCreateOrUpdate={resource} />
+				<Inputs slot="editing" bind:resourceToCreateOrUpdate={editingResource} />
 			</EditTemplate>
 		</td>
 	</tr>
