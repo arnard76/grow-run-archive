@@ -7,7 +7,7 @@
 	export let harvest: Harvest;
 	export let onUpdateHarvest = (harvest: Harvest) => {};
 
-	let editingHarvestInputs = structuredClone(harvest);
+	let editingHarvestInputs: Harvest;
 </script>
 
 <li>

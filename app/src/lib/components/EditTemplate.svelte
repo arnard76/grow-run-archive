@@ -10,10 +10,10 @@
 	export let onCancel: (() => any) | undefined = undefined;
 	export let onDelete: (() => any) | undefined = undefined;
 
-	export let expanded = false;
+	export let editMode = false;
 </script>
 
-{#if expanded}
+{#if editMode}
 	<form>
 		<slot name="editing" />
 		<div>
@@ -22,7 +22,7 @@
 					title={finishEditingText}
 					on:click={() => {
 						onUpdate();
-						expanded = !expanded;
+						editMode = false;
 					}}
 				>
 					<Icon icon="tabler:pencil-check" />
@@ -35,7 +35,7 @@
 					class="danger"
 					on:click={() => {
 						onDelete();
-						expanded = !expanded;
+						editMode = false;
 					}}
 				>
 					<Icon icon="tabler:trash" />
@@ -45,7 +45,7 @@
 			<CancelButton
 				on:click={() => {
 					if (onCancel) onCancel();
-					expanded = !expanded;
+					editMode = false;
 				}}
 			/>
 		</div>
@@ -53,7 +53,7 @@
 {:else}
 	<div class="flex items-top gap-4">
 		<slot name="display" />
-		<button on:click={() => (expanded = !expanded)} title={editText}>
+		<button on:click={() => (editMode = true)} title={editText}>
 			<Icon icon="tabler:pencil" />
 		</button>
 	</div>

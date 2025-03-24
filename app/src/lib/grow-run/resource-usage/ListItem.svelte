@@ -9,7 +9,7 @@
 	export let growRun: GrowRun;
 	export let usageOfResource: ResourceUsage;
 
-	let editingUsageOfResource = structuredClone(usageOfResource);
+	let editingUsageOfResource: ResourceUsage;
 
 	let showExpandedCalculation = false;
 	function toggleExpansion() {
