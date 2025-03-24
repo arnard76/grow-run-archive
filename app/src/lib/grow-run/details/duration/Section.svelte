@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EditTemplate from '$lib/components/EditTemplate.svelte';
+	import EditTemplate from '$lib/components/EditTemplateWithInputsReset.svelte';
 	import type GrowRun from '$lib/grow-run';
 	import { growRunsAPI } from '$lib/grow-run/store';
 	import { growRunActionNames } from '@grow-run-archive/definitions';
@@ -9,11 +9,15 @@
 	export let growRun: GrowRun;
 	let expanded = false;
 	$: growRunDuration = growRun.calculateDurationInDays();
+
+	let editGrowRunDurationInputs = structuredClone(growRun.duration || {});
 </script>
 
 <section>
 	<EditTemplate
 		bind:expanded
+		bind:editedValue={editGrowRunDurationInputs}
+		currentValue={growRun.duration}
 		onUpdate={() => growRunsAPI.updateFull(growRun)}
 		editText={growRunActionNames.changeStartAndEnd}
 	>
@@ -23,8 +27,8 @@
 		</p>
 		<Inputs
 			slot="editing"
-			bind:startDateInput={growRun.duration.start}
-			bind:endDateInput={growRun.duration.end}
+			bind:startDateInput={editGrowRunDurationInputs.start}
+			bind:endDateInput={editGrowRunDurationInputs.end}
 		/>
 	</EditTemplate>
 	{#if !expanded && growRunDuration}

@@ -7,7 +7,7 @@
 	export let deleteText = 'Delete';
 
 	export let onUpdate: (() => any) | undefined = undefined;
-	export let onCancel: () => any = () => null;
+	export let onCancel: (() => any) | undefined = undefined;
 	export let onDelete: (() => any) | undefined = undefined;
 
 	export let expanded = false;
@@ -44,7 +44,7 @@
 
 			<CancelButton
 				on:click={() => {
-					onCancel();
+					if (onCancel) onCancel();
 					expanded = !expanded;
 				}}
 			/>

@@ -1,43 +1,43 @@
 <script lang="ts">
-	import EditTemplate from '$lib/components/EditTemplate.svelte';
+	import EditTemplate from '$lib/components/EditTemplateWithInputsReset.svelte';
 	import { growRunsAPI } from '$lib/grow-run/store';
 	import { resourcesList } from '$lib/resource/store';
+	import type { ResourceUsage } from '@grow-run-archive/definitions';
 	import type GrowRun from '..';
 	import Inputs from './Inputs.svelte';
 
 	export let growRun: GrowRun;
-	export let resourceName: string;
-	const initialResourceName = resourceName;
-	export let amountUsed: number;
+	export let usageOfResource: ResourceUsage;
+
+	let editingUsageOfResource = structuredClone(usageOfResource);
 
 	let showExpandedCalculation = false;
 	function toggleExpansion() {
 		showExpandedCalculation = !showExpandedCalculation;
 	}
 
-	$: resource = resourcesList.getResource(resourceName);
-	$: costOfUsage = resource.calculateCost(amountUsed).toFixed(2);
+	$: resource = resourcesList.getResource(usageOfResource.resourceName);
+	$: costOfUsage = resource.calculateCost(usageOfResource.amountUsed).toFixed(2);
 </script>
 
 <li>
 	<EditTemplate
 		onUpdate={() => {
-			growRun.editResourceUsage(initialResourceName, {
-				resourceName,
-				amountUsed
-			});
+			growRun.editResourceUsage(usageOfResource.resourceName, editingUsageOfResource);
 			growRunsAPI.updatePartial(growRun.id, { resources: growRun.resources });
 		}}
 		onDelete={() => {
-			growRun.deleteResourceUsage(initialResourceName);
+			growRun.deleteResourceUsage(usageOfResource.resourceName);
 			growRunsAPI.updatePartial(growRun.id, { resources: growRun.resources });
 		}}
+		currentValue={usageOfResource}
+		bind:editedValue={editingUsageOfResource}
 	>
 		<svelte:fragment slot="display">
 			<span class="w-[300px]">
-				{amountUsed}{resource.amountUnit}
-				<a href="/resource/{resourceName}">
-					{resourceName}
+				{usageOfResource.amountUsed}{resource.amountUnit}
+				<a href="/resource/{usageOfResource.resourceName}">
+					{usageOfResource.resourceName}
 				</a>
 			</span>
 
@@ -46,7 +46,7 @@
 
 				{#if showExpandedCalculation}
 					<span class="calculation">
-						{resource.cost} * {amountUsed}{resource.amountUnit} / {resource.amountTotal}{resource.amountUnit}
+						{resource.cost} * {usageOfResource.amountUsed}{resource.amountUnit} / {resource.amountTotal}{resource.amountUnit}
 						= ${costOfUsage}
 					</span>
 				{/if}
@@ -54,7 +54,7 @@
 		</svelte:fragment>
 
 		<svelte:fragment slot="editing">
-			<Inputs bind:amountUsedInput={amountUsed} bind:selectedResourceToUse={resourceName} />
+			<Inputs bind:usageOfResource={editingUsageOfResource} />
 		</svelte:fragment>
 	</EditTemplate>
 </li>
