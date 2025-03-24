@@ -18,7 +18,7 @@
 		bind:editMode
 		bind:editedValue={editGrowRunDurationInputs}
 		currentValue={growRun.duration || {}}
-		onUpdate={() => growRunsAPI.updateFull(growRun)}
+		onUpdate={() => growRunsAPI.updatePartial(growRun.id, { duration: editGrowRunDurationInputs })}
 		editText={growRunActionNames.changeStartAndEnd}
 	>
 		<p slot="display">
