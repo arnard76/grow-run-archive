@@ -41,3 +41,47 @@ export function createEntityStores(EntityClass: any, entityAPI: EntityAPI<any>) 
 
 	return { records, loading };
 }
+
+/**
+ * Creates store to use the entity records
+ * Includes another store to check if its loading
+ */
+export class EntityStore<EntityType> {
+	entityAPI: EntityAPI<EntityType>;
+	EntityClass?: any;
+
+	constructor(entityAPI: EntityAPI<EntityType>, EntityClass?: any) {
+		this.entityAPI = entityAPI;
+		this.EntityClass = EntityClass;
+	}
+
+	convertToArray(entitiesData: { [key: string]: any }): EntityType[] {
+		if (!entitiesData) return [];
+		return Object.entries(entitiesData || {}).map(([key, entity]: [string, EntityType]) => {
+			const transformedObject = { ...entity, id: key };
+			return this.EntityClass ? new this.EntityClass(transformedObject) : transformedObject;
+		});
+	}
+
+	private loadingPrivate = writable(false);
+	loading: Readable<boolean> = {
+		subscribe: this.loadingPrivate.subscribe
+	};
+
+	records = derived(
+		[session, db],
+		([{ user }, $db], setEntities) => {
+			setEntities([]);
+
+			const entitiesRef = this.entityAPI.entityRef('', user?.uid, $db);
+			if (!entitiesRef) return;
+
+			this.loadingPrivate.set(true);
+			return onValue(entitiesRef, (snapshot) => {
+				setEntities(this.convertToArray(snapshot.val()));
+				this.loadingPrivate.set(false);
+			});
+		},
+		[] as EntityType[]
+	);
+}

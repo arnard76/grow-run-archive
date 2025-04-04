@@ -9,9 +9,3 @@
 <td on:click><a href={`/resource/${name}`}>{name}</a></td>
 <td on:click>${cost}</td>
 <td on:click>{amountTotal}{amountUnit}</td>
-
-<style>
-	td {
-		padding: 5px 15px;
-	}
-</style>

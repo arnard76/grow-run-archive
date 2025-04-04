@@ -1,4 +1,4 @@
-import { ActionNames } from '@grow-run-archive/definitions';
+import { EntityNames } from '@grow-run-archive/definitions';
 
 /**
  * This class is to represent any person who interacts with an entity on GRA
@@ -13,31 +13,15 @@ export interface EntityManager {
 	goTo(): void;
 }
 
-export class EntitiesManager {
-	entityName: string;
-	entityPluralName: string;
-	entityURL: string;
-	entityActionNames: ActionNames;
-
-	constructor(entityName: string, entityURL?: string) {
-		this.entityName = entityName;
-		this.entityActionNames = new ActionNames(this.entityName);
-		this.entityPluralName = entityName + 's';
-		this.entityURL =
-			entityURL ||
-			(this.entityPluralName
-				? `/${this.entityPluralName.toLowerCase().replace(' ', '-')}`
-				: undefined);
-	}
-
+export class EntitiesManager extends EntityNames {
 	goToAll() {
-		cy.visit(this.entityURL);
+		cy.visit('/' + this.URL);
 		cy.findByText('loading', { exact: false }).should('not.exist');
 	}
 
 	deleteSingle() {
-		cy.findByTitle(this.entityActionNames.edit).click();
-		cy.findByTitle(this.entityActionNames.delete).click();
+		cy.findByTitle(this.actionNames.edit).click();
+		cy.findByTitle(this.actionNames.delete).click();
 	}
 
 	deleteAll() {

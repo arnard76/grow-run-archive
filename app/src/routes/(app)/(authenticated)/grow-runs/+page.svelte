@@ -15,20 +15,9 @@
 		<th>Cost per 100g (NZD)</th>
 	</tr>
 
-	{#each $growRuns as growRun}
-		<GrowRun {growRun} />
-	{/each}
+	<tbody>
+		{#each $growRuns as growRun}
+			<GrowRun {growRun} />
+		{/each}
+	</tbody>
 </table>
-
-<style>
-	table {
-		width: 95vw;
-	}
-
-	tr {
-		text-align: left;
-	}
-	th {
-		padding: 15px;
-	}
-</style>

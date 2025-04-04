@@ -14,14 +14,3 @@
 	<td>${cost.toFixed(2)}</td>
 	<td>{growRun.totalMassLeavesHarvested() != 0 ? '$' + costPer100g.toFixed(2) : 'No output 🥲'}</td>
 </tr>
-
-<style>
-	tr {
-		cursor: pointer;
-		background-color: lightblue;
-	}
-
-	td {
-		padding: 5px 15px;
-	}
-</style>

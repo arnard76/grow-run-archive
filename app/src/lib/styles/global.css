@@ -71,11 +71,15 @@ form {
 	@apply flex flex-col gap-8 w-max p-4 items-start;
 }
 
-input,
+input:not(input[type='color']),
 textarea,
 select {
 	@apply border-b-2 border-0 border-solid border-black px-3 py-1 rounded-sm
 	focus:bg-slate-300 bg-white hover:bg-slate-200 transition-all duration-300 outline-none;
+}
+
+input[type='color'] {
+	@apply bg-white outline-none border-0;
 }
 
 label input,
@@ -100,4 +104,27 @@ label select {
 
 .iconify {
 	@apply text-xl;
+}
+
+/* tables */
+
+table {
+	@apply w-full table-fixed;
+}
+
+tr {
+	text-align: left;
+}
+
+tbody tr {
+	cursor: pointer;
+	background-color: lightblue;
+}
+
+th {
+	padding: 15px;
+}
+
+td {
+	padding: 5px 15px;
 }

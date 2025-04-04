@@ -33,10 +33,3 @@
 		</td>
 	</tr>
 {/if}
-
-<style>
-	tr {
-		cursor: pointer;
-		background-color: lightblue;
-	}
-</style>
