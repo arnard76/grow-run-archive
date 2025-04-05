@@ -51,7 +51,7 @@
 		</div>
 	</form>
 {:else}
-	<div class="flex items-top gap-4">
+	<div class="flex items-top gap-4 flex-wrap">
 		<slot name="display" />
 		<button on:click={() => (editMode = true)} title={editText}>
 			<Icon icon="tabler:pencil" />
