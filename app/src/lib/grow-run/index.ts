@@ -1,17 +1,22 @@
+import { Entity } from '$lib/abstract-entity/entity';
 import type Resource from '$lib/resource';
 import { resourcesList } from '$lib/resource/store';
 import { session } from '$lib/user/user';
 import { getDatabase, push, ref } from '@firebase/database';
-import type {
-	ConditionMeasurement,
-	ConditionsMeasurements as ConditionsData,
-	GrowRun as GrowRunType,
-	Harvest,
-	ResourceUsage
+import {
+	EntityNames,
+	growRunActionNames,
+	type ConditionMeasurement,
+	type ConditionsMeasurements as ConditionsData,
+	type GrowRun as GrowRunType,
+	type Harvest,
+	type ResourceUsage
 } from '@grow-run-archive/definitions';
 import dayjs from 'dayjs';
 import { set } from 'firebase/database';
 import { get } from 'svelte/store';
+import CreateInputs from './CreateInputs.svelte';
+import DisplayRecord from './DisplayRecord.svelte';
 
 export default class GrowRun {
 	id: GrowRunType['id'];
@@ -136,3 +141,14 @@ export default class GrowRun {
 	// 	);
 	// }
 }
+
+export const growRunEntity = new Entity<GrowRun>({
+	names: new EntityNames({
+		name: 'Grow Run1',
+		URL: 'grow-runs-1',
+		actionNames: growRunActionNames
+	}),
+	Inputs: CreateInputs,
+	FullIndividualRecord: DisplayRecord,
+	Class: GrowRun
+});

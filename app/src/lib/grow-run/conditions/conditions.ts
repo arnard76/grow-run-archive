@@ -32,6 +32,8 @@ const conditionsMetadata: ConditionMetadata = {
 	co2: { units: 'ppm' }
 };
 
+export const definedConditions = Object.keys(conditionsMetadata);
+
 export function toVerbose(conditionName: keyof ConditionsMeasurements) {
 	return getConditionMetadata(conditionName).verbose || conditionName.replaceAll('-', ' ');
 }

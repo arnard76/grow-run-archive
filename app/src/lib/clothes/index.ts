@@ -5,7 +5,7 @@ import DisplayRecord from './DisplayRecord.svelte';
 import type { ItemOfClothing } from './type';
 
 const clothes = new Entity<ItemOfClothing>({
-	names: new EntityNames('Item of clothing', 'clothes', 'Clothes'),
+	names: new EntityNames({ name: 'Item of clothing', pluralName: 'Clothes' }),
 	idProperty: 'id',
 	Inputs,
 	DisplayRecord

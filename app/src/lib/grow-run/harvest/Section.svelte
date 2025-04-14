@@ -36,7 +36,7 @@
 			</li>
 		</ul>
 	{:else}
-		<p class="inline">No harvests has been recorded:</p>
+		<p class="inline">No harvests recorded:</p>
 	{/if}
 	<Add {growRun} />
 </section>

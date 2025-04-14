@@ -5,7 +5,7 @@ import DisplayRecord from './DisplayRecord.svelte';
 
 const videos = new Entity<Video>({
 	idProperty: 'id',
-	names: new EntityNames('Video'),
+	names: new EntityNames({ name: 'Video' }),
 	Inputs,
 	DisplayRecord
 });

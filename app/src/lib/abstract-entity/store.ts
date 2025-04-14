@@ -59,6 +59,7 @@ export class EntityStore<EntityType> {
 		if (!entitiesData) return [];
 		return Object.entries(entitiesData || {}).map(([key, entity]: [string, EntityType]) => {
 			const transformedObject = { ...entity, id: key };
+			console.log(this.EntityClass);
 			return this.EntityClass ? new this.EntityClass(transformedObject) : transformedObject;
 		});
 	}

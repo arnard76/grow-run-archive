@@ -6,7 +6,13 @@ export class EntityNames {
 	URL: string;
 	actionNames: ActionNames;
 
-	constructor(name: string, URL?: string, pluralName?: string, actionNames?: ActionNames) {
+	constructor(names: {
+		name: string;
+		URL?: string;
+		pluralName?: string;
+		actionNames?: ActionNames;
+	}) {
+		const { name, URL, pluralName, actionNames } = names;
 		this.name = name;
 		this.actionNames = actionNames || new ActionNames(this.name);
 		this.pluralName = pluralName || name + 's';
