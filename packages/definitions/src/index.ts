@@ -3,6 +3,7 @@ export * from './resourceUsage';
 export * from './harvest';
 export * from './condition';
 export * from './duration';
+export * from './location';
 export * from './resource';
 
 // should I expose general entities from here?

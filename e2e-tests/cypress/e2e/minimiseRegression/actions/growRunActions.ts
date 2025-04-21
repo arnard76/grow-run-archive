@@ -1,4 +1,10 @@
-import { GrowRun, growRunActionNames, Harvest, ResourceUsage } from '@grow-run-archive/definitions';
+import {
+	Coords,
+	GrowRun,
+	growRunActionNames,
+	Harvest,
+	ResourceUsage
+} from '@grow-run-archive/definitions';
 import dayjs from 'dayjs';
 import Timezone from 'dayjs/plugin/timezone';
 import DayJSUtc from 'dayjs/plugin/utc';
@@ -22,6 +28,15 @@ class GrowRunsManager extends EntitiesManager {
 }
 
 export const growRunsManager = new GrowRunsManager();
+const mockLocation = (coords: Coords) => ({
+	onBeforeLoad(win) {
+		cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake((cb, err) => {
+			if (coords.latitude && coords.longitude) {
+				return cb({ coords });
+			}
+		});
+	}
+});
 
 export class GrowRunManager implements EntityManager {
 	growRunName: GrowRun['name'];
@@ -67,6 +82,47 @@ export class GrowRunManager implements EntityManager {
 
 	get duration() {
 		return this.heroSection.contains(/duration/i).find('i');
+	}
+
+	/** 
+	 * location formats:
+	 - TODO: through device location
+	 - through coords ✅
+	 - TODO: through address search
+	 */
+	addLocationByCoords(
+		method: 'address search' | 'coords' | 'device location',
+		value: string | Coords
+	) {
+		cy.visit(`/grow-runs`, typeof value !== 'string' && mockLocation(value));
+		this.goTo();
+
+		this.heroSection.findByRole('button', { name: growRunActionNames.addLocation }).click();
+		if (typeof value === 'string') {
+		}
+
+		if (method === 'address search') {
+			if (typeof value !== 'string') throw Error('value must be string, not Coords');
+			this.heroSection.findAllByLabelText(/address/i).type(value);
+			this.heroSection.find('select').select(value);
+		} else if (method === 'coords') {
+			if (typeof value === 'string') throw Error('value must be Coords, not string');
+			this.heroSection.findByLabelText(/latitude/i).type(value.latitude.toString());
+			this.heroSection.findByLabelText(/longitude/i).type(value.longitude.toString());
+		} else if (method === 'device location') {
+			this.heroSection.findByRole('button', { name: /use my location/i });
+		} else {
+			throw Error(`Method ${method} can not be used to add a grow run location.`);
+		}
+
+		this.heroSection.should('include.text', 'Address: ');
+		this.heroSection.findByRole('button', { name: growRunActionNames.finishEdit }).click();
+		if (method === 'address search')
+			this.heroSection.contains(value as string).should('be.visible');
+	}
+
+	get location() {
+		return this.heroSection.find('p').eq(0);
 	}
 
 	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {

@@ -17,18 +17,20 @@ export default class GrowRun {
 	id: GrowRunType['id'];
 	name: GrowRunType['name'];
 	duration: GrowRunType['duration'];
+	location: GrowRunType['location'];
 
 	resources: Required<GrowRunType>['resources'];
 	harvests: Required<GrowRunType>['harvests'];
 	conditions: Required<GrowRunType>['conditions'];
 
-	constructor({ id, name, resources, harvests, conditions, duration }: GrowRunType) {
+	constructor({ id, name, resources, harvests, conditions, duration, location }: GrowRunType) {
 		this.id = id;
 		this.name = name;
 		this.resources = resources || { used: [], required: [] };
 		this.harvests = harvests || [];
 		this.conditions = conditions || {};
 		this.duration = duration || {};
+		this.location = location;
 	}
 
 	addResourceUsage(resourceUsage: ResourceUsage) {
