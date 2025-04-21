@@ -41,13 +41,15 @@ describe('Grow Run Archive', () => {
 		const growRun = new GrowRunManager('BCKIN AKL - Grow Run #17');
 		growRun.showAllDetails();
 		growRun.start();
+
+		// TODO: add location by address search
+		// growRun.addLocation('address search', '7 Auburn Street, Grafton, Auckland');
 		const growRunLocationCoords = {
 			latitude: -36.86611935343806,
 			longitude: 174.76589777209952
 		};
 		growRun.addLocationByCoords('coords', growRunLocationCoords);
 		growRun.location.should('include.text', 'Auckland');
-
 		growRun.location
 			.find('a')
 			.invoke('removeAttr', 'target')
@@ -56,6 +58,15 @@ describe('Grow Run Archive', () => {
 				'equal',
 				`https://www.google.com/maps/place/${growRunLocationCoords.latitude},${growRunLocationCoords.longitude}`
 			);
+
+		// DOESN"T WORK ON CHROME, WORKS ON EDGE
+		// cy.origin('https://www.google.com', () => {
+		// 	cy.url().should(
+		// 		'include',
+		// 		`https://www.google.com/maps/place/36%C2%B051'58.0%22S+174%C2%B045'57.2%22E/@-36.8661194,174.7658978,17z`
+		// 	);
+		// });
+
 		growRun.manuallyRecordUsageOfResources(resourceUsage1);
 
 		fastForwardDays(30);
