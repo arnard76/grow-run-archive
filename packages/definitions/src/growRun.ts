@@ -21,13 +21,9 @@ class GrowRunActionNames extends ActionNames {
 		super('Grow Run');
 	}
 
-	get changeStartAndEnd() {
-		return `Change Grow Run Start & End Dates`;
-	}
-
-	get changeName() {
-		return 'Change Grow Run Name';
-	}
+	changeStartAndEnd = `Change Grow Run Start & End Dates`;
+	changeName = 'Change Grow Run Name';
+	addLocation = 'Add Grow Run Location';
 }
 
 export const growRunActionNames = new GrowRunActionNames();
