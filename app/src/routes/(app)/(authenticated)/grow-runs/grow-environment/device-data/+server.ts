@@ -1,5 +1,5 @@
 import { error, text } from '@sveltejs/kit';
-import type { RequestHandler } from '../../$types';
+import type { RequestHandler } from './$types';
 import { FirebaseRealtimeDatabaseService } from '$lib/server/database/firebaseRealtimeDatabase.service';
 
 export const POST: RequestHandler = async ({ url, request }) => {

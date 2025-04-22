@@ -1,3 +1,5 @@
+import { displayFormatForDateTime } from '@grow-run-archive/definitions';
+
 export function formatToUTCISO(localFormat: string | undefined) {
 	if (!localFormat) return;
 	return new Date(localFormat).toISOString();
@@ -30,11 +32,7 @@ export function formatToLocalDate(UTCISOformat: string | undefined) {
 export function prettyFormatDate(date: string | undefined, timeZone?: string) {
 	if (date === '-' || !date) return undefined;
 
-	return new Intl.DateTimeFormat('en-NZ', {
-		dateStyle: 'medium',
-		timeStyle: 'short',
-		timeZone
-	}).format(new Date(date));
+	return displayFormatForDateTime(date, timeZone);
 }
 
 export function getTimeValue(

@@ -7,8 +7,13 @@
 		prettyFormatDate,
 		timeValueToString
 	} from '$lib/grow-run/details/duration/util';
-	import { toVerbose, getConditionMetadata, getUnitsForConditions } from '../conditions';
-	import type { ConditionsMeasurements, ConditionMeasurement } from '@grow-run-archive/definitions';
+	import { getUnitsForConditions } from '../conditions';
+	import {
+		type ConditionsMeasurements,
+		type ConditionMeasurement,
+		verboseConditionName,
+		getConditionMetadata
+	} from '@grow-run-archive/definitions';
 
 	export let growRun: GrowRun;
 	export let timezone: string;
@@ -56,7 +61,7 @@
 						data: [formatMeasurementToDatapoint(measurement)],
 						label: conditionName,
 						name:
-							toVerbose(conditionName) +
+							verboseConditionName(conditionName) +
 							' ' +
 							new Date(getDateOnly(measurement.dateTime)).toLocaleDateString('en-NZ', {
 								timeZone: timezone
@@ -103,7 +108,7 @@
 					y: {
 						title: {
 							display: true,
-							text: `${toVerbose(yAxisTitle)} / ${getUnitsForConditions(conditionNames)}`
+							text: `${verboseConditionName(yAxisTitle)} / ${getUnitsForConditions(conditionNames)}`
 						}
 					}
 				},

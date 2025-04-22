@@ -1,9 +1,8 @@
 <script lang="ts">
 	import EditTemplate from '$lib/components/EditTemplateWithInputsReset.svelte';
-	import { getConditionMetadata } from '../conditions';
 	import Inputs from './Inputs.svelte';
 	import { prettyFormatDate } from '$lib/grow-run/details/duration/util';
-	import type { ConditionMeasurement } from '@grow-run-archive/definitions';
+	import { type ConditionMeasurement, getConditionMetadata } from '@grow-run-archive/definitions';
 
 	export let conditionName;
 	export let conditionMeasurement: ConditionMeasurement;
