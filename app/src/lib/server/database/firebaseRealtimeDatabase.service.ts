@@ -4,6 +4,7 @@ import { getDatabase, type Reference } from 'firebase-admin/database';
 import { error } from '@sveltejs/kit';
 import { getUser } from '../auth';
 import { SECRET_FIREBASE_ADMIN_CREDENTIALS } from '$env/static/private';
+import type { ExternalConditionsMeasurements, GrowRun } from '@grow-run-archive/definitions';
 
 let app: App | undefined = undefined;
 if (!admin.apps.length) {
@@ -19,9 +20,9 @@ export class FirebaseRealtimeDatabaseService {
 	async recordEnvironmentConditions(
 		username: string,
 		password: string,
-		growRunId: string,
-		dateTime: string,
-		environmentalConditions: { [environmentalConditionName: string]: any }
+		growRunId: GrowRun['id'],
+		dateTime: ExternalConditionsMeasurements['dateTime'],
+		environmentalConditions: ExternalConditionsMeasurements['conditions']
 	) {
 		if (!growRunId)
 			throw error(

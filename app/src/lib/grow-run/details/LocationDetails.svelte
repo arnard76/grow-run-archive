@@ -30,10 +30,7 @@
 			return;
 		}
 
-		if (lastCoords === coordinates) {
-			console.log({ lastCoords, coordinates });
-			return;
-		}
+		if (lastCoords === coordinates) return;
 
 		if (Date.now() < lastAddressUpdate + MAX_ADDRESS_UPDATE_INTERVAL) {
 			setTimeout(() => updateLocationStuff(coordinates), MAX_ADDRESS_UPDATE_INTERVAL);
@@ -44,7 +41,7 @@
 		lastCoords = { ...coordinates };
 
 		const geocodeResult = await (
-			await fetch('./grow-runs/grow-location', {
+			await fetch('../grow-runs/grow-location', {
 				method: 'POST',
 				body: JSON.stringify({ coords: coordinates })
 			})
@@ -69,24 +66,14 @@
 		if ('geolocation' in navigator) {
 			/* geolocation is available */
 			navigator.geolocation.getCurrentPosition(
-				(position) => {
-					coords = position.coords;
-					console.log('updated 1');
-				},
-				(e) => {
-					console.log('something has gone wrong :(', e);
-				}
+				(position) => (coords = position.coords),
+				(e) => console.log('something has gone wrong :(', e)
 			);
-			console.log('updated');
 		} else {
 			/* geolocation IS NOT available */
 			alert('Geolocation is not available.');
 		}
 	}
-
-	$: console.log({ updatedGrowRunLocation });
-	$: console.log({ coords });
-	$: console.log({ growRun });
 </script>
 
 <section>

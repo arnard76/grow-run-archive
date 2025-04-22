@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { formatToLocalDate, formatToUTCISO } from '$lib/grow-run/details/duration/util';
-	import type { ConditionsMeasurements } from '@grow-run-archive/definitions';
-	import { getConditionMetadata, toVerbose } from '../conditions';
+	import {
+		getConditionMetadata,
+		verboseConditionName,
+		type ConditionsMeasurements
+	} from '@grow-run-archive/definitions';
 
 	export let conditionName: keyof ConditionsMeasurements;
 
@@ -22,7 +25,7 @@
 </script>
 
 <div class="horizontal-input-group">
-	{toVerbose(conditionName)}:
+	{verboseConditionName(conditionName)}:
 	<input type="number" bind:value min="-273" max="250" inputmode="numeric" />
 	{getConditionMetadata(conditionName).units}
 

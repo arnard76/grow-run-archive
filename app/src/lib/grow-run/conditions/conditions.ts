@@ -1,4 +1,8 @@
-import type { ConditionMeasurements, ConditionsMeasurements } from '@grow-run-archive/definitions';
+import {
+	getConditionMetadata,
+	type ConditionMeasurements,
+	type ConditionsMeasurements
+} from '@grow-run-archive/definitions';
 
 /**
  *
@@ -12,28 +16,6 @@ export function formatMeasurementsData(conditionMeasurements: ConditionMeasureme
 			y: value
 		}))
 		.sort(({ x: t1 }, { x: t2 }) => t1 - t2);
-}
-
-export function getConditionMetadata(conditionName?: keyof ConditionsMeasurements) {
-	if (conditionName && conditionsMetadata[conditionName]) return conditionsMetadata[conditionName];
-
-	return { units: 'NULLUNITS' };
-}
-
-type ConditionMetadata = { [key in string]: { units: string; verbose?: string } };
-
-const conditionsMetadata: ConditionMetadata = {
-	humidity: { units: '%' },
-	'air-temperature': { units: '°C' },
-	'water-temperature': { units: '°C' },
-	'water-level': { units: 'mm' },
-	pH: { units: '', verbose: 'pH' },
-	'average-illuminance-at-netcup': { units: 'lux' },
-	co2: { units: 'ppm' }
-};
-
-export function toVerbose(conditionName: keyof ConditionsMeasurements) {
-	return getConditionMetadata(conditionName).verbose || conditionName.replaceAll('-', ' ');
 }
 
 export function getUnitsForConditions(conditionNames: (keyof ConditionsMeasurements)[]) {
