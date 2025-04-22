@@ -42,7 +42,7 @@ export class ResourceManager implements EntityManager {
 		addResourceButton().click();
 	}
 
-	private get preview() {
+	get preview() {
 		return cy.contains('tr', this.resource.name);
 	}
 

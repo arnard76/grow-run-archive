@@ -1,5 +1,7 @@
 import {
+	ConditionsMeasurements,
 	Coords,
+	ExternalConditionsMeasurements,
 	GrowRun,
 	growRunActionNames,
 	Harvest,
@@ -8,11 +10,11 @@ import {
 import dayjs from 'dayjs';
 import Timezone from 'dayjs/plugin/timezone';
 import DayJSUtc from 'dayjs/plugin/utc';
+import { EntitiesManager, EntityManager } from '../entity/manager';
 import {
 	formatHarvestsAsObjects,
 	formatUsageOfResourcesAsObjects
 } from '../util/convertStringRequirementsToObjects';
-import { EntitiesManager, EntityManager } from '../entity/manager';
 
 dayjs.extend(Timezone);
 dayjs.extend(DayJSUtc);
@@ -24,6 +26,17 @@ class GrowRunsManager extends EntitiesManager {
 
 	deleteSingle(): void {
 		cy.get('dialog').findByTitle(growRunActionNames.delete).click();
+	}
+
+	deleteAll() {
+		this.goToAll();
+		const entities = cy.get('table tr');
+
+		entities.each(($entity, index, ...rest) => {
+			if (index === 0) return;
+			cy.wrap($entity).find('a').click();
+			this.deleteSingle();
+		});
 	}
 }
 
@@ -56,12 +69,12 @@ export class GrowRunManager implements EntityManager {
 
 	delete() {}
 
-	private get preview() {
+	get preview() {
 		return cy.contains('tr', this.growRunName);
 	}
 
 	goTo() {
-		this.preview.click();
+		this.preview.find('a').click();
 	}
 
 	showAllDetails = this.goTo;
@@ -75,7 +88,6 @@ export class GrowRunManager implements EntityManager {
 
 		// Check that GR has started
 		cy.reload();
-		this.showAllDetails();
 		const displayedStartTime = startTime.format('D MMM YYYY, h:mm a');
 		cy.findByText(displayedStartTime).should('be.visible');
 	}
@@ -122,7 +134,7 @@ export class GrowRunManager implements EntityManager {
 	}
 
 	get location() {
-		return this.heroSection.find('p').eq(0);
+		return this.heroSection.find('p').eq(0).find('a').invoke('removeAttr', 'target');
 	}
 
 	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {
@@ -147,16 +159,28 @@ export class GrowRunManager implements EntityManager {
 		});
 	}
 
-	private get heroSection() {
+	get heroSection() {
 		return cy.get('dialog > section').eq(0).scrollIntoView();
 	}
 
-	private get resourceUsageSection() {
+	get resourceUsageSection() {
 		return cy.get('dialog > section').eq(1).scrollIntoView();
 	}
 
-	private get harvestsSection() {
+	get harvestsSection() {
 		return cy.get('dialog > section').eq(2).scrollIntoView();
+	}
+
+	get conditions() {
+		return cy.get('dialog > section').eq(3).scrollIntoView();
+	}
+
+	getSpecificConditionData(conditionName: keyof ConditionsMeasurements) {
+		return this.conditions
+			.find('section')
+			.contains(conditionName)
+			.find('ul')
+			.findAllByRole('listitem');
 	}
 
 	manuallyRecordHarvest(harvestsInput: (Harvest | string)[]) {
@@ -208,6 +232,32 @@ export class GrowRunManager implements EntityManager {
 		// 	.scrollIntoView();
 	}
 
+	// YOU COULD EITHER RECORD ALL MEASUREMENTS FOR A SINGLE CONDITION, THEN MOVE ON TO ANOTHER CONDITION
+	// ORRRRR
+	// RECORD THE MEASUREMENT FOR EVERY CONDITION AT A SPECIFIC TIMESTAMP, AND MOVE ONTO THE NEXT TIME (MORE LIKELY)
+	recordEnvironmentalConditions(
+		timestamp: ExternalConditionsMeasurements['dateTime'],
+		conditions: ExternalConditionsMeasurements['conditions']
+	) {
+		cy.url().then(async (url) => {
+			const growRunId = url.split(growRunsManager.entityURL + '/')[1];
+			expect(growRunId).to.be.a('string').with.length.greaterThan(6);
+			const response = await fetch('/grow-runs/grow-environment/device-data', {
+				method: 'post',
+				body: JSON.stringify({
+					user: {
+						username: Cypress.env('CYPRESS_TEST_USER_EMAIL'),
+						password: Cypress.env('CYPRESS_TEST_USER_PASSWORD')
+					},
+					growRunId,
+					dateTime: timestamp,
+					...conditions
+				})
+			});
+			expect(response.status).to.equal(201);
+		});
+	}
+
 	end() {
 		cy.window().then((win) => {
 			this.heroSection.find(`button[title='${growRunActionNames.changeStartAndEnd}']`).click();
@@ -217,7 +267,6 @@ export class GrowRunManager implements EntityManager {
 			this.heroSection.find(`button[title='${growRunActionNames.finishEdit}']`).click();
 
 			cy.reload();
-			this.showAllDetails();
 			const displayedStartTime = endTime.format('D MMM YYYY, h:mm a');
 			this.heroSection.findByText(displayedStartTime).should('be.visible');
 		});

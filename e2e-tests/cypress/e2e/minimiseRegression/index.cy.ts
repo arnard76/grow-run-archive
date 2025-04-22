@@ -3,11 +3,13 @@ import { login } from './actions/authActions';
 import { GrowRunManager, growRunsManager } from './actions/growRunActions';
 import { resourcesManager } from './actions/resourceActions';
 import { formatResourcesAsObjects } from './util/convertStringRequirementsToObjects';
+import { fastForwardDays, fastForwardedDays } from './util/fastForward';
+import { displayFormatForDateTime, verboseConditionName } from '@grow-run-archive/definitions';
 
 const exampleResources = formatResourcesAsObjects([
-	'Resource: 80pcs seeds for $2.00 (from https://www.thewarehouse.co.nz/p/kiwi-garden-lettuce-butterhead-seeds/R2598667.html?gStoreCode=188',
-	'Resource: 200mL nutrients for $14.99 (from https://gathera.com/products/re-plant-pack-rockwool?variant=40093526392966',
-	'Resource: 9L coco coir for $5.91 (from https://www.bunnings.co.nz/daltons-9l-coir-briquette_p0241119'
+	'80pcs seeds for $2.00 (from https://www.thewarehouse.co.nz/p/kiwi-garden-lettuce-butterhead-seeds/R2598667.html?gStoreCode=188',
+	'200mL nutrients for $14.99 (from https://gathera.com/products/re-plant-pack-rockwool?variant=40093526392966',
+	'9L coco coir for $5.91 (from https://www.bunnings.co.nz/daltons-9l-coir-briquette_p0241119'
 ]);
 
 const resourceUsage1 = [
@@ -20,23 +22,15 @@ const resourceUsage1 = [
 const resourceUsage2 = ['5mL nutrients'];
 
 describe('Grow Run Archive', () => {
-	let fastForwardedDays = 0;
-
-	function fastForwardDays(numDays: number) {
-		cy.clock().invoke('restore');
-		fastForwardedDays += numDays;
-		const fastForwardedDate = new Date(dayjs().add(fastForwardedDays, 'days').valueOf());
-		cy.clock(fastForwardedDate, ['Date']);
-	}
-
 	before(() => {
 		login(Cypress.env('CYPRESS_TEST_USER_EMAIL'), Cypress.env('CYPRESS_TEST_USER_PASSWORD'));
-		resourcesManager.deleteAll();
+		// resourcesManager.deleteAll();
 		growRunsManager.deleteAll();
 	});
 
-	it('Common Grow Run Scenario', () => {
-		resourcesManager.addMultiple(exampleResources);
+	it('analyses a common grow run', () => {
+		let daysPassedAtStart = fastForwardedDays;
+		// resourcesManager.addMultiple(exampleResources);
 
 		const growRun = new GrowRunManager('BCKIN AKL - Grow Run #17');
 		growRun.showAllDetails();
@@ -49,10 +43,8 @@ describe('Grow Run Archive', () => {
 			longitude: 174.76589777209952
 		};
 		growRun.addLocationByCoords('coords', growRunLocationCoords);
-		growRun.location.should('include.text', 'Auckland');
 		growRun.location
-			.find('a')
-			.invoke('removeAttr', 'target')
+			.should('include.text', 'Auckland')
 			.invoke('attr', 'href')
 			.should(
 				'equal',
@@ -73,6 +65,25 @@ describe('Grow Run Archive', () => {
 		growRun.manuallyRecordHarvest(['30g 25leaves']);
 		growRun.manuallyRecordUsageOfResources(resourceUsage2);
 
+		// test environmental conditions
+		const condition = 'air-temperature';
+		const value = 9; // °C
+		const time = dayjs().toISOString();
+		growRun.recordEnvironmentalConditions(time, { [condition]: value });
+
+		growRun.conditions
+			.find('section')
+			.contains(verboseConditionName(condition))
+			.parent()
+			.as('conditionSection');
+		cy.get('@conditionSection')
+			.findByRole('button', { name: /Show records/i })
+			.click();
+		cy.get('@conditionSection')
+			.find('ul li')
+			.should('contain.text', displayFormatForDateTime(time))
+			.should('contain.text', `${value}°C`);
+
 		fastForwardDays(20);
 		growRun.manuallyRecordHarvest(['23g 15leaves']);
 
@@ -81,7 +92,9 @@ describe('Grow Run Archive', () => {
 
 		fastForwardDays(1);
 		growRun.end();
-		growRun.duration.should('be.visible').should('contain.text', '64.00 days');
+		growRun.duration
+			.should('be.visible')
+			.should('contain.text', `${(fastForwardedDays - daysPassedAtStart).toFixed(2)} days`);
 
 		// CHECK results - grow results and cost
 		growRun.totalHarvest.should('be.visible').should('contain.text', '73.00g (53 leaves)');
