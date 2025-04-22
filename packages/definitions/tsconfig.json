@@ -1,5 +1,10 @@
 {
-	"compilerOptions": { "outDir": "dist", "rootDir": "src", "skipLibCheck": true },
+	"compilerOptions": {
+		"outDir": "dist",
+		"rootDir": "src",
+		"skipLibCheck": true,
+		"lib": ["ES2021"]
+	},
 	"include": ["src"],
 	"exclude": ["node_modules", "dist"]
 }
