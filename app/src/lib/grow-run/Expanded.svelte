@@ -7,13 +7,18 @@
 	import Icon from '@iconify/svelte';
 	import { growRunsAPI } from './store';
 	import { growRunActionNames } from '@grow-run-archive/definitions';
+	import { goto } from '$app/navigation';
 
 	export let growRun: GrowRun;
-	export let onClose: any;
 
 	let expandedGrowRunModal: undefined | HTMLDialogElement;
 
 	$: if (expandedGrowRunModal) expandedGrowRunModal.showModal();
+
+	function closeGrowRun() {
+		expandedGrowRunModal?.close();
+		goto('/grow-runs');
+	}
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -26,8 +31,7 @@
 		const { left, right, top, bottom } = expandedGrowRunModal.getBoundingClientRect();
 
 		if (e.clientX < left || e.clientX > right || e.clientY < top || e.clientY > bottom) {
-			expandedGrowRunModal.close();
-			onClose();
+			closeGrowRun();
 		}
 	}}
 	on:keypress
@@ -36,7 +40,9 @@
 		<div class="flex-1 w-[90%]">
 			<DetailsSection {growRun} />
 		</div>
-		<button title={growRunActionNames.close} on:click={onClose}><Icon icon="tabler:x" /></button>
+		<button title={growRunActionNames.close} on:click={closeGrowRun}
+			><Icon icon="tabler:x" /></button
+		>
 	</section>
 	<ResourceUsageSection {growRun} />
 
@@ -51,7 +57,10 @@
 	<button
 		title={growRunActionNames.delete}
 		class="danger flex m-auto my-4"
-		on:click={() => growRunsAPI.delete(growRun.id)}
+		on:click={() => {
+			growRunsAPI.delete(growRun.id);
+			closeGrowRun();
+		}}
 	>
 		<Icon icon="tabler:trash" />
 	</button>

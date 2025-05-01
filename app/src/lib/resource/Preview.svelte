@@ -12,6 +12,6 @@
 
 <style>
 	td {
-		padding: 5px 15px;
+		padding: 15px;
 	}
 </style>

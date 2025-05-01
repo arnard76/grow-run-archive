@@ -17,14 +17,18 @@
 </script>
 
 <table>
-	<tr>
-		<th>Name</th>
-		<th>Cost</th>
-		<th>Amount</th>
-	</tr>
-	{#each structuredClone($resourcesList) as resource (resource.id)}
-		<Resource {resource} />
-	{/each}
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Cost</th>
+			<th>Amount</th>
+		</tr>
+	</thead>
+	<tbody>
+		{#each structuredClone($resourcesList) as resource (resource.id)}
+			<Resource {resource} />
+		{/each}
+	</tbody>
 </table>
 
 <AddTemplate addText={resourceActionNames.add} onAdd={addResource}>
@@ -32,16 +36,3 @@
 	<q>Volume: 10mL of nutrients for $10NZD</q>
 	<Inputs bind:resourceToCreateOrUpdate={newResource} />
 </AddTemplate>
-
-<style>
-	table {
-		width: 95vw;
-	}
-
-	tr {
-		text-align: left;
-	}
-	th {
-		padding: 15px;
-	}
-</style>

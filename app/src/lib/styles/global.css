@@ -12,6 +12,7 @@ body {
 p,
 a {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	text-decoration: none;
 }
 
 p {
@@ -86,6 +87,40 @@ label select {
 
 .horizontal-input-group {
 	@apply flex flex-wrap items-end gap-[8px];
+}
+
+/* Tables */
+
+table {
+	width: 95vw;
+	border-spacing: 0.3rem;
+}
+
+thead tr {
+	text-align: left;
+}
+th {
+	padding: 15px;
+}
+
+tbody tr {
+	background-color: lightblue;
+}
+
+tbody td {
+	padding: 0 15px;
+}
+
+tbody td:first-of-type {
+	border: 1px solid transparent;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+
+tbody td:last-of-type {
+	border: 1px solid transparent;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
 }
 
 /* grow run modal */
