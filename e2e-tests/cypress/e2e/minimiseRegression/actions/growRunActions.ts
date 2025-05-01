@@ -37,7 +37,7 @@ class GrowRunsManager extends EntitiesManager {
 
 		entities.each(($entity, index, ...rest) => {
 			if (index === 0) return;
-			cy.wrap($entity).find('a').click();
+			cy.wrap($entity).findByRole('link').click();
 			this.deleteSingle();
 		});
 	}
@@ -77,7 +77,7 @@ export class GrowRunManager implements EntityManager {
 	}
 
 	goTo() {
-		this.preview.find('a').click();
+		this.preview.findByRole('link').click();
 	}
 
 	showAllDetails = this.goTo;
@@ -137,7 +137,7 @@ export class GrowRunManager implements EntityManager {
 	}
 
 	get location() {
-		return this.heroSection.find('p').eq(0).find('a').invoke('removeAttr', 'target');
+		return this.heroSection.find('p').eq(0).findByRole('link').invoke('removeAttr', 'target');
 	}
 
 	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {
