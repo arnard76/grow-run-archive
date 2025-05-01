@@ -1,11 +1,14 @@
 import {
+	ConditionMeasurement,
 	ConditionsMeasurements,
 	Coords,
+	displayFormatForDateTime,
 	ExternalConditionsMeasurements,
 	GrowRun,
 	growRunActionNames,
 	Harvest,
-	ResourceUsage
+	ResourceUsage,
+	verboseConditionName
 } from '@grow-run-archive/definitions';
 import dayjs from 'dayjs';
 import Timezone from 'dayjs/plugin/timezone';
@@ -256,6 +259,25 @@ export class GrowRunManager implements EntityManager {
 			});
 			expect(response.status).to.equal(201);
 		});
+	}
+
+	testEnvironmentalConditions(
+		condition: keyof ExternalConditionsMeasurements['conditions'],
+		value: ConditionMeasurement['value'],
+		time: ConditionMeasurement['dateTime']
+	) {
+		this.conditions
+			.find('section')
+			.contains(verboseConditionName(condition))
+			.parent()
+			.as('conditionSection');
+		cy.get('@conditionSection')
+			.findByRole('button', { name: /Show records/i })
+			.click();
+		cy.get('@conditionSection')
+			.find('ul li')
+			.should('contain.text', displayFormatForDateTime(time))
+			.should('contain.text', `${value}°C`);
 	}
 
 	end() {
