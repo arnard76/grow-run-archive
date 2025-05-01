@@ -4,7 +4,6 @@ import { GrowRunManager, growRunsManager } from './actions/growRunActions';
 import { resourcesManager } from './actions/resourceActions';
 import { formatResourcesAsObjects } from './util/convertStringRequirementsToObjects';
 import { fastForwardDays, fastForwardedDays } from './util/fastForward';
-import { displayFormatForDateTime, verboseConditionName } from '@grow-run-archive/definitions';
 
 const exampleResources = formatResourcesAsObjects([
 	'80pcs seeds for $2.00 (from https://www.thewarehouse.co.nz/p/kiwi-garden-lettuce-butterhead-seeds/R2598667.html?gStoreCode=188',
@@ -68,24 +67,9 @@ describe('Grow Run Archive', () => {
 		growRun.manuallyRecordHarvest(['30g 25leaves']);
 		growRun.manuallyRecordUsageOfResources(resourceUsage2);
 
-		// test environmental conditions
-		const condition = 'air-temperature';
-		const value = 9; // °C
 		const time = dayjs().toISOString();
-		growRun.recordEnvironmentalConditions(time, { [condition]: value });
-
-		growRun.conditions
-			.find('section')
-			.contains(verboseConditionName(condition))
-			.parent()
-			.as('conditionSection');
-		cy.get('@conditionSection')
-			.findByRole('button', { name: /Show records/i })
-			.click();
-		cy.get('@conditionSection')
-			.find('ul li')
-			.should('contain.text', displayFormatForDateTime(time))
-			.should('contain.text', `${value}°C`);
+		growRun.recordEnvironmentalConditions(time, { 'air-temperature': 9 });
+		growRun.testEnvironmentalConditions('air-temperature', 9, time);
 
 		fastForwardDays(20);
 		growRun.manuallyRecordHarvest(['23g 15leaves']);
