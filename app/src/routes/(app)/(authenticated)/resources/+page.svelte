@@ -20,7 +20,7 @@
 	<thead>
 		<tr>
 			<th>Name</th>
-			<th>Cost</th>
+			<th>Cost (NZD)</th>
 			<th>Amount</th>
 		</tr>
 	</thead>
