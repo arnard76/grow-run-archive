@@ -24,13 +24,13 @@ const resourceUsage2 = ['5mL nutrients'];
 describe('Grow Run Archive', () => {
 	before(() => {
 		login(Cypress.env('CYPRESS_TEST_USER_EMAIL'), Cypress.env('CYPRESS_TEST_USER_PASSWORD'));
-		// resourcesManager.deleteAll();
+		resourcesManager.deleteAll();
 		growRunsManager.deleteAll();
 	});
 
 	it('analyses a common grow run', () => {
 		let daysPassedAtStart = fastForwardedDays;
-		// resourcesManager.addMultiple(exampleResources);
+		resourcesManager.addMultiple(exampleResources);
 
 		const growRun = new GrowRunManager('BCKIN AKL - Grow Run #17');
 		growRun.showAllDetails();
@@ -50,6 +50,9 @@ describe('Grow Run Archive', () => {
 				'equal',
 				`https://www.google.com/maps/place/${growRunLocationCoords.latitude},${growRunLocationCoords.longitude}`
 			);
+		growRunsManager.goToAll();
+		growRun.preview.should('include.text', 'Auckland');
+		growRun.showAllDetails();
 
 		// DOESN"T WORK ON CHROME, WORKS ON EDGE
 		// cy.origin('https://www.google.com', () => {
