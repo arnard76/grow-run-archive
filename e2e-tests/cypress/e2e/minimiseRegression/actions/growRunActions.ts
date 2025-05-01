@@ -274,6 +274,7 @@ export class GrowRunManager implements EntityManager {
 		cy.get('@conditionSection')
 			.findByRole('button', { name: /Show records/i })
 			.click();
+		cy.findByLabelText(/timezone/i).select('12 Pacific/Auckland');
 		cy.get('@conditionSection')
 			.find('ul li')
 			.should('contain.text', displayFormatForDateTime(time))
