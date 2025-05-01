@@ -2,7 +2,7 @@
 	import timezones from './timezones.json';
 	const timezonesSorted = timezones.sort((tz1, tz2) => (tz1.offset < tz2.offset ? -1 : 1));
 
-	export let timezone: string = 'Pacific/Auckland';
+	export let timezone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;
 </script>
 
 <label class="flex flex-wrap gap-2">
