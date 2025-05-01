@@ -99,8 +99,8 @@ export default class GrowRun {
 
 	calculateDurationInDays(): number {
 		const start = this.duration?.start;
-		const end = this.duration?.end;
-		if (!start || !end) return NaN;
+		const end = this.duration?.end || dayjs();
+		if (!start) return NaN;
 
 		return dayjs(end).diff(start, 'days', true);
 	}
