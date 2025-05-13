@@ -6,6 +6,7 @@
 	import Icon from '@iconify/svelte';
 	import { parseAddress, parseCity } from '$lib/grow-run/google-maps/geocode';
 	export let growRun: GrowRun;
+	import { PUBLIC_API_URL } from '$env/static/public';
 
 	let updatedGrowRunLocation: GrowRun['location'];
 	let coords: Coords | { longitude: undefined; latitude: undefined } = growRun.location || {
@@ -41,11 +42,12 @@
 		lastCoords = { ...coordinates };
 
 		const geocodeResult = await (
-			await fetch('../grow-runs/grow-location', {
+			await fetch(`${PUBLIC_API_URL}/grow-run/location`, {
 				method: 'POST',
 				body: JSON.stringify({ coords: coordinates })
 			})
 		).json();
+		console.log({ geocodeResult });
 
 		try {
 			city = parseCity(geocodeResult);

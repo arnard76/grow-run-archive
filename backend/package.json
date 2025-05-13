@@ -1,0 +1,52 @@
+{
+	"name": "@grow-run-archive/backend",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "nodemon -x tsx ./src/index.ts",
+		"build": "tsc --build && tsc-alias",
+		"start": "node ./dist/index.js",
+		"deploy:development": "npm run build && vercel build && vercel deploy --prebuilt",
+		"deploy:production": "npm run build && vercel build --prod && vercel --prod deploy --prebuilt",
+		"prettier": "npx prettier . --check",
+		"prettier:fix": "npx prettier . --write"
+	},
+	"dependencies": {
+		"@grow-run-archive/definitions": "*",
+		"@grow-run-archive/firebase-backend-service": "*",
+		"@grow-run-archive/mailer-service": "*",
+		"@neondatabase/serverless": "^1.0.0",
+		"bufferutil": "^4.0.9",
+		"cors": "^2.8.5",
+		"dotenv": "^16.5.0",
+		"drizzle-orm": "^0.43.1",
+		"drizzle-zod": "^0.7.1",
+		"express": "^4.21.2",
+		"express-async-handler": "^1.2.0",
+		"express-fileupload": "^1.5.1",
+		"filesize": "^10.1.6",
+		"http-status-codes": "^2.3.0",
+		"image-size": "^1.2.1",
+		"jsonwebtoken": "^9.0.2",
+		"mongodb": "^6.16.0",
+		"nodemailer": "^6.10.1",
+		"ws": "^8.18.2",
+		"zod-validation-error": "^3.4.1"
+	},
+	"devDependencies": {
+		"@types/cors": "^2.8.18",
+		"@types/express": "^4.17.21",
+		"@types/express-fileupload": "^1.5.1",
+		"@types/jsonwebtoken": "^9.0.9",
+		"@types/node": "^20.17.46",
+		"@types/nodemailer": "^6.4.17",
+		"@types/ws": "^8.18.1",
+		"drizzle-kit": "^0.31.1",
+		"nodemon": "^3.1.10",
+		"prettier": "3.2.5",
+		"tsc-alias": "^1.8.16",
+		"tsx": "^4.19.4",
+		"typescript": "^5.8.3"
+	}
+}

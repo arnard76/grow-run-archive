@@ -4,5 +4,8 @@ node_modules
 .env
 .env.*
 !.env.example
+!.env.*.example
 .turbo
 dist
+*.backup
+.terraform

@@ -1,3 +1,7 @@
+export const INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES = 2;
+export const INTERVAL_FOR_ENVIRONMENTAL_DATA =
+	INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES * 60 * 1000; // in ms
+
 export type ConditionMeasurement = {
 	dateTime: ExternalConditionsMeasurements['dateTime'];
 	value: ExternalConditionsMeasurements['conditions'][''];
