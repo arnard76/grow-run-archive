@@ -1,10 +1,10 @@
-import dayjs from 'dayjs';
-
+import dayjs, { ManipulateType } from 'dayjs';
+import MILLISECONDS_IN_DAY from '@stdlib/constants-time-milliseconds-in-day';
 export let fastForwardedDays = 0;
 
-export function fastForwardDays(numDays: number) {
+export function fastForward(num: number, duration: ManipulateType = 'days') {
 	cy.clock().invoke('restore');
-	fastForwardedDays += numDays;
-	const fastForwardedDate = new Date(dayjs().add(fastForwardedDays, 'days').valueOf());
-	cy.clock(fastForwardedDate, ['Date']);
+	let newDate = dayjs().add(num, duration).valueOf();
+	fastForwardedDays += (newDate - dayjs().valueOf()) / MILLISECONDS_IN_DAY;
+	cy.clock(new Date(newDate), ['Date']);
 }

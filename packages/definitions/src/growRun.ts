@@ -12,8 +12,8 @@ export type GrowRun = {
 	duration?: Duration;
 
 	resources: { used?: ResourceUsage[]; required?: ResourceUsage[] };
-	harvests?: Harvest[];
 	conditions?: ConditionsMeasurements;
+	harvests?: Harvest[];
 };
 
 class GrowRunActionNames extends ActionNames {

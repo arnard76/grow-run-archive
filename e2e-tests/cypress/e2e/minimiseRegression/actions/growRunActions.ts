@@ -53,12 +53,17 @@ const mockLocation = (coords: Coords) => ({
 		});
 	}
 });
+export const mockMissingDataNotifyCronJob = () => {
+	return setInterval(() => fetch('http://localhost:3001/notify-if-missing-environment'), 60 * 1000);
+};
 
 export class GrowRunManager implements EntityManager {
 	growRunName: GrowRun['name'];
+	userCredentials: UserCredentials;
 
-	constructor(growRunName: GrowRun['name'], existingGrowRun = false) {
+	constructor(growRunName: GrowRun['name'], user: UserCredentials, existingGrowRun = false) {
 		this.growRunName = growRunName;
+		this.userCredentials = user;
 		growRunsManager.goToAll();
 		if (!existingGrowRun) this.add();
 	}
@@ -78,6 +83,7 @@ export class GrowRunManager implements EntityManager {
 
 	goTo() {
 		this.preview.findByRole('link').click();
+		this.heroSection.find('h2').contains(this.growRunName);
 	}
 
 	showAllDetails = this.goTo;
@@ -245,17 +251,20 @@ export class GrowRunManager implements EntityManager {
 		cy.url().then(async (url) => {
 			const growRunId = url.split(growRunsManager.entityURL + '/')[1];
 			expect(growRunId).to.be.a('string').with.length.greaterThan(6);
-			const response = await fetch('/grow-runs/grow-environment/device-data', {
+			const response = await fetch('http://localhost:3001/grow-run/environment', {
 				method: 'post',
 				body: JSON.stringify({
 					user: {
-						username: Cypress.env('CYPRESS_TEST_USER_EMAIL'),
-						password: Cypress.env('CYPRESS_TEST_USER_PASSWORD')
+						username: this.userCredentials.username,
+						password: this.userCredentials.password
 					},
 					growRunId,
 					dateTime: timestamp,
 					...conditions
-				})
+				}),
+				headers: {
+					'Content-Type': 'application/json'
+				}
 			});
 			expect(response.status).to.equal(201);
 		});

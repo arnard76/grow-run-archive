@@ -9,6 +9,6 @@
         ".": "./src/index.ts"
     },
     "devDependencies": {
-        "typescript": "latest"
+        "typescript": "^5.8.3"
     }
 }

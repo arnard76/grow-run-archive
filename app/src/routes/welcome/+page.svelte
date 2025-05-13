@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { PUBLIC_API_URL } from '$env/static/public';
+
 	let emailAddressInput: HTMLInputElement | undefined;
 	let signUpRequestResult: HTMLHeadingElement | undefined;
 	let signUpRequestForm: HTMLFormElement | undefined;
@@ -6,7 +8,7 @@
 	async function requestASignUp(event: SubmitEvent) {
 		event.preventDefault();
 
-		const res = await fetch('/welcome/sign-up-request', {
+		const res = await fetch(`${PUBLIC_API_URL}/sign-up-request`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ 'user-email': emailAddressInput?.value })

@@ -11,14 +11,20 @@
 	"devDependencies": {
 		"@grow-run-archive/definitions": "*",
 		"@testing-library/cypress": "^10.0.3",
-		"autoprefixer": "^10.4.19",
-		"cypress": "^14.1.0",
+		"autoprefixer": "^10.4.21",
+		"cypress": "^14.3.3",
 		"cypress-real-events": "^1.14.0",
-		"dayjs": "^1.11.10",
-		"dotenv": "^16.4.7",
-		"prettier": "^3.0.0",
-		"tslib": "^2.4.1",
-		"typescript": "^5.8.2",
-		"vite": "^5.0.0"
+		"dayjs": "^1.11.13",
+		"dotenv": "^16.5.0",
+		"prettier": "^3.5.3",
+		"tslib": "^2.8.1",
+		"typescript": "^5.8.3",
+		"vite": "^5.4.19"
+	},
+	"dependencies": {
+		"@cemalgnlts/mailjs": "^3.0.1",
+		"@google-cloud/local-auth": "^2.1.1",
+		"@stdlib/constants-time-milliseconds-in-day": "^0.3.2",
+		"googleapis": "^105.0.0"
 	}
 }
