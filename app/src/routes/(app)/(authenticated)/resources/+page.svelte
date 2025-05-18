@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { resourcesList } from '$lib/resource/store';
-	import Resource from '$lib/resource/ListItem.svelte';
-	import type ResourceClass from '$lib/resource/';
-	import Inputs from '$lib/resource/Inputs.svelte';
+	import { resourcesList } from '$features/resource/store';
+	import Resource from '$features/resource/ListItem.svelte';
+	import type ResourceClass from '$features/resource/';
+	import Inputs from '$features/resource/Inputs.svelte';
 	import AddTemplate from '$lib/components/AddTemplate.svelte';
 	import { resourceActionNames } from '@grow-run-archive/definitions';
 

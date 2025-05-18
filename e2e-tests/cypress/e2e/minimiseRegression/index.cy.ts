@@ -8,7 +8,7 @@ import {
 } from './actions/growRunActions';
 import { resourcesManager } from './actions/resourceActions';
 import { formatResourcesAsObjects } from './util/convertStringRequirementsToObjects';
-import { fastForward, fastForwardedDays } from './util/fastForward';
+import { fastForward, fastForwardedTime } from './util/fastForward';
 import {
 	INTERVAL_FOR_ENVIRONMENTAL_DATA,
 	INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES
@@ -32,7 +32,6 @@ const resourceUsage2 = ['5mL nutrients'];
 describe('Grow Run Archive', () => {
 	const mailjs = new Mailjs();
 	let userCredentials: UserCredentials;
-	let mockNotifyService = mockMissingDataNotifyCronJob();
 
 	before(() => {
 		cy.wrap(null).then(async () => {
@@ -44,10 +43,11 @@ describe('Grow Run Archive', () => {
 	});
 
 	it('analyses a common grow run', () => {
-		let daysPassedAtStart = fastForwardedDays;
+		let daysPassedAtStart = fastForwardedTime;
+		console.log({ daysPassedAtStart });
 		resourcesManager.addMultiple(exampleResources);
 
-		const growRun = new GrowRunManager('BCKIN AKL - Grow Run #17');
+		const growRun = new GrowRunManager('BCKIN AKL - Grow Run #17', userCredentials);
 		growRun.showAllDetails();
 		growRun.start();
 
@@ -86,31 +86,23 @@ describe('Grow Run Archive', () => {
 		const time = dayjs().toISOString();
 		growRun.recordEnvironmentalConditions(time, { 'air-temperature': 9 });
 		growRun.testEnvironmentalConditions('air-temperature', 9, time);
-		// should be no emails
-		cy.wrap(null).then(async () => {
-			const messages = await mailjs.getMessages();
-			console.log(messages);
-		});
-		cy.pause();
-		cy.wrap(null).then(async () => {
-			const messages = await mailjs.getMessages();
-			console.log(messages);
-		});
-		// WAIT 15+ minutes 🧠🤯🧠🤯🧠
-		// should be notified because no environmental data was recorded
-		// CHECK email?
-
+		console.log({ fastForwardedTime });
 		fastForward(20);
 		growRun.manuallyRecordHarvest(['23g 15leaves']);
 
+		console.log({ fastForwardedTime });
 		fastForward(13);
 		growRun.manuallyRecordHarvest(['20g 13leaves']);
-
+		console.log({ fastForwardedTime });
 		fastForward(1);
 		growRun.end();
+		console.log({ daysPassedAtStart, fastForwardedTime });
 		growRun.duration
 			.should('be.visible')
-			.should('contain.text', `${(fastForwardedDays - daysPassedAtStart).toFixed(2)} days`);
+			.should(
+				'contain.text',
+				`${fastForwardedTime.diff(daysPassedAtStart, 'days').toFixed(2)} days`
+			);
 
 		// CHECK results - grow results and cost
 		growRun.totalHarvest.should('be.visible').should('contain.text', '73.00g (53 leaves)');
@@ -120,65 +112,78 @@ describe('Grow Run Archive', () => {
 		growRun.totalCostPerUnit.should('be.visible').should('contain.text', '$2.04');
 	});
 
-	it.only(`notifies user if grow run environment is not recorded every ${INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES} minutes`, () => {
-		// const mailjs = new Mailjs();
-		console.log({ userCredentials });
-		cy.wrap(null).then(async () => {
-			// await mailjs.createOneAccount();
-			// signup(mailjs.address, mailjs.address);
-			const growRun = new GrowRunManager(
-				'Notified When Environmental Data Not Recorded',
-				userCredentials
-			);
-			growRun.showAllDetails();
-			growRun.start();
-			const time = dayjs().toISOString();
-			growRun.recordEnvironmentalConditions(time, { 'air-temperature': 9 });
-			growRun.testEnvironmentalConditions('air-temperature', 9, time);
+	describe('Notifies user if grow run is missing environmental data', () => {
+		let mockNotifyService: NodeJS.Timeout;
+		before(() => {
+			growRunsManager.deleteAll();
+			mockNotifyService = mockMissingDataNotifyCronJob();
+		});
+		it(`notifies user if grow run environment is not recorded every ${INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES} minutes`, () => {
 			cy.wrap(null).then(async () => {
-				let messages = await mailjs.getMessages();
-				cy.wrap(messages.data).should('have.length', 0);
-			});
-			cy.wait(INTERVAL_FOR_ENVIRONMENTAL_DATA);
-
-			cy.wrap(null).then(async () => {
-				let messages = await mailjs.getMessages();
-				cy.wrap(messages.data).should('have.length', 0);
-			});
-
-			cy.wait(60 * 1000);
-			cy.wrap(null).then(async () => {
-				let messages = await mailjs.getMessages();
-				console.log({ messages });
-				cy.wrap(messages.data.length).should('equal', 1);
-				const notification = messages.data[0];
-				cy.wrap(notification.subject).should(
-					'contain',
-					'Losing environmental data - not being recorded'
+				const growRun = new GrowRunManager(
+					'Notified When Environmental Data Not Recorded',
+					userCredentials
 				);
+				growRun.showAllDetails();
+				const startTime = dayjs().set('seconds', 0).set('milliseconds', 0);
+				growRun.start(startTime);
+				const time = dayjs().toISOString();
 
-				const fullNotification = await mailjs.getMessage(notification.id);
-				cy.wrap(fullNotification.message).should(
-					'contain',
-					`Losing environmental data - not being recorded!
-					
-					- Grow Run: ${growRun.growRunName} (12938472834jd)
-					- Air temperature is not being recorded
-					- The last recording was: 2025-05-12T21:46:00.000Z
-					- Duration missing: ${INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES} minutes (1 environmental record)
+				growRun.recordEnvironmentalConditions(time, { 'air-temperature': 9 });
+				growRun.testEnvironmentalConditions('air-temperature', 9, time);
 
-					JSON:
-					{"missingData":{"air-temperature":{"lastRecordingDateTime":"2025-05-12T21:46:00.000Z","growRunStartTime":"2025-05-12T21:46:00.000Z"}}}
-					`
-				);
+				let numMessages: undefined | number = undefined;
+				cy.wrap(null).then(async () => {
+					let messages = await mailjs.getMessages();
+					numMessages = messages.data.length;
+				});
+				cy.wait(INTERVAL_FOR_ENVIRONMENTAL_DATA);
+
+				cy.wrap(null).then(async () => {
+					let messages = await mailjs.getMessages();
+					cy.wrap(messages.data).should('have.length', numMessages); // no new messages
+				});
+
+				cy.wait(2 * 60 * 1000);
+				cy.wrap(null).then(async () => {
+					let messages = await mailjs.getMessages();
+					cy.wrap(messages.data.length).should('equal', numMessages + 1);
+					const notification = messages.data[numMessages]; // check the last message
+					cy.wrap(notification.subject).should(
+						'contain',
+						'Losing environmental data - not being recorded'
+					);
+
+					const fullNotification = await mailjs.getMessage(notification.id);
+					cy.url().then(async (url) => {
+						const growRunId = url.split(growRunsManager.entityURL + '/')[1];
+						console.log(JSON.stringify(fullNotification));
+
+						cy.document().invoke('open').invoke('write', fullNotification.data.html[0]);
+
+						[
+							`Losing environmental data - not being recorded!`,
+							`- Grow Run: ${growRun.growRunName} (${growRunId})`,
+							`- Air temperature is not being recorded`,
+							`- The last recording was: ${time}`,
+							`- Duration missing: ${INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES} minutes (1 environmental record)`,
+							`JSON:`,
+							`{"missingData":{"air-temperature":{"lastRecordingDateTime":"${time}","growRunStartTime":"${startTime.toISOString()}"}}}`
+						].forEach((notificationTextPiece) =>
+							cy.document().get('p').should('contain', notificationTextPiece)
+						);
+						cy.go('back');
+					});
+				});
 			});
 		});
-	});
 
-	after(() => {
-		if (mockNotifyService) {
-			clearInterval(mockNotifyService);
-			mockNotifyService = null;
-		}
+		after(() => {
+			if (mockNotifyService) {
+				clearInterval(mockNotifyService);
+				mockNotifyService = null;
+			}
+			growRunsManager.deleteAll();
+		});
 	});
 });

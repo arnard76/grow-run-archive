@@ -1,4 +1,4 @@
-import { mailer } from '@grow-run-archive/mailer-service';
+import { mailer } from '@/services/mailer';
 
 export async function signUpRequestHandler({ 'user-email': userEmail }: { 'user-email': string }) {
 	if (!userEmail) throw Error('user email not provided');

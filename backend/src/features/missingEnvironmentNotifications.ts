@@ -51,7 +51,7 @@ import { fromError } from 'zod-validation-error';
  * FROM SVELTEKIT SERVER APP
  */
 
-import { database } from '@grow-run-archive/firebase-backend-service';
+import { database } from '@/services/database/firebase';
 import {
 	INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES,
 	type ConditionsMeasurements,
@@ -59,24 +59,22 @@ import {
 	type GrowRun
 } from '@grow-run-archive/definitions';
 import dayjs from 'dayjs';
-import { mailer } from '@grow-run-archive/mailer-service';
+import { mailer } from '@/services/mailer';
 import { getAuth } from 'firebase-admin/auth';
-import { db } from '@/database/neon-postgresql';
+import { db } from '@/services/database/neon-postgresql';
 
 class Controller implements EntityController {
 	get = async (req: Request, res: Response) => {
 		try {
-			console.log('in get');
 			const allUsers = database.ref('/');
 			const allData = await allUsers.get();
 
 			await Promise.all(
-				Object.entries(allData.val()).map(async ([userId, userData]: any) => {
-					console.log({ userId });
+				Object.entries(allData.val() || {}).map(async ([userId, userData]: any) => {
 					let missingDataForUser: undefined | MissingData = undefined;
 
 					await Promise.all(
-						Object.entries(userData['grow-runs']).map(
+						Object.entries(userData['grow-runs'] || {}).map(
 							async ([growRunId, growRunAny]: [GrowRun['id'], any]) => {
 								const growRun: GrowRun = { id: growRunId, ...growRunAny };
 								const growRunStartTime = growRun.duration?.start;
@@ -105,20 +103,17 @@ class Controller implements EntityController {
 										let conditionMeasurements = growRun.conditions[conditionName];
 
 										// check for each of these conditions there is a recorded value in the last 15 minutes
-										const conditionIsBeingRecorded = !!Object.values(conditionMeasurements).find(
-											(measurement) =>
-												dayjs(measurement.dateTime).isAfter(
-													dayjs().subtract(INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES, 'minutes')
-												)
+										const conditionIsBeingRecorded = !!Object.values(
+											conditionMeasurements || {}
+										).find((measurement) =>
+											dayjs(measurement.dateTime).isAfter(
+												dayjs().subtract(INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES, 'minutes')
+											)
 										);
 
 										if (conditionIsBeingRecorded) return;
 
 										// find most recent recording for condition
-										console.log({
-											conditionMeasurements,
-											vals: Object.values(conditionMeasurements)
-										});
 										const recordingsSorted = Object.values(conditionMeasurements);
 										recordingsSorted.sort((a, b) => dayjs(a.dateTime).diff(b.dateTime));
 
@@ -139,10 +134,8 @@ class Controller implements EntityController {
 								// if condition has just stopped recording then send email, otherwise send a reply to the previous notification
 								const user = await getAuth().getUser(userId);
 								if (!user || !user.email) return;
-								console.log({ missingDataForUser });
 								const needToNotify =
 									await missingDataDurationQualifiesForNotification(missingDataForUser);
-								console.log({ needToNotify });
 								if (needToNotify) {
 									// let numRecordingsMissed =
 									sendNotificationForMissingData(
@@ -183,13 +176,6 @@ async function missingDataDurationQualifiesForNotification(
 ): Promise<string | undefined> {
 	const lastRun = await getLastRun();
 	function thresholdPassedWithoutNotification(threshold: dayjs.Dayjs) {
-		console.log({
-			threshold: threshold.toISOString(),
-			now: dayjs().toISOString(),
-			lastRun: lastRun,
-			thresholdPassed: threshold.isBefore(dayjs()),
-			thresholdHasntPassedBefore: threshold.isAfter(lastRun)
-		});
 		return threshold.isBefore(dayjs()) && threshold.isAfter(lastRun);
 	}
 
@@ -243,7 +229,7 @@ async function sendNotificationForMissingData(
 		``,
 		`- Grow Run: ${growRun.name} (${growRun.id})`,
 		`- Air temperature is not being recorded`,
-		`- The last recording was: 2025-05-12T21:46:00.000Z`,
+		`- The last recording was: ${missingData['air-temperature'].lastRecordingDateTime}`,
 		`- Duration missing: ${INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES} minutes (1 environmental record)`,
 		``,
 		`JSON:`,
@@ -262,8 +248,7 @@ async function sendNotificationForMissingData(
             <p>${mainText.join('<br>')}</p>
         `
 	};
-	const info = await mailer.sendMail({ ...message });
-	mailer.sendMail(message);
+	const info = await mailer.sendMail(message);
 	console.log(JSON.stringify(info));
 }
 

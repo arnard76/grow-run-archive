@@ -10,7 +10,7 @@ import {
 	ResourceUsage,
 	verboseConditionName
 } from '@grow-run-archive/definitions';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import Timezone from 'dayjs/plugin/timezone';
 import DayJSUtc from 'dayjs/plugin/utc';
 import { EntitiesManager, EntityManager } from '../entity/manager';
@@ -18,6 +18,7 @@ import {
 	formatHarvestsAsObjects,
 	formatUsageOfResourcesAsObjects
 } from '../util/convertStringRequirementsToObjects';
+import { StatusCodes } from 'http-status-codes';
 
 dayjs.extend(Timezone);
 dayjs.extend(DayJSUtc);
@@ -54,7 +55,10 @@ const mockLocation = (coords: Coords) => ({
 	}
 });
 export const mockMissingDataNotifyCronJob = () => {
-	return setInterval(() => fetch('http://localhost:3001/notify-if-missing-environment'), 60 * 1000);
+	return setInterval(
+		() => fetch(`${Cypress.env('PUBLIC_API_URL')}/notify-if-missing-environment`),
+		60 * 1000
+	);
 };
 
 export class GrowRunManager implements EntityManager {
@@ -88,9 +92,9 @@ export class GrowRunManager implements EntityManager {
 
 	showAllDetails = this.goTo;
 
-	start() {
+	start(startTime?: Dayjs) {
 		this.heroSection.find(`button[title='${growRunActionNames.changeStartAndEnd}']`).click();
-		const startTime = dayjs();
+		startTime = startTime || dayjs();
 		const startTimeInput = startTime.format('YYYY-MM-DDTHH:mm');
 		cy.findByLabelText(/Start Date:/i).type(startTimeInput);
 		this.heroSection.find(`button[title='${growRunActionNames.finishEdit}']`).click();
@@ -251,7 +255,7 @@ export class GrowRunManager implements EntityManager {
 		cy.url().then(async (url) => {
 			const growRunId = url.split(growRunsManager.entityURL + '/')[1];
 			expect(growRunId).to.be.a('string').with.length.greaterThan(6);
-			const response = await fetch('http://localhost:3001/grow-run/environment', {
+			const response = await fetch(`${Cypress.env('PUBLIC_API_URL')}/grow-run/environment`, {
 				method: 'post',
 				body: JSON.stringify({
 					user: {
@@ -266,7 +270,7 @@ export class GrowRunManager implements EntityManager {
 					'Content-Type': 'application/json'
 				}
 			});
-			expect(response.status).to.equal(201);
+			expect(response.status).to.equal(StatusCodes.CREATED);
 		});
 	}
 

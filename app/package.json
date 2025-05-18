@@ -31,8 +31,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@grow-run-archive/firebase-backend-service": "*",
-		"@grow-run-archive/mailer-service": "*",
 		"@grow-run-archive/definitions": "*",
 		"chart.js": "^4.4.9",
 		"chartjs-adapter-dayjs-4": "^1.0.4",

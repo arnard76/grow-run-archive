@@ -1,6 +1,5 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
-import errorHandler from '@/middleware/ErrorHandler';
 import cors from 'cors';
 
 dotenv.config({ path: ['../.env'] });
@@ -38,9 +37,6 @@ fs.readdir('./src/features', (err, files) => {
 		}
 	});
 });
-
-// Use Error Handler middleware
-app.use(errorHandler);
 
 app.listen(port, () => {
 	console.log(`Server is running at http://localhost:${port}`);

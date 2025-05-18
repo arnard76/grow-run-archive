@@ -1,8 +1,12 @@
 import { defineConfig } from 'cypress';
-import * as dotenv from 'dotenv';
+import { config } from 'dotenv';
+import { expand } from 'dotenv-expand';
 
 // Load environment variables from .env file
-dotenv.config();
+const env = config({ path: '../.env' });
+expand(env);
+
+console.log({ p: process.env });
 
 export default defineConfig({
 	defaultCommandTimeout: 8000,

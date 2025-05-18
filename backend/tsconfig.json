@@ -3,6 +3,7 @@
 		"target": "es2016",
 		"module": "ES2020",
 		"baseUrl": "./src",
+		"lib": ["ES2021"],
 		"moduleResolution": "bundler",
 		"paths": {
 			"@/*": ["./*"]
