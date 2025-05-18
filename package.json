@@ -5,12 +5,13 @@
 	"packageManager": "npm@10.7.0",
 	"scripts": {
 		"build": "turbo run build",
-		"dev": "turbo run dev",
+		"dev": "dotenv -- turbo run dev",
 		"start": "turbo run start",
 		"lint": "turbo run lint",
 		"e2e-pipeline": "cd e2e-tests && npm run pipeline"
 	},
 	"devDependencies": {
+		"dotenv-cli": "^8.0.0",
 		"tslib": "^2.8.1",
 		"turbo": "^2.5.3",
 		"typescript": "^5.8.3"
@@ -20,7 +21,6 @@
 		"app",
 		"backend",
 		"e2e-tests",
-		"packages/*",
-		"backend-services/*"
+		"packages/*"
 	]
 }

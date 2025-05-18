@@ -14,8 +14,6 @@
 	},
 	"dependencies": {
 		"@grow-run-archive/definitions": "*",
-		"@grow-run-archive/firebase-backend-service": "*",
-		"@grow-run-archive/mailer-service": "*",
 		"@neondatabase/serverless": "^1.0.0",
 		"bufferutil": "^4.0.9",
 		"cors": "^2.8.5",

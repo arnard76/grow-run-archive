@@ -4,8 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 
 import { type Reference } from 'firebase-admin/database';
 import type { ExternalConditionsMeasurements, GrowRun } from '@grow-run-archive/definitions';
-import { database } from '@grow-run-archive/firebase-backend-service';
-import { getUser } from '@/util/auth';
+import { database } from '@/services/database/firebase';
+import { getUser } from '@/services/database/firebase/auth';
 
 class Repository {
 	async create(
@@ -42,17 +42,17 @@ const repository = new Repository();
 
 class Controller implements EntityController {
 	async create(req: Request, res: Response) {
-		const deviceData = await req.body;
-		const { dateTime, user, growRunId, ...environmentReadings } = deviceData;
-
-		if (!user || !user.username || !user.password) {
-			res.sendStatus(StatusCodes.UNAUTHORIZED);
-		}
-
-		const fullUser = await getUser(user.username, user.password);
-		if (!fullUser) res.sendStatus(401);
-
 		try {
+			const deviceData = await req.body;
+			const { dateTime, user, growRunId, ...environmentReadings } = deviceData;
+
+			if (!user || !user.username || !user.password) {
+				res.sendStatus(StatusCodes.UNAUTHORIZED);
+			}
+
+			const fullUser = await getUser(user.username, user.password);
+			if (!fullUser) res.sendStatus(401);
+
 			await repository.create(fullUser, growRunId, dateTime, environmentReadings);
 		} catch (e) {
 			res.status(StatusCodes.BAD_REQUEST).send(`Something went wrong: ${e}`);
