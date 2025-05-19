@@ -1,4 +1,4 @@
-import { mailer } from '@/services/mailer';
+import { mailer } from '@/services/mailer/index.js';
 
 export async function signUpRequestHandler({ 'user-email': userEmail }: { 'user-email': string }) {
 	if (!userEmail) throw Error('user email not provided');
@@ -16,7 +16,7 @@ export async function signUpRequestHandler({ 'user-email': userEmail }: { 'user-
 	console.log(JSON.stringify(info));
 }
 
-import { EntityController } from '@/entity/controller';
+import { EntityController } from '@/entity/controller.js';
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 

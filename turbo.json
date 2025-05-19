@@ -1,8 +1,9 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "globalDependencies": [
-        ".env"
+        ".env.*"
     ],
+    "envMode": "loose",
     "tasks": {
         "build": {
             "dependsOn": [
@@ -10,8 +11,7 @@
             ],
             "inputs": [
                 "$TURBO_DEFAULT$",
-                ".env",
-                ".env.secrets"
+                ".env.*"
             ],
             "env": [
                 "SECRET_*"
@@ -22,7 +22,11 @@
                 ".vercel/**"
             ]
         },
-        "start": {},
+        "start": {
+            "dependsOn": [
+                "build"
+            ]
+        },
         "dev": {
             "persistent": true,
             "cache": false

@@ -1,9 +1,9 @@
-import { ConditionsMeasurements } from './condition';
-import { Duration } from './duration';
-import { ActionNames } from './entity/actions';
-import { Harvest } from './harvest';
-import { ResourceUsage } from './resourceUsage';
-import { Location } from './location';
+import { ConditionsMeasurements } from './condition.js';
+import { Duration } from './duration.js';
+import { ActionNames } from './entity/actions.js';
+import { Harvest } from './harvest.js';
+import { ResourceUsage } from './resourceUsage.js';
+import { Location } from './location.js';
 
 export type GrowRun = {
 	id: string;

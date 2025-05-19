@@ -44,7 +44,6 @@ describe('Grow Run Archive', () => {
 
 	it('analyses a common grow run', () => {
 		let daysPassedAtStart = fastForwardedTime;
-		console.log({ daysPassedAtStart });
 		resourcesManager.addMultiple(exampleResources);
 
 		const growRun = new GrowRunManager('BCKIN AKL - Grow Run #17', userCredentials);
@@ -86,17 +85,13 @@ describe('Grow Run Archive', () => {
 		const time = dayjs().toISOString();
 		growRun.recordEnvironmentalConditions(time, { 'air-temperature': 9 });
 		growRun.testEnvironmentalConditions('air-temperature', 9, time);
-		console.log({ fastForwardedTime });
 		fastForward(20);
 		growRun.manuallyRecordHarvest(['23g 15leaves']);
 
-		console.log({ fastForwardedTime });
 		fastForward(13);
 		growRun.manuallyRecordHarvest(['20g 13leaves']);
-		console.log({ fastForwardedTime });
 		fastForward(1);
 		growRun.end();
-		console.log({ daysPassedAtStart, fastForwardedTime });
 		growRun.duration
 			.should('be.visible')
 			.should(
@@ -157,7 +152,6 @@ describe('Grow Run Archive', () => {
 					const fullNotification = await mailjs.getMessage(notification.id);
 					cy.url().then(async (url) => {
 						const growRunId = url.split(growRunsManager.entityURL + '/')[1];
-						console.log(JSON.stringify(fullNotification));
 
 						cy.document().invoke('open').invoke('write', fullNotification.data.html[0]);
 

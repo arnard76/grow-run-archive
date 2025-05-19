@@ -1,11 +1,11 @@
-import { EntityController } from '@/entity/controller';
+import { EntityController } from '@/entity/controller.js';
 import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import { type Reference } from 'firebase-admin/database';
 import type { ExternalConditionsMeasurements, GrowRun } from '@grow-run-archive/definitions';
-import { database } from '@/services/database/firebase';
-import { getUser } from '@/services/database/firebase/auth';
+import { database } from '@/services/database/firebase/index.js';
+import { getUser } from '@/services/database/firebase/auth.js';
 
 class Repository {
 	async create(

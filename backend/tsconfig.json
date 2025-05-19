@@ -1,18 +1,14 @@
 {
+	"extends": "@tsconfig/node-lts/tsconfig.json",
 	"compilerOptions": {
-		"target": "es2016",
-		"module": "ES2020",
 		"baseUrl": "./src",
-		"lib": ["ES2021"],
-		"moduleResolution": "bundler",
+		"rootDir": "./src",
 		"paths": {
 			"@/*": ["./*"]
 		},
 		"outDir": "./dist",
-		"esModuleInterop": true,
 		"resolveJsonModule": true,
 		"forceConsistentCasingInFileNames": true,
-		"skipLibCheck": true,
 		"strict": true
 	}
 }

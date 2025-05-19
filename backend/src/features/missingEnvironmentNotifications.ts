@@ -1,5 +1,5 @@
 import { pgTable, timestamp } from 'drizzle-orm/pg-core';
-import { EntityRepository } from '../entity/repository';
+import { EntityRepository } from '@/entity/repository.js';
 
 export const databaseTable = pgTable('missing_environment_data_notifications', {
 	lastCheckDataIsMissingDateTime: timestamp('last_check_data_is_missing', {
@@ -23,35 +23,10 @@ const repository = new Repository();
 
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { EntityController } from '../entity/controller';
-
-// class Controller implements EntityController {
-// 	replace = async (req: Request, res: Response) => {
-// 		try {
-
-// 			res.sendStatus(StatusCodes.OK);
-// 		} catch (e: any) {
-// 			res.status(StatusCodes.BAD_REQUEST);
-// 			res.send(fromError(e).toString());
-// 		}
-// 	};
-
-// }
-
+import { EntityController } from '@/entity/controller.js';
 import { Router } from 'express';
 import { fromError } from 'zod-validation-error';
-// import { db } from '@/database';
-// const controller = new Controller();
-// export const missingEnvironmentNotificationsPath = '/missing-environment-notifications';
-// export const missingEnvironmentNotificationsRouter = Router();
-// missingEnvironmentNotificationsRouter.put('/', controller.replace);
-// missingEnvironmentNotificationsRouter.get('/', controller.get);
-
-/**
- * FROM SVELTEKIT SERVER APP
- */
-
-import { database } from '@/services/database/firebase';
+import { database } from '@/services/database/firebase/index.js';
 import {
 	INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES,
 	type ConditionsMeasurements,
@@ -59,9 +34,9 @@ import {
 	type GrowRun
 } from '@grow-run-archive/definitions';
 import dayjs from 'dayjs';
-import { mailer } from '@/services/mailer';
+import { mailer } from '@/services/mailer/index.js';
 import { getAuth } from 'firebase-admin/auth';
-import { db } from '@/services/database/neon-postgresql';
+import { db } from '@/services/database/neon-postgresql/index.js';
 
 class Controller implements EntityController {
 	get = async (req: Request, res: Response) => {
@@ -90,7 +65,8 @@ class Controller implements EntityController {
 								// TODO: mechanism to exclude or include certain conditions to reduce annoying notifications
 								// GOAL: ALL environmental conditions should be recorded!
 								const monitoredConditions = ['air-temperature'];
-								if (!growRun.conditions) {
+								const conditions = growRun.conditions;
+								if (!conditions) {
 									missingDataForUser = Object.fromEntries(
 										monitoredConditions.map((conditionName) => [
 											conditionName,
@@ -100,7 +76,7 @@ class Controller implements EntityController {
 								} else {
 									// for each condition:
 									monitoredConditions.forEach((conditionName) => {
-										let conditionMeasurements = growRun.conditions[conditionName];
+										let conditionMeasurements = conditions[conditionName];
 
 										// check for each of these conditions there is a recorded value in the last 15 minutes
 										const conditionIsBeingRecorded = !!Object.values(

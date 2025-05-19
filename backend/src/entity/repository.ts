@@ -1,4 +1,4 @@
-import { db } from '@/services/database/neon-postgresql';
+import { db } from '@/services/database/neon-postgresql/index.js';
 import { AnyPgTable, TableConfig } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod';
 
