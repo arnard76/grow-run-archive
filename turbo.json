@@ -14,11 +14,12 @@
                 ".env.*"
             ],
             "env": [
-                "SECRET_*"
+                "*"
             ],
             "outputs": [
                 "dist/**",
                 ".svelte-kit/**",
+                "build/**",
                 ".vercel/**"
             ]
         },
