@@ -22,9 +22,9 @@ jobs:
           start: npm start
           command: npm run e2e-pipeline
           # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://localhost:4173'
+          wait-on: '$PUBLIC_UI_URL'
         env:
-          CYPRESS_baseUrl: http://localhost:4173
+          CYPRESS_baseUrl: '$PUBLIC_UI_URL'
       - name: Test Recordings
         uses: actions/upload-artifact@v4
         if: always()

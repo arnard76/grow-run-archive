@@ -13,6 +13,7 @@
 		"prettier:fix": "npx prettier . --write"
 	},
 	"dependencies": {
+		"@grow-run-archive/app": "*",
 		"@grow-run-archive/definitions": "*",
 		"@neondatabase/serverless": "^1.0.0",
 		"bufferutil": "^4.0.9",
