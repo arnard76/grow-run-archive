@@ -1,9 +1,9 @@
 {
+	"extends": "@tsconfig/node-lts/tsconfig.json",
+
 	"compilerOptions": {
 		"outDir": "dist",
-		"rootDir": "src",
-		"skipLibCheck": true,
-		"lib": ["ES2021"]
+		"rootDir": "src"
 	},
 	"include": ["src"],
 	"exclude": ["node_modules", "dist"]

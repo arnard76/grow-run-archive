@@ -1,7 +1,7 @@
 import type { Coords } from '@grow-run-archive/definitions';
 import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { EntityController } from '@/entity/controller';
+import { EntityController } from '@/entity/controller.js';
 
 export async function reverseGeocode(latitude: Coords['latitude'], longitude: Coords['longitude']) {
 	const locationIQAPIUrl =

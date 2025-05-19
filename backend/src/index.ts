@@ -1,8 +1,5 @@
 import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
-
-dotenv.config({ path: ['../.env'] });
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -23,8 +20,10 @@ app.get('/', (req: Request, res: Response) => {
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 import fs from 'fs';
-
-fs.readdir('./src/features', (err, files) => {
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+fs.readdir(`${path.dirname(__filename)}/features`, (err, files) => {
 	files.forEach((file) => {
 		try {
 			const b = require('./features/' + file).default;

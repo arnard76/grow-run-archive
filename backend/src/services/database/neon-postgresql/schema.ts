@@ -1,1 +1,1 @@
-export { databaseTable } from '../../../features/missingEnvironmentNotifications';
+export { databaseTable } from '@/features/missingEnvironmentNotifications.js';

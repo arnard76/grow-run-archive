@@ -6,9 +6,13 @@
         "build": "tsc"
     },
     "exports": {
-        ".": "./src/index.ts"
+        ".": {
+            "types": "./src/index.ts",
+            "default": "./dist/index.js"
+        }
     },
     "devDependencies": {
+        "@tsconfig/node-lts": "^22.0.1",
         "typescript": "^5.8.3"
     }
 }
