@@ -4,9 +4,9 @@
 	"private": true,
 	"packageManager": "npm@10.8.0",
 	"scripts": {
-		"build": "dotenv --env-file=./.env.test turbo run build",
-		"dev": "dotenv --env-file=./.env.test turbo run dev",
-		"start": "dotenv --env-file=./.env.test turbo run start",
+		"build": "dotenv -e ./.env.development turbo run build",
+		"dev": "dotenv -e ./.env.development turbo run dev",
+		"start": "dotenv -e ./.env.development turbo run start",
 		"lint": "turbo run lint",
 		"e2e-pipeline": "cd e2e-tests && npm run pipeline"
 	},
