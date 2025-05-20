@@ -1,10 +1,9 @@
 {
     "version": 2,
-    "buildCommand": "turbo run build",
     "rewrites": [
         {
             "source": "/(.*)",
-            "destination": "/api/dist/index.js"
+            "destination": "/dist/index.js"
         }
     ]
 }
