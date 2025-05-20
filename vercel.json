@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "buildCommand": "turbo run build",
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/api"
+        }
+    ]
+}
