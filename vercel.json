@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "buildCommand": "turbo run build",
   "builds": [
     {
       "src": "api/dist/index.js",
