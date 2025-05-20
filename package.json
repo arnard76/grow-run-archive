@@ -19,7 +19,7 @@
 	"type": "module",
 	"workspaces": [
 		"app",
-		"backend",
+		"api",
 		"e2e-tests",
 		"packages/*"
 	]
