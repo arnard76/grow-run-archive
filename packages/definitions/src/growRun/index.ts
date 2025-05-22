@@ -1,6 +1,6 @@
-import { ConditionsMeasurements } from './condition.js';
-import { Duration } from './duration.js';
-import { ActionNames } from './entity/actions.js';
+import { ConditionsMeasurements } from './environment/condition.js';
+import { Duration } from '../duration.js';
+import { ActionNames } from '../entity/actions.js';
 import { Harvest } from './harvest.js';
 import { ResourceUsage } from './resourceUsage.js';
 import { Location } from './location.js';
@@ -27,3 +27,4 @@ class GrowRunActionNames extends ActionNames {
 }
 
 export const growRunActionNames = new GrowRunActionNames();
+export * as growRunEnvironment from './environment/index.js';

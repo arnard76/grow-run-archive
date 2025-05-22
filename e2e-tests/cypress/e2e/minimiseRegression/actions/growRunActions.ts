@@ -19,6 +19,8 @@ import {
 	formatUsageOfResourcesAsObjects
 } from '../util/convertStringRequirementsToObjects';
 import { StatusCodes } from 'http-status-codes';
+import { mockLocation } from '../../../mocks/location';
+import { UserCredentials } from './authActions';
 
 dayjs.extend(Timezone);
 dayjs.extend(DayJSUtc);
@@ -45,21 +47,6 @@ class GrowRunsManager extends EntitiesManager {
 }
 
 export const growRunsManager = new GrowRunsManager();
-const mockLocation = (coords: Coords) => ({
-	onBeforeLoad(win) {
-		cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake((cb, err) => {
-			if (coords.latitude && coords.longitude) {
-				return cb({ coords });
-			}
-		});
-	}
-});
-export const mockMissingDataNotifyCronJob = () => {
-	return setInterval(
-		() => fetch(`${Cypress.env('PUBLIC_API_URL')}/notify-if-missing-environment`),
-		60 * 1000
-	);
-};
 
 export class GrowRunManager implements EntityManager {
 	growRunName: GrowRun['name'];

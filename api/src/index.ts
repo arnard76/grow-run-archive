@@ -1,7 +1,5 @@
 import express, { Express, Request, Response, Router } from 'express';
 import cors from 'cors';
-// @ts-ignore
-import { handler } from '@grow-run-archive/app';
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -42,7 +40,6 @@ fs.readdir(`${path.dirname(__filename)}/features`, (err, files) => {
 	apiRouter.get('*', (req: Request, res: Response) => res.sendStatus(StatusCodes.NOT_FOUND));
 
 	app.use('/api', apiRouter);
-	app.use(handler);
 	console.info('All routes registered');
 });
 

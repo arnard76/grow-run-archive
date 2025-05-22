@@ -1,9 +1,9 @@
-export * from './growRun.js';
-export * from './resourceUsage.js';
-export * from './harvest.js';
-export * from './condition.js';
+export * from './growRun/index.js';
+export * from './growRun/resourceUsage.js';
+export * from './growRun/harvest.js';
+export * from './growRun/environment/condition.js';
 export * from './duration.js';
-export * from './location.js';
+export * from './growRun/location.js';
 export * from './resource.js';
 export * from './datetime.js';
 

@@ -1,3 +1,10 @@
+// AS SEEN/REMEMBERED BY USER
+// NOT WHAT IS ACTUALLY STORED IN THE BACKEND
+export type UserCredentials = {
+	username: string;
+	password: string;
+};
+
 export function signup(
 	username: UserCredentials['username'],
 	password: UserCredentials['password']

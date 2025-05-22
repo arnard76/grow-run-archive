@@ -37,6 +37,7 @@ import dayjs from 'dayjs';
 import { mailer } from '@/services/mailer/index.js';
 import { getAuth } from 'firebase-admin/auth';
 import { db } from '@/services/database/neon-postgresql/index.js';
+import { growRunEnvironment } from '@grow-run-archive/definitions';
 
 class Controller implements EntityController {
 	get = async (req: Request, res: Response) => {
@@ -200,17 +201,14 @@ async function sendNotificationForMissingData(
 	amountMissed: {},
 	growRun: GrowRun
 ) {
-	const mainText = [
-		`Losing environmental data - not being recorded!`,
-		``,
-		`- Grow Run: ${growRun.name} (${growRun.id})`,
-		`- Air temperature is not being recorded`,
-		`- The last recording was: ${missingData['air-temperature'].lastRecordingDateTime}`,
-		`- Duration missing: ${INTERVAL_FOR_ENVIRONMENTAL_DATA_IN_MINUTES} minutes (1 environmental record)`,
-		``,
-		`JSON:`,
-		`${JSON.stringify({ missingData })}`
-	];
+	const mainText = growRunEnvironment
+		.missingEnvironmentNotification(
+			growRun.name,
+			growRun.id,
+			growRun.duration!.start!,
+			missingData['air-temperature'].lastRecordingDateTime
+		)
+		.split('\n');
 
 	let message = {
 		to: userEmail,
