@@ -10,7 +10,7 @@ import {
 	ResourceUsage,
 	verboseConditionName
 } from '@grow-run-archive/definitions';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import Timezone from 'dayjs/plugin/timezone';
 import DayJSUtc from 'dayjs/plugin/utc';
 import { EntitiesManager, EntityManager } from '../entity/manager';
@@ -18,6 +18,9 @@ import {
 	formatHarvestsAsObjects,
 	formatUsageOfResourcesAsObjects
 } from '../util/convertStringRequirementsToObjects';
+import { StatusCodes } from 'http-status-codes';
+import { mockLocation } from '../../../mocks/location';
+import { UserCredentials } from './authActions';
 
 dayjs.extend(Timezone);
 dayjs.extend(DayJSUtc);
@@ -44,21 +47,14 @@ class GrowRunsManager extends EntitiesManager {
 }
 
 export const growRunsManager = new GrowRunsManager();
-const mockLocation = (coords: Coords) => ({
-	onBeforeLoad(win) {
-		cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake((cb, err) => {
-			if (coords.latitude && coords.longitude) {
-				return cb({ coords });
-			}
-		});
-	}
-});
 
 export class GrowRunManager implements EntityManager {
 	growRunName: GrowRun['name'];
+	userCredentials: UserCredentials;
 
-	constructor(growRunName: GrowRun['name'], existingGrowRun = false) {
+	constructor(growRunName: GrowRun['name'], user: UserCredentials, existingGrowRun = false) {
 		this.growRunName = growRunName;
+		this.userCredentials = user;
 		growRunsManager.goToAll();
 		if (!existingGrowRun) this.add();
 	}
@@ -78,13 +74,14 @@ export class GrowRunManager implements EntityManager {
 
 	goTo() {
 		this.preview.findByRole('link').click();
+		this.heroSection.find('h2').contains(this.growRunName);
 	}
 
 	showAllDetails = this.goTo;
 
-	start() {
+	start(startTime?: Dayjs) {
 		this.heroSection.find(`button[title='${growRunActionNames.changeStartAndEnd}']`).click();
-		const startTime = dayjs();
+		startTime = startTime || dayjs();
 		const startTimeInput = startTime.format('YYYY-MM-DDTHH:mm');
 		cy.findByLabelText(/Start Date:/i).type(startTimeInput);
 		this.heroSection.find(`button[title='${growRunActionNames.finishEdit}']`).click();
@@ -245,19 +242,22 @@ export class GrowRunManager implements EntityManager {
 		cy.url().then(async (url) => {
 			const growRunId = url.split(growRunsManager.entityURL + '/')[1];
 			expect(growRunId).to.be.a('string').with.length.greaterThan(6);
-			const response = await fetch('/grow-runs/grow-environment/device-data', {
+			const response = await fetch(`${Cypress.env('PUBLIC_API_URL')}/grow-run/environment`, {
 				method: 'post',
 				body: JSON.stringify({
 					user: {
-						username: Cypress.env('CYPRESS_TEST_USER_EMAIL'),
-						password: Cypress.env('CYPRESS_TEST_USER_PASSWORD')
+						username: this.userCredentials.username,
+						password: this.userCredentials.password
 					},
 					growRunId,
 					dateTime: timestamp,
 					...conditions
-				})
+				}),
+				headers: {
+					'Content-Type': 'application/json'
+				}
 			});
-			expect(response.status).to.equal(201);
+			expect(response.status).to.equal(StatusCodes.CREATED);
 		});
 	}
 

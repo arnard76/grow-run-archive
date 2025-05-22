@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { session } from '$lib/user/user';
-	import type Resource from '$lib/resource';
-	import { resourcesList } from '$lib/resource/store';
+	import type Resource from '$features/resource';
+	import { resourcesList } from '$features/resource/store';
 	import { getBlob, getStorage, ref } from 'firebase/storage';
 
 	export let data;

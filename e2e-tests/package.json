@@ -3,22 +3,24 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "cypress open --config baseUrl=https://localhost:5173",
-		"local": "set CYPRESS_baseUrl=http://localhost:4173&&; cypress run",
+		"dev": "set 'CYPRESS_baseUrl=PUBLIC_UI_URL'&&; cypress open",
+		"local": "set 'CYPRESS_baseUrl=PUBLIC_UI_URL'&&; cypress run",
 		"pipeline": "cypress run"
 	},
 	"type": "module",
 	"devDependencies": {
+		"@cemalgnlts/mailjs": "^3.0.1",
 		"@grow-run-archive/definitions": "*",
+		"@stdlib/constants-time-milliseconds-in-day": "^0.3.2",
 		"@testing-library/cypress": "^10.0.3",
-		"autoprefixer": "^10.4.19",
-		"cypress": "^14.1.0",
+		"autoprefixer": "^10.4.21",
+		"cypress": "^14.3.3",
 		"cypress-real-events": "^1.14.0",
-		"dayjs": "^1.11.10",
-		"dotenv": "^16.4.7",
-		"prettier": "^3.0.0",
-		"tslib": "^2.4.1",
-		"typescript": "^5.8.2",
-		"vite": "^5.0.0"
+		"dayjs": "^1.11.13",
+		"http-status-codes": "^2.3.0",
+		"prettier": "^3.5.3",
+		"tslib": "^2.8.1",
+		"typescript": "^5.8.3",
+		"vite": "^5.4.19"
 	}
 }

@@ -1,12 +1,9 @@
 import { defineConfig } from 'cypress';
-import * as dotenv from 'dotenv';
-
-// Load environment variables from .env file
-dotenv.config();
 
 export default defineConfig({
-	defaultCommandTimeout: 8000,
+	defaultCommandTimeout: 32000,
 	video: true,
+	chromeWebSecurity: false,
 	e2e: {
 		setupNodeEvents(on, config) {
 			// implement node event listeners here

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { growRuns } from '$lib/grow-run/store';
+	import { growRuns } from '$features/grow-run/store';
 
-	import GrowRun from '$lib/grow-run/ListItem.svelte';
-	import AddGrowRun from '$lib/grow-run/Add.svelte';
+	import GrowRun from '$features/grow-run/ListItem.svelte';
+	import AddGrowRun from '$features/grow-run/Add.svelte';
 </script>
 
 <slot />
