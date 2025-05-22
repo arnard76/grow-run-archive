@@ -63,7 +63,7 @@ class Controller implements EntityController {
 }
 
 const controller = new Controller();
-export const growRunEnvironmentPath = '/grow-run/environment';
-export const growRunEnvironmentRouter = Router();
+const growRunEnvironmentRouter = Router();
 growRunEnvironmentRouter.post('/', controller.create);
-export default { url: growRunEnvironmentPath, router: growRunEnvironmentRouter };
+
+export default { url: '/grow-run/environment', router: growRunEnvironmentRouter };
