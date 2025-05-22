@@ -1,11 +1,11 @@
-export * from './growRun';
-export * from './resourceUsage';
-export * from './harvest';
-export * from './condition';
-export * from './duration';
-export * from './location';
-export * from './resource';
-export * from './datetime';
+export * from './growRun/index.js';
+export * from './growRun/resourceUsage.js';
+export * from './growRun/harvest.js';
+export * from './growRun/environment/condition.js';
+export * from './duration.js';
+export * from './growRun/location.js';
+export * from './resource.js';
+export * from './datetime.js';
 
 // should I expose general entities from here?
-export * from './entity/actions';
+export * from './entity/actions.js';

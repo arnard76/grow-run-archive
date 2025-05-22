@@ -31,14 +31,32 @@
 		<p>{error}</p>
 	{/if}
 	<div class="container">
-		<label for="uname"><b>Username</b></label>
-		<input type="text" placeholder="Enter Username" bind:value={email} required />
+		<label for="sign-up-username"><b>Username</b></label>
+		<input
+			type="text"
+			id="sign-up-username"
+			placeholder="Enter Username"
+			bind:value={email}
+			required
+		/>
 
-		<label for="psw"><b>Password</b></label>
-		<input type="password" placeholder="Enter Password" bind:value={password} required />
+		<label for="sign-up-password"><b>Password</b></label>
+		<input
+			type="password"
+			id="sign-up-password"
+			placeholder="Enter Password"
+			bind:value={password}
+			required
+		/>
 
-		<label for="psw"><b>Confirm Password</b></label>
-		<input type="password" placeholder="Confirm Password" bind:value={confirmPassword} required />
+		<label for="sign-up-confirm-password"><b>Confirm Password</b></label>
+		<input
+			type="password"
+			id="sign-up-confirm-password"
+			placeholder="Confirm Password"
+			bind:value={confirmPassword}
+			required
+		/>
 		<button on:click={submitHandler}>Submit</button>
 
 		<!-- Sign up with:
