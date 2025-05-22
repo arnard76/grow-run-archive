@@ -5,9 +5,9 @@
 	"packageManager": "npm@10.8.0",
 	"scripts": {
 		"with-env": "dotenv -e ./.env.development -e ./api/.env.development -e ./app/.env.development -e ./e2e-tests/.env.development",
-		"build": "dotenv -e ./.env.development turbo run build",
+		"build": "dotenv turbo run build",
 		"dev": "npm run with-env turbo run dev",
-		"start": "dotenv -e ./.env.development turbo run start",
+		"start": "dotenv turbo run start",
 		"lint": "turbo run lint",
 		"e2e-pipeline": "cd e2e-tests && npm run pipeline"
 	},
