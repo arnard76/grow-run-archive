@@ -1,4 +1,4 @@
-import { DateTime } from './datetime.js';
+import { DateTime } from '../datetime.js';
 
 export type Harvest = {
 	datetime: DateTime;

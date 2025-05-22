@@ -1,4 +1,4 @@
-import { EntityAPI } from '$lib/abstract-entity/api';
+import { EntityAPI } from '$lib/entity/api';
 import { db } from '$lib/database';
 import { session } from '$lib/user/user';
 import { onValue } from 'firebase/database';

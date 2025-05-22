@@ -1,5 +1,5 @@
-import { EntityAPI } from '$lib/abstract-entity/api';
-import { createEntityStores as createEntityStore } from '$lib/abstract-entity/store';
+import { EntityAPI } from '$lib/entity/api';
+import { createEntityStores as createEntityStore } from '$lib/entity/store';
 import Resource from '$features/resource';
 import { session } from '$lib/user/user';
 import {

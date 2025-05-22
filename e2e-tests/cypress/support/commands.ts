@@ -8,32 +8,31 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+
+declare global {
+	namespace Cypress {
+		interface Chainable {
+			recursionLoop(fn: (times?: number) => any, times?: number): Chainable<void>;
+			openHTML(html: string): Chainable<void>;
+		}
+	}
+}
 
 import '@testing-library/cypress/add-commands';
+
+Cypress.Commands.add('recursionLoop', function (fn, times) {
+	if (typeof times === 'undefined') {
+		times = 0;
+	}
+
+	cy.then(async () => {
+		const result = await fn(++times);
+		if (result !== false) {
+			cy.recursionLoop(fn, times);
+		}
+	});
+});
+
+Cypress.Commands.add('openHTML', function (html) {
+	cy.document().invoke('open').invoke('write', html);
+});
