@@ -10,3 +10,31 @@ dist
 *.backup
 .terraform
 .vercel
+
+/dist
+/build
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# misc
+.DS_Store
+*.pem
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+
+/.aws/credentials
+
+/src/static/*
+!/src/static/permanent/*
+!/src/static/permanent
+

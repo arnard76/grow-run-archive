@@ -21,7 +21,8 @@
 	"workspaces": [
 		"app",
 		"api",
-		"e2e-tests",
-		"packages/*"
+		"jobs",
+		"packages/*",
+		"e2e-tests"
 	]
 }
