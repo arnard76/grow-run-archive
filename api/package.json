@@ -7,8 +7,8 @@
 		"dev": "nodemon -x tsx ./src/index.ts",
 		"build": "tsc --build && tsc-alias",
 		"start": "node ./dist/index.js",
-		"deploy:development": "npm run build && vercel build && vercel deploy --prebuilt",
-		"deploy:production": "npm run build && vercel build --prod && vercel --prod deploy --prebuilt",
+		"with-env": "dotenv -e ./.env.development -e ../.env.development",
+		"db-migrate": "npm run build; npx drizzle-kit migrate --config ./src/drizzle.config.ts",
 		"prettier": "npx prettier . --check",
 		"prettier:fix": "npx prettier . --write"
 	},

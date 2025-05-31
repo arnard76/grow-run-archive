@@ -1,0 +1,14 @@
+{
+	"extends": "@tsconfig/node-lts/tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": "./",
+		"rootDir": "./",
+		"paths": {
+			"@/*": ["./*"]
+		},
+		"outDir": "./dist",
+		"resolveJsonModule": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true
+	}
+}

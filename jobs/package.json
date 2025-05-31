@@ -1,0 +1,27 @@
+{
+	"name": "@grow-run-archive/cron-jobs",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "nodemon -x tsx ./cronJobs.ts",
+		"build": "tsc --build && tsc-alias",
+		"start": "node ./cronJobs.js",
+		"deploy:development": "npm run build && vercel build && vercel deploy --prebuilt",
+		"deploy:production": "npm run build && vercel build --prod && vercel --prod deploy --prebuilt",
+		"prettier": "npx prettier . --check",
+		"prettier:fix": "npx prettier . --write"
+	},
+	"devDependencies": {
+		"@types/node": "^20.17.46",
+		"nodemon": "^3.1.10",
+		"prettier": "3.2.5",
+		"tsc-alias": "^1.8.16",
+		"tsx": "^4.19.4",
+		"typescript": "^5.8.3"
+	},
+	"main": "./cronJobs.js",
+	"dependencies": {
+		"node-cron": "^4.0.7"
+	}
+}
