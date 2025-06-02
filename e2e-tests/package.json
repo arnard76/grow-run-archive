@@ -11,12 +11,12 @@
 	"devDependencies": {
 		"@cemalgnlts/mailjs": "^3.0.1",
 		"@grow-run-archive/definitions": "*",
+		"@grow-run-archive/dayjs": "*",
 		"@stdlib/constants-time-milliseconds-in-day": "^0.3.2",
 		"@testing-library/cypress": "^10.0.3",
 		"autoprefixer": "^10.4.21",
 		"cypress": "^14.3.3",
 		"cypress-real-events": "^1.14.0",
-		"dayjs": "^1.11.13",
 		"http-status-codes": "^2.3.0",
 		"prettier": "^3.5.3",
 		"tslib": "^2.8.1",

@@ -1,5 +1,5 @@
 {
-    "name": "@grow-run-archive/definitions",
+    "name": "@grow-run-archive/dayjs",
     "type": "module",
     "scripts": {
         "dev": "tsc --watch",
@@ -16,6 +16,6 @@
         "typescript": "^5.8.3"
     },
     "dependencies": {
-        "@grow-run-archive/dayjs": "*"
+        "dayjs": "^1.11.13"
     }
 }
