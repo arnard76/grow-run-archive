@@ -1,7 +1,7 @@
 import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
-	schema: './src/database/neon-postgresql/schema.ts',
+	schema: './dist/services/database/neon-postgresql/schema.js',
 	out: './migrations',
 	dialect: 'postgresql',
 	dbCredentials: {

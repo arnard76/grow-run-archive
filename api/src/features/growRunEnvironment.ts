@@ -3,14 +3,14 @@ import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import { type Reference } from 'firebase-admin/database';
-import type { ExternalConditionsMeasurements, GrowRun } from '@grow-run-archive/definitions';
+import type { ExternalConditionsMeasurements, GrowRunType } from '@grow-run-archive/definitions';
 import { database } from '@/services/database/firebase/index.js';
 import { getUser } from '@/services/database/firebase/auth.js';
 
 class Repository {
 	async create(
 		user: any,
-		growRunId: GrowRun['id'],
+		growRunId: GrowRunType['id'],
 		dateTime: ExternalConditionsMeasurements['dateTime'],
 		environmentalConditions: ExternalConditionsMeasurements['conditions']
 	) {
