@@ -10,10 +10,8 @@ import {
 	ResourceUsage,
 	verboseConditionName
 } from '@grow-run-archive/definitions';
-import dayjs, { Dayjs } from 'dayjs';
-import Timezone from 'dayjs/plugin/timezone';
-import DayJSUtc from 'dayjs/plugin/utc';
-import { EntitiesManager, EntityManager } from '../entity/manager';
+import dayjs from '@grow-run-archive/dayjs';
+
 import {
 	formatHarvestsAsObjects,
 	formatUsageOfResourcesAsObjects
@@ -21,9 +19,6 @@ import {
 import { StatusCodes } from 'http-status-codes';
 import { mockLocation } from '../../../mocks/location';
 import { UserCredentials } from './authActions';
-
-dayjs.extend(Timezone);
-dayjs.extend(DayJSUtc);
 
 class GrowRunsManager extends EntitiesManager {
 	constructor() {
@@ -79,7 +74,7 @@ export class GrowRunManager implements EntityManager {
 
 	showAllDetails = this.goTo;
 
-	start(startTime?: Dayjs) {
+	start(startTime?: dayjs.Dayjs) {
 		this.heroSection.find(`button[title='${growRunActionNames.changeStartAndEnd}']`).click();
 		startTime = startTime || dayjs();
 		const startTimeInput = startTime.format('YYYY-MM-DDTHH:mm');

@@ -1,5 +1,5 @@
 import Mailjs from '@cemalgnlts/mailjs';
-import dayjs from 'dayjs';
+import dayjs from '@grow-run-archive/dayjs';
 import { login, signup, UserCredentials } from './actions/authActions';
 import { GrowRunManager, growRunsManager } from './actions/growRunActions';
 import { resourcesManager } from './actions/resourceActions';
