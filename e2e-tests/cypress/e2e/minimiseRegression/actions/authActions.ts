@@ -5,12 +5,16 @@ export type UserCredentials = {
 	password: string;
 };
 
+function logout() {
+	cy.visit('/logout');
+	cy.url().should('include', 'welcome');
+}
+
 export function signup(
 	username: UserCredentials['username'],
 	password: UserCredentials['password']
 ) {
-	cy.visit('/logout');
-	cy.url().should('include', 'welcome');
+	logout();
 	cy.visit('/sign-up');
 	cy.url().should('not.include', /logged in/i);
 	cy.findByLabelText(/username/i).type(username);
@@ -25,8 +29,7 @@ export function login(
 	password: UserCredentials['password'],
 	checkLoggedIn = true
 ) {
-	cy.visit('/logout');
-	cy.url().should('include', 'welcome');
+	logout();
 	cy.visit('/login');
 	cy.findByLabelText(/username/i).type(username);
 	cy.findByLabelText(/password/i).type(password);
