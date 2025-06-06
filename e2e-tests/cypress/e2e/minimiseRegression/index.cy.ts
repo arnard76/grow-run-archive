@@ -1,11 +1,17 @@
 import Mailjs from '@cemalgnlts/mailjs';
 import dayjs from '@grow-run-archive/dayjs';
-import { login, signup, UserCredentials } from './actions/authActions';
+import {
+	DateTime,
+	GrowRun,
+	NotificationFormat,
+	NotificationInformation,
+	NotificationRequirements
+} from '@grow-run-archive/definitions';
+import { fastForward, fastForwardedTime } from '../../mocks/fastForward';
+import { login, signup, UserCredentials } from './actions/userActions';
 import { GrowRunManager, growRunsManager } from './actions/growRunActions';
 import { resourcesManager } from './actions/resourceActions';
 import { formatResourcesAsObjects } from './util/convertStringRequirementsToObjects';
-import { fastForward, fastForwardedTime } from '../../mocks/fastForward';
-import { NotificationFormat, NotificationRequirements } from '@grow-run-archive/definitions';
 
 const exampleResources = formatResourcesAsObjects([
 	'80pcs seeds for $2.00 (from https://www.thewarehouse.co.nz/p/kiwi-garden-lettuce-butterhead-seeds/R2598667.html?gStoreCode=188',
@@ -23,6 +29,7 @@ const resourceUsage1 = [
 const resourceUsage2 = ['5mL nutrients'];
 
 const notificationRequirements = new NotificationRequirements(Cypress.env('ENV'));
+const notificationFormat = new NotificationFormat(notificationRequirements);
 
 describe('Grow Run Archive', () => {
 	const mailjs = new Mailjs();
@@ -132,92 +139,47 @@ describe('Grow Run Archive', () => {
 			.add(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL * 0.95)
 			.toISOString();
 		growRun.recordEnvironmentalConditions(time, { 'air-temperature': 9 });
-		growRun.testEnvironmentalConditions('air-temperature', 9, time);
+		growRun.recordEnvironmentalConditions(time, { co2: 9 });
+		growRun.recordEnvironmentalConditions(time, { humidity: 9 });
 
 		// CHECK CURRENT MESSAGES AND
 		// WAIT UNTIL NEXT READINGS "SHOULD" ARRIVE
+		cy.wait(60_000); // wait until GR starts
 		cy.wait(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL * 2);
-
-		// WAIT up to 2 minutes for the notification AND
-		let timeoutThreshold = dayjs().add(2, 'minutes');
-		let notificationFormat = new NotificationFormat();
-		let notification = undefined;
 
 		cy.url().then((url) => {
 			const growRunId = url.split(growRunsManager.entityURL + '/')[1];
-			let messageSubjectFormat = notificationFormat.messageSubject(growRun.growRunName, growRunId);
+			growRun.waitForAndTestNotification(
+				startTime.toISOString(),
+				growRunId,
+				notificationFormat,
+				{
+					'water-temperature': {
+						numRecordingsMissed: 1,
+						lastRecordingDateTime: null
+					}
+				},
+				mailjs
+			);
 
-			cy.recursionLoop(async () => {
-				cy.wait(10000);
-				let messages = (await mailjs.getMessages()).data;
-				const notifications = messages.filter(
-					(message) =>
-						message.subject === messageSubjectFormat &&
-						dayjs(message.createdAt).isValid() &&
-						dayjs(message.createdAt).isAfter(dayjs().subtract(2, 'minutes'))
+			// WAIT UNTIL ENOUGH RECORDINGS ARE MISSED TO SEND NEXT NOTIFICATION
+			cy.wait(notificationRequirements.thresholdsInMS[1]).then(() => {
+				growRun.waitForAndTestNotification(
+					startTime.toISOString(),
+					growRunId,
+					notificationFormat,
+					{
+						'water-temperature': {
+							numRecordingsMissed: 12,
+							lastRecordingDateTime: null
+						},
+						'air-temperature': { lastRecordingDateTime: time, numRecordingsMissed: 11 },
+						humidity: { lastRecordingDateTime: time, numRecordingsMissed: 11 },
+						co2: { lastRecordingDateTime: time, numRecordingsMissed: 11 }
+					},
+					mailjs
 				);
-
-				if (notifications.length === 1) notification = notifications[0];
-				if (notifications.length > 1)
-					console.error('There are too many notifications generated', { notifications });
-
-				if (timeoutThreshold.isBefore(dayjs())) throw Error('notification not recieved');
-				return !notification;
-			})
-				// CHECK NOTIFICATION MESSAGE CONTENTS
-				.then(async () => {
-					const messageContents = notificationFormat.messageContents(
-						growRun.growRunName,
-						growRunId,
-						startTime.toISOString(),
-						{
-							missingData: {
-								'water-temperature': {
-									numRecordingsMissed: 1,
-									lastRecordingDateTime: null
-								},
-								co2: {
-									lastRecordingDateTime: null,
-									numRecordingsMissed: 1
-								},
-								humidity: {
-									lastRecordingDateTime: null,
-									numRecordingsMissed: 1
-								}
-							},
-							mostMissingDataSummary: {
-								durationMissed: startTime
-									.add(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL)
-									.fromNow(true)
-							}
-						}
-					);
-					const fullNotification = await mailjs.getMessage(notification.id);
-					cy.openHTML(fullNotification.data.html[0]);
-
-					cy.get('section').eq(0).as('summarySection');
-					cy.get('@summarySection')
-						.find('p')
-						.contains(`a few seconds worth of environmental data missing for grow run:`)
-						.should('be.visible');
-					cy.get('@summarySection').contains(`name: ${growRun.growRunName}`).should('be.visible');
-					cy.get('@summarySection').contains(`id: ${growRunId}`).should('be.visible');
-
-					cy.get('section')
-						.eq(0)
-						.invoke('html')
-						.then((actualHTML) => {
-							expect(messageContents).contains(actualHTML);
-						});
-					cy.get('section')
-						.eq(1)
-						.invoke('html')
-						.then((actualHTML) => {
-							expect(messageContents).contains(actualHTML);
-						});
-
-					cy.go('back');
-				});
+			});
 		});
 
 		growRun.delete();
