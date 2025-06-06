@@ -10,8 +10,8 @@
 	"type": "module",
 	"devDependencies": {
 		"@cemalgnlts/mailjs": "^3.0.1",
-		"@grow-run-archive/definitions": "*",
 		"@grow-run-archive/dayjs": "*",
+		"@grow-run-archive/definitions": "*",
 		"@stdlib/constants-time-milliseconds-in-day": "^0.3.2",
 		"@testing-library/cypress": "^10.0.3",
 		"autoprefixer": "^10.4.21",

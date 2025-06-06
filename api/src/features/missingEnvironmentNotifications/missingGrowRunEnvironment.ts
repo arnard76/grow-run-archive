@@ -94,18 +94,7 @@ export class MissingEnvironmentDetective {
 			})
 		);
 
-		const { lastRecordingDateTime, numRecordingsMissed } = Object.values(
-			missingDataWithNumRecordingsLost
-		).toSorted((c1, c2) =>
-			dayjs(c1.lastRecordingDateTime || growRunStart).diff(c2.lastRecordingDateTime || growRunStart)
-		)[0];
-
-		return {
-			missingData: missingDataWithNumRecordingsLost,
-			mostMissingDataSummary: {
-				durationMissed: dayjs(lastRecordingDateTime || growRunStart).fromNow(true)
-			}
-		};
+		return missingDataWithNumRecordingsLost;
 	}
 
 	get currentInterval() {
@@ -209,7 +198,7 @@ export class MissingEnvironmentDetective {
 		const user = await getAuth().getUser(this.userId);
 		if (!user || !user.email) return;
 
-		const notificationFormat = new NotificationFormat();
+		const notificationFormat = new NotificationFormat(this.notificationRequirements);
 
 		const subject = notificationFormat.messageSubject(this.growRun.name, this.growRun.id);
 		const messageContents = notificationFormat.messageContents(

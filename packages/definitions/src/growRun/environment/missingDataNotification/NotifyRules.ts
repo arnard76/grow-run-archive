@@ -1,9 +1,6 @@
-import { DateTime } from '../../datetime.js';
-import { GrowRunType } from '../index.js';
-import { ConditionMeasurement, ConditionsMeasurements } from './condition.js';
+import { ConditionMeasurement, ConditionsMeasurements } from '../condition.js';
 import dayjs from '@grow-run-archive/dayjs';
-import { environmentConditions } from './index.js';
-import htmlTemplate from './missingDataNotification.html.js';
+import { environmentConditions } from '../index.js';
 
 export type MissingEnvironmentData = {
 	[conditionName: keyof ConditionsMeasurements]: {
@@ -11,24 +8,11 @@ export type MissingEnvironmentData = {
 	};
 };
 
-export type NotificationInformation = {
-	missingData: MissingEnvironmentData & {
-		[conditionName: keyof ConditionsMeasurements]: {
-			numRecordingsMissed: number;
-		};
-	};
-	mostMissingDataSummary: {
-		durationMissed: string;
+export type NotificationInformation = MissingEnvironmentData & {
+	[conditionName: keyof ConditionsMeasurements]: {
+		numRecordingsMissed: number;
 	};
 };
-
-export class NotificationFormat {
-	messageSubject(growRunName: GrowRunType['name'], growRunId: GrowRunType['id']) {
-		return `Environment not recording for ${growRunName} (${growRunId})`;
-	}
-
-	messageContents = htmlTemplate;
-}
 
 export class NotificationRequirements {
 	multiplier: number;
@@ -57,6 +41,10 @@ export class NotificationRequirements {
 			thresholds[index] = [multipliedValue, 'milliseconds'];
 		});
 		return thresholds;
+	}
+
+	get thresholdsInMS() {
+		return this.thresholds.map(([value, unit]) => dayjs.duration(value, unit).asMilliseconds());
 	}
 
 	get monitoredConditions(): string[] {
