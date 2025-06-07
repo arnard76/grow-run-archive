@@ -24,7 +24,8 @@ export class NotificationRequirements {
 
 	constructor(ENV?: string) {
 		this.multiplier = ENV === 'test' ? 1 / 60 : 1;
-		this.ENVIRONMENTAL_DATA_INTERVAL_IN_MINUTES = this.multiplier * 15;
+		// TODO: goal is every 15 minutes
+		this.ENVIRONMENTAL_DATA_INTERVAL_IN_MINUTES = this.multiplier * 18;
 		this.ENVIRONMENTAL_DATA_INTERVAL = this.ENVIRONMENTAL_DATA_INTERVAL_IN_MINUTES * 60 * 1000; // in ms
 	}
 
