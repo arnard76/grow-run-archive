@@ -10,8 +10,11 @@ import { derived, writable, type Readable } from 'svelte/store';
  * @param entityAPI - the API to
  * @returns [entityRecords, entityRecordsLoading]
  */
-export function createEntityStores<EntityType>(EntityClass: any, entityAPI: EntityAPI<EntityType>) {
-	function convertToArray(entitiesData: { [key: string]: any }): (typeof EntityClass)[] {
+export function createEntityStores<EntityClassType>(
+	EntityClass: { new (arg?: any): EntityClassType },
+	entityAPI: EntityAPI<any>
+) {
+	function convertToArray(entitiesData: { [key: string]: any }) {
 		return Object.entries(entitiesData || {}).map(
 			([key, entity]: [string, typeof EntityClass]) => new EntityClass({ ...entity, id: key })
 		);
@@ -36,7 +39,7 @@ export function createEntityStores<EntityType>(EntityClass: any, entityAPI: Enti
 				loadingPrivate.set(false);
 			});
 		},
-		[] as EntityType[]
+		[] as EntityClassType[]
 	);
 
 	return { records, loading };
