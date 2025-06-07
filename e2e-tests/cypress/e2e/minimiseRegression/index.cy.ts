@@ -59,21 +59,21 @@ describe('Grow Run Archive', () => {
 
 		// TODO: add location by address search
 		// growRun.addLocation('address search', '7 Auburn Street, Grafton, Auckland');
-		// const growRunLocationCoords = {
-		// 	latitude: -36.86611935343806,
-		// 	longitude: 174.76589777209952
-		// };
-		// growRun.addLocationByCoords('coords', growRunLocationCoords);
-		// growRun.location
-		// 	.should('include.text', 'Auckland')
-		// 	.invoke('attr', 'href')
-		// 	.should(
-		// 		'equal',
-		// 		`https://www.google.com/maps/place/${growRunLocationCoords.latitude},${growRunLocationCoords.longitude}`
-		// 	);
-		// growRunsManager.goToAll();
-		// // growRun.preview.should('include.text', 'Auckland'); // TODO!!! get this working
-		// growRun.showAllDetails();
+		const growRunLocationCoords = {
+			latitude: -36.86611935343806,
+			longitude: 174.76589777209952
+		};
+		growRun.addLocationByCoords('coords', growRunLocationCoords);
+		growRun.location
+			.should('include.text', 'Auckland')
+			.invoke('attr', 'href')
+			.should(
+				'equal',
+				`https://www.google.com/maps/place/${growRunLocationCoords.latitude},${growRunLocationCoords.longitude}`
+			);
+		growRunsManager.goToAll();
+		// growRun.preview.should('include.text', 'Auckland'); // TODO!!! get this working
+		growRun.showAllDetails();
 
 		// DOESN"T WORK ON CHROME, WORKS ON EDGE
 		// cy.origin('https://www.google.com', () => {
