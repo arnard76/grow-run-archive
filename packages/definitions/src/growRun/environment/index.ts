@@ -8,6 +8,6 @@ export const environmentalConditions = [
 	'co2'
 ] as const satisfies string[];
 
-export type EnvironmentalCondition = (typeof environmentalConditions)[number];
+export type EnvironmentalCondition = (typeof environmentalConditions)[number] | string;
 
 export * from './missingDataNotification/index.js';
