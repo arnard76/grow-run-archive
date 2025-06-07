@@ -48,7 +48,6 @@
 				body: JSON.stringify({ coords: coordinates })
 			})
 		).json();
-		console.log({ geocodeResult });
 
 		try {
 			city = parseCity(geocodeResult);

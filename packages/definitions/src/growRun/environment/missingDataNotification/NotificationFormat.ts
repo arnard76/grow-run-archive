@@ -26,14 +26,6 @@ export class NotificationFormat {
 		growRunStartTime: DateTime,
 		notificationInfo: NotificationInformation
 	) => {
-		// const conditionWithTheMostDataLoss = Object.entries(notificationInfo).sort(
-		// 	([, missingData], [, missingData2]) =>
-		// 		missingData.numOfMissingRecordings - missingData2.numOfMissingRecordings
-		// )[0][0];
-		// const { lastRecordingDateTime: leastRecentRecordingDateTime } =
-		// 	notificationInfo[conditionWithTheMostDataLoss];
-		// const longestDurationMissed = dayjs(leastRecentRecordingDateTime).fromNow();
-
 		const { numRecordingsMissed: mostNumRecordingsMissed } = Object.values(
 			notificationInfo
 		).toSorted((c1, c2) =>

@@ -108,25 +108,6 @@ export class GrowRun {
 		return dayjs(end).diff(start, 'days', true);
 	}
 
-	// recordCondition(condition: keyof ConditionsData, { dateTime, value }: ConditionMeasurement) {
-	// 	this.conditions[condition] = this.conditions[condition] || {};
-
-	// 	if (
-	// 		Object.values(this.conditions[condition])
-	// 			.map((record) => record.dateTime)
-	// 			.includes(dateTime)
-	// 	)
-	// 		throw Error('This date time already has a temperature recorded. Try editing instead?');
-
-	// 	// this.conditions[medium]?.push({ dateTime, value });
-	// 	set(
-	// 		push(
-	// 			ref(getDatabase(), `${get(session).user?.uid}/grow-runs/${this.id}/conditions/${condition}`)
-	// 		),
-	// 		{ dateTime, value }
-	// 	);
-	// }
-
 	// updateTemperatureRecord(medium){}
 
 	// NOPPPPEEEEE: if the temperatures are measured after various time intervals,
