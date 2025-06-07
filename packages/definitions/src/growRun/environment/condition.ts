@@ -1,28 +1,30 @@
+import { EnvironmentalCondition } from './index.js';
+
 export type ConditionMeasurement = {
 	dateTime: ExternalConditionsMeasurements['dateTime'];
-	value: ExternalConditionsMeasurements['conditions'][''];
+	value: ExternalConditionsMeasurements['conditions']['air-temperature'];
 };
 
 export type ConditionMeasurements = { [id: string | number]: ConditionMeasurement } | null;
 
-export type ConditionsMeasurements = {
-	[conditionName in string]: ConditionMeasurements;
-};
+export type ConditionsMeasurements = Partial<Record<EnvironmentalCondition, ConditionMeasurements>>;
 
 export type ExternalConditionsMeasurements = {
 	dateTime: string;
-	conditions: {
-		[conditionName in string]: number;
-	};
+	conditions: Partial<Record<EnvironmentalCondition, number>>;
 };
 
-export function getConditionMetadata(conditionName?: keyof ConditionsMeasurements) {
+export function getConditionMetadata(conditionName?: EnvironmentalCondition) {
 	if (conditionName && conditionsMetadata[conditionName]) return conditionsMetadata[conditionName];
 
 	return { units: 'NULLUNITS' };
 }
 
-type ConditionMetadata = { [key in string]: { units: string; verbose?: string } };
+type ConditionMetadata = Partial<
+	Record<EnvironmentalCondition, { units: string; verbose?: string }>
+>;
+
+// { [key in string]: { units: string; verbose?: string } };
 
 export const conditionsMetadata: ConditionMetadata = {
 	humidity: { units: '%' },
@@ -34,6 +36,6 @@ export const conditionsMetadata: ConditionMetadata = {
 	co2: { units: 'ppm' }
 };
 
-export function verboseConditionName(conditionName: keyof ConditionsMeasurements) {
+export function verboseConditionName(conditionName: EnvironmentalCondition) {
 	return getConditionMetadata(conditionName).verbose || conditionName.replaceAll('-', ' ');
 }

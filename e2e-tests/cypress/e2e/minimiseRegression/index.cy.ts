@@ -1,16 +1,10 @@
 import Mailjs from '@cemalgnlts/mailjs';
 import dayjs from '@grow-run-archive/dayjs';
-import {
-	DateTime,
-	GrowRun,
-	NotificationFormat,
-	NotificationInformation,
-	NotificationRequirements
-} from '@grow-run-archive/definitions';
+import { NotificationFormat, NotificationRequirements } from '@grow-run-archive/definitions';
 import { fastForward, fastForwardedTime } from '../../mocks/fastForward';
-import { login, signup, UserCredentials } from './actions/userActions';
 import { GrowRunManager, growRunsManager } from './actions/growRunActions';
 import { resourcesManager } from './actions/resourceActions';
+import { User } from './actions/userActions';
 import { formatResourcesAsObjects } from './util/convertStringRequirementsToObjects';
 
 const exampleResources = formatResourcesAsObjects([
@@ -33,7 +27,7 @@ const notificationFormat = new NotificationFormat(notificationRequirements);
 
 describe('Grow Run Archive', () => {
 	const mailjs = new Mailjs();
-	let userCredentials: UserCredentials;
+	let user: User;
 
 	before(() => {
 		cy.wrap(null).then(async () => {
@@ -48,9 +42,9 @@ describe('Grow Run Archive', () => {
 				return true;
 			}).then(() => {
 				console.log(createdAccount);
-				userCredentials = { username: mailjs.address, password: mailjs.address };
-				signup(mailjs.address, mailjs.address);
-				login(mailjs.address, mailjs.address);
+				user = new User({ username: mailjs.address, password: mailjs.address });
+				user.signup();
+				user.login();
 			});
 		});
 	});
@@ -59,7 +53,7 @@ describe('Grow Run Archive', () => {
 		let daysPassedAtStart = fastForwardedTime;
 		resourcesManager.addMultiple(exampleResources);
 
-		const growRun = new GrowRunManager('BCKIN AKL - Grow Run #17', userCredentials);
+		const growRun = new GrowRunManager('BCKIN AKL - Grow Run #17');
 		growRun.showAllDetails();
 		growRun.start();
 
@@ -96,8 +90,8 @@ describe('Grow Run Archive', () => {
 		growRun.manuallyRecordUsageOfResources(resourceUsage2);
 
 		const time = dayjs().toISOString();
-		growRun.recordEnvironmentalConditions(time, { 'air-temperature': 9 });
-		growRun.testEnvironmentalConditions('air-temperature', 9, time);
+		growRun.environment.recordConditions(time, { 'air-temperature': 9 }, user.credentials);
+		growRun.environment.testCondition('air-temperature', 9, time);
 		fastForward(20);
 		growRun.manuallyRecordHarvest(['23g 15leaves']);
 
@@ -127,7 +121,7 @@ describe('Grow Run Archive', () => {
 	 */
 	it('notifies user if grow run is missing environment', () => {
 		// SETUP GROW RUN
-		const growRun = new GrowRunManager('Notification test', userCredentials);
+		const growRun = new GrowRunManager('Notification test');
 		growRun.showAllDetails();
 		// start time can not be more specific than minutes because of <input type="date" />
 		// start time has to be in the future otherwise test will miss the notification for first missed recording
@@ -138,9 +132,9 @@ describe('Grow Run Archive', () => {
 		const time = startTime
 			.add(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL * 0.95)
 			.toISOString();
-		growRun.recordEnvironmentalConditions(time, { 'air-temperature': 9 });
-		growRun.recordEnvironmentalConditions(time, { co2: 9 });
-		growRun.recordEnvironmentalConditions(time, { humidity: 9 });
+		growRun.environment.recordConditions(time, { 'air-temperature': 9 }, user.credentials);
+		growRun.environment.recordConditions(time, { co2: 9 }, user.credentials);
+		growRun.environment.recordConditions(time, { humidity: 9 }, user.credentials);
 
 		// CHECK CURRENT MESSAGES AND
 		// WAIT UNTIL NEXT READINGS "SHOULD" ARRIVE
@@ -149,7 +143,7 @@ describe('Grow Run Archive', () => {
 
 		cy.url().then((url) => {
 			const growRunId = url.split(growRunsManager.entityURL + '/')[1];
-			growRun.waitForAndTestNotification(
+			growRun.environment.waitForAndTestNotification(
 				startTime.toISOString(),
 				growRunId,
 				notificationFormat,
@@ -164,7 +158,7 @@ describe('Grow Run Archive', () => {
 
 			// WAIT UNTIL ENOUGH RECORDINGS ARE MISSED TO SEND NEXT NOTIFICATION
 			cy.wait(notificationRequirements.thresholdsInMS[1]).then(() => {
-				growRun.waitForAndTestNotification(
+				growRun.environment.waitForAndTestNotification(
 					startTime.toISOString(),
 					growRunId,
 					notificationFormat,
