@@ -104,7 +104,7 @@ export const resourcesList = {
 			(resource: any) => resource.name === resourceName
 		);
 
-		return new Resource(resource || noResourceFound);
+		return resource || new Resource(noResourceFound);
 	},
 
 	async editResource(resourceToEdit: Resource) {
