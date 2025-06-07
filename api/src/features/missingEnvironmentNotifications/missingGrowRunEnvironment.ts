@@ -143,7 +143,7 @@ export class MissingEnvironmentDetective {
 			missingData[conditionName] = { lastRecordingDateTime };
 		});
 
-		return missingData;
+		return Object.keys(missingData).length ? missingData : undefined;
 	}
 
 	calculateNumOfMissingRecordings(fromTime: DateTime) {
