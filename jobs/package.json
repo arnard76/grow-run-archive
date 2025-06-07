@@ -4,9 +4,9 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "nodemon -x tsx ./cronJobs.ts",
+		"dev": "nodemon -x tsx ./src/cronJobs.ts",
 		"build": "tsc --build && tsc-alias",
-		"start": "node ./cronJobs.js",
+		"start": "node ./dist/cronJobs.js",
 		"deploy:development": "npm run build && vercel build && vercel deploy --prebuilt",
 		"deploy:production": "npm run build && vercel build --prod && vercel --prod deploy --prebuilt",
 		"prettier": "npx prettier . --check",
@@ -20,8 +20,10 @@
 		"tsx": "^4.19.4",
 		"typescript": "^5.8.3"
 	},
-	"main": "./cronJobs.js",
+	"main": "./dist/cronJobs.js",
 	"dependencies": {
+		"@grow-run-archive/definitions": "*",
+		"@grow-run-archive/dayjs": "*",
 		"node-cron": "^4.0.7"
 	}
 }
