@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type GrowRun from '$features/grow-run';
+	import { environmentalConditions } from '@grow-run-archive/definitions';
 	import ConditionSection from './condition/StandardSection.svelte';
 	import TimezoneInput from './TimezoneInput.svelte';
 
@@ -18,11 +19,9 @@
 	<h2>Conditions</h2>
 	<TimezoneInput bind:timezone />
 
-	<ConditionSection {growRun} {timezone} conditionName="air-temperature" />
-	<ConditionSection {growRun} {timezone} conditionName="water-temperature" />
-	<ConditionSection {growRun} {timezone} conditionName="humidity" />
-	<ConditionSection {growRun} {timezone} conditionName="water-level" />
-	<ConditionSection {growRun} {timezone} conditionName="pH" />
-	<ConditionSection {growRun} {timezone} conditionName="average-illuminance-at-netcup" />
-	<ConditionSection {growRun} {timezone} conditionName="co2" />
+	{#each environmentalConditions as environmentConditionName}
+		<!-- TODO: don't show condition if it doesn't have any data -->
+		<!-- Can only do this ☝️☝️ if you can manually add a condition without existing data -->
+		<ConditionSection {growRun} {timezone} conditionName={environmentConditionName} />
+	{/each}
 </section>
