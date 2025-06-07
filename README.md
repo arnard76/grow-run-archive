@@ -9,7 +9,16 @@
 
 [Grow Run Archive - Demo 2024.webm](https://github.com/user-attachments/assets/2d152d34-d577-444d-9a20-97c15630539f)
 
-## External Services
+## Deployment
+
+### Infrastructure
+
+Automate some of the setup using terraform templates:
+
+- Firebase Project
+- Neon Project
+
+### External Services
 
 - Mailer : [Brevo](https://www.brevo.com/)
 - Primary Database : [Firebase](https://firebase.google.com/?authuser=0)
@@ -21,3 +30,8 @@ Follow these links and create an account for each service and add you credential
 For local development, create .env files with the format specified in [.env.example](./.env.example). There are several .env files that separate out the environment variables required for each application/microservice.
 
 For deployment, add the environment variables to your host platform, [Vercel](https://vercel.com/docs/environment-variables) or [Render](https://render.com/docs/configure-environment-variables) for example. If environment variables are not found, try adding all variables in the .env files to the host platform.
+
+1. Brevo
+2. Firebase
+   - init firebase auth
+   - copy paste security rules for firebase realtime database from development project
