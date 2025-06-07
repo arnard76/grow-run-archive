@@ -1,4 +1,4 @@
-import { Resource, resourceActionNames } from '@grow-run-archive/definitions';
+import { ResourceType as Resource, resourceActionNames } from '@grow-run-archive/definitions';
 import { EntitiesManager, EntityManager } from '../entity/manager';
 
 class ResourcesManager extends EntitiesManager {

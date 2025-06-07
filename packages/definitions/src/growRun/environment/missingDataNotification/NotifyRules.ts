@@ -1,18 +1,25 @@
 import { ConditionMeasurement, ConditionsMeasurements } from '../condition.js';
 import dayjs from '@grow-run-archive/dayjs';
-import { environmentConditions } from '../index.js';
+import { environmentalConditions } from '../index.js';
 
-export type MissingEnvironmentData = {
-	[conditionName: keyof ConditionsMeasurements]: {
-		lastRecordingDateTime: ConditionMeasurement['dateTime'] | null;
-	};
-};
+export type MissingEnvironmentData = Partial<
+	Record<
+		keyof ConditionsMeasurements,
+		{
+			lastRecordingDateTime: ConditionMeasurement['dateTime'] | null;
+		}
+	>
+>;
 
-export type NotificationInformation = MissingEnvironmentData & {
-	[conditionName: keyof ConditionsMeasurements]: {
-		numRecordingsMissed: number;
-	};
-};
+export type NotificationInformation = MissingEnvironmentData &
+	Partial<
+		Record<
+			keyof ConditionsMeasurements,
+			{
+				numRecordingsMissed: number;
+			}
+		>
+	>;
 
 export class NotificationRequirements {
 	multiplier: number;
@@ -48,7 +55,7 @@ export class NotificationRequirements {
 	}
 
 	get monitoredConditions(): string[] {
-		const monitoredConditions: (typeof environmentConditions)[number][] = [
+		const monitoredConditions: (typeof environmentalConditions)[number][] = [
 			'air-temperature',
 			'water-temperature',
 			'co2',
