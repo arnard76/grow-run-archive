@@ -1,8 +1,8 @@
 {
 	"extends": "@tsconfig/node-lts/tsconfig.json",
 	"compilerOptions": {
-		"baseUrl": "./",
-		"rootDir": "./",
+		"baseUrl": "./src",
+		"rootDir": "./src",
 		"paths": {
 			"@/*": ["./*"]
 		},
