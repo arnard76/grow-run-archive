@@ -93,9 +93,7 @@ export class GrowRunEnvironmentManager {
 		// WAIT up to 2 minutes for the notification
 		const timeoutThreshold = dayjs().add(2, 'minutes');
 		let notification = undefined;
-		// let messageSubjectFormat = notificationFormat.messageSubject(growRun.growRunName, growRunId);
 		cy.recursionLoop(async () => {
-			cy.wait(10000);
 			let messages = (await mailjs.getMessages()).data;
 			const notifications = messages.filter(
 				(message) =>
@@ -110,32 +108,25 @@ export class GrowRunEnvironmentManager {
 				console.error('There are too many notifications generated', { notifications });
 
 			if (timeoutThreshold.isBefore(dayjs())) throw Error('notification not recieved');
-			return !notification;
+
+			if (notification) return false; // break loop
+			cy.wait(10000);
+			return true; // continue loop
 		})
 
 			.then(async () => {
-				const fullNotification = await mailjs.getMessage(notification.id);
+				const fullNotification = (await mailjs.getMessage(notification.id)).data;
 				const expectedMessageContents = expectedNotificationFormat.messageContents(
 					this.growRunName,
 					growRunId,
 					growRunStartTime,
 					expectedMissingData
 				);
-				this.testNotificationMessageContents(
-					fullNotification.data.html[0],
-					growRunStartTime,
-					growRunId,
-					expectedMessageContents
-				);
+				this.testNotificationMessageContents(fullNotification.html[0], expectedMessageContents);
 			});
 	}
 
-	testNotificationMessageContents(
-		actualNotificationHTML: string,
-		growRunStartTime: DateTime,
-		growRunId: GrowRun['id'],
-		expectedMessageContents: string
-	) {
+	testNotificationMessageContents(actualNotificationHTML: string, expectedMessageContents: string) {
 		cy.openHTML(actualNotificationHTML);
 
 		// SUMMARY SECTION
