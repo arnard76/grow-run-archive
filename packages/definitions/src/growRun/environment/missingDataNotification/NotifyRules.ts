@@ -51,6 +51,12 @@ export class NotificationRequirements {
 		return this.thresholds.map(([value, unit]) => dayjs.duration(value, unit).asMilliseconds());
 	}
 
+	get numRecordingsMissedInThresholds() {
+		return this.thresholdsInMS.map((thresholdInMS) =>
+			Math.floor(thresholdInMS / this.ENVIRONMENTAL_DATA_INTERVAL)
+		);
+	}
+
 	get monitoredConditions(): string[] {
 		const monitoredConditions: (typeof environmentalConditions)[number][] = [
 			'air-temperature',

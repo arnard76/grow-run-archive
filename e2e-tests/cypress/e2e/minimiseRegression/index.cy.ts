@@ -149,7 +149,7 @@ describe('Grow Run Archive', () => {
 				notificationFormat,
 				{
 					'water-temperature': {
-						numRecordingsMissed: 1,
+						numRecordingsMissed: notificationRequirements.numRecordingsMissedInThresholds[0],
 						lastRecordingDateTime: null
 					}
 				},
@@ -158,18 +158,25 @@ describe('Grow Run Archive', () => {
 
 			// WAIT UNTIL ENOUGH RECORDINGS ARE MISSED TO SEND NEXT NOTIFICATION
 			cy.wait(notificationRequirements.thresholdsInMS[1]).then(() => {
+				const mostRecordingsMissed = notificationRequirements.numRecordingsMissedInThresholds[1];
 				growRun.environment.waitForAndTestNotification(
 					startTime.toISOString(),
 					growRunId,
 					notificationFormat,
 					{
 						'water-temperature': {
-							numRecordingsMissed: 12,
+							numRecordingsMissed: mostRecordingsMissed,
 							lastRecordingDateTime: null
 						},
-						'air-temperature': { lastRecordingDateTime: time, numRecordingsMissed: 11 },
-						humidity: { lastRecordingDateTime: time, numRecordingsMissed: 11 },
-						co2: { lastRecordingDateTime: time, numRecordingsMissed: 11 }
+						'air-temperature': {
+							lastRecordingDateTime: time,
+							numRecordingsMissed: mostRecordingsMissed - 1
+						},
+						humidity: {
+							lastRecordingDateTime: time,
+							numRecordingsMissed: mostRecordingsMissed - 1
+						},
+						co2: { lastRecordingDateTime: time, numRecordingsMissed: mostRecordingsMissed - 1 }
 					},
 					mailjs
 				);
