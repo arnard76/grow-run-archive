@@ -1,4 +1,4 @@
-name: End-to-end tests
+name: End-to-end test development preview
 on:
   push:
     branches:
@@ -18,8 +18,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          build: npm run build
-          start: npm start
+          build: turbo build --filter=@grow-run-archive/e2e-tests
           command: npm run e2e-pipeline
           # quote the url to be safe against YML parsing surprises
           wait-on: '${{ secrets.PUBLIC_UI_URL }}, ${{ secrets.PUBLIC_API_URL }}'
