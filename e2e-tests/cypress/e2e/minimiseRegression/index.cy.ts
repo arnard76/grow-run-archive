@@ -159,7 +159,10 @@ describe('Grow Run Archive', () => {
 			);
 
 			// WAIT UNTIL ENOUGH RECORDINGS ARE MISSED TO SEND NEXT NOTIFICATION
-			cy.wait(notificationRequirements.thresholdsInMS[1]).then(() => {
+			const waitUntilSecondThreshold = startTime
+				.add(notificationRequirements.thresholdsInMS[1])
+				.diff();
+			cy.wait(waitUntilSecondThreshold).then(() => {
 				const mostRecordingsMissed = notificationRequirements.numRecordingsMissedInThresholds[1];
 				growRun.environment.waitForAndTestNotification(
 					startTime.toISOString(),
