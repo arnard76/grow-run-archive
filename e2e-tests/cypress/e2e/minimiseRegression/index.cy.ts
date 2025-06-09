@@ -127,6 +127,8 @@ describe('Grow Run Archive', () => {
 		// start time has to be in the future otherwise test will miss the notification for first missed recording
 		const startTime = dayjs().add(1, 'minute').set('seconds', 0).set('milliseconds', 0);
 		growRun.start(startTime);
+		// end in case test fails (so GR no longer active)
+		growRun.end(startTime.add(notificationRequirements.thresholdsInMS[2]));
 
 		// INITIAL ENVIRONMENT READINGS (but miss next one)
 		const time = startTime
@@ -139,7 +141,7 @@ describe('Grow Run Archive', () => {
 		// CHECK CURRENT MESSAGES AND
 		// WAIT UNTIL NEXT READINGS "SHOULD" ARRIVE
 		cy.wait(60_000); // wait until GR starts
-		cy.wait(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL * 2);
+		cy.wait(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL);
 
 		cy.url().then((url) => {
 			const growRunId = url.split(growRunsManager.entityURL + '/')[1];

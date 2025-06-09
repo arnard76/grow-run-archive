@@ -211,17 +211,17 @@ export class GrowRunManager implements EntityManager {
 		// 	.scrollIntoView();
 	}
 
-	end() {
+	end(endTime?: dayjs.Dayjs) {
 		cy.window().then((win) => {
 			this.heroSection.find(`button[title='${growRunActionNames.changeStartAndEnd}']`).click();
-			let endTime = dayjs(win.Date());
+			endTime = endTime || dayjs(win.Date());
 			const endTimeInput = endTime.format('YYYY-MM-DDTHH:mm');
 			cy.findByLabelText(/End Date:/i).type(endTimeInput);
 			this.heroSection.find(`button[title='${growRunActionNames.finishEdit}']`).click();
 
 			cy.reload();
-			const displayedStartTime = endTime.format('D MMM YYYY, h:mm a');
-			this.heroSection.findByText(displayedStartTime).should('be.visible');
+			const displayedEndTime = endTime.format('D MMM YYYY, h:mm a');
+			this.heroSection.findByText(displayedEndTime).should('be.visible');
 		});
 	}
 
