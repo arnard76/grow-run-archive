@@ -62,8 +62,8 @@ class Controller implements EntityController {
 
 			res.sendStatus(StatusCodes.OK);
 		} catch (e: any) {
-			res.status(StatusCodes.BAD_REQUEST);
-			res.send(fromError(e).toString());
+			console.error(e);
+			res.sendStatus(StatusCodes.BAD_REQUEST);
 		}
 	};
 }
