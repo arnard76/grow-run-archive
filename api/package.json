@@ -30,6 +30,7 @@
 		"jsonwebtoken": "^9.0.2",
 		"mongodb": "^6.16.0",
 		"nodemailer": "^6.10.1",
+		"socket.io": "^4.8.1",
 		"ws": "^8.18.2",
 		"zod-validation-error": "^3.4.1"
 	},

@@ -1,6 +1,6 @@
-import { EntityAPI } from '$lib/entity/api';
-import { createEntityStores as createEntityStore } from '$lib/entity/store';
-import Resource from '$features/resource';
+import { EntityAPIClient } from '$lib/entity/apiClient';
+import { createEntityStores as createEntityStore } from '$lib/entity/backendStore';
+import { Resource } from '@grow-run-archive/definitions';
 import { session } from '$lib/user/user';
 import {
 	deleteObject,
@@ -23,7 +23,7 @@ const noResourceFound = {
 	notes: ''
 };
 
-export const resourcesAPI = new EntityAPI<Resource>('resource-list', 'id');
+export const resourcesAPI = new EntityAPIClient<Resource>('resource-list', 'id');
 
 const { loading, records: resourcesStore } = createEntityStore(Resource, resourcesAPI);
 

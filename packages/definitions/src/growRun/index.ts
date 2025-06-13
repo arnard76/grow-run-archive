@@ -5,7 +5,7 @@ import { Harvest } from './harvest.js';
 import { ResourceUsage } from './resourceUsage.js';
 import { Location } from './location.js';
 import dayjs from '@grow-run-archive/dayjs';
-import Resource from '../resource.js';
+import { Resource } from '../resource.js';
 
 export type GrowRunType = {
 	id: string;

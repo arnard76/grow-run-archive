@@ -45,7 +45,7 @@
 
 	session.set({ user: null, loading: true });
 	$resourcesList;
-	$growRuns;
+	$: console.log($growRuns);
 </script>
 
 <Loading loading={$session.loading || $growRunsLoading || $resourcesLoading}>

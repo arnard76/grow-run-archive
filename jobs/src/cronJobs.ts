@@ -77,4 +77,4 @@ async function createMissingEnvironmentNotificationsCronJob() {
 		: new MissingEnvironmentNotificationsCronJobDeployed();
 }
 
-createMissingEnvironmentNotificationsCronJob().then((cronJob) => cronJob.start());
+// createMissingEnvironmentNotificationsCronJob().then((cronJob) => cronJob.start());

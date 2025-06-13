@@ -25,6 +25,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { StatusCodes } from 'http-status-codes';
+import { createWebsocketApplication } from './sockets.js';
 const __filename = fileURLToPath(import.meta.url);
 fs.readdir(`${path.dirname(__filename)}/features`, (err, files) => {
 	files.forEach((file) => {
@@ -39,10 +40,14 @@ fs.readdir(`${path.dirname(__filename)}/features`, (err, files) => {
 	});
 	apiRouter.get('*', (req: Request, res: Response) => res.sendStatus(StatusCodes.NOT_FOUND));
 
-	app.use('/api', apiRouter);
+	app.use(apiRouter);
 	console.info('All routes registered');
 });
 
-app.listen(port, () => {
+import http from 'http';
+const server = http.createServer(app);
+createWebsocketApplication(server, app);
+
+server.listen(port, () => {
 	console.log(`Server is running at http://localhost:${port}`);
 });

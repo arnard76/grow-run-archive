@@ -1,4 +1,4 @@
-import type Resource from '$features/resource';
+import { type Resource } from '@grow-run-archive/definitions';
 import { resourcesList } from '$features/resource/store';
 import { session } from '$lib/user/user';
 import { getDatabase, push, ref } from '@firebase/database';
