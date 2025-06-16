@@ -81,7 +81,7 @@
 <section>
 	<EditTemplate
 		onUpdate={() => growRunsAPI.updatePartial(growRun.id, { location: updatedGrowRunLocation })}
-		editText={growRunActionNames.addLocation}
+		editText={growRunActionNames.changeLocation}
 		currentValue={growRun.location}
 		bind:editedValue={updatedGrowRunLocation}
 	>

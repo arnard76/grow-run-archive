@@ -6,7 +6,7 @@
 	export let onAdd = () => {};
 	export let onCancel = () => {};
 
-	let expanded = false;
+	export let expanded = false;
 </script>
 
 {#if expanded}

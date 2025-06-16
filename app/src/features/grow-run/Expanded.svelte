@@ -11,31 +11,12 @@
 
 	export let growRun: GrowRun;
 
-	let expandedGrowRunModal: undefined | HTMLDialogElement;
-
-	$: if (expandedGrowRunModal) expandedGrowRunModal.showModal();
-
 	function closeGrowRun() {
-		expandedGrowRunModal?.close();
 		goto('/grow-runs');
 	}
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<dialog
-	bind:this={expandedGrowRunModal}
-	aria-modal
-	class="grow-run-archive-expanded-modal"
-	on:click={(e) => {
-		if (!expandedGrowRunModal) return;
-		const { left, right, top, bottom } = expandedGrowRunModal.getBoundingClientRect();
-
-		if (e.clientX < left || e.clientX > right || e.clientY < top || e.clientY > bottom) {
-			closeGrowRun();
-		}
-	}}
-	on:keypress
->
+<div class="overflow-x-clip">
 	<section class="flex items-start drop-shadow-md rounded-b-xl w-full bg-blue-400 text-white">
 		<div class="flex-1 w-[90%]">
 			<DetailsSection {growRun} />
@@ -64,13 +45,9 @@
 	>
 		<Icon icon="tabler:trash" />
 	</button>
-</dialog>
+</div>
 
 <style lang="postcss">
-	dialog {
-		@apply p-0 m-auto border-none rounded-xl drop-shadow-md max-h-[90vh] md:max-w-[75%] w-full;
-	}
-
 	hr {
 		@apply border-dashed border-8 border-blue-400;
 	}

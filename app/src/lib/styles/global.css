@@ -123,13 +123,13 @@ tbody td:last-of-type {
 	border-bottom-right-radius: 10px;
 }
 
-/* grow run modal */
+/* grow run page */
 
-.grow-run-archive-expanded-modal section {
+.grow-run-page section {
 	@apply mb-4;
 }
 
-.grow-run-archive-expanded-modal > section {
+.grow-run-page > section {
 	@apply p-8 w-full;
 }
 

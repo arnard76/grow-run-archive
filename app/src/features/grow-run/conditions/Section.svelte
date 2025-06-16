@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type GrowRun from '$features/grow-run';
 	import { environmentalConditions } from '@grow-run-archive/definitions';
-	import ConditionSection from './condition/StandardSection.svelte';
+	import ConditionSection from './condition/Section.svelte';
 	import TimezoneInput from './TimezoneInput.svelte';
 
 	export let growRun: GrowRun;
