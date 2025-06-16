@@ -102,10 +102,11 @@ export class GrowRun {
 
 	calculateDurationInDays(): number {
 		const start = this.duration?.start;
-		const end = this.duration?.end || dayjs();
+		const end = this.duration?.end;
 		if (!start) return NaN;
+		if (dayjs(start).isAfter() && !end) return NaN;
 
-		return dayjs(end).diff(start, 'days', true);
+		return dayjs(end || dayjs()).diff(start, 'days', true);
 	}
 
 	// updateTemperatureRecord(medium){}
