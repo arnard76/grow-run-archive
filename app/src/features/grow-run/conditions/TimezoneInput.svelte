@@ -5,7 +5,7 @@
 	export let timezone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;
 </script>
 
-<label class="flex flex-wrap gap-2">
+<label class="flex flex-wrap gap-2 items-center">
 	Timezone
 	<select bind:value={timezone}>
 		{#each timezonesSorted as timezone (timezone.text)}
