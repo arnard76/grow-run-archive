@@ -14,7 +14,7 @@
 
 	{#if growRunDuration}
 		<p class="mt-4">
-			Total duration
+			Duration
 			<i>
 				{growRunDuration.toFixed(2)} days
 			</i>
