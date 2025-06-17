@@ -17,6 +17,7 @@
 	on:keypress|capture={(e) => {
 		if (e.key === '/') {
 			e.preventDefault();
+			e.stopPropagation();
 			showActionsMenu = !showActionsMenu;
 		}
 	}}
@@ -25,7 +26,9 @@
 {#if showActionsMenu}
 	<Modal onClose={() => (showActionsMenu = false)}>
 		<!-- SEARCH BAR -->
-		<input type="text" bind:value={searchTermForAction} placeholder="Search actions" />
+		{#if actions.length > 1}
+			<input type="text" bind:value={searchTermForAction} placeholder="Search actions" />
+		{/if}
 
 		<!-- ACTIONS -->
 		<div class="flex flex-col items-start gap-2 text-nowrap mt-2">

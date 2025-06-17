@@ -7,10 +7,8 @@
 </script>
 
 <section>
-	<p>
-		Ran from <span class="italic">{prettyFormatDate(growRun.duration?.start) || '-'}</span>
-		<br />to <span class="italic">{prettyFormatDate(growRun.duration?.end) || '-'}</span>
-	</p>
+	<p>Started: <span class="italic">{prettyFormatDate(growRun.duration?.start) || '-'}</span></p>
+	<p>Ended: <span class="italic">{prettyFormatDate(growRun.duration?.end) || '-'}</span></p>
 
 	{#if growRunDuration}
 		<p class="mt-4">

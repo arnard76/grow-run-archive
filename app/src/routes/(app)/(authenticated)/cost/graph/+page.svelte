@@ -12,12 +12,12 @@
 		datasets: [
 			{
 				data: $growRuns.map((growRun) => ({
-					x: growRun.duration.start ? new Date(growRun.duration.start).valueOf() : randomMinDate,
+					x: growRun.duration?.start ? new Date(growRun.duration.start).valueOf() : randomMinDate,
 					y: growRun.calculateCostPer100g($resourcesList)
 				})),
 
 				backgroundColor: $growRuns.map((growRun) =>
-					growRun.duration.start ? 'powderblue' : '#124356'
+					growRun.duration?.start ? 'powderblue' : '#124356'
 				)
 			}
 		]
@@ -56,10 +56,12 @@
 	}
 </script>
 
-<h2>Grow Run Cost Archive</h2>
-<p style="font-size: 12px;">
-	*NOTE*: Can't include grow runs that didn't produce any output. (Where would they go? 😁)
-</p>
-<div>
-	<canvas bind:this={canvas} class="h-[90vh]"></canvas>
-</div>
+<main class="p-2">
+	<h1>Grow Runs Cost Chart</h1>
+	<p style="font-size: 12px;">
+		*NOTE*: Can't include grow runs that didn't produce any output. (Where would they go? 😁)
+	</p>
+	<div>
+		<canvas bind:this={canvas} class="h-[90vh]"></canvas>
+	</div>
+</main>

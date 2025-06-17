@@ -8,6 +8,8 @@
 	export let onCancel = () => null as any;
 </script>
 
+<h3 class="m-0 mb-4">{actionName}</h3>
+
 <form>
 	<slot />
 	<div>

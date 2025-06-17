@@ -1,3 +1,4 @@
+<!-- TODO: export should also include the photos -->
 <script lang="ts">
 	import type GrowRun from '$features/grow-run';
 	import { session } from '$lib/user/user';
@@ -5,6 +6,7 @@
 	import { JsonView } from '@zerodevx/svelte-json-view';
 
 	export let growRun: GrowRun;
+	export let closeModal: () => any;
 
 	function downloadGrowRunData() {
 		const growRunData =
@@ -16,6 +18,7 @@
 			`${$session.user?.uid}_${growRun.id}_${dayjs().toISOString()}.json`
 		);
 		downloadEl.click();
+		closeModal();
 	}
 </script>
 
