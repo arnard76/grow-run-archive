@@ -1,6 +1,6 @@
 import { EntityAPI } from '$lib/entity/api';
 import { createEntityStores as createEntityStore } from '$lib/entity/store';
-import Resource from '$features/resource';
+import { Resource } from '@grow-run-archive/definitions';
 import { session } from '$lib/user/user';
 import {
 	deleteObject,
