@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { session } from '$lib/user/user';
-	import type Resource from '$features/resource';
+	import { session } from '$features/user/session';
+	import { Resource } from '@grow-run-archive/definitions';
 	import { resourcesList } from '$features/resource/store';
 	import { getBlob, getStorage, ref } from 'firebase/storage';
 

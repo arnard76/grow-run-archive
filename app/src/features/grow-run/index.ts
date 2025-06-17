@@ -1,6 +1,6 @@
 import type Resource from '$features/resource';
 import { resourcesList } from '$features/resource/store';
-import { session } from '$lib/user/user';
+import { session } from '$features/user/session';
 import { getDatabase, push, ref } from '@firebase/database';
 import {
 	GrowRun as GrowRunDefinition,

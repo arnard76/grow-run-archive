@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import { session } from '$lib/user/user';
+	import { session } from '$features/user/session';
 
 	import Menu from '$lib/components/Menu.svelte';
 	import { page } from '$app/stores';
@@ -12,6 +12,7 @@
 	import Loading from '$lib/components/Loading.svelte';
 	import { growRuns, growRunsLoading } from '$features/grow-run/store';
 	import { resourcesList, resourcesLoading } from '$features/resource/store';
+	import Icon from '@iconify/svelte';
 
 	let authUnsubscribe = () => {};
 	$: if (browser) {
@@ -58,7 +59,10 @@
 				<p class="hidden md:block">
 					Logged in: <span class="font-bold">{$session.user.email}</span>
 				</p>
-				<a href="/logout" class="nav-item">Logout</a>
+				<a class="nav-item" href="/settings">
+					<Icon icon="tabler:settings" />
+				</a>
+				<a class="nav-item" href="/logout">Logout</a>
 			</div>
 		</div>
 	{/if}

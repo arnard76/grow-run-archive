@@ -4,7 +4,7 @@
 		uploadGrowSetupPhotos,
 		downloadGrowSetupPhotos
 	} from '$features/grow-run/details/photos/photoStorage';
-	import Action from '$features/grow-run/ActionTemplate.svelte';
+	import ActionTemplate from '$lib/components/ActionTemplate.svelte';
 	import { growRunActionNames } from '@grow-run-archive/definitions';
 	import CancelButton from '$lib/components/CancelButton.svelte';
 
