@@ -3,7 +3,7 @@ import { ActionNames } from './entity/actions.js';
 export type ResourceType = any;
 export const resourceActionNames = new ActionNames('Resource');
 
-export default class Resource {
+export class Resource {
 	id: string;
 	name: string;
 	productLink: string;

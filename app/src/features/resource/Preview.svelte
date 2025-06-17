@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type Resource from '.';
+	import { Resource } from '@grow-run-archive/definitions';
 
 	export let resource: Resource;
 
