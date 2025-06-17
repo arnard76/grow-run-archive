@@ -11,11 +11,6 @@
 	<p>Ended: <span class="italic">{prettyFormatDate(growRun.duration?.end) || '-'}</span></p>
 
 	{#if growRunDuration}
-		<p class="mt-4">
-			Duration
-			<i>
-				{growRunDuration.toFixed(2)} days
-			</i>
-		</p>
+		<p>Duration: <span class="italic">{growRunDuration.toFixed(2)} days</span></p>
 	{/if}
 </section>
