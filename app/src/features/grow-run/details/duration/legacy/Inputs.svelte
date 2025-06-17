@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatToLocalDate, formatToUTCISO } from './util';
+	import { formatToLocalDate, formatToUTCISO } from '../util';
 
 	/**have to switch between two formats here
 	 * 1. ISO UTC timezone (what times are stored as)

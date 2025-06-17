@@ -50,7 +50,9 @@
 
 <Loading loading={$session.loading || $growRunsLoading || $resourcesLoading}>
 	{#if $session.user}
-		<div class="flex justify-between flex-wrap bg-gray-800 items-center p-4 text-white">
+		<div
+			class="flex justify-between flex-wrap bg-gray-800 items-center p-4 text-white relative z-10"
+		>
 			<Menu />
 			<div class="flex gap-[15px] items-center">
 				<p class="hidden md:block">
@@ -60,7 +62,5 @@
 			</div>
 		</div>
 	{/if}
-	<div class="p-2">
-		<slot />
-	</div>
+	<slot />
 </Loading>

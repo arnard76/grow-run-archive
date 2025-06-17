@@ -2,9 +2,8 @@
 	import type GrowRun from '$features/grow-run';
 	import { growRunsAPI } from '$features/grow-run/store';
 	import { verboseConditionName, type ConditionsMeasurements } from '@grow-run-archive/definitions';
-	import Add from './Add.svelte';
 	import DefaultFullPeriodGraph from './FullPeriodGraph.svelte';
-	import ListItem from './ListItem.svelte';
+	import ListItem from './ListItemView.svelte';
 	import DefaultTimeOfDayGraph from './TimeOfDayGraph.svelte';
 	import ToggleCharts from './ToggleCharts.svelte';
 
@@ -35,15 +34,9 @@
 		{#if anyRecords}
 			{#if expandRecords}
 				<button on:click={() => (expandRecords = !expandRecords)}>Hide records 🔼</button>
-				<Add {conditionName} {growRun} />
 				<ul class="flex flex-col items-center mt-4">
 					{#each Object.entries(growRun.conditions[conditionName] || {}) as [_, conditionMeasurement] (conditionMeasurement.dateTime)}
-						<ListItem
-							{conditionName}
-							{conditionMeasurement}
-							{timezone}
-							onUpdate={(conditionMeasurement) => growRunsAPI.updateFull(growRun)}
-						/>
+						<ListItem {conditionName} {conditionMeasurement} {timezone} />
 					{/each}
 				</ul>
 
@@ -56,6 +49,5 @@
 				No {verboseConditionName(conditionName)} measurements have been recorded:
 			</p>
 		{/if}
-		<Add {conditionName} {growRun} />
 	</div>
 </section>

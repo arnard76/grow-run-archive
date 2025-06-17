@@ -1,11 +1,12 @@
 <script lang="ts">
-	import AddTemplate from '$lib/components/AddTemplate.svelte';
 	import { growRunsAPI } from '$features/grow-run/store';
 	import type GrowRun from '$features/grow-run';
 	import Inputs from './Inputs.svelte';
-	import type { Harvest } from '@grow-run-archive/definitions';
+	import { growRunActionNames, type Harvest } from '@grow-run-archive/definitions';
+	import ActionTemplate from '../ActionTemplate.svelte';
 
 	export let growRun: GrowRun;
+	export let closeModal: () => any;
 
 	let harvest: Harvest = {} as Harvest;
 
@@ -17,6 +18,10 @@
 	}
 </script>
 
-<AddTemplate onAdd={addHarvest} addText="Record">
+<ActionTemplate
+	actionName={growRunActionNames.recordHarvest}
+	onComplete={addHarvest}
+	onCancel={closeModal}
+>
 	<Inputs bind:harvest />
-</AddTemplate>
+</ActionTemplate>

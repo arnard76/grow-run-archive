@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { resourcesList } from '$features/resource/store';
 	import type GrowRun from '$features/grow-run';
-	import ResourceUsage from './ListItem.svelte';
+	import ResourceUsage from './resource-usage/View.svelte';
 	import PieGraph from './PieGraph.svelte';
-	import Add from './Add.svelte';
+	// import Add from './Add.svelte';
 
 	export let growRun: GrowRun;
 
@@ -18,7 +18,7 @@
 			{#each growRun.resources.used as usageOfResource}
 				{@const resource = resourcesList.getResource(usageOfResource.resourceName)}
 				{#if resource}
-					<ResourceUsage {growRun} {usageOfResource} />
+					<ResourceUsage {usageOfResource} />
 				{/if}
 			{/each}
 			<hr />
@@ -32,7 +32,7 @@
 	{:else}
 		<p class="inline">No usage of resources has been recorded:</p>
 	{/if}
-	<Add {growRun} />
+
 	{#if growRun.resources?.used?.length}
 		<div class="mt-16">
 			<PieGraph pie={pieChartData} sort="alphabet" />

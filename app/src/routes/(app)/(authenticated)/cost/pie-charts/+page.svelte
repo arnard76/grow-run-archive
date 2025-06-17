@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { resourcesList } from '$features/resource/store';
 	import { growRuns } from '$features/grow-run/store';
-	import PieGraph from '$features/grow-run/resource-usage/PieGraph.svelte';
+	import PieGraph from '$features/grow-run/resource-usages/PieGraph.svelte';
 </script>
 
 <div>
