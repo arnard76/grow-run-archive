@@ -3,6 +3,7 @@
 	import type GrowRun from '$features/grow-run';
 	import { session } from '$lib/user/user';
 	import dayjs from '@grow-run-archive/dayjs';
+	import { growRunActionNames } from '@grow-run-archive/definitions';
 	import { JsonView } from '@zerodevx/svelte-json-view';
 
 	export let growRun: GrowRun;
@@ -21,6 +22,8 @@
 		closeModal();
 	}
 </script>
+
+<h3 class="m-0 mb-4">{growRunActionNames.export}</h3>
 
 <div class="my-4">
 	<JsonView json={growRun} />
