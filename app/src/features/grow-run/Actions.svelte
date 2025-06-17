@@ -96,19 +96,18 @@
 
 	{#if openAction}
 		<Modal onClose={closeModal}>
-			{openAction}
 			{#if openAction === growRunActionNames.rename}
 				<RenameAction {growRun} {closeModal} />
 			{:else if openAction === growRunActionNames.changeLocation}
 				<ChangeLocation {growRun} {closeModal} />
 			{:else if openAction === growRunActionNames.useResource}
-				<UseResource {growRun} />
+				<UseResource {growRun} {closeModal} />
 			{:else if openAction === growRunActionNames.recordHarvest}
 				<RecordHarvest {growRun} {closeModal} />
 			{:else if openAction === growRunActionNames.measureEnvironmentalCondition}
-				<MeasureEnvironmentalCondition {growRun} />
+				<MeasureEnvironmentalCondition {growRun} {closeModal} />
 			{:else if openAction === growRunActionNames.export}
-				<Export {growRun} />
+				<Export {growRun} {closeModal} />
 			{:else if openAction === growRunActionNames.manageImages}
 				<ManageImages {growRun} {closeModal} />
 			{/if}

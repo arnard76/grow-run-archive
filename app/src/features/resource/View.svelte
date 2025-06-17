@@ -4,7 +4,7 @@
 	import Inputs from './Inputs.svelte';
 	import Preview from './Preview.svelte';
 	import { resourceActionNames } from '@grow-run-archive/definitions';
-	import ActionTemplate from '$features/grow-run/ActionTemplate.svelte';
+	import ActionTemplate from '$lib/components/ActionTemplate.svelte';
 	import Icon from '@iconify/svelte';
 	import ConfirmActionModal from '$lib/components/ConfirmActionModal.svelte';
 

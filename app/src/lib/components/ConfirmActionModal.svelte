@@ -5,7 +5,17 @@
 	export let actionToConfirm = () => null as any;
 </script>
 
-<div on:click={() => (askForConfirmation = true)} role="button" on:keypress tabindex="-1">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div
+	on:click={() => (askForConfirmation = true)}
+	on:keypress={(e) => {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			e.stopPropagation();
+			askForConfirmation = true;
+		}
+	}}
+>
 	<slot />
 </div>
 
@@ -14,11 +24,13 @@
 		<p>Are you sure?</p>
 		<button
 			title="Confirm Action"
-			on:click={() => {
-				actionToConfirm();
+			on:click|stopPropagation={() => {
 				askForConfirmation = false;
+				actionToConfirm();
 			}}>Yes</button
 		>
-		<button title="Cancel Action" on:click={() => (askForConfirmation = false)}>No</button>
+		<button title="Cancel Action" on:click|stopPropagation={() => (askForConfirmation = false)}
+			>No</button
+		>
 	</Modal>
 {/if}

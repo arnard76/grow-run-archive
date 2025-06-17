@@ -9,12 +9,9 @@
 </script>
 
 <div class="flex-1 w-[90%]">
-	<section class="flex gap-4">
-		<h2 class="inline-block m-0">
-			{growRun.name}
-		</h2>
-		<Location {growRun} />
-	</section>
+	<h2>{growRun.name}</h2>
+
+	<Location {growRun} />
 
 	<Duration {growRun} />
 

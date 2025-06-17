@@ -1,6 +1,6 @@
 <script lang="ts">
 	import units from '$features/grow-run/units';
-	import type Resource from './index';
+	import { Resource } from '@grow-run-archive/definitions';
 
 	export let resourceToCreateOrUpdate: Resource;
 </script>
@@ -30,17 +30,18 @@
 	<pre> of </pre>
 	<input type="text" bind:value={resourceToCreateOrUpdate.name} placeholder="resource name" />
 	<pre> for $</pre>
-	<input type="number" bind:value={resourceToCreateOrUpdate.cost} placeholder="product price" />
+	<input
+		type="number"
+		bind:value={resourceToCreateOrUpdate.cost}
+		placeholder="price"
+		class="w-20"
+	/>
 	<pre>NZD</pre>
 </div>
 
 <label>
 	Product Page URL
-	<input
-		type="text"
-		placeholder="https://company.com/product-id"
-		bind:value={resourceToCreateOrUpdate.productLink}
-	/>
+	<input type="text" placeholder="page URL" bind:value={resourceToCreateOrUpdate.productLink} />
 </label>
 
 <label>

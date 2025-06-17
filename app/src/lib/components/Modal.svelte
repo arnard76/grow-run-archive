@@ -11,7 +11,7 @@
 	bind:this={modal}
 	on:close={onClose}
 	on:keypress
-	on:click|capture={(e) => {
+	on:click={(e) => {
 		if (!modal) return;
 		const { left, right, top, bottom } = modal.getBoundingClientRect();
 

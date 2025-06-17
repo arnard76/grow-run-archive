@@ -33,8 +33,9 @@
 	}
 </script>
 
-<p class="m-0 inline-flex items-center">
+<p>
 	{#if growRun.location}
+		Location:
 		<a
 			href="https://www.google.com/maps/place/{growRun.location.latitude},{growRun.location
 				.longitude}"

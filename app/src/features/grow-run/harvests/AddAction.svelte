@@ -3,7 +3,7 @@
 	import type GrowRun from '$features/grow-run';
 	import Inputs from './Inputs.svelte';
 	import { growRunActionNames, type Harvest } from '@grow-run-archive/definitions';
-	import ActionTemplate from '../ActionTemplate.svelte';
+	import ActionTemplate from '$lib/components/ActionTemplate.svelte';
 
 	export let growRun: GrowRun;
 	export let closeModal: () => any;
