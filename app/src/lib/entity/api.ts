@@ -1,5 +1,5 @@
 import { db } from '$lib/database';
-import { session } from '$lib/user/user';
+import { session } from '$features/user/session';
 import * as firebase from 'firebase/database';
 import { get } from 'svelte/store';
 
