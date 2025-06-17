@@ -43,7 +43,12 @@ nav p,
 	border-radius: 8px;
 	text-decoration: none;
 
-	@apply hover:bg-green-400 transition-all hover:scale-110 text-black;
+	@apply button-hover-effects transition-all  text-black;
+}
+
+.button-hover-effects:hover,
+.button-hover-effects:focus {
+	@apply bg-green-400 scale-110;
 }
 
 button * {

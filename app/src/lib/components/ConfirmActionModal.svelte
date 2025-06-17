@@ -5,7 +5,7 @@
 	export let actionToConfirm = () => null as any;
 </script>
 
-<div on:click={() => (askForConfirmation = true)} on:keypress role="button" tabindex="0">
+<div on:click={() => (askForConfirmation = true)} role="button" on:keypress tabindex="-1">
 	<slot />
 </div>
 

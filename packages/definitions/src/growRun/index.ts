@@ -133,13 +133,13 @@ class GrowRunActionNames extends ActionNames {
 	end = `End Grow Run`;
 	export = `Export Grow Run`;
 	rename = 'Rename Grow Run';
-	changeLocation = 'Add Grow Run Location';
-	manageImages = 'Upload more images or remove existing images';
+	changeLocation = 'Change Grow Run Location';
+	manageImages = 'Upload new or remove existing images';
 
 	// sub-entities
-	recordHarvest = `Record a harvest`;
-	recordEnvironmentalCondition = `Measure an environmental condition`;
-	useResource = `Use a resource`;
+	recordHarvest = `Record Harvest`;
+	measureEnvironmentalCondition = `Measure Environmental Condition`;
+	useResource = `Use Resource`;
 }
 
 export const growRunActionNames = new GrowRunActionNames();
