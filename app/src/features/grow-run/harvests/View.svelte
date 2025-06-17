@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type GrowRun from '$features/grow-run';
 	import { growRunsAPI } from '../store';
-	import Add from './Add.svelte';
-	import Harvest from './ListItem.svelte';
+	import Harvest from './harvest/View.svelte';
 
 	export let growRun: GrowRun;
 </script>
@@ -12,13 +11,7 @@
 	{#if growRun.harvests.length}
 		<ul>
 			{#each growRun.harvests as harvest, index (harvest.datetime)}
-				<Harvest
-					{harvest}
-					onUpdateHarvest={(updatedHarvest) => {
-						growRun.harvests[index] = updatedHarvest;
-						growRunsAPI.updatePartial(growRun.id, { harvests: growRun.harvests });
-					}}
-				/>
+				<Harvest {harvest} />
 			{/each}
 			<hr />
 			<li class="summary">
@@ -38,7 +31,7 @@
 	{:else}
 		<p class="inline">No harvests has been recorded:</p>
 	{/if}
-	<Add {growRun} />
+	<!-- <Add {growRun} /> -->
 </section>
 
 <style lang="postcss">

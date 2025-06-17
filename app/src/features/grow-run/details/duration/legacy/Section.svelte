@@ -4,7 +4,7 @@
 	import { growRunsAPI } from '$features/grow-run/store';
 	import { growRunActionNames } from '@grow-run-archive/definitions';
 	import Inputs from './Inputs.svelte';
-	import { prettyFormatDate } from './util';
+	import { prettyFormatDate } from '../util';
 
 	export let growRun: GrowRun;
 	let editMode = false;

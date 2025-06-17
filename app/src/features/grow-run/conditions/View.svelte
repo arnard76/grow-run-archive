@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type GrowRun from '$features/grow-run';
 	import { environmentalConditions } from '@grow-run-archive/definitions';
-	import ConditionSection from './condition/Section.svelte';
+	import Condition from './condition/View.svelte';
 	import TimezoneInput from './TimezoneInput.svelte';
 
 	export let growRun: GrowRun;
@@ -19,9 +19,15 @@
 	<h2>Conditions</h2>
 	<TimezoneInput bind:timezone />
 
-	{#each environmentalConditions as environmentConditionName}
-		<!-- TODO: don't show condition if it doesn't have any data -->
-		<!-- Can only do this ☝️☝️ if you can manually add a condition without existing data -->
-		<ConditionSection {growRun} {timezone} conditionName={environmentConditionName} />
-	{/each}
+	<div class="mt-2">
+		{#if Object.keys(growRun.conditions).length}
+			{#each environmentalConditions as environmentalConditionName}
+				{#if growRun.conditions[environmentalConditionName]}
+					<Condition {growRun} {timezone} conditionName={environmentalConditionName} />
+				{/if}
+			{/each}
+		{:else}
+			<p>No environmental measurements</p>
+		{/if}
+	</div>
 </section>

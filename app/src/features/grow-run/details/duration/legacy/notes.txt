@@ -1,0 +1,1 @@
+I removed the ability to set a specific start and end date. The new 'actions' are 'start now' and 'end now'.
