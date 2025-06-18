@@ -3,7 +3,9 @@
 </script>
 
 <main class="p-2">
-	<h1>Settings</h1>
+	<div class="flex items-center justify-between">
+		<h1>Settings</h1>
 
-	<Actions />
+		<Actions />
+	</div>
 </main>
