@@ -12,6 +12,7 @@
 	on:close={onClose}
 	on:keypress
 	on:click|capture={(e) => {
+		if (e.detail === 0) return; // don't close modal for non-mouse click events
 		if (!modal) return;
 		const { left, right, top, bottom } = modal.getBoundingClientRect();
 
@@ -19,7 +20,7 @@
 			modal?.close();
 		}
 	}}
-	class="p-0 m-auto border-none rounded-xl drop-shadow-md max-h-[90vh] md:max-w-[75%] w-full"
+	class="p-0 m-auto border-none rounded-xl drop-shadow-md max-h-[90vh] md:max-w-[75%]"
 >
 	<div class="p-4">
 		<slot />
