@@ -10,8 +10,8 @@
 
 	import '$lib/styles/global.css';
 	import Loading from '$lib/components/Loading.svelte';
-	import { growRuns, growRunsLoading } from '$features/grow-run/store';
-	import { resourcesList, resourcesLoading } from '$features/resource/store';
+	import { growRuns, growRunsLoading } from '$features/grow-runs/grow-run/store';
+	import { resourcesList, resourcesLoading } from '$features/resources/store';
 	import Icon from '@iconify/svelte';
 
 	let authUnsubscribe = () => {};

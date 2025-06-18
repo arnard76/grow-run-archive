@@ -1,15 +1,16 @@
 <script lang="ts">
-	import { resourcesList } from '$features/resource/store';
-	import Resource from '$features/resource/View.svelte';
-	import AddAction from '$features/resource/AddAction.svelte';
-	import ActionsMenuModal from '$lib/components/ActionsMenuModal.svelte';
-	import { resourceActionNames } from '@grow-run-archive/definitions';
-
-	let showActionsMenu = false;
+	import Actions from '$features/resources/Actions.svelte';
+	import Resource from '$features/resources/resource/View.svelte';
+	import { resourcesList } from '$features/resources/store';
 </script>
 
 <main class="p-2">
-	<h1>Resources</h1>
+	<div class="flex items-center justify-between">
+		<h1>Resources</h1>
+
+		<Actions />
+	</div>
+
 	<table>
 		<thead>
 			<tr>
@@ -24,8 +25,4 @@
 			{/each}
 		</tbody>
 	</table>
-
-	<ActionsMenuModal bind:showActionsMenu actions={[resourceActionNames.add]}>
-		<AddAction closeModal={() => (showActionsMenu = false)} />
-	</ActionsMenuModal>
 </main>

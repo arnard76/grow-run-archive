@@ -1,7 +1,7 @@
 <!-- TODO: export should also include the photos -->
 <script lang="ts">
-	import { growRuns } from '$features/grow-run/store';
-	import { resourcesList } from '$features/resource/store';
+	import { growRuns } from '$features/grow-runs/grow-run/store';
+	import { resourcesList } from '$features/resources/store';
 	import { session } from '$features/user/session';
 	import dayjs from '@grow-run-archive/dayjs';
 	import { userActionNames } from '@grow-run-archive/definitions';
