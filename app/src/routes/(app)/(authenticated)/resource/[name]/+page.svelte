@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { session } from '$features/user/session';
 	import { Resource } from '@grow-run-archive/definitions';
-	import { resourcesList } from '$features/resource/store';
+	import { resourcesList } from '$features/resources/store';
 	import { getBlob, getStorage, ref } from 'firebase/storage';
 
 	export let data;
