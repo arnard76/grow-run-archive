@@ -24,13 +24,11 @@
 		<p>Are you sure?</p>
 		<button
 			title="Confirm Action"
-			on:click|stopPropagation={() => {
+			on:click={() => {
 				askForConfirmation = false;
 				actionToConfirm();
 			}}>Yes</button
 		>
-		<button title="Cancel Action" on:click|stopPropagation={() => (askForConfirmation = false)}
-			>No</button
-		>
+		<button title="Cancel Action" on:click={() => (askForConfirmation = false)}>No</button>
 	</Modal>
 {/if}

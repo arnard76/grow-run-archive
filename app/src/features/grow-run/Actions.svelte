@@ -87,9 +87,7 @@
 					</button>
 				</ConfirmActionModal>
 			{:else}
-				<button title={action} on:click={() => openActionModal(action)} tabindex="0"
-					>{action}</button
-				>
+				<button title={action} on:click={() => openActionModal(action)}>{action}</button>
 			{/if}
 		{/each}
 	</ActionsMenuModal>
