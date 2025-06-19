@@ -2,6 +2,7 @@
 	import GrowRun from '$features/grow-runs/grow-run';
 	import ActionTemplate from '$lib/components/ActionTemplate.svelte';
 	import { growRunsAPI } from '$features/grow-runs/grow-run/store';
+	import { growRunActionNames } from '@grow-run-archive/definitions';
 
 	export let growRun: GrowRun;
 	export let closeModal: () => any;
@@ -10,6 +11,7 @@
 </script>
 
 <ActionTemplate
+	actionName={growRunActionNames.rename}
 	onComplete={() => growRunsAPI.updatePartial(growRun.id, { name: updatedGrowName })}
 	onCancel={closeModal}
 >

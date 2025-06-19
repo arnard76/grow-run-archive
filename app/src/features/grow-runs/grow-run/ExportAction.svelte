@@ -23,7 +23,7 @@
 	}
 </script>
 
-<h3 class="m-0 mb-4">{growRunActionNames.export}</h3>
+<h3>{growRunActionNames.export}</h3>
 
 <div class="my-4">
 	<JsonView json={growRun} />

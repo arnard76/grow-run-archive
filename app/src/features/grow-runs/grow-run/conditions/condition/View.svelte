@@ -1,9 +1,8 @@
 <script lang="ts">
 	import type GrowRun from '$features/grow-runs/grow-run';
-	import { growRunsAPI } from '$features/grow-runs/grow-run/store';
 	import { verboseConditionName, type ConditionsMeasurements } from '@grow-run-archive/definitions';
 	import DefaultFullPeriodGraph from './FullPeriodGraph.svelte';
-	import ListItem from './ListItemView.svelte';
+	import Measurement from './measurement/View.svelte';
 	import DefaultTimeOfDayGraph from './TimeOfDayGraph.svelte';
 	import ToggleCharts from './ToggleCharts.svelte';
 
@@ -36,7 +35,7 @@
 				<button on:click={() => (expandRecords = !expandRecords)}>Hide records 🔼</button>
 				<ul class="flex flex-col items-center mt-4">
 					{#each Object.entries(growRun.conditions[conditionName] || {}) as [_, conditionMeasurement] (conditionMeasurement.dateTime)}
-						<ListItem {conditionName} {conditionMeasurement} {timezone} />
+						<Measurement {conditionName} {conditionMeasurement} {timezone} />
 					{/each}
 				</ul>
 

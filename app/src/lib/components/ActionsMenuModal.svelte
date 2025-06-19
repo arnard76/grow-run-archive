@@ -25,6 +25,8 @@
 
 {#if showActionsMenu}
 	<Modal onClose={() => (showActionsMenu = false)}>
+		<h3>Actions Menu 📃</h3>
+
 		<!-- SEARCH BAR -->
 		{#if actions.length > 1}
 			<input type="text" bind:value={searchTermForAction} placeholder="Search actions" />

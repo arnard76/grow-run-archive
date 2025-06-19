@@ -24,7 +24,7 @@
 	}
 </script>
 
-<h3 class="m-0 mb-4">{userActionNames.export}</h3>
+<h3>{userActionNames.export}</h3>
 
 <div class="my-4">
 	<JsonView json={userData} />
