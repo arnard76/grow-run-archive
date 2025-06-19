@@ -23,7 +23,7 @@ export class GrowRunEnvironmentManager {
 	}
 
 	get conditionsSection() {
-		return cy.get('dialog > section').eq(3).scrollIntoView();
+		return cy.findParentByHeading('section', /Conditions/i).scrollIntoView();
 	}
 
 	getSpecificConditionData(conditionName: keyof ConditionsMeasurements) {
