@@ -14,6 +14,10 @@ declare global {
 		interface Chainable {
 			recursionLoop(fn: (times?: number) => any, times?: number): Chainable<void>;
 			openHTML(html: string): Chainable<void>;
+			findParentByHeading<K extends keyof HTMLElementTagNameMap>(
+				parent: K,
+				heading: string | RegExp
+			): Chainable<JQuery<HTMLElementTagNameMap[K]>>;
 		}
 	}
 }
@@ -35,4 +39,8 @@ Cypress.Commands.add('recursionLoop', function (fn, times) {
 
 Cypress.Commands.add('openHTML', function (html) {
 	cy.document().invoke('open').invoke('write', html);
+});
+
+Cypress.Commands.add('findParentByHeading', function (parent, heading) {
+	return cy.findByRole('heading', { name: heading }).parents(parent);
 });

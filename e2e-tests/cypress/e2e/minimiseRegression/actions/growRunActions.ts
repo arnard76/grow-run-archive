@@ -51,10 +51,10 @@ export class GrowRunManager implements EntityManager {
 	}
 
 	add() {
-		const addGrowRunButton = () => cy.findByTitle(growRunActionNames.add);
-		addGrowRunButton().click();
+		actionsMenu.open();
 		cy.findByPlaceholderText(/grow run name/i).type(this.growRunName);
-		addGrowRunButton().click();
+		cy.findByTitle(growRunActionNames.add).click();
+		actionsMenu.close();
 	}
 
 	delete() {}
@@ -62,6 +62,60 @@ export class GrowRunManager implements EntityManager {
 	get preview() {
 		return cy.contains('tr', this.growRunName);
 	}
+
+	// SECTIONS
+
+	get heroSection() {
+		return cy.findParentByHeading('section', this.growRunName).scrollIntoView();
+	}
+
+	get resourceUsageSection() {
+		return cy.findParentByHeading('section', /Resources used/i).scrollIntoView();
+	}
+
+	get harvestsSection() {
+		return cy.findParentByHeading('section', /harvests/i).scrollIntoView();
+	}
+
+	// GROW RUN DETAILS
+
+	get location() {
+		return this.heroSection.find('p').eq(0).findByRole('link').invoke('removeAttr', 'target');
+	}
+
+	get duration() {
+		return this.heroSection.contains(/duration/i).find('span');
+	}
+
+	// ANALYSIS
+
+	get totalHarvest() {
+		return this.harvestsSection.find('.summary').contains('Total').parent().children().eq(1);
+	}
+
+	get averageLeafWeight() {
+		return this.harvestsSection.find('.summary').contains('Average').parent().children().eq(1);
+	}
+
+	get totalCost() {
+		return this.resourceUsageSection.find('li').contains('Total cost').parent().children().eq(1);
+	}
+
+	get totalCostPerUnit() {
+		growRunsManager.goToAll();
+		return this.preview.find('td').eq(3);
+
+		// Another method 👇👇 : user opens grow run to see this stat?
+		// return this.resourceUsageSection
+		// 	.find('.summary')
+		// 	.contains('Total cost')
+		// 	.parent()
+		// 	.find('span')
+		// 	.eq(1)
+		// 	.scrollIntoView();
+	}
+
+	// ACTIONS
 
 	goTo() {
 		this.preview.findByRole('link').click();
@@ -100,7 +154,9 @@ export class GrowRunManager implements EntityManager {
 		cy.visit(`/grow-runs`, typeof value !== 'string' && mockLocation(value));
 		this.goTo();
 
-		this.heroSection.findByRole('button', { name: growRunActionNames.addLocation }).click();
+		actionsMenu.open();
+		actionsMenu.get().findByRole('button', { name: growRunActionNames.changeLocation }).click();
+		const changeLocationModal = new ActionModal(growRunActionNames.changeLocation);
 		if (typeof value === 'string') {
 		}
 
@@ -110,22 +166,30 @@ export class GrowRunManager implements EntityManager {
 			this.heroSection.find('select').select(value);
 		} else if (method === 'coords') {
 			if (typeof value === 'string') throw Error('value must be Coords, not string');
-			this.heroSection.findByLabelText(/latitude/i).type(value.latitude.toString());
-			this.heroSection.findByLabelText(/longitude/i).type(value.longitude.toString());
+			changeLocationModal
+				.get()
+				.findByLabelText(/latitude/i)
+				.type(value.latitude.toString());
+			changeLocationModal
+				.get()
+				.findByLabelText(/longitude/i)
+				.type(value.longitude.toString());
 		} else if (method === 'device location') {
-			this.heroSection.findByRole('button', { name: /use my location/i });
+			changeLocationModal.get().findByRole('button', {
+				name: /use my location/i
+			});
 		} else {
 			throw Error(`Method ${method} can not be used to add a grow run location.`);
 		}
 
-		this.heroSection.should('include.text', 'Address: ');
-		this.heroSection.findByRole('button', { name: growRunActionNames.finishEdit }).click();
-		if (method === 'address search')
-			this.heroSection.contains(value as string).should('be.visible');
-	}
-
-	get location() {
-		return this.heroSection.find('p').eq(0).findByRole('link').invoke('removeAttr', 'target');
+		changeLocationModal.get().should('include.text', 'Address: ');
+		changeLocationModal
+			.get()
+			.findByRole('button', { name: growRunActionNames.changeLocation })
+			.click();
+		// if (method === 'address search')
+		// 	this.heroSection.contains(value as string).should('be.visible');
+		changeLocationModal.close();
 	}
 
 	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {
@@ -139,27 +203,17 @@ export class GrowRunManager implements EntityManager {
 		}
 
 		usageOfResources.forEach((usageOfResource) => {
-			const addResourceButton = () =>
-				this.resourceUsageSection.findByRole('button', { name: 'Record' });
-			addResourceButton().click();
-			this.resourceUsageSection
+			actionsMenu.open().findByTitle(growRunActionNames.useResource).click();
+			const useResourceDialog = new ActionModal(growRunActionNames.useResource);
+			useResourceDialog
+				.get()
 				.find('input[type="number"]')
 				.type(usageOfResource.amountUsed.toString());
-			this.resourceUsageSection.find('select').select(usageOfResource.resourceName);
-			addResourceButton().click();
+			useResourceDialog.get().find('select').select(usageOfResource.resourceName);
+			useResourceDialog.get().findByTitle(growRunActionNames.useResource).click();
+			useResourceDialog.close();
+			actionsMenu.close();
 		});
-	}
-
-	get heroSection() {
-		return cy.get('dialog > section').eq(0).scrollIntoView();
-	}
-
-	get resourceUsageSection() {
-		return cy.get('dialog > section').eq(1).scrollIntoView();
-	}
-
-	get harvestsSection() {
-		return cy.get('dialog > section').eq(2).scrollIntoView();
 	}
 
 	manuallyRecordHarvest(harvestsInput: (Harvest | string)[]) {
@@ -173,42 +227,25 @@ export class GrowRunManager implements EntityManager {
 		}
 
 		harvests.forEach((harvest) => {
-			const addHarvestButton = () => this.harvestsSection.findByRole('button', { name: 'Record' });
-			addHarvestButton().click();
-			this.harvestsSection
+			actionsMenu.open().findByTitle(growRunActionNames.recordHarvest).click();
+			const recordHarvestDialog = new ActionModal(growRunActionNames.recordHarvest);
+
+			recordHarvestDialog
+				.get()
 				.find('input[type="number"]')
 				.eq(0)
 				.type(harvest.numberOfLeaves.toString());
-			this.harvestsSection.find('input[type="number"]').eq(1).type(harvest.massOfLeaves.toString());
-			if (harvest.datetime === 'now') this.harvestsSection.find('input[type="checkbox"]').check();
-			addHarvestButton().click();
+			recordHarvestDialog
+				.get()
+				.find('input[type="number"]')
+				.eq(1)
+				.type(harvest.massOfLeaves.toString());
+			if (harvest.datetime === 'now')
+				recordHarvestDialog.get().find('input[type="checkbox"]').check();
+			recordHarvestDialog.get().findByTitle(growRunActionNames.recordHarvest).click();
+			recordHarvestDialog.close();
+			actionsMenu.close();
 		});
-	}
-
-	get totalHarvest() {
-		return this.harvestsSection.find('.summary').contains('Total').parent().children().eq(1);
-	}
-
-	get averageLeafWeight() {
-		return this.harvestsSection.find('.summary').contains('Average').parent().children().eq(1);
-	}
-
-	get totalCost() {
-		return this.resourceUsageSection.find('li').contains('Total cost').parent().children().eq(1);
-	}
-
-	get totalCostPerUnit() {
-		growRunsManager.goToAll();
-		return this.preview.find('td').eq(3);
-
-		// Another 👇👇 : user opens grow run to see this stat?
-		// return this.resourceUsageSection
-		// 	.find('.summary')
-		// 	.contains('Total cost')
-		// 	.parent()
-		// 	.find('span')
-		// 	.eq(1)
-		// 	.scrollIntoView();
 	}
 
 	end(endTime?: dayjs.Dayjs) {
