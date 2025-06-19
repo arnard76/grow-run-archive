@@ -8,9 +8,9 @@
 </script>
 
 <div class="group m-4 relative">
-	<button title="User Actions" on:click={() => (showActionsMenu = !showActionsMenu)}
-		><Icon icon="tabler:dots" /></button
-	>
+	<button title="Actions for Resources" on:click={() => (showActionsMenu = !showActionsMenu)}>
+		<Icon icon="tabler:dots" />
+	</button>
 	<ActionsMenuModal bind:showActionsMenu actions={[resourceActionNames.add]}>
 		<AddAction closeModal={() => (showActionsMenu = false)} />
 	</ActionsMenuModal>

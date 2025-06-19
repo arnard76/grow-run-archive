@@ -25,16 +25,12 @@
 </script>
 
 <div class="group m-4 relative">
-	<button title="User Actions" on:click={() => (showActionsMenu = !showActionsMenu)}
-		><Icon icon="tabler:dots" /></button
-	>
+	<button title="Actions for User" on:click={() => (showActionsMenu = !showActionsMenu)}>
+		<Icon icon="tabler:dots" />
+	</button>
 	<ActionsMenuModal bind:showActionsMenu {actions} let:filteredActions>
 		{#each filteredActions as action (action)}
-			{#if action === 'hi'}
-				<ConfirmActionModal actionToConfirm={() => {}}>
-					<button title={'hi'}> </button>
-				</ConfirmActionModal>
-			{:else if action === logoutAction}
+			{#if action === logoutAction}
 				<button title={action} on:click={() => goto('/logout')}>{action}</button>
 			{:else}
 				<button title={action} on:click={() => openActionModal(action)}>{action}</button>

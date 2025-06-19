@@ -35,6 +35,7 @@
 	];
 
 	let openAction: null | string = null;
+	$: if (!showActionsMenu) openAction = null;
 
 	function openActionModal(actionName: (typeof actions)[0]) {
 		openAction = actionName;
