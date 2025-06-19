@@ -8,13 +8,13 @@ import {
 } from '@grow-run-archive/definitions';
 
 import { mockLocation } from '../../../mocks/location';
+import { ActionModal, actionsMenu } from '../entity/actions';
 import { EntitiesManager, EntityManager } from '../entity/manager';
 import {
 	formatHarvestsAsObjects,
 	formatUsageOfResourcesAsObjects
 } from '../util/convertStringRequirementsToObjects';
 import { GrowRunEnvironmentManager } from './growRunEnvironmentActions';
-import { UserCredentials } from './userActions';
 
 class GrowRunsManager extends EntitiesManager {
 	constructor() {
@@ -22,7 +22,9 @@ class GrowRunsManager extends EntitiesManager {
 	}
 
 	deleteSingle(): void {
-		cy.get('dialog').findByTitle(growRunActionNames.delete).click();
+		actionsMenu.open();
+		cy.findByTitle(growRunActionNames.delete).click();
+		cy.findByRole('button', { name: /yes/i }).click();
 	}
 
 	deleteAll() {
@@ -124,21 +126,25 @@ export class GrowRunManager implements EntityManager {
 
 	showAllDetails = this.goTo;
 
-	start(startTime?: dayjs.Dayjs) {
-		this.heroSection.find(`button[title='${growRunActionNames.changeStartAndEnd}']`).click();
-		startTime = startTime || dayjs();
-		const startTimeInput = startTime.format('YYYY-MM-DDTHH:mm');
-		cy.findByLabelText(/Start Date:/i).type(startTimeInput);
-		this.heroSection.find(`button[title='${growRunActionNames.finishEdit}']`).click();
-
-		// Check that GR has started
-		cy.reload();
-		const displayedStartTime = startTime.format('D MMM YYYY, h:mm a');
-		cy.findByText(displayedStartTime).should('be.visible');
+	start() {
+		cy.window().then((win) => {
+			actionsMenu.open();
+			cy.findByTitle(growRunActionNames.start).click();
+			cy.findByRole('button', { name: /yes/i }).click();
+			this.checkStartTimeCorrect(dayjs(win.Date()));
+		});
 	}
 
-	get duration() {
-		return this.heroSection.contains(/duration/i).find('i');
+	checkStartTimeCorrect(expectedStartTime: dayjs.Dayjs) {
+		cy.reload();
+		this.heroSection
+			.findByText('Started:', { exact: false })
+			.invoke('text')
+			.then((text) => {
+				const displayedDate = text.split('Started: ')[1];
+				expect(dayjs(displayedDate, 'D MMM YYYY, h:mm a', true).isValid()).to.equal(true);
+				expect(Math.abs(dayjs(displayedDate).diff(expectedStartTime))).to.be.lessThan(120_000);
+			});
 	}
 
 	/** 
@@ -248,18 +254,25 @@ export class GrowRunManager implements EntityManager {
 		});
 	}
 
-	end(endTime?: dayjs.Dayjs) {
+	end() {
 		cy.window().then((win) => {
-			this.heroSection.find(`button[title='${growRunActionNames.changeStartAndEnd}']`).click();
-			endTime = endTime || dayjs(win.Date());
-			const endTimeInput = endTime.format('YYYY-MM-DDTHH:mm');
-			cy.findByLabelText(/End Date:/i).type(endTimeInput);
-			this.heroSection.find(`button[title='${growRunActionNames.finishEdit}']`).click();
-
-			cy.reload();
-			const displayedEndTime = endTime.format('D MMM YYYY, h:mm a');
-			this.heroSection.findByText(displayedEndTime).should('be.visible');
+			actionsMenu.open();
+			cy.findByTitle(growRunActionNames.end).click();
+			cy.findByRole('button', { name: /yes/i }).click();
+			this.checkEndTimeCorrect(dayjs(win.Date()));
 		});
+	}
+
+	checkEndTimeCorrect(expectedEndTime: dayjs.Dayjs) {
+		cy.reload();
+		this.heroSection
+			.findByText('Ended:', { exact: false })
+			.invoke('text')
+			.then((text) => {
+				const displayedDate = text.split('Ended: ')[1];
+				expect(dayjs(displayedDate, 'D MMM YYYY, h:mm a', true).isValid()).to.equal(true);
+				expect(Math.abs(dayjs(displayedDate).diff(expectedEndTime))).to.be.lessThan(120_000);
+			});
 	}
 
 	hideAllDetails() {
