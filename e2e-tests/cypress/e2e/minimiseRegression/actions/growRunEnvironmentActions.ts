@@ -34,9 +34,6 @@ export class GrowRunEnvironmentManager {
 			.findAllByRole('listitem');
 	}
 
-	// YOU COULD EITHER RECORD ALL MEASUREMENTS FOR A SINGLE CONDITION, THEN MOVE ON TO ANOTHER CONDITION
-	// ORRRRR
-	// RECORD THE MEASUREMENT FOR EVERY CONDITION AT A SPECIFIC TIMESTAMP, AND MOVE ONTO THE NEXT TIME (MORE LIKELY)
 	recordConditions(
 		timestamp: ExternalConditionsMeasurements['dateTime'],
 		conditions: ExternalConditionsMeasurements['conditions'],

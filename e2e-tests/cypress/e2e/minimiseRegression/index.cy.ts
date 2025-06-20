@@ -123,17 +123,14 @@ describe('Grow Run Archive', () => {
 		// SETUP GROW RUN
 		const growRun = new GrowRunManager('Notification test');
 		growRun.showAllDetails();
-		const startTime = dayjs().add(1, 'minute');
+		const startTime = dayjs().add(1, 'minute').set('seconds', 0).set('milliseconds', 0); // so it starts in the same minute
 		cy.wait(startTime.add(3, 'seconds').diff());
 		growRun.start();
 
-		// INITIAL ENVIRONMENT READINGS (but miss next one)
-		const time = startTime
-			.add(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL * 0.95)
-			.toISOString();
-		growRun.environment.recordConditions(time, { 'air-temperature': 9 }, user.credentials);
-		growRun.environment.recordConditions(time, { co2: 9 }, user.credentials);
-		growRun.environment.recordConditions(time, { humidity: 9 }, user.credentials);
+		// INITIAL ENVIRONMENT READINGS (only water temp missing)
+		const time = startTime.add(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL * 0.95);
+		const measurements = { 'air-temperature': 9, co2: 9, humidity: 9 };
+		growRun.environment.recordConditions(time.toISOString(), measurements, user.credentials);
 
 		// CHECK CURRENT MESSAGES AND
 		// WAIT UNTIL NEXT READINGS "SHOULD" ARRIVE
@@ -170,14 +167,17 @@ describe('Grow Run Archive', () => {
 							lastRecordingDateTime: null
 						},
 						'air-temperature': {
-							lastRecordingDateTime: time,
+							lastRecordingDateTime: time.toISOString(),
 							numRecordingsMissed: mostRecordingsMissed - 1
 						},
 						humidity: {
-							lastRecordingDateTime: time,
+							lastRecordingDateTime: time.toISOString(),
 							numRecordingsMissed: mostRecordingsMissed - 1
 						},
-						co2: { lastRecordingDateTime: time, numRecordingsMissed: mostRecordingsMissed - 1 }
+						co2: {
+							lastRecordingDateTime: time.toISOString(),
+							numRecordingsMissed: mostRecordingsMissed - 1
+						}
 					},
 					mailjs
 				);
