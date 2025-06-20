@@ -1,6 +1,6 @@
 import { EntityAPI } from '$lib/entity/api';
 import { db } from '$lib/database';
-import { session } from '$lib/user/user';
+import { session } from '$features/user/session';
 import { onValue } from 'firebase/database';
 import { derived, writable, type Readable } from 'svelte/store';
 

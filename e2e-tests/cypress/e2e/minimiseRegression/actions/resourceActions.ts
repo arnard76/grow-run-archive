@@ -1,5 +1,6 @@
 import { ResourceType as Resource, resourceActionNames } from '@grow-run-archive/definitions';
 import { EntitiesManager, EntityManager } from '../entity/manager';
+import { actionsMenu } from '../entity/actions';
 
 class ResourcesManager extends EntitiesManager {
 	constructor() {
@@ -24,8 +25,7 @@ export class ResourceManager implements EntityManager {
 	}
 
 	add() {
-		const addResourceButton = () => cy.findByTitle(resourceActionNames.add);
-		addResourceButton().click();
+		actionsMenu.open();
 		cy.findByTitle('Select how the amount of this resource is specified').select(
 			this.resource.quantity
 		);
@@ -35,11 +35,12 @@ export class ResourceManager implements EntityManager {
 		);
 
 		cy.findByPlaceholderText(/resource name/i).type(this.resource.name);
-		cy.findByPlaceholderText(/product price/i).type(this.resource.cost);
-		// cy.findByLabelText('product link').type(
+		cy.findByPlaceholderText(/price/i).type(this.resource.cost);
+		// cy.findByLabelText('page URL').type(
 		// 	'https://www.thewarehouse.co.nz/p/kiwi-garden-lettuce-butterhead-seeds/R2598667.html?srsltid=AfmBOoowGtKN5J2-GXV1U_bHxy-Hw_5MeMAgGA98eQTrduCCh3i5cwe1oNI&gStoreCode=188'
 		// );
-		addResourceButton().click();
+		cy.findByTitle(resourceActionNames.add).click();
+		actionsMenu.close();
 	}
 
 	get preview() {

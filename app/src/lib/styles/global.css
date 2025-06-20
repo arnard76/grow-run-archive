@@ -28,7 +28,7 @@ h2 {
 }
 
 h3 {
-	@apply mt-8 mb-4;
+	@apply mb-4;
 }
 
 button,
@@ -43,7 +43,12 @@ nav p,
 	border-radius: 8px;
 	text-decoration: none;
 
-	@apply hover:bg-green-400 transition-all hover:scale-110 text-black;
+	@apply button-hover-effects transition-all  text-black;
+}
+
+.button-hover-effects:hover,
+.button-hover-effects:focus {
+	@apply bg-green-400 scale-110;
 }
 
 button * {
@@ -69,7 +74,7 @@ button.danger * {
 /* forms */
 
 form {
-	@apply flex flex-col gap-8 w-max p-4 items-start;
+	@apply flex flex-col gap-8 w-max items-start;
 }
 
 input,
@@ -123,13 +128,13 @@ tbody td:last-of-type {
 	border-bottom-right-radius: 10px;
 }
 
-/* grow run modal */
+/* grow run page */
 
-.grow-run-archive-expanded-modal section {
+.grow-run-page section {
 	@apply mb-4;
 }
 
-.grow-run-archive-expanded-modal > section {
+.grow-run-page > section {
 	@apply p-8 w-full;
 }
 

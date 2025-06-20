@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { session } from '$lib/user/user';
-	import type Resource from '$features/resource';
-	import { resourcesList } from '$features/resource/store';
+	import { session } from '$features/user/session';
+	import { Resource } from '@grow-run-archive/definitions';
+	import { resourcesList } from '$features/resources/store';
 	import { getBlob, getStorage, ref } from 'firebase/storage';
 
 	export let data;

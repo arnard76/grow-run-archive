@@ -8,13 +8,13 @@ import {
 } from '@grow-run-archive/definitions';
 
 import { mockLocation } from '../../../mocks/location';
+import { ActionModal, actionsMenu } from '../entity/actions';
 import { EntitiesManager, EntityManager } from '../entity/manager';
 import {
 	formatHarvestsAsObjects,
 	formatUsageOfResourcesAsObjects
 } from '../util/convertStringRequirementsToObjects';
 import { GrowRunEnvironmentManager } from './growRunEnvironmentActions';
-import { UserCredentials } from './userActions';
 
 class GrowRunsManager extends EntitiesManager {
 	constructor() {
@@ -22,7 +22,9 @@ class GrowRunsManager extends EntitiesManager {
 	}
 
 	deleteSingle(): void {
-		cy.get('dialog').findByTitle(growRunActionNames.delete).click();
+		actionsMenu.open();
+		cy.findByTitle(growRunActionNames.delete).click();
+		cy.findByRole('button', { name: /yes/i }).click();
 	}
 
 	deleteAll() {
@@ -51,10 +53,10 @@ export class GrowRunManager implements EntityManager {
 	}
 
 	add() {
-		const addGrowRunButton = () => cy.findByTitle(growRunActionNames.add);
-		addGrowRunButton().click();
+		actionsMenu.open();
 		cy.findByPlaceholderText(/grow run name/i).type(this.growRunName);
-		addGrowRunButton().click();
+		cy.findByTitle(growRunActionNames.add).click();
+		actionsMenu.close();
 	}
 
 	delete() {}
@@ -63,127 +65,31 @@ export class GrowRunManager implements EntityManager {
 		return cy.contains('tr', this.growRunName);
 	}
 
-	goTo() {
-		this.preview.findByRole('link').click();
-		this.heroSection.find('h2').contains(this.growRunName);
+	// SECTIONS
+
+	get heroSection() {
+		return cy.findParentByHeading('section', this.growRunName).scrollIntoView();
 	}
 
-	showAllDetails = this.goTo;
-
-	start(startTime?: dayjs.Dayjs) {
-		this.heroSection.find(`button[title='${growRunActionNames.changeStartAndEnd}']`).click();
-		startTime = startTime || dayjs();
-		const startTimeInput = startTime.format('YYYY-MM-DDTHH:mm');
-		cy.findByLabelText(/Start Date:/i).type(startTimeInput);
-		this.heroSection.find(`button[title='${growRunActionNames.finishEdit}']`).click();
-
-		// Check that GR has started
-		cy.reload();
-		const displayedStartTime = startTime.format('D MMM YYYY, h:mm a');
-		cy.findByText(displayedStartTime).should('be.visible');
+	get resourceUsageSection() {
+		return cy.findParentByHeading('section', /Resources used/i).scrollIntoView();
 	}
 
-	get duration() {
-		return this.heroSection.contains(/duration/i).find('i');
+	get harvestsSection() {
+		return cy.findParentByHeading('section', /harvests/i).scrollIntoView();
 	}
 
-	/** 
-	 * location formats:
-	 - TODO: through device location
-	 - through coords ✅
-	 - TODO: through address search
-	 */
-	addLocationByCoords(
-		method: 'address search' | 'coords' | 'device location',
-		value: string | Coords
-	) {
-		cy.visit(`/grow-runs`, typeof value !== 'string' && mockLocation(value));
-		this.goTo();
-
-		this.heroSection.findByRole('button', { name: growRunActionNames.addLocation }).click();
-		if (typeof value === 'string') {
-		}
-
-		if (method === 'address search') {
-			if (typeof value !== 'string') throw Error('value must be string, not Coords');
-			this.heroSection.findAllByLabelText(/address/i).type(value);
-			this.heroSection.find('select').select(value);
-		} else if (method === 'coords') {
-			if (typeof value === 'string') throw Error('value must be Coords, not string');
-			this.heroSection.findByLabelText(/latitude/i).type(value.latitude.toString());
-			this.heroSection.findByLabelText(/longitude/i).type(value.longitude.toString());
-		} else if (method === 'device location') {
-			this.heroSection.findByRole('button', { name: /use my location/i });
-		} else {
-			throw Error(`Method ${method} can not be used to add a grow run location.`);
-		}
-
-		this.heroSection.should('include.text', 'Address: ');
-		this.heroSection.findByRole('button', { name: growRunActionNames.finishEdit }).click();
-		if (method === 'address search')
-			this.heroSection.contains(value as string).should('be.visible');
-	}
+	// GROW RUN DETAILS
 
 	get location() {
 		return this.heroSection.find('p').eq(0).findByRole('link').invoke('removeAttr', 'target');
 	}
 
-	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {
-		if (!usageOfResourcesInput.length) return;
-
-		let usageOfResources: ResourceUsage[];
-		if (typeof usageOfResourcesInput[0] === 'string') {
-			usageOfResources = formatUsageOfResourcesAsObjects(usageOfResourcesInput as string[]);
-		} else {
-			usageOfResources = usageOfResourcesInput as ResourceUsage[];
-		}
-
-		usageOfResources.forEach((usageOfResource) => {
-			const addResourceButton = () =>
-				this.resourceUsageSection.findByRole('button', { name: 'Record' });
-			addResourceButton().click();
-			this.resourceUsageSection
-				.find('input[type="number"]')
-				.type(usageOfResource.amountUsed.toString());
-			this.resourceUsageSection.find('select').select(usageOfResource.resourceName);
-			addResourceButton().click();
-		});
+	get duration() {
+		return this.heroSection.contains(/duration/i).find('span');
 	}
 
-	get heroSection() {
-		return cy.get('dialog > section').eq(0).scrollIntoView();
-	}
-
-	get resourceUsageSection() {
-		return cy.get('dialog > section').eq(1).scrollIntoView();
-	}
-
-	get harvestsSection() {
-		return cy.get('dialog > section').eq(2).scrollIntoView();
-	}
-
-	manuallyRecordHarvest(harvestsInput: (Harvest | string)[]) {
-		if (!harvestsInput.length) return;
-
-		let harvests: Harvest[];
-		if (typeof harvestsInput[0] === 'string') {
-			harvests = formatHarvestsAsObjects(harvestsInput as string[]);
-		} else {
-			harvests = harvestsInput as Harvest[];
-		}
-
-		harvests.forEach((harvest) => {
-			const addHarvestButton = () => this.harvestsSection.findByRole('button', { name: 'Record' });
-			addHarvestButton().click();
-			this.harvestsSection
-				.find('input[type="number"]')
-				.eq(0)
-				.type(harvest.numberOfLeaves.toString());
-			this.harvestsSection.find('input[type="number"]').eq(1).type(harvest.massOfLeaves.toString());
-			if (harvest.datetime === 'now') this.harvestsSection.find('input[type="checkbox"]').check();
-			addHarvestButton().click();
-		});
-	}
+	// ANALYSIS
 
 	get totalHarvest() {
 		return this.harvestsSection.find('.summary').contains('Total').parent().children().eq(1);
@@ -201,7 +107,7 @@ export class GrowRunManager implements EntityManager {
 		growRunsManager.goToAll();
 		return this.preview.find('td').eq(3);
 
-		// Another 👇👇 : user opens grow run to see this stat?
+		// Another method 👇👇 : user opens grow run to see this stat?
 		// return this.resourceUsageSection
 		// 	.find('.summary')
 		// 	.contains('Total cost')
@@ -211,18 +117,162 @@ export class GrowRunManager implements EntityManager {
 		// 	.scrollIntoView();
 	}
 
-	end(endTime?: dayjs.Dayjs) {
-		cy.window().then((win) => {
-			this.heroSection.find(`button[title='${growRunActionNames.changeStartAndEnd}']`).click();
-			endTime = endTime || dayjs(win.Date());
-			const endTimeInput = endTime.format('YYYY-MM-DDTHH:mm');
-			cy.findByLabelText(/End Date:/i).type(endTimeInput);
-			this.heroSection.find(`button[title='${growRunActionNames.finishEdit}']`).click();
+	// ACTIONS
 
-			cy.reload();
-			const displayedEndTime = endTime.format('D MMM YYYY, h:mm a');
-			this.heroSection.findByText(displayedEndTime).should('be.visible');
+	goTo() {
+		this.preview.findByRole('link').click();
+		this.heroSection.find('h2').contains(this.growRunName);
+	}
+
+	showAllDetails = this.goTo;
+
+	start() {
+		cy.window().then((win) => {
+			actionsMenu.open();
+			cy.findByTitle(growRunActionNames.start).click();
+			cy.findByRole('button', { name: /yes/i }).click();
+			this.checkStartTimeCorrect(dayjs(win.Date()));
 		});
+	}
+
+	checkStartTimeCorrect(expectedStartTime: dayjs.Dayjs) {
+		cy.reload();
+		this.heroSection
+			.findByText('Started:', { exact: false })
+			.invoke('text')
+			.then((text) => {
+				const displayedDate = text.split('Started: ')[1];
+				expect(dayjs(displayedDate, 'D MMM YYYY, h:mm a', true).isValid()).to.equal(true);
+				expect(Math.abs(dayjs(displayedDate).diff(expectedStartTime))).to.be.lessThan(120_000);
+			});
+	}
+
+	/** 
+	 * location formats:
+	 - TODO: through device location
+	 - through coords ✅
+	 - TODO: through address search
+	 */
+	addLocationByCoords(
+		method: 'address search' | 'coords' | 'device location',
+		value: string | Coords
+	) {
+		cy.visit(`/grow-runs`, typeof value !== 'string' && mockLocation(value));
+		this.goTo();
+
+		actionsMenu.open();
+		actionsMenu.get().findByRole('button', { name: growRunActionNames.changeLocation }).click();
+		const changeLocationModal = new ActionModal(growRunActionNames.changeLocation);
+		if (typeof value === 'string') {
+		}
+
+		if (method === 'address search') {
+			if (typeof value !== 'string') throw Error('value must be string, not Coords');
+			this.heroSection.findAllByLabelText(/address/i).type(value);
+			this.heroSection.find('select').select(value);
+		} else if (method === 'coords') {
+			if (typeof value === 'string') throw Error('value must be Coords, not string');
+			changeLocationModal
+				.get()
+				.findByLabelText(/latitude/i)
+				.type(value.latitude.toString());
+			changeLocationModal
+				.get()
+				.findByLabelText(/longitude/i)
+				.type(value.longitude.toString());
+		} else if (method === 'device location') {
+			changeLocationModal.get().findByRole('button', {
+				name: /use my location/i
+			});
+		} else {
+			throw Error(`Method ${method} can not be used to add a grow run location.`);
+		}
+
+		changeLocationModal.get().should('include.text', 'Address: ');
+		changeLocationModal
+			.get()
+			.findByRole('button', { name: growRunActionNames.changeLocation })
+			.click();
+		// if (method === 'address search')
+		// 	this.heroSection.contains(value as string).should('be.visible');
+		changeLocationModal.close();
+	}
+
+	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {
+		if (!usageOfResourcesInput.length) return;
+
+		let usageOfResources: ResourceUsage[];
+		if (typeof usageOfResourcesInput[0] === 'string') {
+			usageOfResources = formatUsageOfResourcesAsObjects(usageOfResourcesInput as string[]);
+		} else {
+			usageOfResources = usageOfResourcesInput as ResourceUsage[];
+		}
+
+		usageOfResources.forEach((usageOfResource) => {
+			actionsMenu.open().findByTitle(growRunActionNames.useResource).click();
+			const useResourceDialog = new ActionModal(growRunActionNames.useResource);
+			useResourceDialog
+				.get()
+				.find('input[type="number"]')
+				.type(usageOfResource.amountUsed.toString());
+			useResourceDialog.get().find('select').select(usageOfResource.resourceName);
+			useResourceDialog.get().findByTitle(growRunActionNames.useResource).click();
+			useResourceDialog.close();
+			actionsMenu.close();
+		});
+	}
+
+	manuallyRecordHarvest(harvestsInput: (Harvest | string)[]) {
+		if (!harvestsInput.length) return;
+
+		let harvests: Harvest[];
+		if (typeof harvestsInput[0] === 'string') {
+			harvests = formatHarvestsAsObjects(harvestsInput as string[]);
+		} else {
+			harvests = harvestsInput as Harvest[];
+		}
+
+		harvests.forEach((harvest) => {
+			actionsMenu.open().findByTitle(growRunActionNames.recordHarvest).click();
+			const recordHarvestDialog = new ActionModal(growRunActionNames.recordHarvest);
+
+			recordHarvestDialog
+				.get()
+				.find('input[type="number"]')
+				.eq(0)
+				.type(harvest.numberOfLeaves.toString());
+			recordHarvestDialog
+				.get()
+				.find('input[type="number"]')
+				.eq(1)
+				.type(harvest.massOfLeaves.toString());
+			if (harvest.datetime === 'now')
+				recordHarvestDialog.get().find('input[type="checkbox"]').check();
+			recordHarvestDialog.get().findByTitle(growRunActionNames.recordHarvest).click();
+			recordHarvestDialog.close();
+			actionsMenu.close();
+		});
+	}
+
+	end() {
+		cy.window().then((win) => {
+			actionsMenu.open();
+			cy.findByTitle(growRunActionNames.end).click();
+			cy.findByRole('button', { name: /yes/i }).click();
+			this.checkEndTimeCorrect(dayjs(win.Date()));
+		});
+	}
+
+	checkEndTimeCorrect(expectedEndTime: dayjs.Dayjs) {
+		cy.reload();
+		this.heroSection
+			.findByText('Ended:', { exact: false })
+			.invoke('text')
+			.then((text) => {
+				const displayedDate = text.split('Ended: ')[1];
+				expect(dayjs(displayedDate, 'D MMM YYYY, h:mm a', true).isValid()).to.equal(true);
+				expect(Math.abs(dayjs(displayedDate).diff(expectedEndTime))).to.be.lessThan(120_000);
+			});
 	}
 
 	hideAllDetails() {

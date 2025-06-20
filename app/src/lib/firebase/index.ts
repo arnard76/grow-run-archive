@@ -10,7 +10,7 @@ const firebaseConfig = JSON.parse(PUBLIC_FIREBASE_CONFIG);
 import { initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { browser } from '$app/environment';
-import { session } from '../user/user';
+import { session } from '../../features/user/session';
 import { writable, get } from 'svelte/store';
 
 export const app = writable<FirebaseApp | undefined>(undefined);

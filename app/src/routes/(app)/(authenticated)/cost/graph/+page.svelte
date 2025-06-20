@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Chart from 'chart.js/auto';
-	import { resourcesList } from '$features/resource/store';
-	import { growRuns } from '$features/grow-run/store';
+	import { resourcesList } from '$features/resources/store';
+	import { growRuns } from '$features/grow-runs/grow-run/store';
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
 	const randomMinDate = new Date('2022-01-01T00:00:00.000Z').valueOf();
@@ -12,12 +12,12 @@
 		datasets: [
 			{
 				data: $growRuns.map((growRun) => ({
-					x: growRun.duration.start ? new Date(growRun.duration.start).valueOf() : randomMinDate,
+					x: growRun.duration?.start ? new Date(growRun.duration.start).valueOf() : randomMinDate,
 					y: growRun.calculateCostPer100g($resourcesList)
 				})),
 
 				backgroundColor: $growRuns.map((growRun) =>
-					growRun.duration.start ? 'powderblue' : '#124356'
+					growRun.duration?.start ? 'powderblue' : '#124356'
 				)
 			}
 		]
@@ -56,10 +56,12 @@
 	}
 </script>
 
-<h2>Grow Run Cost Archive</h2>
-<p style="font-size: 12px;">
-	*NOTE*: Can't include grow runs that didn't produce any output. (Where would they go? 😁)
-</p>
-<div>
-	<canvas bind:this={canvas} class="h-[90vh]"></canvas>
-</div>
+<main class="p-2">
+	<h1>Grow Runs Cost Chart</h1>
+	<p style="font-size: 12px;">
+		*NOTE*: Can't include grow runs that didn't produce any output. (Where would they go? 😁)
+	</p>
+	<div>
+		<canvas bind:this={canvas} class="h-[90vh]"></canvas>
+	</div>
+</main>

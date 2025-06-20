@@ -5,7 +5,7 @@ import { Harvest } from './harvest.js';
 import { ResourceUsage } from './resourceUsage.js';
 import { Location } from './location.js';
 import dayjs from '@grow-run-archive/dayjs';
-import Resource from '../resource.js';
+import { Resource } from '../resource.js';
 
 export type GrowRunType = {
 	id: string;
@@ -102,10 +102,11 @@ export class GrowRun {
 
 	calculateDurationInDays(): number {
 		const start = this.duration?.start;
-		const end = this.duration?.end || dayjs();
+		const end = this.duration?.end;
 		if (!start) return NaN;
+		if (dayjs(start).isAfter() && !end) return NaN;
 
-		return dayjs(end).diff(start, 'days', true);
+		return dayjs(end || dayjs()).diff(start, 'days', true);
 	}
 
 	// updateTemperatureRecord(medium){}
@@ -128,9 +129,17 @@ class GrowRunActionNames extends ActionNames {
 		super('Grow Run');
 	}
 
-	changeStartAndEnd = `Change Grow Run Start & End Dates`;
-	changeName = 'Change Grow Run Name';
-	addLocation = 'Add Grow Run Location';
+	start = `Start Grow Run`;
+	end = `End Grow Run`;
+	export = `Export Grow Run`;
+	rename = 'Rename Grow Run';
+	changeLocation = 'Change Grow Run Location';
+	manageImages = 'Upload new or remove existing images';
+
+	// sub-entities
+	recordHarvest = `Record Harvest`;
+	measureEnvironmentalCondition = `Measure Environmental Condition`;
+	useResource = `Use Resource`;
 }
 
 export const growRunActionNames = new GrowRunActionNames();

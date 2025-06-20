@@ -4,11 +4,14 @@
 	export let loading;
 
 	// a fixed loading time so animation can be enjoyed :)
+	const minLoadingTime = import.meta.env.PUBLIC_MIN_LOADING_TIME
+		? parseInt(import.meta.env.PUBLIC_MIN_LOADING_TIME)
+		: 1500;
 	let minLoadingDone = false;
 
 	setTimeout(() => {
 		minLoadingDone = true;
-	}, 1500);
+	}, minLoadingTime);
 </script>
 
 {#if loading || !minLoadingDone}

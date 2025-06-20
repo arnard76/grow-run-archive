@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import { session } from '$lib/user/user';
+	import { session } from '$features/user/session';
 
 	import Menu from '$lib/components/Menu.svelte';
 	import { page } from '$app/stores';
@@ -10,8 +10,9 @@
 
 	import '$lib/styles/global.css';
 	import Loading from '$lib/components/Loading.svelte';
-	import { growRuns, growRunsLoading } from '$features/grow-run/store';
-	import { resourcesList, resourcesLoading } from '$features/resource/store';
+	import { growRuns, growRunsLoading } from '$features/grow-runs/grow-run/store';
+	import { resourcesList, resourcesLoading } from '$features/resources/store';
+	import Icon from '@iconify/svelte';
 
 	let authUnsubscribe = () => {};
 	$: if (browser) {
@@ -50,17 +51,20 @@
 
 <Loading loading={$session.loading || $growRunsLoading || $resourcesLoading}>
 	{#if $session.user}
-		<div class="flex justify-between flex-wrap bg-gray-800 items-center p-4 text-white">
+		<div
+			class="flex justify-between flex-wrap bg-gray-800 items-center p-4 text-white relative z-10"
+		>
 			<Menu />
 			<div class="flex gap-[15px] items-center">
 				<p class="hidden md:block">
 					Logged in: <span class="font-bold">{$session.user.email}</span>
 				</p>
-				<a href="/logout" class="nav-item">Logout</a>
+				<a class="nav-item" href="/settings">
+					<Icon icon="tabler:settings" />
+				</a>
+				<a class="nav-item" href="/logout">Logout</a>
 			</div>
 		</div>
 	{/if}
-	<div class="p-2">
-		<slot />
-	</div>
+	<slot />
 </Loading>
