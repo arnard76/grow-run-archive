@@ -123,12 +123,9 @@ describe('Grow Run Archive', () => {
 		// SETUP GROW RUN
 		const growRun = new GrowRunManager('Notification test');
 		growRun.showAllDetails();
-		// start time can not be more specific than minutes because of <input type="date" />
-		// start time has to be in the future otherwise test will miss the notification for first missed recording
-		const startTime = dayjs().add(1, 'minute').set('seconds', 0).set('milliseconds', 0);
-		growRun.start(startTime);
-		// end in case test fails (so GR no longer active)
-		growRun.end(startTime.add(notificationRequirements.thresholdsInMS[2]));
+		const startTime = dayjs().add(1, 'minute');
+		cy.wait(startTime.add(3, 'seconds').diff());
+		growRun.start();
 
 		// INITIAL ENVIRONMENT READINGS (but miss next one)
 		const time = startTime
@@ -140,7 +137,6 @@ describe('Grow Run Archive', () => {
 
 		// CHECK CURRENT MESSAGES AND
 		// WAIT UNTIL NEXT READINGS "SHOULD" ARRIVE
-		cy.wait(60_000); // wait until GR starts
 		cy.wait(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL);
 
 		cy.url().then((url) => {
@@ -188,6 +184,8 @@ describe('Grow Run Archive', () => {
 			});
 		});
 
-		growRun.delete();
+		growRunsManager.goToAll();
+		growRun.goTo();
+		growRun.end();
 	});
 });
