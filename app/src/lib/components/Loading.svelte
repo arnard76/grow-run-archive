@@ -1,11 +1,12 @@
 <script>
-	import { PUBLIC_MIN_LOADING_TIME } from '$env/static/public';
 	import loadingAnimation from '$lib/images/plant-growing-loading.webp';
 
 	export let loading;
 
 	// a fixed loading time so animation can be enjoyed :)
-	const minLoadingTime = PUBLIC_MIN_LOADING_TIME ? parseInt(PUBLIC_MIN_LOADING_TIME) : 1500;
+	const minLoadingTime = import.meta.env.PUBLIC_MIN_LOADING_TIME
+		? parseInt(import.meta.env.PUBLIC_MIN_LOADING_TIME)
+		: 1500;
 	let minLoadingDone = false;
 
 	setTimeout(() => {
