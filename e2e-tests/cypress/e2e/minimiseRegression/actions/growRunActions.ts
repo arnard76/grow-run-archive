@@ -59,7 +59,7 @@ export class GrowRunManager implements EntityManager {
 		actionsMenu.close();
 	}
 
-	delete() {}
+	delete = growRunsManager.deleteSingle;
 
 	get preview() {
 		return cy.contains('tr', this.growRunName);
