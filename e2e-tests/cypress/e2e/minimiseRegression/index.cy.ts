@@ -183,9 +183,11 @@ describe('Grow Run Archive', () => {
 				);
 			});
 		});
+	});
 
-		growRunsManager.goToAll();
-		growRun.goTo();
-		growRun.end();
+	after(() => {
+		// TODO: delete user as well
+		growRunsManager.deleteAll();
+		resourcesManager.deleteAll();
 	});
 });
