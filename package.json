@@ -9,7 +9,8 @@
 		"dev": "npm run with-env turbo run dev",
 		"start": "dotenv turbo run start",
 		"lint": "turbo run lint",
-		"e2e-pipeline": "turbo build --filter=@grow-run-archive/e2e-tests && cd e2e-tests && npm run pipeline"
+		"e2e-pipeline": "turbo build --filter=@grow-run-archive/e2e-tests && cd e2e-tests && npm run pipeline",
+		"cloc": "npx cloc . --vcs=git --exclude-list-file=package-lock.json --exclude-dir=e2e-tests"
 	},
 	"devDependencies": {
 		"dotenv-cli": "^8.0.0",
