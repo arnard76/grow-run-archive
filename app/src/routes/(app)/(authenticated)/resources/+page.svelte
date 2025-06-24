@@ -4,7 +4,7 @@
 	import { resourcesList } from '$features/resources/store';
 </script>
 
-<main class="p-2">
+<main>
 	<div class="flex items-center justify-between">
 		<h1>Resources</h1>
 

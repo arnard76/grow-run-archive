@@ -2,7 +2,7 @@
 	import Actions from '$features/user/Actions.svelte';
 </script>
 
-<main class="p-2">
+<main>
 	<div class="flex items-center justify-between">
 		<h1>Settings</h1>
 

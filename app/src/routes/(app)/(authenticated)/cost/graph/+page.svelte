@@ -56,7 +56,7 @@
 	}
 </script>
 
-<main class="p-2">
+<main>
 	<h1>Grow Runs Cost Chart</h1>
 	<p style="font-size: 12px;">
 		*NOTE*: Can't include grow runs that didn't produce any output. (Where would they go? 😁)
