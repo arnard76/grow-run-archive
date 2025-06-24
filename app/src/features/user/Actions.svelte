@@ -1,8 +1,8 @@
 <script lang="ts">
 	import ChangePasswordAction from '$features/user/ChangePasswordAction.svelte';
+	import DeleteUserAction from '$features/user/DeleteUserAction.svelte';
 	import ExportAction from '$features/user/ExportAction.svelte';
 	import ActionsMenuModal from '$lib/components/ActionsMenuModal.svelte';
-	import ConfirmActionModal from '$lib/components/ConfirmActionModal.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { userActionNames } from '@grow-run-archive/definitions';
 	import Icon from '@iconify/svelte';
@@ -11,7 +11,13 @@
 
 	let showActionsMenu = false;
 	let logoutAction = userActionNames.logout($session.user!.email!);
-	$: actions = [userActionNames.export, logoutAction, userActionNames.changePassword];
+	let deleteUserAction = userActionNames.deleteUser($session.user!.email!);
+	$: actions = [
+		userActionNames.export,
+		logoutAction,
+		userActionNames.changePassword,
+		deleteUserAction
+	];
 
 	let openAction: null | string = null;
 
@@ -44,6 +50,8 @@
 				<ExportAction {closeModal} />
 			{:else if openAction === userActionNames.changePassword}
 				<ChangePasswordAction {closeModal} />
+			{:else if $session.user?.email && openAction === userActionNames.deleteUser($session.user.email)}
+				<DeleteUserAction {closeModal} />
 			{/if}
 		</Modal>
 	{/if}

@@ -24,9 +24,9 @@ const resourceUsage2 = ['5mL nutrients'];
 
 const notificationRequirements = new NotificationRequirements(Cypress.env('ENV'));
 const notificationFormat = new NotificationFormat(notificationRequirements);
+const mailjs = new Mailjs();
 
 describe('Grow Run Archive', () => {
-	const mailjs = new Mailjs();
 	let user: User;
 
 	before(() => {
@@ -186,8 +186,6 @@ describe('Grow Run Archive', () => {
 	});
 
 	after(() => {
-		// TODO: delete user as well
-		growRunsManager.deleteAll();
-		resourcesManager.deleteAll();
+		user.deleteUser();
 	});
 });

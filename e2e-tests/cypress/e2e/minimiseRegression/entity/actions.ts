@@ -4,11 +4,14 @@ function randomlySample<B>(array: B[]): B {
 
 export class ActionModal {
 	name: string | RegExp;
-	constructor(name: string | RegExp) {
+	modalHeading: string | RegExp;
+
+	constructor(name: string | RegExp, modalHeading = name) {
 		this.name = name;
+		this.modalHeading = modalHeading;
 	}
 
-	openMethods: (() => any)[] = [() => cy.findByTitle(this.name, { exact: false }).click()];
+	openMethods: (() => any)[] = [() => cy.findByTitle(this.name, { exact: false }).realClick()];
 
 	closeMethods: (() => any)[] = [
 		() => cy.realPress('Escape'),
@@ -30,11 +33,11 @@ export class ActionModal {
 	}
 
 	checkModalIsClosed() {
-		cy.findByRole('heading', { name: this.name }).should('not.exist');
+		cy.findByRole('heading', { name: this.modalHeading }).should('not.exist');
 	}
 
 	get() {
-		return cy.findParentByHeading('dialog', this.name);
+		return cy.findParentByHeading('dialog', this.modalHeading);
 	}
 }
 
