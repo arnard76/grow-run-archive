@@ -3,7 +3,7 @@
 	import GrowRuns from '$features/grow-runs/View.svelte';
 </script>
 
-<main class="p-2">
+<main>
 	<div class="flex items-center justify-between">
 		<h1>Grow Runs</h1>
 		<GrowRunsActions />

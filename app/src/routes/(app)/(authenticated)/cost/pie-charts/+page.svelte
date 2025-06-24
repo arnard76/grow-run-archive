@@ -4,7 +4,7 @@
 	import PieGraph from '$features/grow-runs/grow-run/resource-usages/PieGraph.svelte';
 </script>
 
-<main class="p-2">
+<main>
 	<h1>Compare cost breakdown of all grow runs</h1>
 	<div>
 		{#each $growRuns as growRun}

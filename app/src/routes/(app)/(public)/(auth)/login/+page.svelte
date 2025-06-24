@@ -50,5 +50,7 @@
 	</div>
 
 	<a href="/forgot-password">Forgot password</a>
-	<p>Don't have an account? <a href="/sign-up">Sign-up</a></p>
+	<p>
+		Don't have an account? <a href="/sign-up">Sign-up</a>
+	</p>
 </form>
