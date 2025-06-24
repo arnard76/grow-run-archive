@@ -24,7 +24,7 @@ jobs:
       - name: Count Lines of Code (cloc)
         uses: djdefi/cloc-action@6
         with:
-          options: . --vcs=git --exclude-dir=e2e-tests --md --report-file=cloc.md
+          options: . --vcs=git --exclude-files=package-lock.json --exclude-file=package-lock.json --exclude-dir=e2e-tests --md --report-file=cloc.md
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v3
         with:
