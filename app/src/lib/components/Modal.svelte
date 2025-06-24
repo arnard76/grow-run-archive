@@ -7,10 +7,10 @@
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <dialog
 	bind:this={modal}
 	on:close={onClose}
-	on:keypress
 	on:click|capture={(e) => {
 		if (e.detail === 0) return; // don't close modal for non-mouse click events
 		if (!modal) return;

@@ -1,3 +1,6 @@
+import { userActionNames } from '@grow-run-archive/definitions';
+import { actionsMenu } from '../entity/actions';
+
 // AS SEEN/REMEMBERED BY USER
 // NOT WHAT IS ACTUALLY STORED IN THE BACKEND
 export type UserCredentials = {
@@ -40,5 +43,28 @@ export class User {
 	isLoggedIn() {
 		cy.findByText(`Logged in:`).should('be.visible');
 		cy.findByText(this.credentials.username).should('be.visible');
+	}
+
+	deleteUser() {
+		cy.visit('/settings');
+		actionsMenu.open();
+		const deleteUserAction = userActionNames.deleteUser(this.credentials.username);
+		cy.findByRole('button', { name: deleteUserAction }).click();
+		cy.findParentByHeading('dialog', deleteUserAction)
+			.findByLabelText(`Type "delete ${this.credentials.username}"`)
+			.type(`delete ${this.credentials.username}`);
+
+		cy.findParentByHeading('dialog', deleteUserAction)
+			.findByRole('button', { name: deleteUserAction })
+			.click();
+
+		cy.url().should('include', '/welcome');
+		this.testUserDeleted();
+	}
+
+	testUserDeleted() {
+		this.logout();
+		this.login(false);
+		cy.findByText(`Logged in:`).should('not.exist');
 	}
 }

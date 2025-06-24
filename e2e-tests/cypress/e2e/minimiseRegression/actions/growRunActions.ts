@@ -34,6 +34,8 @@ class GrowRunsManager extends EntitiesManager {
 		entities.each(($entity, index, ...rest) => {
 			if (index === 0) return;
 			cy.wrap($entity).findByRole('link').click();
+			// needs to navigate to record page
+			cy.url().should('not.equal', `${Cypress.env('PUBLIC_UI_URL')}${this.entityURL}`);
 			this.deleteSingle();
 		});
 	}
@@ -44,6 +46,7 @@ export const growRunsManager = new GrowRunsManager();
 export class GrowRunManager implements EntityManager {
 	growRunName: GrowRun['name'];
 	environment: GrowRunEnvironmentManager;
+	actionsMenu = new ActionModal('Grow Run Actions', 'Actions Menu 📃');
 
 	constructor(growRunName: GrowRun['name'], existingGrowRun = false) {
 		this.growRunName = growRunName;
@@ -51,15 +54,6 @@ export class GrowRunManager implements EntityManager {
 		growRunsManager.goToAll();
 		if (!existingGrowRun) this.add();
 	}
-
-	add() {
-		actionsMenu.open();
-		cy.findByPlaceholderText(/grow run name/i).type(this.growRunName);
-		cy.findByTitle(growRunActionNames.add).click();
-		actionsMenu.close();
-	}
-
-	delete = growRunsManager.deleteSingle;
 
 	get preview() {
 		return cy.contains('tr', this.growRunName);
@@ -119,6 +113,15 @@ export class GrowRunManager implements EntityManager {
 
 	// ACTIONS
 
+	add() {
+		actionsMenu.open();
+		cy.findByPlaceholderText(/grow run name/i).type(this.growRunName);
+		cy.findByTitle(growRunActionNames.add).click();
+		actionsMenu.close();
+	}
+
+	delete = growRunsManager.deleteSingle;
+
 	goTo() {
 		this.preview.findByRole('link').click();
 		this.heroSection.find('h2').contains(this.growRunName);
@@ -128,7 +131,7 @@ export class GrowRunManager implements EntityManager {
 
 	start() {
 		cy.window().then((win) => {
-			actionsMenu.open();
+			this.actionsMenu.open();
 			cy.findByTitle(growRunActionNames.start).click();
 			cy.findByRole('button', { name: /yes/i }).click();
 			this.checkStartTimeCorrect(dayjs(win.Date()));
@@ -160,8 +163,11 @@ export class GrowRunManager implements EntityManager {
 		cy.visit(`/grow-runs`, typeof value !== 'string' && mockLocation(value));
 		this.goTo();
 
-		actionsMenu.open();
-		actionsMenu.get().findByRole('button', { name: growRunActionNames.changeLocation }).click();
+		this.actionsMenu.open();
+		this.actionsMenu
+			.get()
+			.findByRole('button', { name: growRunActionNames.changeLocation })
+			.click();
 		const changeLocationModal = new ActionModal(growRunActionNames.changeLocation);
 		if (typeof value === 'string') {
 		}
@@ -208,18 +214,18 @@ export class GrowRunManager implements EntityManager {
 			usageOfResources = usageOfResourcesInput as ResourceUsage[];
 		}
 
+		const useResourceDialog = new ActionModal(growRunActionNames.useResource);
+		this.actionsMenu.open().findByTitle(growRunActionNames.useResource).click();
 		usageOfResources.forEach((usageOfResource) => {
-			actionsMenu.open().findByTitle(growRunActionNames.useResource).click();
-			const useResourceDialog = new ActionModal(growRunActionNames.useResource);
 			useResourceDialog
 				.get()
 				.find('input[type="number"]')
 				.type(usageOfResource.amountUsed.toString());
 			useResourceDialog.get().find('select').select(usageOfResource.resourceName);
 			useResourceDialog.get().findByTitle(growRunActionNames.useResource).click();
-			useResourceDialog.close();
-			actionsMenu.close();
 		});
+		useResourceDialog.close();
+		this.actionsMenu.close();
 	}
 
 	manuallyRecordHarvest(harvestsInput: (Harvest | string)[]) {
@@ -232,10 +238,9 @@ export class GrowRunManager implements EntityManager {
 			harvests = harvestsInput as Harvest[];
 		}
 
+		this.actionsMenu.open().findByTitle(growRunActionNames.recordHarvest).click();
+		const recordHarvestDialog = new ActionModal(growRunActionNames.recordHarvest);
 		harvests.forEach((harvest) => {
-			actionsMenu.open().findByTitle(growRunActionNames.recordHarvest).click();
-			const recordHarvestDialog = new ActionModal(growRunActionNames.recordHarvest);
-
 			recordHarvestDialog
 				.get()
 				.find('input[type="number"]')
@@ -249,14 +254,14 @@ export class GrowRunManager implements EntityManager {
 			if (harvest.datetime === 'now')
 				recordHarvestDialog.get().find('input[type="checkbox"]').check();
 			recordHarvestDialog.get().findByTitle(growRunActionNames.recordHarvest).click();
-			recordHarvestDialog.close();
-			actionsMenu.close();
 		});
+		recordHarvestDialog.close();
+		this.actionsMenu.close();
 	}
 
 	end() {
 		cy.window().then((win) => {
-			actionsMenu.open();
+			this.actionsMenu.open();
 			cy.findByTitle(growRunActionNames.end).click();
 			cy.findByRole('button', { name: /yes/i }).click();
 			this.checkEndTimeCorrect(dayjs(win.Date()));
