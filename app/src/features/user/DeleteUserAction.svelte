@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { deleteUser } from 'firebase/auth';
+	import { deleteUser, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
 	import ActionTemplate from '$lib/components/ActionTemplate.svelte';
 	import { userActionNames } from '@grow-run-archive/definitions';
 	import { session } from './session';
@@ -13,14 +13,20 @@
 		confirmAction: string;
 
 	const submitHandler = async () => {
-		if (!$session.user) return (error = 'User is not signed in');
-		if (confirmAction !== `delete ${$session.user?.email}`)
-			return (error = 'Please type the command correctly.');
+		const actionPromptValidator = new RegExp('delete .* password .*');
+
+		if (!$session.user || !$session.user.email) return (error = 'User is not signed in');
+		if (!actionPromptValidator.test(confirmAction)) return (error = 'Prompt is incorrect');
 		if (!$db) return (error = 'Database is not defined');
 
 		loading = true;
 
 		try {
+			const credential = EmailAuthProvider.credential(
+				confirmAction.split('delete ')[1].split(' password ')[0],
+				confirmAction.split(' password ')[1]
+			);
+			await reauthenticateWithCredential($session.user, credential);
 			await firebase.remove(firebase.ref($db, `/${$session.user.uid}`));
 			await deleteUser($session.user);
 			error = false;
@@ -47,7 +53,10 @@
 		{/if}
 
 		<div class="container">
-			<label for="confirm-delete-action">Type "delete {$session.user.email}"</label>
+			<label for="confirm-delete-action">
+				Type "delete {'<your username here>'}
+				{'<your password here>'}"
+			</label>
 			<input id="confirm-delete-action" type="text" bind:value={confirmAction} required />
 
 			{#if loading}
