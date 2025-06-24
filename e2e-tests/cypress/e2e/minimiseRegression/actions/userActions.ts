@@ -51,8 +51,8 @@ export class User {
 		const deleteUserAction = userActionNames.deleteUser(this.credentials.username);
 		cy.findByRole('button', { name: deleteUserAction }).click();
 		cy.findParentByHeading('dialog', deleteUserAction)
-			.findByLabelText(`Type "delete ${this.credentials.username}"`)
-			.type(`delete ${this.credentials.username}`);
+			.find('#confirm-delete-action')
+			.type(`delete ${this.credentials.username} password ${this.credentials.password}`);
 
 		cy.findParentByHeading('dialog', deleteUserAction)
 			.findByRole('button', { name: deleteUserAction })
