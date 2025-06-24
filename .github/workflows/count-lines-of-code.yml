@@ -26,4 +26,5 @@ jobs:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v3
         with:
-          file-path: ./cloc.md
+          file-path: cloc.md
+          github-token: ${{ secrets.GITHUB_TOKEN }}
