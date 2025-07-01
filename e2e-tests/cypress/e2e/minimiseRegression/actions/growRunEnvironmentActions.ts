@@ -26,14 +26,6 @@ export class GrowRunEnvironmentManager {
 		return cy.findParentByHeading('section', /Conditions/i).scrollIntoView();
 	}
 
-	getSpecificConditionData(conditionName: keyof ConditionsMeasurements) {
-		return this.conditionsSection
-			.find('section')
-			.contains(conditionName)
-			.find('ul')
-			.findAllByRole('listitem');
-	}
-
 	recordConditions(
 		timestamp: ExternalConditionsMeasurements['dateTime'],
 		conditions: ExternalConditionsMeasurements['conditions'],
@@ -61,24 +53,27 @@ export class GrowRunEnvironmentManager {
 		});
 	}
 
-	testCondition(
-		condition: keyof ExternalConditionsMeasurements['conditions'],
-		value: ConditionMeasurement['value'],
-		time: ConditionMeasurement['dateTime']
-	) {
-		this.conditionsSection
-			.find('section')
-			.contains(verboseConditionName(condition))
-			.parent()
-			.as('conditionSection');
-		cy.get('@conditionSection')
-			.findByRole('button', { name: /Show records/i })
-			.click();
-		cy.get('@conditionSection')
-			.find('ul li')
-			.should('contain.text', displayFormatForDateTime(time))
-			.should('contain.text', `${value}°C`);
-	}
+	// TODO: find a way to test conditions
+	// before it was using the listed measurements but I removed this because it shows on the graph
+	// so I need to test graph instead of list
+	// testCondition(
+	// 	condition: keyof ExternalConditionsMeasurements['conditions'],
+	// 	value: ConditionMeasurement['value'],
+	// 	time: ConditionMeasurement['dateTime']
+	// ) {
+	// 	this.conditionsSection
+	// 		.find('section')
+	// 		.contains(verboseConditionName(condition))
+	// 		.parent()
+	// 		.as('conditionSection');
+	// 	cy.get('@conditionSection')
+	// 		.findByRole('button', { name: /Show records/i })
+	// 		.click();
+	// 	cy.get('@conditionSection')
+	// 		.find('ul li')
+	// 		.should('contain.text', displayFormatForDateTime(time))
+	// 		.should('contain.text', `${value}°C`);
+	// }
 
 	waitForAndTestNotification(
 		growRunStartTime: DateTime,
