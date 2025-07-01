@@ -1,6 +1,4 @@
 <script>
-	import loadingAnimation from '$lib/images/plant-growing-loading.webp';
-
 	export let loading;
 
 	// a fixed loading time so animation can be enjoyed :)
@@ -17,7 +15,12 @@
 {#if loading || !minLoadingDone}
 	<div class="flex flex-col items-center">
 		<h1>loading...</h1>
-		<img src={loadingAnimation} alt="plant growing animation" width="150px" class="rounded-lg" />
+		<img
+			src="plant-growing-logo.webp"
+			alt="plant growing animation"
+			width="150"
+			class="rounded-lg"
+		/>
 	</div>
 {:else}
 	<slot />

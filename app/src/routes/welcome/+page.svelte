@@ -36,12 +36,13 @@
 </svelte:head>
 
 <div class="flex flex-col sm:flex-row sm:h-screen max-w-screen overflow-hidden text-wrap">
-	<div class="p-4 m-auto">
+	<div class="p-16 m-auto">
 		<img
+			src="plant-growing-logo.webp"
+			alt="LOGO: plant growing animation"
+			width="100"
+			class="rounded-lg"
 			loading="lazy"
-			width="200"
-			src="logos/png/logo-no-background.png"
-			alt="grow run archive logo"
 		/>
 	</div>
 
@@ -59,7 +60,7 @@
 		</section>
 
 		<section class="bg-blue-400 p-8 text-white">
-			<h2 class="m-0">Sign up</h2>
+			<h2>Sign up</h2>
 			<form bind:this={signUpRequestForm} on:submit={requestASignUp}>
 				<div class="flex flex-col items-start sm:block">
 					<label for="signup-email-input">Email</label>
