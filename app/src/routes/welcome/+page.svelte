@@ -35,22 +35,22 @@
 	/>
 </svelte:head>
 
-<div class="flex flex-col sm:flex-row h-screen">
+<div class="flex flex-col sm:flex-row sm:h-screen max-w-screen overflow-hidden text-wrap">
 	<div class="p-4 m-auto">
 		<img
 			loading="lazy"
+			width="200"
 			src="logos/png/logo-no-background.png"
-			height="150px"
 			alt="grow run archive logo"
 		/>
 	</div>
 
-	<main class="sm:overflow-y-auto p-0 bg-blue-100">
-		<section class="p-8 text-pretty spacing">
+	<main class="sm:overflow-y-auto p-0 bg-blue-600">
+		<section class="p-8 text-pretty spacing bg-blue-100">
 			<h2>Purpose of this app</h2>
 			<p>
-				A place to record things about your farm or garden, such as: harvest results, resource usage
-				and environmental conditions.
+				A place to record things about a farm or a garden, including: harvest results, resource
+				usage and environmental conditions.
 			</p>
 			<br />
 			<p>
@@ -59,9 +59,9 @@
 		</section>
 
 		<section class="bg-blue-400 p-8 text-white">
+			<h2 class="m-0">Sign up</h2>
 			<form bind:this={signUpRequestForm} on:submit={requestASignUp}>
-				<h2 class="m-0">Sign up</h2>
-				<div class="mb-8">
+				<div class="flex flex-col items-start sm:block">
 					<label for="signup-email-input">Email</label>
 					<input
 						type="email"
