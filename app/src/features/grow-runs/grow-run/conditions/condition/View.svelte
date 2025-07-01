@@ -27,26 +27,9 @@
 			{TimeOfDayGraph}
 			{timezone}
 		/>
+	{:else}
+		<p class="inline">
+			No {verboseConditionName(conditionName)} measurements have been recorded:
+		</p>
 	{/if}
-
-	<div class="w-full">
-		{#if anyRecords}
-			{#if expandRecords}
-				<button on:click={() => (expandRecords = !expandRecords)}>Hide records 🔼</button>
-				<ul class="flex flex-col items-center mt-4">
-					{#each Object.entries(growRun.conditions[conditionName] || {}) as [_, conditionMeasurement] (conditionMeasurement.dateTime)}
-						<Measurement {conditionName} {conditionMeasurement} {timezone} />
-					{/each}
-				</ul>
-
-				<button on:click={() => (expandRecords = !expandRecords)}>Hide records 🔼</button>
-			{:else}
-				<button on:click={() => (expandRecords = !expandRecords)}>Show records 🔽</button>
-			{/if}
-		{:else}
-			<p class="inline">
-				No {verboseConditionName(conditionName)} measurements have been recorded:
-			</p>
-		{/if}
-	</div>
 </section>
