@@ -3,6 +3,18 @@
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import Icon from '@iconify/svelte';
 
+	import {
+		Timeline,
+		TimelineItem,
+		TimelineSeparator,
+		TimelineDot,
+		TimelineConnector,
+		TimelineContent,
+		TimelineOppositeContent
+	} from 'svelte-vertical-timeline';
+
+	const options = [{ time: 'July 2025' }, { time: 'July 2024' }];
+
 	let emailAddressInput: HTMLInputElement | undefined;
 	let signUpRequestResult: HTMLHeadingElement | undefined;
 	let signUpRequestForm: HTMLFormElement | undefined;
@@ -78,13 +90,40 @@
 			<p bind:this={signUpRequestResult}></p>
 		</section>
 
-		<figure class="p-8 bg-blue-600 text-white">
-			<h2>July 2024 Demo</h2>
-			<div class="w-1/2">
-				<video muted controls autoplay loop class="max-w-full max-h-full">
-					<source src="videos/Grow Run Archive - Demo 2024.webm" />
-				</video>
-			</div>
-		</figure>
+		<section class="text-white">
+			<figure class="p-8 bg-blue-600 text-white">
+				<h2>Video Demo</h2>
+				<div class="sm:w-3/4 m-auto">
+					<video muted controls autoplay loop class="max-w-full max-h-full">
+						<source src="demo-videos/July 2025.webm" />
+					</video>
+				</div>
+			</figure>
+
+			<Timeline position="alternate" style="mt-32">
+				{#each options as option, i}
+					<TimelineItem style="height: 12rem;">
+						<TimelineOppositeContent slot="opposite-content">
+							<video
+								muted
+								controls
+								loop
+								class="max-w-full max-h-full sm:w-1/2 hover:scale-105 transition-transform -translate-y-1/2
+								{i === 0 ? 'invisible' : ''}"
+							>
+								<source src="demo-videos/{option.time}.webm" />
+							</video>
+						</TimelineOppositeContent>
+						<TimelineSeparator>
+							<TimelineDot />
+							<TimelineConnector />
+						</TimelineSeparator>
+						<TimelineContent>
+							<p>{option.time}</p>
+						</TimelineContent>
+					</TimelineItem>
+				{/each}
+			</Timeline>
+		</section>
 	</main>
 </div>
