@@ -9,6 +9,11 @@
 		getConditionMetadata,
 		type ConditionsMeasurements
 	} from '@grow-run-archive/definitions';
+	import { Chart as ChartJS } from 'chart.js';
+	import zoomPlugin from 'chartjs-plugin-zoom';
+	import { zoomConfig } from '$lib/charts/zoomConfig';
+
+	ChartJS.register(zoomPlugin);
 
 	export let growRun: GrowRun;
 	export let conditionNames: (keyof ConditionsMeasurements)[];
@@ -36,6 +41,7 @@
 			data,
 
 			options: {
+				animation: false,
 				maintainAspectRatio: false,
 				scales: {
 					x: {
@@ -73,7 +79,8 @@
 									tooltipItem.parsed.y
 								} ${getConditionMetadata(tooltipItem.dataset.label).units}`
 						}
-					}
+					},
+					zoom: zoomConfig
 				}
 			}
 		});
@@ -82,8 +89,10 @@
 
 {#if multipleAxes}
 	<p class="text-red-400">
-		Full period graph can't show multiple axes yet. <br />The conditions ({conditionNames.toString()})
-		have multiple units ({getUnitsForConditions(conditionNames)}) so have to be on multiple axes.
+		Full period graph can't show multiple axes yet. <br />
+		The conditions ({conditionNames.toString()}) have multiple units ({getUnitsForConditions(
+			conditionNames
+		)}) so have to be on multiple axes.
 	</p>
 {:else}
 	<div class="h-96 w-full">

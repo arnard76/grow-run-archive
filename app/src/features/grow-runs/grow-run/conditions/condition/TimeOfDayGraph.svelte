@@ -14,6 +14,7 @@
 		verboseConditionName,
 		getConditionMetadata
 	} from '@grow-run-archive/definitions';
+	import { zoomConfig } from '$lib/charts/zoomConfig';
 
 	export let growRun: GrowRun;
 	export let timezone: string;
@@ -44,7 +45,7 @@
 		let datasets = [];
 
 		for (let conditionName of conditionNames) {
-			const sortedMeasurements = Object.values(growRun.conditions[conditionName]).sort(
+			const sortedMeasurements = Object.values(growRun.conditions[conditionName] || {}).sort(
 				(a, b) => new Date(a.dateTime).valueOf() - new Date(b.dateTime).valueOf()
 			);
 
@@ -92,6 +93,7 @@
 			data,
 
 			options: {
+				animation: false,
 				maintainAspectRatio: false,
 				scales: {
 					x: {
@@ -123,7 +125,8 @@
 									tooltipItem.parsed.y
 								} ${getConditionMetadata(tooltipItem.dataset.label).units}`
 						}
-					}
+					},
+					zoom: zoomConfig
 				}
 			}
 		});
@@ -132,8 +135,10 @@
 
 {#if multipleAxes}
 	<p class="text-red-400">
-		Time of day graph can't show multiple axes yet. <br />The conditions ({conditionNames.toString()})
-		have multiple units ({getUnitsForConditions(conditionNames)}) so have to be on multiple axes.
+		Time of day graph can't show multiple axes yet. <br />
+		The conditions ({conditionNames.toString()}) have multiple units ({getUnitsForConditions(
+			conditionNames
+		)}) so have to be on multiple axes.
 	</p>
 {:else}
 	<div class="h-96 w-full">
