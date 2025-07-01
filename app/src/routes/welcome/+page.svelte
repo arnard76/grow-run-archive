@@ -35,8 +35,8 @@
 	/>
 </svelte:head>
 
-<div class="flex h-screen">
-	<div class=" p-4 m-auto">
+<div class="flex flex-col sm:flex-row h-screen">
+	<div class="p-4 m-auto">
 		<img
 			loading="lazy"
 			src="logos/png/logo-no-background.png"
@@ -45,15 +45,17 @@
 		/>
 	</div>
 
-	<main class="overflow-y-auto p-0 bg-blue-100">
-		<section class="p-8">
+	<main class="sm:overflow-y-auto p-0 bg-blue-100">
+		<section class="p-8 text-pretty spacing">
 			<h2>Purpose of this app</h2>
-			<p>Displays the following information for each grow run:</p>
-			<ul>
-				<li>total cost and cost per unit</li>
-				<li>used resources (+ cost spent on these resources)</li>
-				<li>data on environmental conditions such as temperature, soil pH and humidity</li>
-			</ul>
+			<p>
+				A place to record things about your farm or garden, such as: harvest results, resource usage
+				and environmental conditions.
+			</p>
+			<br />
+			<p>
+				The app provides simple summaries, such as: total cost, total cost per unit, total harvested
+			</p>
 		</section>
 
 		<section class="bg-blue-400 p-8 text-white">
