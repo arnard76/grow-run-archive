@@ -1,5 +1,7 @@
 <script lang="ts">
+	import '$lib/styles/global.css';
 	import { PUBLIC_API_URL } from '$env/static/public';
+	import Icon from '@iconify/svelte';
 
 	let emailAddressInput: HTMLInputElement | undefined;
 	let signUpRequestResult: HTMLHeadingElement | undefined;
@@ -33,72 +35,53 @@
 	/>
 </svelte:head>
 
-<div class="logo">
-	<img
-		loading="lazy"
-		src="logos/png/logo-no-background.png"
-		height="150px"
-		alt="grow run archive logo"
-	/>
-</div>
+<div class="flex h-screen">
+	<div class=" p-4 m-auto">
+		<img
+			loading="lazy"
+			src="logos/png/logo-no-background.png"
+			height="150px"
+			alt="grow run archive logo"
+		/>
+	</div>
 
-<main>
-	<section>
-		<h2>Features</h2>
-		<div style="display: flex; flex-wrap: wrap; gap: 20px;">
-			<div style="flex:1;min-width: 50%;max-width:100%;">
-				<p style="margin-bottom: 10px;">Displays the following information for each grow run:</p>
-				<ul>
-					<li>total cost and cost per unit</li>
-					<li>used resources (+ cost spent on these resources)</li>
-					<li>data on environmental conditions such as temperature, soil pH and humidity</li>
-				</ul>
-			</div>
-			<figure style="justify-content:start; flex: 1; min-width: 40rem; max-height: 30rem;">
-				<div style="width: 100%; height: 90%; object-fit: contain;">
-					<video
-						muted
-						autoplay
-						loop
-						style="max-width: 100%; border: 4px solid var(--accent-green); border-radius: 5px;max-height: 100%;"
-					>
-						<source src="videos/Grow Run Archive - Demo 2024.webm" />
-					</video>
-				</div>
-				<figcaption>July 2024 Demo</figcaption>
-			</figure>
-		</div>
-	</section>
+	<main class="overflow-y-auto p-0 bg-blue-100">
+		<section class="p-8">
+			<h2>Purpose of this app</h2>
+			<p>Displays the following information for each grow run:</p>
+			<ul>
+				<li>total cost and cost per unit</li>
+				<li>used resources (+ cost spent on these resources)</li>
+				<li>data on environmental conditions such as temperature, soil pH and humidity</li>
+			</ul>
+		</section>
 
-	<section style="background-color: var(--accent-green)">
-		<form bind:this={signUpRequestForm} on:submit={requestASignUp}>
-			<h2 style="margin: 0;">Sign up</h2>
-			<div class="input-container">
-				<label
-					>Email <input
+		<section class="bg-blue-400 p-8 text-white">
+			<form bind:this={signUpRequestForm} on:submit={requestASignUp}>
+				<h2 class="m-0">Sign up</h2>
+				<div class="mb-8">
+					<label for="signup-email-input">Email</label>
+					<input
 						type="email"
 						bind:this={emailAddressInput}
-						placeholder="name@gmail.com"
-					/></label
-				>
-				<button type="submit">
-					<img width="30px" src="/tick-icon.png" alt="tick icon submit button" />
-				</button>
-			</div>
-		</form>
-		<!-- svelte-ignore a11y-missing-content -->
-		<h3 bind:this={signUpRequestResult}></h3>
-	</section>
-</main>
+						placeholder="e.g. name@gmail.com"
+						id="signup-email-input"
+					/>
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-<!-- <link
-	href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
-	rel="stylesheet"
-/> -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-	rel="stylesheet"
-/>
-<link rel="stylesheet" href="/style.css" />
+					<button><Icon icon="tabler:check" /></button>
+				</div>
+			</form>
+			<!-- svelte-ignore a11y-missing-content -->
+			<p bind:this={signUpRequestResult}></p>
+		</section>
+
+		<figure class="p-8 bg-blue-600 text-white">
+			<h2>July 2024 Demo</h2>
+			<div class="w-1/2">
+				<video muted controls autoplay loop class="max-w-full max-h-full">
+					<source src="videos/Grow Run Archive - Demo 2024.webm" />
+				</video>
+			</div>
+		</figure>
+	</main>
+</div>
