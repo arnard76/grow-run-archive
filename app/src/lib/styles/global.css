@@ -68,7 +68,7 @@ button:hover .iconify {
 }
 
 button.danger {
-	@apply bg-orange-600 hover:bg-orange-400;
+	@apply bg-orange-600 hover:bg-orange-400 text-white;
 }
 
 button.danger * {

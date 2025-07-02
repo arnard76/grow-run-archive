@@ -38,6 +38,10 @@
 		{#each filteredActions as action (action)}
 			{#if action === logoutAction}
 				<button title={action} on:click={() => goto('/logout')}>{action}</button>
+			{:else if action === deleteUserAction}
+				<button title={action} on:click={() => openActionModal(action)} class="danger">
+					{action}
+				</button>
 			{:else}
 				<button title={action} on:click={() => openActionModal(action)}>{action}</button>
 			{/if}

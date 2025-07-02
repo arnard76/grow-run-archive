@@ -4,6 +4,7 @@
     "start_url": "/",
     "display": "standalone",
     "display_override": "minimal-ui",
+    "description": "Grow Run Archive is for saving farming results and providing helpful summaries. A grow run is simply a period where the plants are germinating, growing, harvests, season ending.",
     "icons": [
         {
             "src": "app-icons/android/android-launchericon-512-512.png",
@@ -28,6 +29,35 @@
         {
             "src": "app-icons/android/android-launchericon-48-48.png",
             "sizes": "48x48"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "app-screenshots/grow-run-actions.png",
+            "sizes": "1920x1080",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Actions that can be performed on a grow run"
+        },
+        {
+            "src": "app-screenshots/grow-run-record-harvest.png",
+            "sizes": "1920x1080",
+            "type": "image/png",
+            "label": "Record harvests for a grow run"
+        },
+        {
+            "src": "app-screenshots/grow-run.png",
+            "sizes": "1920x1080",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "View, understand, analyse a grow run"
+        },
+        {
+            "src": "app-screenshots/user-actions.png",
+            "sizes": "1920x1080",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Actions for your account (all your data)"
         }
     ]
 }
