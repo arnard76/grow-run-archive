@@ -15,22 +15,22 @@
 </script>
 
 <div class="horizontal-input-group">
-	<pre>I harvested</pre>
-	<input type="number" bind:value={harvest.numberOfLeaves} /> leaves
+	Harvested
+	<input type="number" bind:value={harvest.numberOfLeaves} />
+	leaves weighing
+	<input type="number" bind:value={harvest.massOfLeaves} />
+	g
 
-	<pre>that weighed</pre>
-	<input type="number" bind:value={harvest.massOfLeaves} /> g
-
-	<pre>right now</pre>
-	<input type="checkbox" bind:checked={harvestingRightNow} />?
+	<pre class={!harvestingRightNow ? 'line-through' : ''}>right now</pre>
+	<input type="checkbox" bind:checked={harvestingRightNow} />
 
 	{#if !harvestingRightNow}
-		<input type="datetime-local" bind:value={localDateTime} />
+		on <input type="datetime-local" bind:value={localDateTime} class="w-60" />
 	{/if}
 </div>
 
 <style>
-	input {
-		width: 50px;
+	input[type='number'] {
+		width: 80px;
 	}
 </style>

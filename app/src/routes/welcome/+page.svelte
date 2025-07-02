@@ -39,14 +39,6 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Grow Run Archive - Store your farming results</title>
-	<meta
-		name="description"
-		content="Grow Run Archive is a tool for storing your farming results and providing helpful summaries. Grow run simply means a period where the plants are growing and could include these stages: germinating, growing, harvests, season ending."
-	/>
-</svelte:head>
-
 <div class="flex flex-col sm:flex-row sm:h-screen max-w-screen overflow-hidden text-wrap">
 	<div class="p-16 m-auto">
 		<a href="/login">
