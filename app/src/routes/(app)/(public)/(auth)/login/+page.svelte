@@ -24,7 +24,7 @@
 	{#if error}
 		<p>{error}</p>
 	{/if}
-	<div class="container">
+	<div>
 		<label for="login-username"><b>Username</b></label>
 		<input
 			type="text"
@@ -33,7 +33,9 @@
 			bind:value={email}
 			required
 		/>
+	</div>
 
+	<div>
 		<label for="login-password"><b>Password</b></label>
 		<input
 			type="password"
@@ -42,14 +44,11 @@
 			bind:value={password}
 			required
 		/>
-
-		<button on:click={submitHandler}>Submit</button>
-
-		<!-- Sign in with:
-		<button on:click={() => {}}>Google</button> -->
 	</div>
 
-	<a href="/forgot-password">Forgot password</a>
+	<button on:click={submitHandler}>Login</button>
+
+	<a href="/forgot-password">Forgot your password?</a>
 	<p>
 		Don't have an account? <a href="/sign-up">Sign-up</a>
 	</p>

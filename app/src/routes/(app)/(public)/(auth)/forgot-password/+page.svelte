@@ -6,7 +6,7 @@
 	const successMessage =
 		'Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.';
 
-	let email: string;
+	let username: string;
 	let loading = false;
 	let error: string | boolean;
 
@@ -14,7 +14,7 @@
 		e.preventDefault();
 		loading = true;
 		try {
-			await sendPasswordResetEmail($auth, email, {
+			await sendPasswordResetEmail($auth, username, {
 				url: `http://localhost:5173/confirm-password-reset`
 			});
 			error = false;
@@ -35,14 +35,21 @@
 		{/if}
 	{/if}
 
-	<div class="container">
-		<label for="email"><b>Email</b></label>
-		<input type="text" placeholder="Enter Email" bind:value={email} required />
-
-		{#if loading}
-			<p>Loading...</p>
-		{:else}
-			<button on:click={submitHandler}>Submit</button>
-		{/if}
+	<div>
+		<label for="username-input"><b>Username</b></label>
+		<input type="text" placeholder="Enter Username" bind:value={username} required />
 	</div>
+
+	{#if loading}
+		<p>Loading...</p>
+	{:else}
+		<button on:click={submitHandler}>Send Reset Password Message</button>
+	{/if}
+
+	<p>
+		Remember your password? <a href="/login">Login</a>
+	</p>
+	<p>
+		Don't have any account yet? <a href="/sign-up">Sign-up</a>
+	</p>
 </form>
