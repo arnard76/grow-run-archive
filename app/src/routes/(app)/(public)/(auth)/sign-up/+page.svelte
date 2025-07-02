@@ -30,7 +30,8 @@
 	{#if error}
 		<p>{error}</p>
 	{/if}
-	<div class="container">
+
+	<div>
 		<label for="sign-up-username"><b>Username</b></label>
 		<input
 			type="text"
@@ -39,7 +40,9 @@
 			bind:value={email}
 			required
 		/>
+	</div>
 
+	<div>
 		<label for="sign-up-password"><b>Password</b></label>
 		<input
 			type="password"
@@ -48,7 +51,9 @@
 			bind:value={password}
 			required
 		/>
+	</div>
 
+	<div>
 		<label for="sign-up-confirm-password"><b>Confirm Password</b></label>
 		<input
 			type="password"
@@ -57,11 +62,10 @@
 			bind:value={confirmPassword}
 			required
 		/>
-		<button on:click={submitHandler}>Submit</button>
-
-		<!-- Sign up with:
-		<button on:click={() => {}}>Google</button> -->
 	</div>
+	<button on:click={submitHandler}>Sign-up</button>
 
-	<p>Already have an account? <a href="/login">Login</a></p>
+	<p>
+		Already have an account? <a href="/login">Login</a>
+	</p>
 </form>
