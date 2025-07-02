@@ -49,13 +49,15 @@
 
 <div class="flex flex-col sm:flex-row sm:h-screen max-w-screen overflow-hidden text-wrap">
 	<div class="p-16 m-auto">
-		<img
-			src="plant-growing-logo.webp"
-			alt="LOGO: plant growing animation"
-			width="100"
-			class="rounded-lg"
-			loading="lazy"
-		/>
+		<a href="/login">
+			<img
+				src="plant-growing-logo.webp"
+				alt="LOGO: plant growing animation"
+				width="100"
+				class="rounded-lg"
+				loading="lazy"
+			/>
+		</a>
 	</div>
 
 	<main class="sm:overflow-y-auto p-0 bg-blue-600">
