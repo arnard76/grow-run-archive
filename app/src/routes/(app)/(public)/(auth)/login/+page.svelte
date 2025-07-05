@@ -3,6 +3,7 @@
 	import { auth } from '$features/user/auth';
 	import { session } from '$features/user/session';
 	import type { FirebaseError } from 'firebase/app';
+	import { userActionNames } from '@grow-run-archive/definitions';
 
 	let email: string, password: string;
 	let error: string;
@@ -46,7 +47,7 @@
 		/>
 	</div>
 
-	<button on:click={submitHandler}>Login</button>
+	<button on:click={submitHandler}>{userActionNames.login}</button>
 
 	<a href="/forgot-password">Forgot your password?</a>
 	<p>

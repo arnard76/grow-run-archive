@@ -3,6 +3,7 @@
 	import { auth } from '$features/user/auth';
 	import { session } from '$features/user/session';
 	import { isValidPassword } from '$features/user/auth';
+	import { userActionNames } from '@grow-run-archive/definitions';
 
 	let email: string, password: string, confirmPassword: string;
 	let error: string;
@@ -63,7 +64,7 @@
 			required
 		/>
 	</div>
-	<button on:click={submitHandler}>Sign-up</button>
+	<button on:click={submitHandler}>{userActionNames.signup}</button>
 
 	<p>
 		Already have an account? <a href="/login">Login</a>

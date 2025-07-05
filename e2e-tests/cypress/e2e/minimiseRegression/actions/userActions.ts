@@ -27,7 +27,7 @@ export class User {
 		cy.findByLabelText(/username/i).type(this.credentials.username);
 		cy.findByLabelText('Password').type(this.credentials.password);
 		cy.findByLabelText('Confirm Password').type(this.credentials.password);
-		cy.findByRole('button', { name: /submit/i }).click();
+		cy.findByRole('button', { name: userActionNames.signup }).click();
 		this.isLoggedIn();
 	}
 
@@ -36,7 +36,7 @@ export class User {
 		cy.visit('/login');
 		cy.findByLabelText(/username/i).type(this.credentials.username);
 		cy.findByLabelText(/password/i).type(this.credentials.password);
-		cy.findByRole('button', { name: /submit/i }).click();
+		cy.findByRole('button', { name: userActionNames.login }).click();
 		if (checkLoggedIn) this.isLoggedIn();
 	}
 
