@@ -27,7 +27,8 @@
 		role="contentinfo"
 		class="relative"
 	>
-		<span style="color: green;margin: auto 0; ">$</span>{costOfUsage}
+		<span style="color: green;margin: auto 0; ">$</span>
+		{costOfUsage}
 
 		{#if showExpandedCalculation}
 			<span class="calculation">
