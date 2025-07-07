@@ -10,7 +10,7 @@
 
 <h3>{actionName}</h3>
 
-<form>
+<form class="w-full">
 	<slot />
 	<div>
 		<button title={actionName} on:click={onComplete}>

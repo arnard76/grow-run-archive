@@ -35,6 +35,10 @@ h3 {
 	@apply mb-4;
 }
 
+h4 {
+	@apply mb-2;
+}
+
 button,
 nav a,
 nav p,

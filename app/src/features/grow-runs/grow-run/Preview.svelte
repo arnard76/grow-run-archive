@@ -8,7 +8,12 @@
 </script>
 
 <tr>
-	<td><a href="/grow-runs/{growRun.id}" style="width: 100%">{growRun.name}</a></td>
+	<td>
+		<a href="/grow-runs/{growRun.id}" style="width: 100%">
+			{growRun.location?.address.city ? `(${growRun.location?.address.city})` : ''}
+			{growRun.name}
+		</a>
+	</td>
 	<td>{growRun.totalMassLeavesHarvested().toFixed(2)}</td>
 	<td>${cost.toFixed(2)}</td>
 	<td>{growRun.totalMassLeavesHarvested() != 0 ? '$' + costPer100g.toFixed(2) : 'No output 🥲'}</td>
