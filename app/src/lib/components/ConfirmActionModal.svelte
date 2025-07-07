@@ -27,8 +27,10 @@
 			on:click={() => {
 				askForConfirmation = false;
 				actionToConfirm();
-			}}>Yes</button
+			}}
 		>
+			Yes
+		</button>
 		<button title="Cancel Action" on:click={() => (askForConfirmation = false)}>No</button>
 	</Modal>
 {/if}

@@ -21,9 +21,9 @@
 		<div class="flex-1 w-[90%]">
 			<DetailsSection {growRun} />
 		</div>
-		<button title={growRunActionNames.close} on:click={closeGrowRun}
-			><Icon icon="tabler:x" /></button
-		>
+		<button title={growRunActionNames.close} on:click={closeGrowRun}>
+			<Icon icon="tabler:x" />
+		</button>
 	</section>
 	<ResourceUsageSection {growRun} />
 
