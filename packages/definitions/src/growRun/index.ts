@@ -49,6 +49,12 @@ export class GrowRun {
 		);
 	}
 
+	get locationSummary(): string {
+		if (!this.location) return '';
+
+		return `${this.location.address.city}, ${this.location.address.country}`;
+	}
+
 	addResourceUsage(resourceUsage: ResourceUsage) {
 		this.resources.used?.push(resourceUsage);
 	}
