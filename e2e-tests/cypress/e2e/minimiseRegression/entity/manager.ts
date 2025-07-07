@@ -1,4 +1,5 @@
 import { ActionNames } from '@grow-run-archive/definitions';
+import { randomlySample } from '@/util/array';
 
 /**
  * This class is to represent any person who interacts with an entity on GRA
@@ -23,15 +24,13 @@ export class EntitiesManager {
 		this.entityName = entityName;
 		this.entityActionNames = new ActionNames(this.entityName);
 		this.entityPluralName = entityName + 's';
-		this.entityURL =
-			entityURL ||
-			(this.entityPluralName
-				? `/${this.entityPluralName.toLowerCase().replace(' ', '-')}`
-				: undefined);
+		this.entityURL = entityURL || `/${this.entityPluralName.toLowerCase().replace(/ /g, '-')}`;
 	}
 
+	goToAllMethods: (() => any)[] = [() => cy.visit(this.entityURL)];
+
 	goToAll() {
-		cy.visit(this.entityURL);
+		randomlySample(this.goToAllMethods)();
 		cy.findByText('loading', { exact: false }).should('not.exist');
 	}
 
