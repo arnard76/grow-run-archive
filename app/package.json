@@ -41,6 +41,7 @@
 		"firebase": "^10.14.1",
 		"nodemailer": "^6.10.1",
 		"svelte-toggle": "^4.0.1",
-		"svelte-vertical-timeline": "^1.0.2"
+		"svelte-vertical-timeline": "^1.0.2",
+		"timezones-list": "^3.1.0"
 	}
 }
