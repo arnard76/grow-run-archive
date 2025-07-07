@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { resourcesList } from '$features/resources/store';
 	import type GrowRun from '$features/grow-runs/grow-run';
+	import Icon from '@iconify/svelte';
 	export let growRun: GrowRun;
 
 	$: cost = growRun.calculateCost($resourcesList);
@@ -10,7 +11,11 @@
 <tr>
 	<td>
 		<a href="/grow-runs/{growRun.id}" style="width: 100%">
-			{growRun.location?.address.city ? `(${growRun.location?.address.city})` : ''}
+			{#if growRun.location?.address.city}
+				<p class="inline-flex">
+					(<Icon icon="tabler:map-pin" class="mr-1" />{growRun.location.address.city})
+				</p>
+			{/if}
 			{growRun.name}
 		</a>
 	</td>
