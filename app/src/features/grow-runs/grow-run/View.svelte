@@ -26,6 +26,6 @@
 
 <style lang="postcss">
 	hr {
-		@apply border-dashed border-8 border-blue-400;
+		@apply border-solid border-4 rounded-md border-blue-400 w-[96%] m-auto;
 	}
 </style>
