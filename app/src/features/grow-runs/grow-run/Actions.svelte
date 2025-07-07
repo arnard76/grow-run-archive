@@ -47,9 +47,9 @@
 </script>
 
 <div class="group m-4 relative">
-	<button title="Grow Run Actions" on:click={() => (showActionsMenu = !showActionsMenu)}
-		><Icon icon="tabler:dots" /></button
-	>
+	<button title="Grow Run Actions" on:click={() => (showActionsMenu = !showActionsMenu)}>
+		<Icon icon="tabler:dots" />
+	</button>
 	<ActionsMenuModal bind:showActionsMenu {actions} let:filteredActions>
 		{#each filteredActions as action (action)}
 			{#if action === growRunActionNames.start}

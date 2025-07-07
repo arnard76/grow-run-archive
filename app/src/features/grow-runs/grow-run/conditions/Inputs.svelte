@@ -32,7 +32,8 @@
 		{#each environmentalConditions as environmentalCondition (environmentalCondition)}
 			<option value={environmentalCondition}>{environmentalCondition}</option>
 		{/each}
-	</select>:
+	</select>
+	:
 	{#if conditionName}
 		<input type="number" bind:value min="-273" max="250" inputmode="numeric" />
 		{getConditionMetadata(conditionName).units}
