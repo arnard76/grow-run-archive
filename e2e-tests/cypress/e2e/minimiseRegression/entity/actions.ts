@@ -1,6 +1,4 @@
-function randomlySample<B>(array: B[]): B {
-	return array[Math.floor(Math.random() * array.length)];
-}
+import { randomlySample } from '@/util/array';
 
 export class ActionModal {
 	name: string | RegExp;
