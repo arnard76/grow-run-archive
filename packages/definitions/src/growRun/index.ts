@@ -49,6 +49,14 @@ export class GrowRun {
 		);
 	}
 
+	get cityLocation() {
+		if (!this.location) return;
+
+		if (this.location.address.country === 'New Zealand') return this.location.address.county;
+
+		return this.location.address.city;
+	}
+
 	get locationSummary(): string {
 		if (!this.location) return '';
 
@@ -83,11 +91,11 @@ export class GrowRun {
 		this.harvests.push(harvest);
 	}
 
-	totalNumLeavesHarvested(): number {
+	get totalNumLeavesHarvested(): number {
 		return this.harvests.reduce((previous, curr) => previous + curr.numberOfLeaves, 0);
 	}
 
-	totalMassLeavesHarvested(): number {
+	get totalMassLeavesHarvested(): number {
 		return this.harvests.reduce((previous, curr) => previous + curr.massOfLeaves, 0);
 	}
 
@@ -103,7 +111,8 @@ export class GrowRun {
 	}
 
 	calculateCostPer100g(resources: Resource[]): number {
-		return (this.calculateCost(resources) * 100) / this.totalMassLeavesHarvested();
+		if (this.totalMassLeavesHarvested <= 0) return NaN;
+		return (this.calculateCost(resources) * 100) / this.totalMassLeavesHarvested;
 	}
 
 	calculateDurationInDays(): number {
