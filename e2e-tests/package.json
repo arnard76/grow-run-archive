@@ -10,6 +10,7 @@
 	"type": "module",
 	"devDependencies": {
 		"@cemalgnlts/mailjs": "^3.0.1",
+		"@cypress/webpack-preprocessor": "^6.0.4",
 		"@grow-run-archive/dayjs": "*",
 		"@grow-run-archive/definitions": "*",
 		"@stdlib/constants-time-milliseconds-in-day": "^0.3.2",
