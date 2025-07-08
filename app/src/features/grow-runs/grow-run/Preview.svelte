@@ -19,9 +19,19 @@
 			{growRun.name}
 		</a>
 	</td>
-	<td>{growRun.totalMassLeavesHarvested().toFixed(2)}</td>
+	<td>{growRun.totalMassLeavesHarvested.toFixed(2)}</td>
 	<td>${cost.toFixed(2)}</td>
-	<td>{growRun.totalMassLeavesHarvested() != 0 ? '$' + costPer100g.toFixed(2) : 'No output 🥲'}</td>
+	<td>
+		{#if isNaN(costPer100g)}
+			{#if growRun.totalMassLeavesHarvested === 0}
+				No output 🥲
+			{:else}
+				Can't calculate
+			{/if}
+		{:else}
+			${costPer100g.toFixed(2)}
+		{/if}
+	</td>
 </tr>
 
 <style>
