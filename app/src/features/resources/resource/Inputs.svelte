@@ -1,5 +1,5 @@
 <script lang="ts">
-	import units from '$features/grow-runs/grow-run/units';
+	import { units } from '@grow-run-archive/definitions';
 	import { Resource } from '@grow-run-archive/definitions';
 
 	export let resourceToCreateOrUpdate: Resource;
