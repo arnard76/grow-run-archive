@@ -6,8 +6,9 @@
 		"module": "ES2015",
 		"strict": true,
 		"moduleResolution": "bundler",
+		"baseUrl": "./",
 		"paths": {
-			"@/*": ["./cypress/e2e/minimiseRegression/*"]
+			"@/*": ["cypress/e2e/minimiseRegression/*"]
 		}
 	},
 	"include": ["**/*.ts"]
