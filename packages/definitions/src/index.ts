@@ -8,6 +8,7 @@ export * from './duration.js';
 export * from './growRun/location.js';
 export * from './resource.js';
 export * from './datetime.js';
+export * from './units.js';
 
 // should I expose general entities from here?
 export * from './entity/actions.js';
