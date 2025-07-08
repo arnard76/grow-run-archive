@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { type Coords } from '@grow-run-archive/definitions';
 	import Icon from '@iconify/svelte';
-	// @ts-ignore
 	import floatRegex from 'float-regex';
 	export let updatedGrowRunCoords: Coords | { longitude: undefined; latitude: undefined } = {
 		latitude: undefined,
