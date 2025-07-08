@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import type GrowRun from '$features/grow-runs/grow-run';
-	import { parseAddress } from '$features/grow-runs/grow-run/details/location/geocode';
 	import { growRunsAPI } from '$features/grow-runs/grow-run/store';
 	import ActionTemplate from '$lib/components/ActionTemplate.svelte';
 	import { growRunActionNames, type Coords } from '@grow-run-archive/definitions';
@@ -47,7 +46,7 @@
 		).json();
 
 		try {
-			addressDisplayFormat = parseAddress(geocodeResult);
+			addressDisplayFormat = geocodeResult['display_name'];
 			updatedGrowRunLocation = { ...coordinates, address: geocodeResult.address };
 		} catch (e) {
 			console.error("Couldn't parse city or address from " + JSON.stringify({ geocodeResult }));
