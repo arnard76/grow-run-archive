@@ -21,7 +21,7 @@ class GrowRunsManager extends EntitiesManager {
 	constructor() {
 		super('Grow Run', '/grow-runs');
 		this.goToAllMethods.push(() =>
-			cy.get('nav').findByRole('button', { name: this.entityPluralName }).click()
+			cy.get('nav').findByRole('link', { name: this.entityPluralName }).click()
 		);
 	}
 
@@ -187,18 +187,20 @@ export class GrowRunManager implements EntityManager {
 			.findByRole('button', { name: growRunActionNames.changeLocation })
 			.click();
 		changeLocationModal.close();
+		this.actionsMenu.close();
 	}
 
 	checkLocationIsSet(location: undefined | Location) {
 		growRunsManager.goToAll();
 
 		if (!location) {
-			this.preview.click();
+			this.goTo();
 			this.location.should('include.text', 'No location');
 			return;
 		}
 
-		this.preview.should('include.text', location.address.city).click();
+		this.preview.should('include.text', location.address.city);
+		this.goTo();
 		this.location
 			.should('include.text', `${location.address.city}, ${location.address.country}`)
 			.invoke('attr', 'href')
