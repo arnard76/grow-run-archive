@@ -24,8 +24,7 @@ jobs:
       - name: Count Lines of Code (cloc)
         uses: djdefi/cloc-action@7
         with:
-          options: |
-            --vcs=git \
+          options: . --vcs=git \
             --exclude-list-file=package-lock.json \
             --exclude-dir=e2e-tests \
             --md --report-file=cloc.md
