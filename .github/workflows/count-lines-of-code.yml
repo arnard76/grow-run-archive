@@ -41,7 +41,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.base}}
+          ref: ${{ github.event.pull_request.base.sha }}
 
       # Runs djdefi/cloc-action
       - name: Count Lines of Code (cloc)
