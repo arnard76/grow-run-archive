@@ -68,7 +68,9 @@ describe('Grow Run Archive', () => {
 		growRun.addLocation('with coords', growRunCoords);
 		growRun.checkLocationIsSet({
 			...growRunCoords,
-			address: { city: 'Auckland', country: 'New Zealand' }
+			suburb: 'Grafton',
+			city: 'Auckland',
+			country: 'New Zealand'
 		});
 		growRunsManager.goToAll();
 		growRun.showAllDetails();

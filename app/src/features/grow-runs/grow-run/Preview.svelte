@@ -11,9 +11,9 @@
 <tr>
 	<td>
 		<a href="/grow-runs/{growRun.id}" style="width: 100%">
-			{#if growRun.cityLocation}
+			{#if growRun.location?.address.city}
 				<p class="inline-flex">
-					(<Icon icon="tabler:map-pin" class="mr-1" />{growRun.cityLocation})
+					(<Icon icon="tabler:map-pin" class="mr-1" />{growRun.location.address.city})
 				</p>
 			{/if}
 			{growRun.name}
