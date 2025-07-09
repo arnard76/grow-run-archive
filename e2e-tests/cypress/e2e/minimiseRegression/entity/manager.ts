@@ -32,6 +32,7 @@ export class EntitiesManager {
 	goToAll() {
 		randomlySample(this.goToAllMethods)();
 		cy.findByText('loading', { exact: false }).should('not.exist');
+		cy.url().should('contain', this.entityURL);
 	}
 
 	deleteSingle() {
