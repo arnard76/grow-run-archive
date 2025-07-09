@@ -14,7 +14,9 @@
 			class="no-underline"
 		>
 			<Icon icon="tabler:map-pin" class="mb-[-4px]" />
-			<span>{growRun.locationSummary}</span>
+			<span>
+				{growRun.location.address.city}, {growRun.location.address.country}
+			</span>
 		</a>
 	{:else}
 		No location

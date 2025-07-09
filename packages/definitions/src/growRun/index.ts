@@ -49,20 +49,6 @@ export class GrowRun {
 		);
 	}
 
-	get cityLocation() {
-		if (!this.location) return;
-
-		if (this.location.address.country === 'New Zealand') return this.location.address.county;
-
-		return this.location.address.city;
-	}
-
-	get locationSummary(): string {
-		if (!this.location) return '';
-
-		return `${this.cityLocation}, ${this.location.address.country}`;
-	}
-
 	addResourceUsage(resourceUsage: ResourceUsage) {
 		this.resources.used?.push(resourceUsage);
 	}

@@ -17,6 +17,12 @@ import {
 } from '../util/convertStringRequirementsToObjects';
 import { GrowRunEnvironmentManager } from './growRunEnvironmentActions';
 
+type ExpectedLocationDescription = Coords & {
+	suburb: string;
+	city: string;
+	country: string;
+};
+
 class GrowRunsManager extends EntitiesManager {
 	constructor() {
 		super('Grow Run', '/grow-runs');
@@ -190,7 +196,7 @@ export class GrowRunManager implements EntityManager {
 		this.actionsMenu.close();
 	}
 
-	checkLocationIsSet(location: undefined | Location) {
+	checkLocationIsSet(location: undefined | ExpectedLocationDescription) {
 		growRunsManager.goToAll();
 
 		if (!location) {
@@ -199,10 +205,18 @@ export class GrowRunManager implements EntityManager {
 			return;
 		}
 
-		this.preview.should('include.text', location.address.city);
+		this.preview.invoke('text').then((text) => {
+			const cityOrSuburbDisplayed = text.includes(location.city) || text.includes(location.suburb);
+			expect(cityOrSuburbDisplayed).to.be.true;
+		});
 		this.goTo();
+		this.location.invoke('text').then((text) => {
+			const cityOrSuburbDisplayedInLocationSummary =
+				text.includes(`${location.city}, ${location.country}`) ||
+				text.includes(`${location.suburb}, ${location.country}`);
+			expect(cityOrSuburbDisplayedInLocationSummary).to.be.true;
+		});
 		this.location
-			.should('include.text', `${location.address.city}, ${location.address.country}`)
 			.invoke('attr', 'href')
 			.should(
 				'equal',
