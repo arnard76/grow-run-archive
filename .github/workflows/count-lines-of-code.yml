@@ -11,6 +11,9 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   cloc:
+    env:
+      PULL_REQUEST_BRANCH_REPORT: cloc_${{ github.event.pull_request.head.label }}.md
+      MERGE_BRANCH_REPORT: cloc_${{ github.event.pull_request.base.label }}.md
     permissions:
       pull-requests: write
     # The type of runner that the job will run on
@@ -28,16 +31,17 @@ jobs:
           options: . --vcs=git \
             --exclude-list-file=package-lock.json \
             --exclude-dir=e2e-tests \
-            --md --report-file=cloc.md
+            --md --report-file=${{ env.PULL_REQUEST_BRANCH_REPORT }}
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v3
         with:
-          file-path: cloc.md
+          message: ${{ github.event.pull_request.head.label }}
+          file-path: ${{ env.PULL_REQUEST_BRANCH_REPORT }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.base}}
 
       # Runs djdefi/cloc-action
       - name: Count Lines of Code (cloc)
@@ -46,9 +50,10 @@ jobs:
           options: . --vcs=git \
             --exclude-list-file=package-lock.json \
             --exclude-dir=e2e-tests \
-            --md --report-file=cloc_${{ github.event.pull_request.head.label }}.md
+            --md --report-file=${{ env.MERGE_BRANCH_REPORT }}
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v3
         with:
-          file-path: cloc_${{ github.event.pull_request.head.label }}.md
+          message: ${{ github.event.pull_request.base.label }}
+          file-path: ${{ env.MERGE_BRANCH_REPORT }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
