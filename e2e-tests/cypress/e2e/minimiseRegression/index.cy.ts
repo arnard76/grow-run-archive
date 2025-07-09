@@ -62,13 +62,13 @@ describe('Grow Run Archive', () => {
 		growRun.start();
 
 		const growRunCoords = {
-			latitude: -36.86611935343806,
-			longitude: 174.76589777209952
+			latitude: -36.866543630672965,
+			longitude: 174.77844419626646
 		};
 		growRun.addLocation('with coords', growRunCoords);
 		growRun.checkLocationIsSet({
 			...growRunCoords,
-			suburb: 'Grafton',
+			suburb: 'Newmarket',
 			city: 'Auckland',
 			country: 'New Zealand'
 		});
@@ -138,7 +138,7 @@ describe('Grow Run Archive', () => {
 		growRun.environment.recordConditions(time.toISOString(), measurements, user.credentials);
 
 		// CHECK CURRENT MESSAGES AND
-		// WAIT UNTIL NEXT READINGS "SHOULD" ARRIVE
+		// WAIT UNTIL NOTIFICATION SHOULD BE SENT
 		cy.wait(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL);
 
 		cy.url().then((url) => {
