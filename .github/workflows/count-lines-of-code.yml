@@ -33,3 +33,21 @@ jobs:
         with:
           file-path: cloc.md
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      # Runs djdefi/cloc-action
+      - name: Count Lines of Code (cloc)
+        uses: djdefi/cloc-action@7
+        with:
+          options: . --vcs=git \
+            --exclude-list-file=package-lock.json \
+            --exclude-dir=e2e-tests \
+            --md --report-file=cloc.md
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          file-path: cloc_${{ github.event.pull_request.head.label }}.md
+          github-token: ${{ secrets.GITHUB_TOKEN }}
