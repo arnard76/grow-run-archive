@@ -32,7 +32,7 @@ export class GrowRunEnvironmentManager {
 		userCredentials: UserCredentials
 	) {
 		cy.url().then(async (url) => {
-			const growRunId = url.split(growRunsManager.entityURL + '/')[1];
+			const growRunId = url.split(growRunsManager.URL + '/')[1];
 			expect(growRunId).to.be.a('string').with.length.greaterThan(6);
 			const response = await fetch(`${Cypress.env('PUBLIC_API_URL')}/grow-run/environment`, {
 				method: 'post',
@@ -84,7 +84,7 @@ export class GrowRunEnvironmentManager {
 	) {
 		// WAIT up to 2 minutes for the notification
 		const timeoutThreshold = dayjs().add(2, 'minutes');
-		let notification = undefined;
+		let notification: any = undefined;
 		cy.recursionLoop(async () => {
 			let messages = (await mailjs.getMessages()).data;
 			const notifications = messages.filter(

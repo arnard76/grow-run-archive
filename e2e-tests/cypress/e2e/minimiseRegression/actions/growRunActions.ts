@@ -25,10 +25,7 @@ type ExpectedLocationDescription = Coords & {
 
 class GrowRunsManager extends EntitiesManager {
 	constructor() {
-		super('Grow Run', '/grow-runs');
-		this.goToAllMethods.push(() =>
-			cy.get('nav').findByRole('link', { name: this.entityPluralName }).click()
-		);
+		super({ name: 'Grow Run' });
 	}
 
 	deleteSingle(): void {
@@ -41,11 +38,11 @@ class GrowRunsManager extends EntitiesManager {
 		this.goToAll();
 		const entities = cy.get('table tr');
 
-		entities.each(($entity, index, ...rest) => {
+		entities.each(($entity, index) => {
 			if (index === 0) return;
 			cy.wrap($entity).findByRole('link').click();
 			// needs to navigate to record page
-			cy.url().should('not.equal', `${Cypress.env('PUBLIC_UI_URL')}${this.entityURL}`);
+			cy.url().should('not.equal', `${Cypress.env('PUBLIC_UI_URL')}${this.URL}`);
 			this.deleteSingle();
 		});
 	}
@@ -161,7 +158,7 @@ export class GrowRunManager implements EntityManager {
 	}
 
 	addLocation(method: 'with coords' | 'with device location', coords?: Coords) {
-		cy.visit(growRunsManager.entityURL, mockLocation(coords));
+		cy.visit(growRunsManager.URL, mockLocation(coords));
 		this.goTo();
 
 		this.actionsMenu.open();

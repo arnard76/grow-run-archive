@@ -142,7 +142,7 @@ describe('Grow Run Archive', () => {
 		cy.wait(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL);
 
 		cy.url().then((url) => {
-			const growRunId = url.split(growRunsManager.entityURL + '/')[1];
+			const growRunId = url.split(growRunsManager.URL + '/')[1];
 			growRun.environment.waitForAndTestNotification(
 				startTime.toISOString(),
 				growRunId,
