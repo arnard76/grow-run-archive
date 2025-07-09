@@ -35,9 +35,10 @@ jobs:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v3
         with:
-          message: ${{ github.event.pull_request.head.label }}
           file-path: ${{ env.PULL_REQUEST_BRANCH_REPORT }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-tag: execution
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
@@ -54,6 +55,6 @@ jobs:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v3
         with:
-          message: ${{ github.event.pull_request.base.label }}
           file-path: ${{ env.MERGE_BRANCH_REPORT }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-tag: execution
