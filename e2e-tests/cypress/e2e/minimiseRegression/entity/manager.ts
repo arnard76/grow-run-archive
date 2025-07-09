@@ -15,29 +15,34 @@ export interface EntityManager {
 }
 
 export class EntitiesManager {
-	entityName: string;
-	entityPluralName: string;
-	entityURL: string;
-	entityActionNames: ActionNames;
+	name: string;
+	pluralName: string;
+	URL: string;
+	actionNames: ActionNames;
 
-	constructor(entityName: string, entityURL?: string) {
-		this.entityName = entityName;
-		this.entityActionNames = new ActionNames(this.entityName);
-		this.entityPluralName = entityName + 's';
-		this.entityURL = entityURL || `/${this.entityPluralName.toLowerCase().replace(/ /g, '-')}`;
+	constructor(entity: {
+		name: string;
+		pluralName?: string;
+		URL?: string;
+		actionNames?: ActionNames;
+	}) {
+		this.name = entity.name;
+		this.actionNames = entity.actionNames || new ActionNames(this.name);
+		this.pluralName = entity.pluralName || this.name + 's';
+		this.URL = entity.URL || `/${this.pluralName.toLowerCase().replace(/ /g, '-')}`;
 	}
 
-	goToAllMethods: (() => any)[] = [() => cy.visit(this.entityURL)];
+	goToAllMethods: (() => any)[] = [() => cy.visit(this.URL)];
 
 	goToAll() {
 		randomlySample(this.goToAllMethods)();
 		cy.findByText('loading', { exact: false }).should('not.exist');
-		cy.url().should('contain', this.entityURL);
+		cy.url().should('contain', this.URL);
 	}
 
 	deleteSingle() {
-		cy.findByTitle(this.entityActionNames.edit).click();
-		cy.findByTitle(this.entityActionNames.delete).click();
+		cy.findByTitle(this.actionNames.edit).click();
+		cy.findByTitle(this.actionNames.delete).click();
 	}
 
 	deleteAll() {

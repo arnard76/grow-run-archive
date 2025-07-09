@@ -4,8 +4,8 @@ import { actionsMenu } from '../entity/actions';
 
 class ResourcesManager extends EntitiesManager {
 	constructor() {
-		super('Resource', '/resources');
-		this.entityActionNames = resourceActionNames;
+		super({ name: 'Resource' });
+		this.actionNames = resourceActionNames;
 	}
 
 	addMultiple(resources: Resource[]) {
