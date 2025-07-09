@@ -1,6 +1,7 @@
 name: End-to-end test development preview
 on:
   push:
+    paths-ignore: .github/workflows/**
     branches:
       - 'development'
 jobs:
