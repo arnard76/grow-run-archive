@@ -16,14 +16,14 @@
 			<li class="summary">
 				<span>Total</span>
 				<span>
-					{growRun.totalMassLeavesHarvested().toFixed(2)}g ({growRun.totalNumLeavesHarvested()} leaves)
+					{growRun.totalMassLeavesHarvested.toFixed(2)}g ({growRun.totalNumLeavesHarvested} leaves)
 				</span>
 			</li>
 
 			<li class="summary">
 				<span>Average</span>
 				<pre>
-					{(growRun.totalMassLeavesHarvested() / growRun.totalNumLeavesHarvested()).toFixed(2)}g per leaf
+					{(growRun.totalMassLeavesHarvested / growRun.totalNumLeavesHarvested).toFixed(2)}g per leaf
 				</pre>
 			</li>
 		</ul>

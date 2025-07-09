@@ -4,6 +4,7 @@ import {
 	GrowRun,
 	growRunActionNames,
 	Harvest,
+	Location,
 	ResourceUsage
 } from '@grow-run-archive/definitions';
 
@@ -16,9 +17,15 @@ import {
 } from '../util/convertStringRequirementsToObjects';
 import { GrowRunEnvironmentManager } from './growRunEnvironmentActions';
 
+type ExpectedLocationDescription = Coords & {
+	suburb: string;
+	city: string;
+	country: string;
+};
+
 class GrowRunsManager extends EntitiesManager {
 	constructor() {
-		super('Grow Run', '/grow-runs');
+		super({ name: 'Grow Run' });
 	}
 
 	deleteSingle(): void {
@@ -31,11 +38,11 @@ class GrowRunsManager extends EntitiesManager {
 		this.goToAll();
 		const entities = cy.get('table tr');
 
-		entities.each(($entity, index, ...rest) => {
+		entities.each(($entity, index) => {
 			if (index === 0) return;
 			cy.wrap($entity).findByRole('link').click();
 			// needs to navigate to record page
-			cy.url().should('not.equal', `${Cypress.env('PUBLIC_UI_URL')}${this.entityURL}`);
+			cy.url().should('not.equal', `${Cypress.env('PUBLIC_UI_URL')}${this.URL}`);
 			this.deleteSingle();
 		});
 	}
@@ -150,17 +157,8 @@ export class GrowRunManager implements EntityManager {
 			});
 	}
 
-	/** 
-	 * location formats:
-	 - TODO: through device location
-	 - through coords ✅
-	 - TODO: through address search
-	 */
-	addLocationByCoords(
-		method: 'address search' | 'coords' | 'device location',
-		value: string | Coords
-	) {
-		cy.visit(`/grow-runs`, typeof value !== 'string' && mockLocation(value));
+	addLocation(method: 'with coords' | 'with device location', coords?: Coords) {
+		cy.visit(growRunsManager.URL, mockLocation(coords));
 		this.goTo();
 
 		this.actionsMenu.open();
@@ -169,29 +167,21 @@ export class GrowRunManager implements EntityManager {
 			.findByRole('button', { name: growRunActionNames.changeLocation })
 			.click();
 		const changeLocationModal = new ActionModal(growRunActionNames.changeLocation);
-		if (typeof value === 'string') {
-		}
 
-		if (method === 'address search') {
-			if (typeof value !== 'string') throw Error('value must be string, not Coords');
-			this.heroSection.findAllByLabelText(/address/i).type(value);
-			this.heroSection.find('select').select(value);
-		} else if (method === 'coords') {
-			if (typeof value === 'string') throw Error('value must be Coords, not string');
+		if (method === 'with coords') {
+			if (!coords) throw Error('coords must be provided if using coords to input location');
 			changeLocationModal
 				.get()
 				.findByLabelText(/latitude/i)
-				.type(value.latitude.toString());
+				.type(coords.latitude.toString());
 			changeLocationModal
 				.get()
 				.findByLabelText(/longitude/i)
-				.type(value.longitude.toString());
-		} else if (method === 'device location') {
+				.type(coords.longitude.toString());
+		} else if (method === 'with device location') {
 			changeLocationModal.get().findByRole('button', {
 				name: /use my location/i
 			});
-		} else {
-			throw Error(`Method ${method} can not be used to add a grow run location.`);
 		}
 
 		changeLocationModal.get().should('include.text', 'Address: ');
@@ -199,9 +189,36 @@ export class GrowRunManager implements EntityManager {
 			.get()
 			.findByRole('button', { name: growRunActionNames.changeLocation })
 			.click();
-		// if (method === 'address search')
-		// 	this.heroSection.contains(value as string).should('be.visible');
 		changeLocationModal.close();
+		this.actionsMenu.close();
+	}
+
+	checkLocationIsSet(location: undefined | ExpectedLocationDescription) {
+		growRunsManager.goToAll();
+
+		if (!location) {
+			this.goTo();
+			this.location.should('include.text', 'No location');
+			return;
+		}
+
+		this.preview.invoke('text').then((text) => {
+			const cityOrSuburbDisplayed = text.includes(location.city) || text.includes(location.suburb);
+			expect(cityOrSuburbDisplayed).to.be.true;
+		});
+		this.goTo();
+		this.location.invoke('text').then((text) => {
+			const cityOrSuburbDisplayedInLocationSummary =
+				text.includes(`${location.city}, ${location.country}`) ||
+				text.includes(`${location.suburb}, ${location.country}`);
+			expect(cityOrSuburbDisplayedInLocationSummary).to.be.true;
+		});
+		this.location
+			.invoke('attr', 'href')
+			.should(
+				'equal',
+				`https://www.google.com/maps/place/${location.latitude},${location.longitude}`
+			);
 	}
 
 	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {

@@ -1,18 +1,28 @@
 import { ActionNames } from './entity/actions.js';
+import { units } from './units.js';
 
-export type ResourceType = any;
+export type ExternalResource = {
+	name: string;
+	productLink?: string;
+	cost: number;
+	quantityMeasuredBy: keyof typeof units;
+	amountPurchased: number;
+	unit: string;
+	notes?: string;
+};
+
 export const resourceActionNames = new ActionNames('Resource');
 
 export class Resource {
 	id: string;
-	name: string;
-	productLink: string;
-	cost: number;
-	amountType: string;
-	amountUnit: string;
-	amountTotal: number;
+	name: ExternalResource['name'];
+	productLink: ExternalResource['productLink'];
+	cost: ExternalResource['cost'];
+	amountType: ExternalResource['quantityMeasuredBy'];
+	amountUnit: ExternalResource['unit'];
+	amountTotal: ExternalResource['amountPurchased'];
+	notes: ExternalResource['notes'];
 	colour: string;
-	notes: string;
 
 	constructor({
 		id,
@@ -26,14 +36,14 @@ export class Resource {
 		notes
 	}: {
 		id: string;
-		name: string;
-		productLink: string;
-		cost: number;
-		amountType: string;
-		amountUnit: string;
-		amountTotal: number;
+		name: ExternalResource['name'];
+		productLink: ExternalResource['productLink'];
+		cost: ExternalResource['cost'];
+		amountType: ExternalResource['quantityMeasuredBy'];
+		amountUnit: ExternalResource['unit'];
+		amountTotal: ExternalResource['amountPurchased'];
+		notes?: ExternalResource['notes'];
 		colour?: string;
-		notes?: string;
 	}) {
 		this.id = id;
 		this.name = name;

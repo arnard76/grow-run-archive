@@ -1,7 +1,7 @@
+import { session } from '$features/user/session';
 import { EntityAPI } from '$lib/entity/api';
 import { createEntityStores as createEntityStore } from '$lib/entity/store';
 import { Resource } from '@grow-run-archive/definitions';
-import { session } from '$features/user/session';
 import {
 	deleteObject,
 	getDownloadURL,
@@ -21,7 +21,7 @@ const noResourceFound = {
 	amountTotal: 100,
 	colour: 'black',
 	notes: ''
-};
+} as const;
 
 export const resourcesAPI = new EntityAPI<Resource>('resource-list', 'id');
 

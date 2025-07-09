@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { resourcesList } from '$features/resources/store';
 	import type GrowRun from '$features/grow-runs/grow-run';
+	import Icon from '@iconify/svelte';
 	export let growRun: GrowRun;
 
 	$: cost = growRun.calculateCost($resourcesList);
@@ -8,10 +9,29 @@
 </script>
 
 <tr>
-	<td><a href="/grow-runs/{growRun.id}" style="width: 100%">{growRun.name}</a></td>
-	<td>{growRun.totalMassLeavesHarvested().toFixed(2)}</td>
+	<td>
+		<a href="/grow-runs/{growRun.id}" style="width: 100%">
+			{#if growRun.location?.address.city}
+				<p class="inline-flex">
+					(<Icon icon="tabler:map-pin" class="mr-1" />{growRun.location.address.city})
+				</p>
+			{/if}
+			{growRun.name}
+		</a>
+	</td>
+	<td>{growRun.totalMassLeavesHarvested.toFixed(2)}</td>
 	<td>${cost.toFixed(2)}</td>
-	<td>{growRun.totalMassLeavesHarvested() != 0 ? '$' + costPer100g.toFixed(2) : 'No output 🥲'}</td>
+	<td>
+		{#if isNaN(costPer100g)}
+			{#if growRun.totalMassLeavesHarvested === 0}
+				No output 🥲
+			{:else}
+				Can't calculate
+			{/if}
+		{:else}
+			${costPer100g.toFixed(2)}
+		{/if}
+	</td>
 </tr>
 
 <style>

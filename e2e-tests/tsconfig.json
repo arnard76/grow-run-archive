@@ -4,7 +4,12 @@
 		"lib": ["es5", "dom"],
 		"types": ["cypress", "node", "@testing-library/cypress", "cypress-real-events"],
 		"module": "ES2015",
-		"moduleResolution": "bundler"
+		"strict": true,
+		"moduleResolution": "bundler",
+		"baseUrl": "./",
+		"paths": {
+			"@/*": ["cypress/e2e/minimiseRegression/*"]
+		}
 	},
 	"include": ["**/*.ts"]
 }

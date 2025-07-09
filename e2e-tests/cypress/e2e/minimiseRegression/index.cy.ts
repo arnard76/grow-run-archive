@@ -61,22 +61,18 @@ describe('Grow Run Archive', () => {
 		growRun.showAllDetails();
 		growRun.start();
 
-		// TODO: add location by address search
-		// growRun.addLocation('address search', '7 Auburn Street, Grafton, Auckland');
-		const growRunLocationCoords = {
-			latitude: -36.86611935343806,
-			longitude: 174.76589777209952
+		const growRunCoords = {
+			latitude: -36.866543630672965,
+			longitude: 174.77844419626646
 		};
-		growRun.addLocationByCoords('coords', growRunLocationCoords);
-		growRun.location
-			.should('include.text', 'Auckland')
-			.invoke('attr', 'href')
-			.should(
-				'equal',
-				`https://www.google.com/maps/place/${growRunLocationCoords.latitude},${growRunLocationCoords.longitude}`
-			);
+		growRun.addLocation('with coords', growRunCoords);
+		growRun.checkLocationIsSet({
+			...growRunCoords,
+			suburb: 'Newmarket',
+			city: 'Auckland',
+			country: 'New Zealand'
+		});
 		growRunsManager.goToAll();
-		// growRun.preview.should('include.text', 'Auckland'); // TODO!!! get this working
 		growRun.showAllDetails();
 
 		// DOESN"T WORK ON CHROME, WORKS ON EDGE
@@ -142,11 +138,11 @@ describe('Grow Run Archive', () => {
 		growRun.environment.recordConditions(time.toISOString(), measurements, user.credentials);
 
 		// CHECK CURRENT MESSAGES AND
-		// WAIT UNTIL NEXT READINGS "SHOULD" ARRIVE
+		// WAIT UNTIL NOTIFICATION SHOULD BE SENT
 		cy.wait(notificationRequirements.ENVIRONMENTAL_DATA_INTERVAL);
 
 		cy.url().then((url) => {
-			const growRunId = url.split(growRunsManager.entityURL + '/')[1];
+			const growRunId = url.split(growRunsManager.URL + '/')[1];
 			growRun.environment.waitForAndTestNotification(
 				startTime.toISOString(),
 				growRunId,
