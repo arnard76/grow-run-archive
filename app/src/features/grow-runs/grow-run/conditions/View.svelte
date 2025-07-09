@@ -6,12 +6,6 @@
 
 	export let growRun: GrowRun;
 
-	$: anyTempsRecorded =
-		Object.keys({
-			...(growRun.conditions['water-temperature'] || {}),
-			...(growRun.conditions['air-temperature'] || {})
-		}).length != 0;
-
 	let timezone: string;
 </script>
 
