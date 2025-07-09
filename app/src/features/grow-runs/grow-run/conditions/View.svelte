@@ -17,10 +17,11 @@
 
 <section>
 	<h2>Conditions</h2>
-	<TimezoneInput bind:timezone />
 
 	<div class="mt-2">
 		{#if Object.keys(growRun.conditions).length}
+			<TimezoneInput bind:timezone />
+
 			{#each environmentalConditions as environmentalConditionName}
 				{#if growRun.conditions[environmentalConditionName]}
 					<Condition {growRun} {timezone} conditionName={environmentalConditionName} />
