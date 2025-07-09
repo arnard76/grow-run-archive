@@ -45,7 +45,7 @@ jobs:
           options: . --vcs=git \
             --exclude-list-file=package-lock.json \
             --exclude-dir=e2e-tests \
-            --md --report-file=cloc.md
+            --md --report-file=cloc_${{ github.event.pull_request.head.label }}.md
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v3
         with:
