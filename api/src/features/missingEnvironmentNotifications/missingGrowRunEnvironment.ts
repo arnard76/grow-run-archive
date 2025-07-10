@@ -47,7 +47,7 @@ export class MissingEnvironmentDetective {
 	growRun: ActiveGrowRun;
 	currentRunDateTime: dayjs.Dayjs;
 	repository = new Repository();
-	notificationRequirements = new NotificationRequirements(process.env.ENV);
+	notificationRequirements = new NotificationRequirements(process.env.PUBLIC_ENV);
 	userId: string;
 
 	constructor(userId: string, unknownGrowRun: GrowRun, currentRunDateTime: dayjs.Dayjs) {

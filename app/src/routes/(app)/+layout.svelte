@@ -6,20 +6,15 @@
 	import Menu from '$lib/components/Menu.svelte';
 	import { page } from '$app/stores';
 	import { initializeFirebase } from '$lib/firebase';
-	import { onDestroy } from 'svelte';
 
 	import '$lib/styles/global.css';
 	import Loading from '$lib/components/Loading.svelte';
 	import { growRuns, growRunsLoading } from '$features/grow-runs/grow-run/store';
 	import { resourcesList, resourcesLoading } from '$features/resources/store';
 	import Icon from '@iconify/svelte';
+	import { auth } from '$features/user/auth';
 
-	let authUnsubscribe = () => {};
-	$: if (browser) {
-		authUnsubscribe = initializeFirebase() || (() => {});
-	}
-
-	onDestroy(authUnsubscribe);
+	$: if (browser) initializeFirebase();
 
 	const openRoutes = [
 		'/login',
@@ -39,12 +34,11 @@
 				? '/welcome'
 				: null;
 
-		if (redirectTo) {
-			goto(redirectTo);
-		}
+		if (redirectTo) goto(redirectTo);
 	}
 
 	session.set({ user: null, loading: true });
+	$auth;
 	$resourcesList;
 	$growRuns;
 </script>

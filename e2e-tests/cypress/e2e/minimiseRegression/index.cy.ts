@@ -26,7 +26,7 @@ const resourceUsage1 = [
 
 const resourceUsage2 = ['5mL nutrients'];
 
-const notificationRequirements = new NotificationRequirements(Cypress.env('ENV'));
+const notificationRequirements = new NotificationRequirements(Cypress.env('PUBLIC_ENV'));
 const notificationFormat = new NotificationFormat(notificationRequirements);
 const mailjs = new Mailjs();
 
