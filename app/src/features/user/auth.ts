@@ -1,8 +1,8 @@
 import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
 import { derived } from 'svelte/store';
 import { app } from '$lib/firebase';
-import { PUBLIC_ENV, PUBLIC_FIREBASE_AUTH_EMULATOR_HOST } from '$env/static/public';
 import { session } from './session';
+import { env } from '$lib/env';
 
 export const auth = derived<typeof app, Auth | undefined>(app, (app, setAuth) => {
 	if (!app) {
@@ -11,8 +11,8 @@ export const auth = derived<typeof app, Auth | undefined>(app, (app, setAuth) =>
 	}
 	const auth = getAuth(app);
 
-	if (PUBLIC_ENV === 'test') {
-		const authEmulatorUrl = `http://${PUBLIC_FIREBASE_AUTH_EMULATOR_HOST}`;
+	if (env.PUBLIC_ENV === 'test' && env.PUBLIC_FIREBASE_AUTH_EMULATOR_HOST) {
+		const authEmulatorUrl = `http://${env.PUBLIC_FIREBASE_AUTH_EMULATOR_HOST}`;
 		connectAuthEmulator(auth, authEmulatorUrl);
 	}
 
