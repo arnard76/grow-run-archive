@@ -2,7 +2,7 @@ import cron from 'node-cron';
 import { NotificationRequirements } from '@grow-run-archive/definitions';
 import dayjs from '@grow-run-archive/dayjs';
 
-const notificationRequirements = new NotificationRequirements(process.env.ENV);
+const notificationRequirements = new NotificationRequirements(process.env.PUBLIC_ENV);
 
 interface MissingEnvironmentNotificationsCronJob {
 	start(): void;

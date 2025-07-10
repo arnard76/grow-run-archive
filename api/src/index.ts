@@ -15,7 +15,7 @@ const apiRouter = Router();
 apiRouter.get('/', (req: Request, res: Response) => {
 	res.json({
 		message: 'ok',
-		environment: (process.env.ENV ?? 'local').toLowerCase()
+		environment: (process.env.PUBLIC_ENV ?? 'local').toLowerCase()
 	});
 });
 
