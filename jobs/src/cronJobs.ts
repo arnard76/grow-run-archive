@@ -25,7 +25,7 @@ class MissingEnvironmentNotificationsCronJobLocal
 			}
 			loading = true;
 			try {
-				console.log('sending missing environment request');
+				console.log('REQUESTING MISSING ENVIRONMENT NOTIFICATION ENDPOINT');
 				setTimeout(() => (loading = false), 15000);
 
 				const status = (await fetch(`${process.env.PUBLIC_API_URL}/notify-if-missing-environment`))
