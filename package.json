@@ -6,17 +6,19 @@
 	"scripts": {
 		"with-env": "dotenv -e ./.env.development -e ./api/.env.development -e ./app/.env.development -e ./e2e-tests/.env.development",
 		"build": "dotenv turbo run build",
-		"dev": "npm run with-env turbo run dev",
+		"dev": "npm run with-env concurrently \"firebase emulators:start\" \"wait-on http://127.0.0.1:9099 && turbo run dev\" ",
 		"start": "dotenv turbo run start",
 		"lint": "turbo run lint",
 		"e2e-pipeline": "turbo build --filter=@grow-run-archive/e2e-tests && cd e2e-tests && npm run pipeline",
 		"cloc": "npx cloc . --vcs=git --exclude-list-file=package-lock.json --exclude-dir=e2e-tests"
 	},
 	"devDependencies": {
+		"concurrently": "^9.2.0",
 		"dotenv-cli": "^8.0.0",
 		"tslib": "^2.8.1",
 		"turbo": "^2.5.3",
-		"typescript": "^5.8.3"
+		"typescript": "^5.8.3",
+		"wait-on": "^8.0.3"
 	},
 	"type": "module",
 	"workspaces": [
