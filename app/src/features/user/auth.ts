@@ -11,8 +11,8 @@ export const auth = derived<typeof app, Auth | undefined>(app, (app, setAuth) =>
 	}
 	const auth = getAuth(app);
 
-	if (env.PUBLIC_ENV === 'test' && env.PUBLIC_FIREBASE_AUTH_EMULATOR_HOST) {
-		const authEmulatorUrl = `http://${env.PUBLIC_FIREBASE_AUTH_EMULATOR_HOST}`;
+	if (env.ENV === 'test' && env.FIREBASE_AUTH_EMULATOR_HOST) {
+		const authEmulatorUrl = `http://${env.FIREBASE_AUTH_EMULATOR_HOST}`;
 		connectAuthEmulator(auth, authEmulatorUrl);
 	}
 
