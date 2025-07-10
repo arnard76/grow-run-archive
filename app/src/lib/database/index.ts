@@ -8,8 +8,8 @@ export const db = derived<typeof app, Database | undefined>(app, (app, setDb) =>
 
 	const database = getDatabase(app);
 
-	if (env.PUBLIC_ENV === 'test' && env.PUBLIC_FIREBASE_DATABASE_EMULATOR_HOST) {
-		const [host, port] = env.PUBLIC_FIREBASE_DATABASE_EMULATOR_HOST.split(':');
+	if (env.ENV === 'test' && env.FIREBASE_DATABASE_EMULATOR_HOST) {
+		const [host, port] = env.FIREBASE_DATABASE_EMULATOR_HOST.split(':');
 		connectDatabaseEmulator(database, host, parseInt(port));
 	}
 
