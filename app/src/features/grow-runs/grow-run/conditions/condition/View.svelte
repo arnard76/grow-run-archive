@@ -13,7 +13,6 @@
 	export let timezone: string;
 	export let conditionName: keyof ConditionsMeasurements;
 
-	let expandRecords = false;
 	$: anyRecords = Object.keys(growRun.conditions[conditionName] || {})?.length;
 </script>
 
