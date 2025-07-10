@@ -17,7 +17,7 @@
 	$: anyRecords = Object.keys(growRun.conditions[conditionName] || {})?.length;
 </script>
 
-<section>
+<section class="mb-0 mt-4">
 	<h3>{verboseConditionName(conditionName)}</h3>
 	{#if anyRecords}
 		<ToggleCharts
