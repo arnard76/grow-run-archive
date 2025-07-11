@@ -1,11 +1,5 @@
-// Import the functions you need from the SDKs you need
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 import { PUBLIC_FIREBASE_CONFIG } from '$env/static/public';
 const firebaseConfig = JSON.parse(PUBLIC_FIREBASE_CONFIG);
-
-// Initialize Firebase
 
 import { initializeApp, type FirebaseApp } from 'firebase/app';
 import { browser } from '$app/environment';

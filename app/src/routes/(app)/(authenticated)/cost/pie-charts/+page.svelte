@@ -6,12 +6,12 @@
 
 <main>
 	<h1>Compare cost breakdown of all grow runs</h1>
-	<div>
+	<div class="flex">
 		{#each $growRuns as growRun}
 			{#if growRun.resources?.used?.length && $resourcesList}
 				{@const pieChartData = $resourcesList && growRun.formatDataForPieChart()}
 
-				<div style="display: flex; flex-direction: column; text-align:center;">
+				<div class="flex flex-col text-center">
 					<p>{growRun.name}</p>
 					<PieGraph pie={pieChartData} sort="alphabet" />
 				</div>
@@ -19,9 +19,3 @@
 		{/each}
 	</div>
 </main>
-
-<style>
-	div {
-		display: flex;
-	}
-</style>

@@ -19,6 +19,6 @@
 			</span>
 		</a>
 	{:else}
-		No location
+		Unknown location
 	{/if}
 </p>

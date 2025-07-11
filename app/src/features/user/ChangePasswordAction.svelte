@@ -7,7 +7,6 @@
 
 	export let closeModal: () => any;
 
-	const successMessage = 'Your password has been reset! <a href="/login">Try logging in</a>';
 	let newPassword: string, confirmNewPassword: string;
 	let error: any,
 		loading = false;
@@ -40,9 +39,9 @@
 >
 	{#if !loading}
 		{#if error === false}
-			<p style="color: green;">{@html successMessage}</p>
+			<p class="text-green-500">Password has changed!</p>
 		{:else if error}
-			<p style="color: red;">{error}</p>
+			<p class="text-red-500">{error}</p>
 		{/if}
 	{/if}
 
