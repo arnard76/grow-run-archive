@@ -58,10 +58,8 @@
 
 <main>
 	<h1>Grow Runs Cost Chart</h1>
-	<p style="font-size: 12px;">
+	<p class="text-[12px]">
 		*NOTE*: Can't include grow runs that didn't produce any output. (Where would they go? 😁)
 	</p>
-	<div>
-		<canvas bind:this={canvas} class="h-[90vh]"></canvas>
-	</div>
+	<div><canvas bind:this={canvas} class="h-[90vh]" /></div>
 </main>

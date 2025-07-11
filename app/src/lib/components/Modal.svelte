@@ -6,20 +6,19 @@
 	$: if (modal) modal.showModal();
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<dialog
-	bind:this={modal}
-	on:close={onClose}
-	on:click|capture={(e) => {
-		if (e.detail === 0) return; // don't close modal for non-mouse click events
+<svelte:body
+	on:click|capture={({ detail, clientX, clientY }) => {
+		if (detail === 0) return; // don't close modal for non-mouse click events
 		if (!modal) return;
 		const { left, right, top, bottom } = modal.getBoundingClientRect();
 
-		if (e.clientX < left || e.clientX > right || e.clientY < top || e.clientY > bottom) {
-			modal?.close();
-		}
+		if (clientX < left || right < clientX || clientY < top || bottom < clientY) modal?.close();
 	}}
+/>
+
+<dialog
+	bind:this={modal}
+	on:close={onClose}
 	class="p-0 m-auto border-none rounded-xl drop-shadow-md max-h-[90vh] md:max-w-[75%]"
 >
 	<div class="p-4">

@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	if (browser) {
-		goto('/grow-runs');
-	}
+	if (browser) goto('/grow-runs');
 </script>

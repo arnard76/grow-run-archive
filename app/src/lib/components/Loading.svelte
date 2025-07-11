@@ -1,10 +1,9 @@
-<script>
+<script lang="ts">
+	import { env } from '$lib/env';
 	export let loading;
 
 	// a fixed loading time so animation can be enjoyed :)
-	const minLoadingTime = import.meta.env.PUBLIC_MIN_LOADING_TIME
-		? parseInt(import.meta.env.PUBLIC_MIN_LOADING_TIME)
-		: 1500;
+	const minLoadingTime = env.MIN_LOADING_TIME ? parseInt(env.MIN_LOADING_TIME) : 1500;
 	let minLoadingDone = false;
 
 	setTimeout(() => {

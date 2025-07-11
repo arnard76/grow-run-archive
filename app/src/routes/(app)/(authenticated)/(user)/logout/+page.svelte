@@ -8,12 +8,11 @@
 
 	if (browser && $session.user) {
 		$session.loading = true;
-		signOut($auth).catch((reason) => {
+		signOut($auth!).catch((reason) => {
 			$session.loading = false;
 			error = reason;
 		});
 	}
 </script>
 
-{#if error}
-	<p>{error}</p>{/if}
+{#if error}<p>{error}</p>{/if}

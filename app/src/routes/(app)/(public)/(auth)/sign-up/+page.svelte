@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+	import { createUserWithEmailAndPassword } from 'firebase/auth';
 	import { auth } from '$features/user/auth';
 	import { session } from '$features/user/session';
 	import { isValidPassword } from '$features/user/auth';
@@ -18,7 +18,7 @@
 		if (!isValidPassword(password)) return (error = 'password is not valid.');
 
 		try {
-			await createUserWithEmailAndPassword($auth, email, password);
+			await createUserWithEmailAndPassword($auth!, email, password);
 		} catch (e) {
 			error = (e as Error).message;
 			$session.loading = false;
@@ -64,7 +64,7 @@
 			required
 		/>
 	</div>
-	<button on:click={submitHandler}>{userActionNames.signup}</button>
+	<button on:click={submitHandler} disabled={$session.loading}>{userActionNames.signup}</button>
 
 	<p>
 		Already have an account? <a href="/login">Login</a>

@@ -12,7 +12,7 @@
 		e.preventDefault();
 		$session.loading = true;
 		try {
-			await signInWithEmailAndPassword($auth, email, password);
+			await signInWithEmailAndPassword($auth!, email, password);
 		} catch (e) {
 			error = (e as FirebaseError).message;
 			$session.loading = false;
@@ -47,7 +47,7 @@
 		/>
 	</div>
 
-	<button on:click={submitHandler}>{userActionNames.login}</button>
+	<button on:click={submitHandler} disabled={$session.loading}>{userActionNames.login}</button>
 
 	<a href="/forgot-password">Forgot your password?</a>
 	<p>
