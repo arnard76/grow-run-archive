@@ -1,7 +1,7 @@
 import { derived } from 'svelte/store';
 import { connectDatabaseEmulator, Database, getDatabase } from 'firebase/database';
 import { app } from '$lib/firebase';
-import { env } from '$lib/env';
+import { env } from '$env/dynamic/public';
 
 export const db = derived<typeof app, Database | undefined>(app, (app, setDb) => {
 	if (!app) return setDb(undefined);

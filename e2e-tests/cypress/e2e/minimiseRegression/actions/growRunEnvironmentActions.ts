@@ -34,7 +34,7 @@ export class GrowRunEnvironmentManager {
 		cy.url().then(async (url) => {
 			const growRunId = url.split(growRunsManager.URL + '/')[1];
 			expect(growRunId).to.be.a('string').with.length.greaterThan(6);
-			const response = await fetch(`${Cypress.env('PUBLIC_API_URL')}/grow-run/environment`, {
+			const response = await fetch(`${Cypress.env('API_URL')}/grow-run/environment`, {
 				method: 'post',
 				body: JSON.stringify({
 					user: {

@@ -1,5 +1,5 @@
-import { PUBLIC_FIREBASE_CONFIG } from '$env/static/public';
-const firebaseConfig = JSON.parse(PUBLIC_FIREBASE_CONFIG);
+import { FIREBASE_CONFIG } from '$env/static/public';
+const firebaseConfig = JSON.parse(FIREBASE_CONFIG);
 
 import { initializeApp, type FirebaseApp } from 'firebase/app';
 import { browser } from '$app/environment';

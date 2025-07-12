@@ -2,7 +2,7 @@ import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
 import { derived } from 'svelte/store';
 import { app } from '$lib/firebase';
 import { session } from './session';
-import { env } from '$lib/env';
+import { env } from '$env/dynamic/public';
 
 export const auth = derived<typeof app, Auth | undefined>(app, (app, setAuth) => {
 	if (!app) {
