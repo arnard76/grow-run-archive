@@ -14,7 +14,7 @@ class MissingEnvironmentNotificationsCronJobLocal
 	implements MissingEnvironmentNotificationsCronJob
 {
 	start() {
-		if (!(process.env.PUBLIC_API_URL as string).includes('localhost')) return;
+		if (!(process.env.API_URL as string).includes('localhost')) return;
 		let loading = false;
 
 		const job = async () => {
@@ -28,8 +28,7 @@ class MissingEnvironmentNotificationsCronJobLocal
 				console.log('REQUESTING MISSING ENVIRONMENT NOTIFICATION ENDPOINT');
 				setTimeout(() => (loading = false), 15000);
 
-				const status = (await fetch(`${process.env.PUBLIC_API_URL}/notify-if-missing-environment`))
-					.status;
+				const status = (await fetch(`${process.env.API_URL}/notify-if-missing-environment`)).status;
 				if (status !== 200) {
 					setTimeout(() => (loading = false), 5000);
 					throw Error('Cron-Job failed with status ' + status);
@@ -70,9 +69,9 @@ class MissingEnvironmentNotificationsCronJobDeployed
 console.log('Cron jobs time');
 
 async function createMissingEnvironmentNotificationsCronJob() {
-	if (!process.env.PUBLIC_API_URL) throw Error('PUBLIC_API_URL not defined');
+	if (!process.env.API_URL) throw Error('API_URL not defined');
 
-	return process.env.PUBLIC_API_URL.includes('localhost')
+	return process.env.API_URL.includes('localhost')
 		? new MissingEnvironmentNotificationsCronJobLocal()
 		: new MissingEnvironmentNotificationsCronJobDeployed();
 }

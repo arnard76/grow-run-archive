@@ -8,6 +8,10 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
+		env: {
+			publicPrefix: '',
+			privatePrefix: 'SECRET'
+		},
 		alias: {
 			$features: 'src/features'
 		},

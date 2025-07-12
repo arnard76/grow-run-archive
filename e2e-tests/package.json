@@ -3,8 +3,8 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "set 'CYPRESS_baseUrl=PUBLIC_UI_URL'&&; cypress open",
-		"local": "set 'CYPRESS_baseUrl=PUBLIC_UI_URL'&&; cypress run",
+		"dev": "set 'CYPRESS_baseUrl=UI_URL'&&; cypress open",
+		"local": "set 'CYPRESS_baseUrl=UI_URL'&&; cypress run",
 		"pipeline": "cypress run"
 	},
 	"type": "module",

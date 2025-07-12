@@ -6,8 +6,7 @@ let app: App | undefined = undefined;
 if (!admin.apps.length) {
 	app = initializeApp({
 		credential: admin.credential.cert(JSON.parse(process.env.SECRET_FIREBASE_ADMIN_CREDENTIALS!)),
-		databaseURL: JSON.parse(process.env.PUBLIC_FIREBASE_CONFIG!).databaseURL
+		databaseURL: JSON.parse(process.env.FIREBASE_CONFIG!).databaseURL
 	});
 }
-
 export const database = getDatabase(app);

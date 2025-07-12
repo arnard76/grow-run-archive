@@ -24,9 +24,9 @@ jobs:
           start: npm start
           command: npm run e2e-pipeline
           # quote the url to be safe against YML parsing surprises
-          wait-on: '${{ secrets.PUBLIC_UI_URL }}, ${{ secrets.PUBLIC_API_URL }}'
+          wait-on: '${{ secrets.UI_URL }}, ${{ secrets.API_URL }}'
         env:
-          CYPRESS_baseUrl: ${{ secrets.PUBLIC_UI_URL }}
+          CYPRESS_baseUrl: ${{ secrets.UI_URL }}
       - name: Test Recordings
         uses: actions/upload-artifact@v4
         if: always()
