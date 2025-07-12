@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_API_URL } from '$env/static/public';
+	import { API_URL } from '$env/static/public';
 	import type GrowRun from '$features/grow-runs/grow-run';
 	import { growRunsAPI } from '$features/grow-runs/grow-run/store';
 	import ActionTemplate from '$lib/components/ActionTemplate.svelte';
@@ -38,7 +38,7 @@
 		lastCoords = { ...coordinates };
 
 		const geocodeResult = await (
-			await fetch(`${PUBLIC_API_URL}/grow-run/location`, {
+			await fetch(`${API_URL}/grow-run/location`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ coords: coordinates })

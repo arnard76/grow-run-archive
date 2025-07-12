@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '$lib/styles/global.css';
-	import { PUBLIC_API_URL } from '$env/static/public';
+	import { API_URL } from '$env/static/public';
 	import Icon from '@iconify/svelte';
 
 	import {
@@ -22,7 +22,7 @@
 	async function requestASignUp(event: SubmitEvent) {
 		event.preventDefault();
 
-		const res = await fetch(`${PUBLIC_API_URL}/sign-up-request`, {
+		const res = await fetch(`${API_URL}/sign-up-request`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ 'user-email': emailAddressInput?.value })

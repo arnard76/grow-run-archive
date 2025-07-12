@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { env } from '$lib/env';
+	import { env } from '$env/dynamic/public';
+
 	export let loading;
 
 	// a fixed loading time so animation can be enjoyed :)
