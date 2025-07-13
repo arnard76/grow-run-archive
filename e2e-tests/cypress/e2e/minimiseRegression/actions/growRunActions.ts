@@ -42,7 +42,7 @@ class GrowRunsManager extends EntitiesManager {
 			if (index === 0) return;
 			cy.wrap($entity).findByRole('link').click();
 			// needs to navigate to record page
-			cy.url().should('not.equal', `${Cypress.env('PUBLIC_UI_URL')}${this.URL}`);
+			cy.url().should('not.equal', `${Cypress.env('UI_URL')}${this.URL}`);
 			this.deleteSingle();
 		});
 	}
