@@ -5,6 +5,7 @@
 <nav class="flex gap-[15px] items-start">
 	<a href="/grow-runs">Grow Runs</a>
 	<a href="/resources">Resources</a>
+	<a href="/grow-setups">Grow Setups</a>
 	<MenuDropDown>
 		<p slot="text" class="nav-item">Cost</p>
 		<a href="/cost/graph">Graph</a>

@@ -2,15 +2,20 @@
 	import { resourcesList } from '$features/resources/store';
 	import type GrowRun from '$features/grow-runs/grow-run';
 	import Icon from '@iconify/svelte';
+	import { growSetups } from '$features/grow-setups/store';
 	export let growRun: GrowRun;
 
 	$: cost = growRun.calculateCost($resourcesList);
 	$: costPer100g = growRun.calculateCostPer100g($resourcesList);
+	$: growRunGrowSetup = growRun.growSetup && $growSetups.find((gs) => gs.id === growRun.growSetup);
 </script>
 
 <tr>
 	<td>
 		<a href="/grow-runs/{growRun.id}" style="width: 100%">
+			{#if growRunGrowSetup}
+				<p class="inline-flex">({growRunGrowSetup.shortName})</p>
+			{/if}
 			{#if growRun.location?.address.city}
 				<p class="inline-flex">
 					(<Icon icon="tabler:map-pin" class="mr-1" />{growRun.location.address.city})
