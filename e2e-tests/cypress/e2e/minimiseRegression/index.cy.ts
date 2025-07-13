@@ -67,11 +67,14 @@ describe('Grow Run Archive', () => {
 		};
 		growRun.addLocation('with coords', growRunCoords);
 		growRun.testLocationIsSet({
-			...growRunCoords,
-			suburb: 'Newmarket',
-			city: 'Auckland',
-			country: 'New Zealand'
+			coords: growRunCoords,
+			address: {
+				suburb: 'Newmarket',
+				city: 'Auckland',
+				country: 'New Zealand'
+			}
 		});
+
 		growRunsManager.goToAll();
 		growRun.showAllDetails();
 

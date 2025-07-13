@@ -11,8 +11,10 @@
 		if ('geolocation' in navigator) {
 			/* geolocation is available */
 			navigator.geolocation.getCurrentPosition(
-				(position) => (updatedGrowRunCoords = position.coords),
-				(e) => console.log('something has gone wrong :(', e)
+				({ coords }) =>
+					(updatedGrowRunCoords = { latitude: coords.latitude, longitude: coords.longitude }),
+				(e) => console.log('something has gone wrong :(', e),
+				{ enableHighAccuracy: true }
 			);
 		} else {
 			/* geolocation IS NOT available */

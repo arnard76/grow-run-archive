@@ -16,11 +16,15 @@ import {
 } from '../util/convertStringRequirementsToObjects';
 import { GrowRunEnvironmentManager } from './growRunEnvironmentActions';
 
-type ExpectedLocationDescription = Coords & {
+type AddressDescription = {
 	suburb: string;
 	city: string;
 	country: string;
 };
+
+type LocationDescription =
+	| { address: AddressDescription; coords: Coords }
+	| { address: AddressDescription; coords?: Coords };
 
 class GrowRunsManager extends EntitiesManager {
 	constructor() {
@@ -179,7 +183,7 @@ export class GrowRunManager implements EntityManager {
 				.type(coords.longitude.toString());
 		} else if (method === 'with device location') {
 			changeLocationModal.get().findByRole('button', {
-				name: /use my location/i
+				name: /Get Current Location/i
 			});
 		}
 
@@ -192,32 +196,37 @@ export class GrowRunManager implements EntityManager {
 		this.actionsMenu.close();
 	}
 
-	testLocationIsSet(location: undefined | ExpectedLocationDescription) {
+	testLocationIsSet(expectedLocation: undefined | LocationDescription) {
 		growRunsManager.goToAll();
 
-		if (!location) {
+		if (!expectedLocation) {
 			this.goTo();
 			this.location.should('include.text', 'No location');
 			return;
 		}
 
+		const { address, coords } = expectedLocation;
+
 		this.preview.invoke('text').then((text) => {
-			const cityOrSuburbDisplayed = text.includes(location.city) || text.includes(location.suburb);
+			const cityOrSuburbDisplayed = text.includes(address.city) || text.includes(address.suburb);
 			expect(cityOrSuburbDisplayed).to.be.true;
 		});
 		this.goTo();
 		this.location.invoke('text').then((text) => {
 			const cityOrSuburbDisplayedInLocationSummary =
-				text.includes(`${location.city}, ${location.country}`) ||
-				text.includes(`${location.suburb}, ${location.country}`);
+				text.includes(`${address.city}, ${address.country}`) ||
+				text.includes(`${address.suburb}, ${address.country}`);
 			expect(cityOrSuburbDisplayedInLocationSummary).to.be.true;
 		});
-		this.location
-			.invoke('attr', 'href')
-			.should(
-				'equal',
-				`https://www.google.com/maps/place/${location.latitude},${location.longitude}`
-			);
+
+		if (coords) {
+			this.location
+				.invoke('attr', 'href')
+				.should(
+					'equal',
+					`https://www.google.com/maps/place/${coords.latitude},${coords.longitude}`
+				);
+		}
 	}
 
 	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {
