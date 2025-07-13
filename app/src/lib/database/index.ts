@@ -10,7 +10,11 @@ export const db = derived<typeof app, Database | undefined>(app, (app, setDb) =>
 
 	if (env.ENV === 'test' && env.FIREBASE_DATABASE_EMULATOR_HOST) {
 		const [host, port] = env.FIREBASE_DATABASE_EMULATOR_HOST.split(':');
-		connectDatabaseEmulator(database, host, parseInt(port));
+		try {
+			connectDatabaseEmulator(database, host, parseInt(port));
+		} catch (e) {
+			console.info(e);
+		}
 	}
 
 	setDb(database);

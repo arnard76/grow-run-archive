@@ -13,7 +13,11 @@ export const auth = derived<typeof app, Auth | undefined>(app, (app, setAuth) =>
 
 	if (env.ENV === 'test' && env.FIREBASE_AUTH_EMULATOR_HOST) {
 		const authEmulatorUrl = `http://${env.FIREBASE_AUTH_EMULATOR_HOST}`;
-		connectAuthEmulator(auth, authEmulatorUrl);
+		try {
+			connectAuthEmulator(auth, authEmulatorUrl);
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	setAuth(auth);
