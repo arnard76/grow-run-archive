@@ -10,7 +10,7 @@ const config = {
 	kit: {
 		env: {
 			publicPrefix: '',
-			privatePrefix: 'SECRET'
+			privatePrefix: 'SECRET_'
 		},
 		alias: {
 			$features: 'src/features'
