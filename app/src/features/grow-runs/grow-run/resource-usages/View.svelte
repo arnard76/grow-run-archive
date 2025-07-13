@@ -30,7 +30,7 @@
 			</li>
 		</ul>
 	{:else}
-		<p class="inline">No resources used</p>
+		<p>No resources used</p>
 	{/if}
 
 	{#if growRun.resources?.used?.length}
