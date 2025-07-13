@@ -66,7 +66,7 @@ describe('Grow Run Archive', () => {
 			longitude: 174.77844419626646
 		};
 		growRun.addLocation('with coords', growRunCoords);
-		growRun.checkLocationIsSet({
+		growRun.testLocationIsSet({
 			...growRunCoords,
 			suburb: 'Newmarket',
 			city: 'Auckland',
@@ -74,14 +74,6 @@ describe('Grow Run Archive', () => {
 		});
 		growRunsManager.goToAll();
 		growRun.showAllDetails();
-
-		// DOESN"T WORK ON CHROME, WORKS ON EDGE
-		// cy.origin('https://www.google.com', () => {
-		// 	cy.url().should(
-		// 		'include',
-		// 		`https://www.google.com/maps/place/36%C2%B051'58.0%22S+174%C2%B045'57.2%22E/@-36.8661194,174.7658978,17z`
-		// 	);
-		// });
 
 		growRun.manuallyRecordUsageOfResources(resourceUsage1);
 
