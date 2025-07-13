@@ -11,8 +11,8 @@
 	import Loading from '$lib/components/Loading.svelte';
 	import { growRuns, growRunsLoading } from '$features/grow-runs/grow-run/store';
 	import { resourcesList, resourcesLoading } from '$features/resources/store';
-	import Icon from '@iconify/svelte';
 	import { auth } from '$features/user/auth';
+	import AuthMenu from '$lib/components/AuthMenu.svelte';
 
 	$: if (browser) initializeFirebase();
 
@@ -49,15 +49,8 @@
 			class="flex justify-between flex-wrap bg-gray-800 items-center p-4 text-white relative z-10"
 		>
 			<Menu />
-			<div class="flex gap-[15px] items-center">
-				<p class="hidden md:block">
-					Logged in: <span class="font-bold">{$session.user.email}</span>
-				</p>
-				<a class="nav-item" href="/settings">
-					<Icon icon="tabler:settings" />
-				</a>
-				<a class="nav-item" href="/logout">Logout</a>
-			</div>
+
+			<AuthMenu />
 		</div>
 	{/if}
 	<slot />
