@@ -6,11 +6,13 @@ import { ResourceUsage } from './resourceUsage.js';
 import { Location } from './location.js';
 import dayjs from '@grow-run-archive/dayjs';
 import { Resource } from '../resource.js';
+import { GrowSetupType } from '../growSetup/index.js';
 
 export type GrowRunType = {
 	id: string;
 	name: string;
 	location?: Location;
+	growSetup?: GrowSetupType['id'];
 	duration?: Duration;
 
 	resources: { used?: ResourceUsage[]; required?: ResourceUsage[] };
@@ -23,12 +25,22 @@ export class GrowRun {
 	name: GrowRunType['name'];
 	duration: GrowRunType['duration'];
 	location: GrowRunType['location'];
+	growSetup: GrowRunType['growSetup'];
 
 	resources: Required<GrowRunType>['resources'];
 	harvests: Required<GrowRunType>['harvests'];
 	conditions: Required<GrowRunType>['conditions'];
 
-	constructor({ id, name, resources, harvests, conditions, duration, location }: GrowRunType) {
+	constructor({
+		id,
+		name,
+		resources,
+		harvests,
+		conditions,
+		duration,
+		location,
+		growSetup
+	}: GrowRunType) {
 		this.id = id;
 		this.name = name;
 		this.resources = resources || { used: [], required: [] };
@@ -36,6 +48,7 @@ export class GrowRun {
 		this.conditions = conditions || {};
 		this.duration = duration || {};
 		this.location = location;
+		this.growSetup = growSetup;
 	}
 
 	/**
@@ -135,6 +148,7 @@ class GrowRunActionNames extends ActionNames {
 	export = `Export Grow Run`;
 	rename = 'Rename Grow Run';
 	changeLocation = 'Change Grow Run Location';
+	changeGrowSetup = 'Change Grow Setup';
 	manageImages = 'Upload new or remove existing images';
 
 	// sub-entities
