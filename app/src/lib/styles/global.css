@@ -39,6 +39,14 @@ h4 {
 	@apply mb-2;
 }
 
+a {
+	@apply inline-block;
+}
+
+button {
+	@apply cursor-pointer;
+}
+
 button,
 nav a,
 nav p,
@@ -54,6 +62,10 @@ nav p,
 	@apply button-hover-effects transition-all  text-black;
 }
 
+.nav-item {
+	cursor: default;
+}
+
 .button-hover-effects:hover,
 .button-hover-effects:focus {
 	@apply bg-green-400 scale-110;
@@ -63,11 +75,14 @@ button * {
 	@apply text-black;
 }
 
-button .iconify {
-	@apply transition-all;
+button .iconify,
+a .iconify,
+.nav-item .iconify {
+	@apply scale-125 transition-all;
 }
 
-button:hover .iconify {
+button:hover .iconify,
+a:hover .iconify {
 	@apply rotate-[8deg] transition-all;
 }
 
@@ -144,8 +159,4 @@ tbody td:last-of-type {
 
 .grow-run-page > section {
 	@apply p-8 w-full;
-}
-
-.iconify {
-	@apply text-xl;
 }

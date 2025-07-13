@@ -28,7 +28,7 @@ export class User {
 		cy.findByLabelText('Password').type(this.credentials.password);
 		cy.findByLabelText('Confirm Password').type(this.credentials.password);
 		cy.findByRole('button', { name: userActionNames.signup }).click();
-		this.isLoggedIn();
+		this.testIsLoggedIn();
 	}
 
 	login(checkLoggedIn = true) {
@@ -37,12 +37,13 @@ export class User {
 		cy.findByLabelText(/username/i).type(this.credentials.username);
 		cy.findByLabelText(/password/i).type(this.credentials.password);
 		cy.findByRole('button', { name: userActionNames.login }).click();
-		if (checkLoggedIn) this.isLoggedIn();
+		if (checkLoggedIn) this.testIsLoggedIn();
 	}
 
-	isLoggedIn() {
-		cy.findByText(`Logged in:`).should('be.visible');
-		cy.findByText(this.credentials.username).should('be.visible');
+	testIsLoggedIn() {
+		cy.findByTitle(userActionNames.openMenu).realHover();
+		cy.get('nav').contains(`Logged in as ${this.credentials.username}`).should('be.visible');
+		cy.reload();
 	}
 
 	deleteUser() {
@@ -50,13 +51,13 @@ export class User {
 		actionsMenu.open();
 		const deleteUserAction = userActionNames.deleteUser(this.credentials.username);
 		cy.findByRole('button', { name: deleteUserAction }).click();
-		cy.findParentByHeading('dialog', deleteUserAction)
+		const deleteActionModal = () => cy.findParentByHeading('dialog', deleteUserAction);
+
+		deleteActionModal()
 			.find('#confirm-delete-action')
 			.type(`delete ${this.credentials.username} password ${this.credentials.password}`);
 
-		cy.findParentByHeading('dialog', deleteUserAction)
-			.findByRole('button', { name: deleteUserAction })
-			.click();
+		deleteActionModal().findByRole('button', { name: deleteUserAction }).click();
 
 		cy.url().should('include', '/welcome');
 		this.testUserDeleted();
@@ -65,6 +66,6 @@ export class User {
 	testUserDeleted() {
 		this.logout();
 		this.login(false);
-		cy.findByText(`Logged in:`).should('not.exist');
+		cy.findByText(`Logged in`).should('not.exist');
 	}
 }

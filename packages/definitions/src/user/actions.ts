@@ -1,5 +1,6 @@
 class UserActionNames {
 	logout = (username: string) => `Logout ${username}`;
+	openMenu = 'User menu';
 	login = 'Login';
 	signup = 'Sign-up';
 	changePassword = `Change password`;

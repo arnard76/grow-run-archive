@@ -4,7 +4,6 @@ import {
 	GrowRun,
 	growRunActionNames,
 	Harvest,
-	Location,
 	ResourceUsage
 } from '@grow-run-archive/definitions';
 
