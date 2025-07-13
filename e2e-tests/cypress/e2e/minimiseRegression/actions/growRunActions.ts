@@ -140,11 +140,11 @@ export class GrowRunManager implements EntityManager {
 			this.actionsMenu.open();
 			cy.findByTitle(growRunActionNames.start).click();
 			cy.findByRole('button', { name: /yes/i }).click();
-			this.checkStartTimeCorrect(dayjs(win.Date()));
+			this.testStartTimeCorrect(dayjs(win.Date()));
 		});
 	}
 
-	checkStartTimeCorrect(expectedStartTime: dayjs.Dayjs) {
+	testStartTimeCorrect(expectedStartTime: dayjs.Dayjs) {
 		cy.reload();
 		this.heroSection
 			.findByText('Started:', { exact: false })
@@ -192,7 +192,7 @@ export class GrowRunManager implements EntityManager {
 		this.actionsMenu.close();
 	}
 
-	checkLocationIsSet(location: undefined | ExpectedLocationDescription) {
+	testLocationIsSet(location: undefined | ExpectedLocationDescription) {
 		growRunsManager.goToAll();
 
 		if (!location) {
@@ -280,11 +280,11 @@ export class GrowRunManager implements EntityManager {
 			this.actionsMenu.open();
 			cy.findByTitle(growRunActionNames.end).click();
 			cy.findByRole('button', { name: /yes/i }).click();
-			this.checkEndTimeCorrect(dayjs(win.Date()));
+			this.testEndTimeCorrect(dayjs(win.Date()));
 		});
 	}
 
-	checkEndTimeCorrect(expectedEndTime: dayjs.Dayjs) {
+	testEndTimeCorrect(expectedEndTime: dayjs.Dayjs) {
 		cy.reload();
 		this.heroSection
 			.findByText('Ended:', { exact: false })
