@@ -17,7 +17,7 @@ export class ActionModal {
 	];
 
 	open() {
-		this.checkModalIsClosed();
+		this.testModalIsClosed();
 		cy.findByTitle(this.name, { exact: false }).should('be.visible');
 		randomlySample(this.openMethods)();
 		this.get().should('be.visible');
@@ -27,10 +27,10 @@ export class ActionModal {
 	close() {
 		this.get().should('be.visible');
 		randomlySample(this.closeMethods)();
-		this.checkModalIsClosed();
+		this.testModalIsClosed();
 	}
 
-	checkModalIsClosed() {
+	testModalIsClosed() {
 		cy.findByRole('heading', { name: this.modalHeading }).should('not.exist');
 	}
 

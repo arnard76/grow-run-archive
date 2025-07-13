@@ -31,19 +31,19 @@ export class User {
 		this.testIsLoggedIn();
 	}
 
-	login(checkLoggedIn = true) {
+	login(testLoggedIn = true) {
 		this.logout();
 		cy.visit('/login');
 		cy.findByLabelText(/username/i).type(this.credentials.username);
 		cy.findByLabelText(/password/i).type(this.credentials.password);
 		cy.findByRole('button', { name: userActionNames.login }).click();
-		if (checkLoggedIn) this.testIsLoggedIn();
+		if (testLoggedIn) this.testIsLoggedIn();
 	}
 
 	testIsLoggedIn() {
 		cy.findByTitle(userActionNames.openMenu).realHover();
 		cy.get('nav').contains(`Logged in as ${this.credentials.username}`).should('be.visible');
-		cy.reload();
+		cy.get('body').realHover({ position: 'topLeft' });
 	}
 
 	deleteUser() {
