@@ -6,6 +6,7 @@
 	import GrowRun from '.';
 	import Modal from '$lib/components/Modal.svelte';
 	import UseResource from './resource-usages/AddAction.svelte';
+	import ChangeGrowSetup from './details/grow-setup/Action.svelte';
 	import ChangeLocation from './details/location/Action.svelte';
 	import RecordHarvest from './harvests/AddAction.svelte';
 	import MeasureEnvironmentalCondition from './conditions/MeasureEnvironmentalConditionAction.svelte';
@@ -25,6 +26,7 @@
 		growRunActionNames.start,
 		growRunActionNames.end,
 		growRunActionNames.changeLocation,
+		growRunActionNames.changeGrowSetup,
 		growRunActionNames.manageImages,
 
 		growRunActionNames.useResource,
@@ -97,6 +99,8 @@
 		<Modal onClose={closeModal}>
 			{#if openAction === growRunActionNames.rename}
 				<RenameAction {growRun} {closeModal} />
+			{:else if openAction === growRunActionNames.changeGrowSetup}
+				<ChangeGrowSetup {growRun} {closeModal} />
 			{:else if openAction === growRunActionNames.changeLocation}
 				<ChangeLocation {growRun} {closeModal} />
 			{:else if openAction === growRunActionNames.useResource}
