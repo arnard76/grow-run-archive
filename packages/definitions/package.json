@@ -16,6 +16,7 @@
         "typescript": "^5.8.3"
     },
     "dependencies": {
-        "@grow-run-archive/dayjs": "*"
+        "@grow-run-archive/dayjs": "*",
+        "zod": "^4.0.5"
     }
 }
