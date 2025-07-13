@@ -28,7 +28,7 @@
 			</li>
 		</ul>
 	{:else}
-		<p class="inline">No harvests recorded</p>
+		<p>No harvests recorded</p>
 	{/if}
 </section>
 

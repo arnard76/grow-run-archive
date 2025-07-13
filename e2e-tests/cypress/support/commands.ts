@@ -24,11 +24,7 @@ declare global {
 
 import '@testing-library/cypress/add-commands';
 
-Cypress.Commands.add('recursionLoop', function (fn, times) {
-	if (typeof times === 'undefined') {
-		times = 0;
-	}
-
+Cypress.Commands.add('recursionLoop', function (fn, times = 0) {
 	cy.then(async () => {
 		const result = await fn(++times);
 		if (result !== false) {
