@@ -1,20 +1,24 @@
 import dayjs from '@grow-run-archive/dayjs';
 import {
 	Coords,
+	ExternalResource,
 	GrowRun,
 	growRunActionNames,
+	GrowSetupType,
 	Harvest,
 	ResourceUsage
 } from '@grow-run-archive/definitions';
 
 import { mockLocation } from '../../../mocks/location';
-import { ActionModal, actionsMenu } from '../entity/actions';
+import { actionsMenu, ActionsMenuModal, performAction } from '../entity/actions';
 import { EntitiesManager, EntityManager } from '../entity/manager';
 import {
 	formatHarvestsAsObjects,
 	formatUsageOfResourcesAsObjects
 } from '../util/convertStringRequirementsToObjects';
 import { GrowRunEnvironmentManager } from './growRunEnvironmentActions';
+import { GrowSetupManager } from './growSetupActions';
+import { resourcesManager } from './resourceActions';
 
 type AddressDescription = {
 	suburb: string;
@@ -32,9 +36,7 @@ class GrowRunsManager extends EntitiesManager {
 	}
 
 	deleteSingle(): void {
-		actionsMenu.open();
-		cy.findByTitle(growRunActionNames.delete).click();
-		cy.findByRole('button', { name: /yes/i }).click();
+		performAction(actionsMenu, growRunActionNames.delete, () => null, true);
 	}
 
 	deleteAll() {
@@ -56,7 +58,7 @@ export const growRunsManager = new GrowRunsManager();
 export class GrowRunManager implements EntityManager {
 	growRunName: GrowRun['name'];
 	environment: GrowRunEnvironmentManager;
-	actionsMenu = new ActionModal('Grow Run Actions', 'Actions Menu 📃');
+	actionsMenu = new ActionsMenuModal('Grow Run Actions', 'Actions Menu 📃');
 
 	constructor(growRunName: GrowRun['name'], existingGrowRun = false) {
 		this.growRunName = growRunName;
@@ -87,6 +89,10 @@ export class GrowRunManager implements EntityManager {
 
 	get location() {
 		return this.heroSection.find('p').eq(0).findByRole('link').invoke('removeAttr', 'target');
+	}
+
+	get growSetup() {
+		return this.heroSection.find('a').contains(/Grow Setup #/);
 	}
 
 	get duration() {
@@ -139,61 +145,61 @@ export class GrowRunManager implements EntityManager {
 
 	showAllDetails = this.goTo;
 
-	start() {
-		cy.window().then((win) => {
-			this.actionsMenu.open();
-			cy.findByTitle(growRunActionNames.start).click();
-			cy.findByRole('button', { name: /yes/i }).click();
-			this.testStartTimeCorrect(dayjs(win.Date()));
-		});
+	setup({
+		resourcesForGrowRun,
+		location,
+		growSetup
+	}: {
+		resourcesForGrowRun?: ExternalResource[];
+		growSetup: GrowSetupManager;
+		location?: LocationDescription;
+	}) {
+		resourcesManager.addMultiple(resourcesForGrowRun || []);
+		growRunsManager.goToAll();
+		this.goTo();
+
+		if (location) {
+			this.addLocation('with coords', location.coords);
+			this.testLocationIsSet(location);
+		}
+
+		if (growSetup) {
+			this.changeGrowSetupTo(growSetup.growSetupVersion);
+		}
 	}
 
-	testStartTimeCorrect(expectedStartTime: dayjs.Dayjs) {
-		cy.reload();
-		this.heroSection
-			.findByText('Started:', { exact: false })
-			.invoke('text')
-			.then((text) => {
-				const displayedDate = text.split('Started: ')[1];
-				expect(dayjs(displayedDate, 'D MMM YYYY, h:mm a', true).isValid()).to.equal(true);
-				expect(Math.abs(dayjs(displayedDate).diff(expectedStartTime))).to.be.lessThan(120_000);
-			});
+	changeGrowSetupTo(growSetupVersion: GrowSetupType['version']) {
+		performAction(this.actionsMenu, growRunActionNames.changeGrowSetup, (getModal) => {
+			// getModal().find('select').select(growSetupVersion);
+		});
+
+		this.testGrowSetupIsSetTo(growSetupVersion);
+	}
+
+	testGrowSetupIsSetTo(expectedGrowSetup: GrowSetupType['version']) {
+		this.growSetup.contains(`Grow Setup #${expectedGrowSetup}`).should('be.visible');
 	}
 
 	addLocation(method: 'with coords' | 'with device location', coords?: Coords) {
 		cy.visit(growRunsManager.URL, mockLocation(coords));
 		this.goTo();
 
-		this.actionsMenu.open();
-		this.actionsMenu
-			.get()
-			.findByRole('button', { name: growRunActionNames.changeLocation })
-			.click();
-		const changeLocationModal = new ActionModal(growRunActionNames.changeLocation);
-
-		if (method === 'with coords') {
-			if (!coords) throw Error('coords must be provided if using coords to input location');
-			changeLocationModal
-				.get()
-				.findByLabelText(/latitude/i)
-				.type(coords.latitude.toString());
-			changeLocationModal
-				.get()
-				.findByLabelText(/longitude/i)
-				.type(coords.longitude.toString());
-		} else if (method === 'with device location') {
-			changeLocationModal.get().findByRole('button', {
-				name: /Get Current Location/i
-			});
-		}
-
-		changeLocationModal.get().should('include.text', 'Address: ');
-		changeLocationModal
-			.get()
-			.findByRole('button', { name: growRunActionNames.changeLocation })
-			.click();
-		changeLocationModal.close();
-		this.actionsMenu.close();
+		performAction(this.actionsMenu, growRunActionNames.changeLocation, (getModal) => {
+			if (method === 'with coords') {
+				if (!coords) throw Error('coords must be provided if using coords to input location');
+				getModal()
+					.findByLabelText(/latitude/i)
+					.type(coords.latitude.toString());
+				getModal()
+					.findByLabelText(/longitude/i)
+					.type(coords.longitude.toString());
+			} else if (method === 'with device location') {
+				getModal().findByRole('button', {
+					name: /Get Current Location/i
+				});
+			}
+			getModal().should('include.text', 'Address: ');
+		});
 	}
 
 	testLocationIsSet(expectedLocation: undefined | LocationDescription) {
@@ -229,6 +235,23 @@ export class GrowRunManager implements EntityManager {
 		}
 	}
 
+	start() {
+		performAction(this.actionsMenu, growRunActionNames.start, () => null, true);
+		cy.window().then((win) => this.testStartTimeCorrect(dayjs(win.Date())));
+	}
+
+	testStartTimeCorrect(expectedStartTime: dayjs.Dayjs) {
+		cy.reload();
+		this.heroSection
+			.findByText('Started:', { exact: false })
+			.invoke('text')
+			.then((text) => {
+				const displayedDate = text.split('Started: ')[1];
+				expect(dayjs(displayedDate, 'D MMM YYYY, h:mm a', true).isValid()).to.equal(true);
+				expect(Math.abs(dayjs(displayedDate).diff(expectedStartTime))).to.be.lessThan(120_000);
+			});
+	}
+
 	manuallyRecordUsageOfResources(usageOfResourcesInput: (ResourceUsage | string)[]) {
 		if (!usageOfResourcesInput.length) return;
 
@@ -239,18 +262,14 @@ export class GrowRunManager implements EntityManager {
 			usageOfResources = usageOfResourcesInput as ResourceUsage[];
 		}
 
-		const useResourceDialog = new ActionModal(growRunActionNames.useResource);
-		this.actionsMenu.open().findByTitle(growRunActionNames.useResource).click();
-		usageOfResources.forEach((usageOfResource) => {
-			useResourceDialog
-				.get()
-				.find('input[type="number"]')
-				.type(usageOfResource.amountUsed.toString());
-			useResourceDialog.get().find('select').select(usageOfResource.resourceName);
-			useResourceDialog.get().findByTitle(growRunActionNames.useResource).click();
+		performAction(this.actionsMenu, growRunActionNames.useResource, (getModal) => {
+			usageOfResources.forEach((usageOfResource, index) => {
+				getModal().find('input[type="number"]').type(usageOfResource.amountUsed.toString());
+				getModal().find('select').select(usageOfResource.resourceName);
+				if (index !== usageOfResources.length - 1)
+					getModal().findByTitle(growRunActionNames.useResource).click();
+			});
 		});
-		useResourceDialog.close();
-		this.actionsMenu.close();
 	}
 
 	manuallyRecordHarvest(harvestsInput: (Harvest | string)[]) {
@@ -263,34 +282,20 @@ export class GrowRunManager implements EntityManager {
 			harvests = harvestsInput as Harvest[];
 		}
 
-		this.actionsMenu.open().findByTitle(growRunActionNames.recordHarvest).click();
-		const recordHarvestDialog = new ActionModal(growRunActionNames.recordHarvest);
-		harvests.forEach((harvest) => {
-			recordHarvestDialog
-				.get()
-				.find('input[type="number"]')
-				.eq(0)
-				.type(harvest.numberOfLeaves.toString());
-			recordHarvestDialog
-				.get()
-				.find('input[type="number"]')
-				.eq(1)
-				.type(harvest.massOfLeaves.toString());
-			if (harvest.datetime === 'now')
-				recordHarvestDialog.get().find('input[type="checkbox"]').check();
-			recordHarvestDialog.get().findByTitle(growRunActionNames.recordHarvest).click();
+		performAction(this.actionsMenu, growRunActionNames.recordHarvest, (getModal) => {
+			harvests.forEach((harvest, index) => {
+				getModal().find('input[type="number"]').eq(0).type(harvest.numberOfLeaves.toString());
+				getModal().find('input[type="number"]').eq(1).type(harvest.massOfLeaves.toString());
+				if (harvest.datetime === 'now') getModal().find('input[type="checkbox"]').check();
+				if (index !== harvests.length - 1)
+					getModal().findByTitle(growRunActionNames.recordHarvest).click();
+			});
 		});
-		recordHarvestDialog.close();
-		this.actionsMenu.close();
 	}
 
 	end() {
-		cy.window().then((win) => {
-			this.actionsMenu.open();
-			cy.findByTitle(growRunActionNames.end).click();
-			cy.findByRole('button', { name: /yes/i }).click();
-			this.testEndTimeCorrect(dayjs(win.Date()));
-		});
+		performAction(this.actionsMenu, growRunActionNames.end, () => null, true);
+		cy.window().then((win) => this.testEndTimeCorrect(dayjs(win.Date())));
 	}
 
 	testEndTimeCorrect(expectedEndTime: dayjs.Dayjs) {
