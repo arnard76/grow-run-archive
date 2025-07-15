@@ -38,6 +38,10 @@ export class EntityAPI<Entity> {
 		const recordsRef = this.entityRef();
 		if (!recordsRef) return;
 
+		Object.keys(entityAdd).forEach((key) => {
+			entityAdd[key as keyof Entity] === undefined && delete entityAdd[key as keyof Entity];
+		});
+
 		const newRecordRef = firebase.push(recordsRef);
 		firebase.set(newRecordRef, entityAdd);
 	}
