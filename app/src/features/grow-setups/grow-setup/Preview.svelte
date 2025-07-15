@@ -8,10 +8,12 @@
 	<a href="/grow-setups/{growSetup.id}" class="flex-1">
 		{growSetup.name}
 	</a>
-	<a href={growSetup.link} target="_blank" class="flex items-center bg-green-500">
-		<span>Full Design</span>
-		<Icon icon="tabler:external-link" />
-	</a>
+	{#if growSetup.link}
+		<a href={growSetup.link} target="_blank" class="flex items-center bg-green-500">
+			<span>Full Design</span>
+			<Icon icon="tabler:external-link" />
+		</a>
+	{/if}
 </li>
 
 <style lang="postcss">

@@ -21,7 +21,7 @@
 
 {#if askForConfirmation}
 	<Modal onClose={() => (askForConfirmation = false)}>
-		<p>Are you sure?</p>
+		<h3>Are you sure?</h3>
 		<button
 			title="Confirm Action"
 			on:click={() => {
