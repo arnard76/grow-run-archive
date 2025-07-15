@@ -27,6 +27,10 @@ export class GrowSetup {
 		this.link = link;
 	}
 
+	static sort(growSetups: GrowSetup[]) {
+		return growSetups.sort((a, b) => a.version.localeCompare(b.version));
+	}
+
 	get name(): string {
 		if (!this.nickname) return `Grow Setup #${this.version}`;
 		return `Grow Setup #${this.version} - ${this.nickname}`;
