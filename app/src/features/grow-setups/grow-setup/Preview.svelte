@@ -9,7 +9,7 @@
 		{growSetup.name}
 	</a>
 	{#if growSetup.link}
-		<a href={growSetup.link} target="_blank" class="flex items-center bg-green-500">
+		<a href={growSetup.link} target="_blank" class="flex gap-2 items-center bg-green-500">
 			<span>Full Design</span>
 			<Icon icon="tabler:external-link" />
 		</a>

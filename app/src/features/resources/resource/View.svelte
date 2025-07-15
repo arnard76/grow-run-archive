@@ -7,6 +7,7 @@
 	import ActionTemplate from '$lib/components/ActionTemplate.svelte';
 	import Icon from '@iconify/svelte';
 	import ConfirmActionModal from '$lib/components/ConfirmActionModal.svelte';
+	import EditButton from '$lib/components/EditButton.svelte';
 
 	export let resource: Resource;
 
@@ -22,8 +23,8 @@
 {#if expanded}
 	<tr>
 		<td colspan="10">
-			<button on:click={() => (editing = !editing)} title="Edit resource">
-				<Icon icon="tabler:pencil" />
+			<button on:click={() => (editing = !editing)} title={resourceActionNames.edit}>
+				<EditButton />
 			</button>
 			{#if editing}
 				<ActionTemplate
