@@ -8,7 +8,10 @@
 </script>
 
 <div class="group m-4 relative">
-	<button title="Actions for Resources" on:click={() => (showActionsMenu = !showActionsMenu)}>
+	<button
+		title={resourceActionNames.openActions}
+		on:click={() => (showActionsMenu = !showActionsMenu)}
+	>
 		<Icon icon="tabler:dots" />
 	</button>
 	<ActionsMenuModal bind:showActionsMenu actions={[resourceActionNames.add]}>

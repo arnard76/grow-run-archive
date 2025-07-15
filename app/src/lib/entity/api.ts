@@ -3,6 +3,14 @@ import { session } from '$features/user/session';
 import * as firebase from 'firebase/database';
 import { get } from 'svelte/store';
 
+function deleteUndefinedProperties(obj: any) {
+	Object.keys(obj).forEach((key) => {
+		obj[key] === undefined && delete obj[key];
+	});
+
+	return obj;
+}
+
 /**
  * This API can be used to interact with an entity which is stored within an Array on the firebase database
  */
@@ -26,24 +34,20 @@ export class EntityAPI<Entity> {
 
 	updateFull(entity: Entity) {
 		const entityRef = this.entityRef(`/${entity[this.entityIdProperty]}`);
-		entityRef && firebase.set(entityRef, entity);
+		entityRef && firebase.set(entityRef, deleteUndefinedProperties(entity));
 	}
 
 	updatePartial(entityId: string, entityUpdates: Partial<Entity>) {
 		const entityRef = this.entityRef(`/${entityId}`);
-		entityRef && firebase.update(entityRef, entityUpdates);
+		entityRef && firebase.update(entityRef, deleteUndefinedProperties(entityUpdates));
 	}
 
 	add(entityAdd: Partial<Entity>) {
 		const recordsRef = this.entityRef();
 		if (!recordsRef) return;
 
-		Object.keys(entityAdd).forEach((key) => {
-			entityAdd[key as keyof Entity] === undefined && delete entityAdd[key as keyof Entity];
-		});
-
 		const newRecordRef = firebase.push(recordsRef);
-		firebase.set(newRecordRef, entityAdd);
+		firebase.set(newRecordRef, deleteUndefinedProperties(entityAdd));
 	}
 
 	delete(id: string) {

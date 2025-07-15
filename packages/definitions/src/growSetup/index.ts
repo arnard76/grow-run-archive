@@ -42,8 +42,6 @@ class GrowSetupActionNames extends ActionNames {
 	constructor() {
 		super('Grow Setup');
 	}
-
-	rename = 'Rename Grow Run';
 }
 
 export const growSetupActionNames = new GrowSetupActionNames();

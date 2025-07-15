@@ -5,6 +5,10 @@ export class ActionNames {
 		this.entityName = entityName;
 	}
 
+	get openActions() {
+		return `Actions for ${this.entityName}s`;
+	}
+
 	get add() {
 		return `Add ${this.entityName}`;
 	}
