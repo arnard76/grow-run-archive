@@ -9,24 +9,34 @@
 </script>
 
 <h1>
-	<a href={growSetup.link} target="_blank">
+	{#if growSetup.link}
+		<a href={growSetup.link} target="_blank">
+			{growSetup.name}
+			<Icon icon="tabler:external-link" />
+		</a>
+	{:else}
 		{growSetup.name}
-		<Icon icon="tabler:external-link" />
-	</a>
+	{/if}
 </h1>
-<table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Output (g)</th>
-			<th>Cost (NZD)</th>
-			<th>Cost per 100g (NZD)</th>
-		</tr>
-	</thead>
 
-	<tbody>
-		{#each growRunsWithThisSetup as growRun}
-			<GrowRun {growRun} />
-		{/each}
-	</tbody>
-</table>
+{#if growRunsWithThisSetup.length}
+	<h2>Grow runs using setup</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Output (g)</th>
+				<th>Cost (NZD)</th>
+				<th>Cost per 100g (NZD)</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{#each growRunsWithThisSetup as growRun}
+				<GrowRun {growRun} />
+			{/each}
+		</tbody>
+	</table>
+{:else}
+	<p>No grow runs using this setup</p>
+{/if}
