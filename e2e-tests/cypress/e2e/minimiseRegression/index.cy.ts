@@ -7,9 +7,9 @@ import {
 } from '@grow-run-archive/definitions';
 import { fastForward, fastForwardedTime } from '../../mocks/fastForward';
 import { GrowRunManager, growRunsManager } from './actions/growRunActions';
-import { resourcesManager } from './actions/resourceActions';
 import { User } from './actions/userActions';
 import { formatResourcesAsObjects } from './util/convertStringRequirementsToObjects';
+import { GrowSetupManager } from './actions/growSetupActions';
 
 const exampleResources = formatResourcesAsObjects([
 	'80pcs seeds for $2.00 (from https://www.thewarehouse.co.nz/p/kiwi-garden-lettuce-butterhead-seeds/R2598667.html?gStoreCode=188',
@@ -25,6 +25,18 @@ const resourceUsage1 = [
 ];
 
 const resourceUsage2 = ['5mL nutrients'];
+
+const dopeNewmarketLocation = {
+	coords: {
+		latitude: -36.866543630672965,
+		longitude: 174.77844419626646
+	},
+	address: {
+		suburb: 'Newmarket',
+		city: 'Auckland',
+		country: 'New Zealand'
+	}
+};
 
 const notificationRequirements = new NotificationRequirements(Cypress.env('ENV'));
 const notificationFormat = new NotificationFormat(notificationRequirements);
@@ -53,31 +65,19 @@ describe('Grow Run Archive', () => {
 		});
 	});
 
-	it('analyses a grow run', () => {
+	it('sets up, records and analyses a grow run', () => {
 		let daysPassedAtStart = fastForwardedTime;
-		resourcesManager.addMultiple(exampleResources);
 
-		const growRun = new GrowRunManager('BCKIN AKL - Grow Run #17');
-		growRun.showAllDetails();
+		// SETUP
+		const growRun = new GrowRunManager('Run #17');
+		growRun.setup({
+			resourcesForGrowRun: exampleResources,
+			growSetup: new GrowSetupManager('1'),
+			location: dopeNewmarketLocation
+		});
 		growRun.start();
 
-		const growRunCoords = {
-			latitude: -36.866543630672965,
-			longitude: 174.77844419626646
-		};
-		growRun.addLocation('with coords', growRunCoords);
-		growRun.testLocationIsSet({
-			coords: growRunCoords,
-			address: {
-				suburb: 'Newmarket',
-				city: 'Auckland',
-				country: 'New Zealand'
-			}
-		});
-
-		growRunsManager.goToAll();
-		growRun.showAllDetails();
-
+		// RECORD
 		growRun.manuallyRecordUsageOfResources(resourceUsage1);
 
 		fastForward(30);
@@ -99,14 +99,10 @@ describe('Grow Run Archive', () => {
 		growRun.manuallyRecordHarvest(['20g 13leaves']);
 		fastForward(1);
 		growRun.end();
-		growRun.duration
-			.should('be.visible')
-			.should(
-				'contain.text',
-				`${fastForwardedTime.diff(daysPassedAtStart, 'days').toFixed(2)} days`
-			);
 
 		// CHECK results - grow results and cost
+		const growRunDurationText = `${fastForwardedTime.diff(daysPassedAtStart, 'days').toFixed(2)} days`;
+		growRun.duration.should('be.visible').should('contain.text', growRunDurationText);
 		growRun.totalHarvest.should('be.visible').should('contain.text', '73.00g (53 leaves)');
 		growRun.averageLeafWeight.should('be.visible').should('contain.text', '1.38g per leaf');
 		growRun.totalCost.should('be.visible').should('contain.text', '$1.49');
