@@ -8,3 +8,9 @@
 		<GrowSetup {growSetup} />
 	{/each}
 </ul>
+
+<style lang="postcss">
+	ul {
+		@apply flex flex-col gap-4;
+	}
+</style>
