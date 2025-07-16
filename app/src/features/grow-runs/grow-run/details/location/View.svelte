@@ -15,7 +15,8 @@
 		>
 			<Icon icon="tabler:map-pin" class="mb-[-4px]" />
 			<span>
-				{growRun.location.address.city}, {growRun.location.address.country}
+				{growRun.location.address.city || growRun.location.address.suburb}, {growRun.location
+					.address.country}
 			</span>
 		</a>
 	{:else}

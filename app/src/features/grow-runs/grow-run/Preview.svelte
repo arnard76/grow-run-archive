@@ -16,9 +16,10 @@
 			{#if growRunGrowSetup}
 				<p class="inline-flex">({growRunGrowSetup.shortName})</p>
 			{/if}
-			{#if growRun.location?.address.city}
+			{#if growRun.location}
 				<p class="inline-flex">
-					(<Icon icon="tabler:map-pin" class="mr-1" />{growRun.location.address.city})
+					(<Icon icon="tabler:map-pin" class="mr-1" />{growRun.location.address.city ||
+						growRun.location.address.suburb})
 				</p>
 			{/if}
 			{growRun.name}
