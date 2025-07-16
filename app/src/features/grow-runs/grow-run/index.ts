@@ -38,12 +38,21 @@ export default class GrowRun extends GrowRunDefinition {
 	formatDataForPieChart(
 		resources: Resource[] | undefined = undefined
 	): { label: string; size: number; colour: string }[] {
-		return (
-			this.resources?.used?.map(({ resourceName: name, amountUsed }) => {
-				const resource = resourcesList.getResource(name, resources);
-				const resourceCost = resource.calculateCost(amountUsed);
-				return { size: resourceCost, label: name, colour: resource.colour };
-			}) || []
-		);
+		const uniqueResourcesUsed: {
+			[key: Resource['name']]: ReturnType<GrowRun['formatDataForPieChart']>[0];
+		} = {};
+
+		this.resources?.used?.forEach(({ resourceName: name, amountUsed }) => {
+			const resource = resourcesList.getResource(name, resources);
+			const resourceCost = resource.calculateCost(amountUsed);
+
+			if (uniqueResourcesUsed[name]) {
+				uniqueResourcesUsed[name].size += resourceCost;
+			} else {
+				uniqueResourcesUsed[name] = { size: resourceCost, label: name, colour: resource.colour };
+			}
+		});
+
+		return Object.values(uniqueResourcesUsed);
 	}
 }

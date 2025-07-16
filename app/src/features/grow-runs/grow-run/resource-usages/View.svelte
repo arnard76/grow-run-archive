@@ -2,12 +2,9 @@
 	import { resourcesList } from '$features/resources/store';
 	import type GrowRun from '$features/grow-runs/grow-run';
 	import ResourceUsage from './resource-usage/View.svelte';
-	import PieGraph from './PieGraph.svelte';
-	// import Add from './Add.svelte';
+	import ResourceUsagePieGraph from './ResourceUsagePieGraph.svelte';
 
 	export let growRun: GrowRun;
-
-	$: pieChartData = $resourcesList && growRun.formatDataForPieChart();
 </script>
 
 <section>
@@ -35,7 +32,7 @@
 
 	{#if growRun.resources?.used?.length}
 		<div class="mt-16">
-			<PieGraph pie={pieChartData} sort="alphabet" />
+			<ResourceUsagePieGraph {growRun} />
 		</div>
 	{/if}
 </section>
