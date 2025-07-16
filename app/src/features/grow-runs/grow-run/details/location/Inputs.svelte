@@ -23,6 +23,7 @@
 	}
 
 	function attemptPasteCoords(e: ClipboardEvent) {
+		e.preventDefault();
 		const pasted = e.clipboardData?.getData('text');
 		if (!pasted) return;
 
