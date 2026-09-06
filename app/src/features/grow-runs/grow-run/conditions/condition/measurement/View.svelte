@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { prettyFormatDate } from '$features/grow-runs/grow-run/details/duration/util';
+	import { prettyFormatDate } from '$lib/dateTimeFormatter';
 	import { type ConditionMeasurement, getConditionMetadata } from '@grow-run-archive/definitions';
 
 	export let conditionName;

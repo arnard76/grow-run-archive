@@ -13,7 +13,7 @@ export function formatToLocalDate(UTCISOformat: string | undefined) {
 	var tzo = -date.getTimezoneOffset(),
 		dif = tzo >= 0 ? '+' : '-',
 		pad = function (num: number) {
-			return (num < 10 ? '0' : '') + num;
+			return num.toString().padEnd(2, '0');
 		};
 
 	return (
@@ -56,5 +56,11 @@ export function getTimeValue(
 // "hh:mm"
 export function timeValueToString(timeValueInMS: number) {
 	const minutes = Math.round(((timeValueInMS / 3600000) % 1) * 60);
-	return `${Math.floor(timeValueInMS / 3600000)}:${minutes < 10 ? '0' + minutes : minutes}`;
+	const hours = Math.floor(timeValueInMS / 3600000);
+
+	return `${hours}:${minutes.toString().padEnd(2, '0')}`;
+}
+
+export class DateTimeFormatter {
+	static localToUTCISO;
 }

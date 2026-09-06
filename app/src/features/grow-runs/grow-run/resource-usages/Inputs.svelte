@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resourcesList } from '$features/resources/store';
+	import RightNowOrTimeInput from '$lib/components/RightNowOrTimeInput.svelte';
 	import type { ResourceUsage } from '@grow-run-archive/definitions';
 
 	export let usageOfResource: ResourceUsage;
@@ -18,7 +19,7 @@
 	{/if}
 
 	of
-	<select name="" id="" required bind:value={usageOfResource.resourceName}>
+	<select required bind:value={usageOfResource.resourceName}>
 		{#each Object.entries($resourcesList) as [id, resource]}
 			<option value={resource.name}>{resource.name}</option>
 		{/each}
@@ -26,6 +27,10 @@
 	</select>
 
 	{#if usageOfResource.resourceName === 'new'}
-		<input type="text" name="" id="" placeholder="name of new resource" />
+		<input type="text" placeholder="name of new resource" />
 	{/if}
+</div>
+
+<div class="horizontal-input-group">
+	<RightNowOrTimeInput bind:dateTime={usageOfResource.datetime} />
 </div>

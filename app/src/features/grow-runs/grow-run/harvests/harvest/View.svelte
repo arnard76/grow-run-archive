@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Harvest } from '@grow-run-archive/definitions';
-	import { prettyFormatDate } from '../../details/duration/util';
+	import { prettyFormatDate } from '../../../../../lib/dateTimeFormatter';
 
 	export let harvest: Harvest;
 </script>

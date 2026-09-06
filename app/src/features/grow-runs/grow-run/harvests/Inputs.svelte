@@ -1,8 +1,5 @@
 <script lang="ts">
-	import {
-		formatToLocalDate,
-		formatToUTCISO
-	} from '$features/grow-runs/grow-run/details/duration/util';
+	import { formatToLocalDate, formatToUTCISO } from '$lib/dateTimeFormatter';
 	import type { Harvest } from '@grow-run-archive/definitions';
 
 	export let harvest: Harvest;

@@ -2,7 +2,7 @@
 	import Chart from 'chart.js/auto';
 	import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 	import type GrowRun from '$features/grow-runs/grow-run';
-	import { prettyFormatDate } from '$features/grow-runs/grow-run/details/duration/util';
+	import { prettyFormatDate } from '$lib/dateTimeFormatter';
 	import { formatMeasurementsData, getUnitsForConditions } from '../conditions';
 	import {
 		verboseConditionName,

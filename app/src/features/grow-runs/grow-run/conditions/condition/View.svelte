@@ -2,7 +2,6 @@
 	import type GrowRun from '$features/grow-runs/grow-run';
 	import { verboseConditionName, type ConditionsMeasurements } from '@grow-run-archive/definitions';
 	import DefaultFullPeriodGraph from './FullPeriodGraph.svelte';
-	import Measurement from './measurement/View.svelte';
 	import DefaultTimeOfDayGraph from './TimeOfDayGraph.svelte';
 	import ToggleCharts from './ToggleCharts.svelte';
 

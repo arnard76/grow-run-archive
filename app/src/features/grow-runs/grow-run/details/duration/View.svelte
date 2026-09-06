@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type GrowRun from '$features/grow-runs/grow-run';
-	import { prettyFormatDate } from './util';
+	import { prettyFormatDate } from '$lib/dateTimeFormatter';
 
 	export let growRun: GrowRun;
 	$: growRunDuration = growRun.calculateDurationInDays();
